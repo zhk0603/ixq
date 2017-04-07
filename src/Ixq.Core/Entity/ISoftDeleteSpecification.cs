@@ -20,5 +20,9 @@ namespace Ixq.Core.Entity
         ///     是否删除
         /// </summary>
         bool IsDeleted { get; set; }
+        /// <summary>
+        ///     在软删除时发生。
+        /// </summary>
+        void OnSoftDeleteComplete();
     }
 }

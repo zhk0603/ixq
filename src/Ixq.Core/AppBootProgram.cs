@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Core.Entity
+namespace Ixq.Core
 {
     /// <summary>
-    /// 编辑规范
+    /// 引导程序
     /// </summary>
-    public interface IEditSpecification
+    public class AppBootProgram
     {
-        DateTime? EditDate { get; set; }
-        void OnEdtiComplete();
     }
 }

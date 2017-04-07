@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBootProgram.cs" />
+    <Compile Include="Entity\EntityPrimaryGuid.cs" />
+    <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
-    <Compile Include="Entity\IEditSpecification.cs" />
+    <Compile Include="Entity\IUpdataSpecification.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\ISoftDeleteSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\IRepositoryBase.cs" />
+    <Compile Include="Repository\IUnitOfWork.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
