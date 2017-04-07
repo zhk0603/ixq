@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\ICreateSpecification.cs" />
+    <Compile Include="Entity\IEditSpecification.cs" />
+    <Compile Include="Entity\IEntity.cs" />
+    <Compile Include="Entity\ISoftDeleteSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
