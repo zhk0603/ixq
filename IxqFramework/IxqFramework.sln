@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Core", "Ixq.Core\Ixq.Core.csproj", "{864E067D-7FBB-4E33-A31D-E3006CD0809C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Data", "Ixq.Data\Ixq.Data.csproj", "{7685A3B6-3B22-46F8-8B73-E49D02812961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Extended", "Ixq.Extended\Ixq.Extended.csproj", "{D55F3FA0-8638-49C3-8998-0425871C1420}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{864E067D-7FBB-4E33-A31D-E3006CD0809C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{864E067D-7FBB-4E33-A31D-E3006CD0809C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{864E067D-7FBB-4E33-A31D-E3006CD0809C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{864E067D-7FBB-4E33-A31D-E3006CD0809C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7685A3B6-3B22-46F8-8B73-E49D02812961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7685A3B6-3B22-46F8-8B73-E49D02812961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7685A3B6-3B22-46F8-8B73-E49D02812961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7685A3B6-3B22-46F8-8B73-E49D02812961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D55F3FA0-8638-49C3-8998-0425871C1420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D55F3FA0-8638-49C3-8998-0425871C1420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D55F3FA0-8638-49C3-8998-0425871C1420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D55F3FA0-8638-49C3-8998-0425871C1420}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
