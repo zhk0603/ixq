@@ -41,16 +41,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBootProgram.cs" />
+    <Compile Include="DependencyInjection\Extensions\ServiceCollectionDescriptorExtensions.cs" />
+    <Compile Include="DependencyInjection\Extensions\ServiceCollectionServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\Extensions\ServiceProviderServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="DependencyInjection\ISupportRequiredService.cs" />
+    <Compile Include="DependencyInjection\ServiceCollection.cs" />
+    <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
+    <Compile Include="DependencyInjection\ServiceProvider.cs" />
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\ISoftDeleteSpecification.cs" />
+    <Compile Include="DependencyInjection\ServiceLifetime.cs" />
+    <Compile Include="DependencyInjection\IDependency.cs" />
+    <Compile Include="DependencyInjection\IScopeDependency.cs" />
+    <Compile Include="DependencyInjection\ISingletonDependency.cs" />
+    <Compile Include="DependencyInjection\ITransientDependency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IRepositoryBase.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ixq.Extended\Ixq.Extended.csproj">
+      <Project>{D55F3FA0-8638-49C3-8998-0425871C1420}</Project>
+      <Name>Ixq.Extended</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
