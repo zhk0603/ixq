@@ -1,6 +1,7 @@
 ﻿using Ixq.Extended;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,6 +24,9 @@ namespace Ixq.Core
 
         public IServiceCollection ServiceCollection { get { return _serviceCollection; } }
 
+        /// <summary>
+        ///     初始化一个<see cref="AppBootProgram"/>实例
+        /// </summary>
         public AppBootProgram()
         {
             _assemblyFinder = new AssemblyFinder();
