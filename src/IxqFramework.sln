@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Core", "Ixq.Core\Ixq.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Data", "Ixq.Data\Ixq.Data.csproj", "{7685A3B6-3B22-46F8-8B73-E49D02812961}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Extended", "Ixq.Extended\Ixq.Extended.csproj", "{D55F3FA0-8638-49C3-8998-0425871C1420}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Extensions", "Ixq.Extensions\Ixq.Extensions.csproj", "{D55F3FA0-8638-49C3-8998-0425871C1420}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Identity", "Ixq.Identity\Ixq.Identity.csproj", "{C2EC0953-6103-4F81-A548-B53788688C34}"
 EndProject

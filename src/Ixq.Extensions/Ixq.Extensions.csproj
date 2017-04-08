@@ -7,8 +7,8 @@
     <ProjectGuid>{D55F3FA0-8638-49C3-8998-0425871C1420}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ixq.Extended</RootNamespace>
-    <AssemblyName>Ixq.Extended</AssemblyName>
+    <RootNamespace>Ixq.Extensions</RootNamespace>
+    <AssemblyName>Ixq.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -14,7 +14,7 @@ namespace Ixq.Core.DependencyInjection
     /// <summary>
     /// The default IServiceProvider.
     /// </summary>
-    internal class ServiceProvider : IServiceProvider
+    public class ServiceProvider : IServiceProvider
     {
         public object GetService(Type serviceType)
         {

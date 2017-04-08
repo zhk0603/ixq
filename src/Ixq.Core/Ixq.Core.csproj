@@ -66,9 +66,9 @@
     <Compile Include="Repository\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ixq.Extended\Ixq.Extended.csproj">
+    <ProjectReference Include="..\Ixq.Extensions\Ixq.Extensions.csproj">
       <Project>{D55F3FA0-8638-49C3-8998-0425871C1420}</Project>
-      <Name>Ixq.Extended</Name>
+      <Name>Ixq.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
