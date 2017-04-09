@@ -10,6 +10,8 @@ using Autofac.Integration.Mvc;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core;
 using Ixq.Extended;
+using System.Reflection;
+using Autofac.Core;
 
 namespace Ixq.DependencyInjection.Autofac
 {
@@ -19,7 +21,8 @@ namespace Ixq.DependencyInjection.Autofac
         {
             var assemblyFinder = new AssemblyFinder();
             var builder = new ContainerBuilder();
-            builder.RegisterControllers(assemblyFinder.FindAll()).AsSelf().PropertiesAutowired();
+            builder.RegisterControllers(assemblyFinder.FindAll())
+                .PropertiesAutowired();
             builder.RegisterFilterProvider();
             builder.Populate(app.ServiceCollection);
             var container = builder.Build();
@@ -37,8 +40,8 @@ namespace Ixq.DependencyInjection.Autofac
             Register(builder, descriptors);
         }
 
-        private static IRegistrationBuilder<object, T, SingleRegistrationStyle> ConfigureLifecycle<T>(
-            this IRegistrationBuilder<object, T, SingleRegistrationStyle> registrationBuilder,
+        private static IRegistrationBuilder<object, T, U> ConfigureLifecycle<T, U>(
+            this IRegistrationBuilder<object, T, U> registrationBuilder,
             ServiceLifetime lifecycleKind)
         {
             switch (lifecycleKind)
@@ -66,16 +69,42 @@ namespace Ixq.DependencyInjection.Autofac
             {
                 if (descriptor.ImplementationType != null)
                 {
-                    builder
-                        .RegisterType(descriptor.ImplementationType)
-                        .As(descriptor.ServiceType)
-                        .ConfigureLifecycle(descriptor.Lifetime);
+                    var serviceTypeInfo = descriptor.ServiceType.GetTypeInfo();
+                    if (serviceTypeInfo.IsGenericTypeDefinition)
+                    {
+                        builder.RegisterGeneric(descriptor.ImplementationType)
+                            .As(descriptor.ServiceType)
+                            .AsSelf()
+                            .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
+                            .ConfigureLifecycle(descriptor.Lifetime);
+                    }
+                    else
+                    {
+                        builder.RegisterType(descriptor.ImplementationType)
+                            .As(descriptor.ServiceType)
+                            .AsSelf()
+                            .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
+                            .ConfigureLifecycle(descriptor.Lifetime);
+                    }
                 }
-                else
+                else if (descriptor.ImplementationFactory != null)
                 {
-                    builder
-                        .RegisterInstance(descriptor.ImplementationInstance)
+                    IComponentRegistration registration = RegistrationBuilder.ForDelegate(descriptor.ServiceType,
+                        (context, paramters) =>
+                        {
+                            var provider = context.Resolve<IServiceProvider>();
+                            return descriptor.ImplementationFactory(provider);
+                        })
+                        .ConfigureLifecycle(descriptor.Lifetime)
+                        .CreateRegistration();
+                    builder.RegisterComponent(registration);
+                }
+                else if (descriptor.ImplementationInstance != null)
+                {
+                    builder.RegisterInstance(descriptor.ImplementationInstance)
                         .As(descriptor.ServiceType)
+                        .AsSelf()
+                        .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
                         .ConfigureLifecycle(descriptor.Lifetime);
                 }
             }

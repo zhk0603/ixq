@@ -8,7 +8,7 @@ using Ixq.Core.DependencyInjection;
 
 namespace Ixq.DependencyInjection.Autofac
 {
-    class AutofacServiceScope : IServiceScope
+    public class AutofacServiceScope : IServiceScope
     {
         private readonly ILifetimeScope _lifetimeScope;
 
