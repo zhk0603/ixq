@@ -12,16 +12,16 @@ using Ixq.Core;
 using Ixq.Extended;
 using System.Reflection;
 using Autofac.Core;
+using System.Web;
 
 namespace Ixq.DependencyInjection.Autofac
 {
     public static class AutofacRegistration
     {
-        public static AppBootProgram RegisterAutofac(this AppBootProgram app)
+        public static AppBootProgram<T> RegisterAutofac<T>(this AppBootProgram<T> app) where T : HttpApplication, new()
         {
-            var assemblyFinder = new AssemblyFinder();
             var builder = new ContainerBuilder();
-            builder.RegisterControllers(assemblyFinder.FindAll())
+            builder.RegisterControllers(typeof (T).Assembly)
                 .PropertiesAutowired();
             builder.RegisterFilterProvider();
             builder.Populate(app.ServiceCollection);

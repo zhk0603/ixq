@@ -15,7 +15,7 @@ namespace Ixq.Core
     /// <summary>
     /// 引导程序
     /// </summary>
-    public class AppBootProgram
+    public class AppBootProgram<T> where T : HttpApplication, new()
     {
         private IServiceCollection _serviceCollection;
         private Type[] _scopeAssembly;
@@ -34,7 +34,7 @@ namespace Ixq.Core
             _serviceCollection = new ServiceCollection();
         }
 
-        public AppBootProgram Initialization()
+        public AppBootProgram<T> Initialization()
         {
             var assemblies = _assemblyFinder.FindAll();
             _scopeAssembly = SelectManyForEnumLifetimeStyle(assemblies, ServiceLifetime.Scoped);
