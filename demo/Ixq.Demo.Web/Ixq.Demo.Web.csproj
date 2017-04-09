@@ -176,10 +176,12 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -247,6 +249,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\ProductType\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +265,10 @@
       <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
       <Name>Ixq.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Data\Ixq.Data.csproj">
+      <Project>{7685a3b6-3b22-46f8-8b73-e49d02812961}</Project>
+      <Name>Ixq.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.DependencyInjection.Autofac\Ixq.DependencyInjection.Autofac.csproj">
       <Project>{99337276-4a1a-439c-a323-ac86ca2929c3}</Project>
       <Name>Ixq.DependencyInjection.Autofac</Name>
@@ -269,6 +276,14 @@
     <ProjectReference Include="..\..\src\Ixq.Extensions\Ixq.Extensions.csproj">
       <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
       <Name>Ixq.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ixq.Demo.DbContext\ixq.Demo.DbContext.csproj">
+      <Project>{cb998c97-c593-424d-a366-88c412e477ff}</Project>
+      <Name>ixq.Demo.DbContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Demo.Entities\Ixq.Demo.Entities.csproj">
+      <Project>{65364a79-f3f1-4b7e-9be7-2ee424258ef7}</Project>
+      <Name>Ixq.Demo.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

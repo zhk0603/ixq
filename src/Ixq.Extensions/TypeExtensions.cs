@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Extended
+namespace Ixq.Extensions
 {
     /// <summary>
     ///     类型<see cref="Type" />辅助扩展方法类

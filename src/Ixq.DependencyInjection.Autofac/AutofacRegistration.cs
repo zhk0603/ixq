@@ -9,7 +9,6 @@ using Autofac.Builder;
 using Autofac.Integration.Mvc;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core;
-using Ixq.Extended;
 using System.Reflection;
 using Autofac.Core;
 using System.Web;

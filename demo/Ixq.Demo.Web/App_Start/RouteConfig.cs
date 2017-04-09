@@ -16,7 +16,7 @@ namespace Ixq.Demo.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Test", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "ProductType", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -40,7 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityBase.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="ProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ixq.Core\Ixq.Core.csproj">
+      <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
+      <Name>Ixq.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Data\Ixq.Data.csproj">
+      <Project>{7685a3b6-3b22-46f8-8b73-e49d02812961}</Project>
+      <Name>Ixq.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Extended
+namespace Ixq.Extensions
 {
     public class LambdaExpression<T>
     {

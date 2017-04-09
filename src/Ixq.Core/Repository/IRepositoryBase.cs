@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core.DependencyInjection;
 
 namespace Ixq.Core.Repository
 {
@@ -14,7 +15,7 @@ namespace Ixq.Core.Repository
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public interface IRepositoryBase<TEntity, TKey>  
+    public interface IRepositoryBase<TEntity, TKey> : IScopeDependency
         where TEntity : class, IEntity<TKey>, new() 
         where TKey : struct
     {

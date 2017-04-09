@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Ixq.Extended;
+using Ixq.Extensions;
 
 namespace System.Linq
 {

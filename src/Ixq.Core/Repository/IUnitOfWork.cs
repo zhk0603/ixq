@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core.DependencyInjection;
 
 namespace Ixq.Core.Repository
 {
     /// <summary>
     /// 工作单元
     /// </summary>
-    public interface IUnitOfWork
+    public interface IUnitOfWork : ISingletonDependency
     {
         /// <summary>
         ///     提交当前单元操作的更改。

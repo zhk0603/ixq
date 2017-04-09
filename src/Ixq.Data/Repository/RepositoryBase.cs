@@ -8,9 +8,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core.DependencyInjection;
 using Ixq.Core.Entity;
 using Ixq.Core.Repository;
-using Ixq.Extended;
+using Ixq.Extensions;
 
 namespace Ixq.Data.Repository
 {
@@ -19,7 +20,7 @@ namespace Ixq.Data.Repository
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey> 
+    public abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
         where TEntity : class,IEntity<TKey>,new() 
         where TKey:struct
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Extended
+namespace Ixq.Extensions
 {
     public static class CheckParameter
     {

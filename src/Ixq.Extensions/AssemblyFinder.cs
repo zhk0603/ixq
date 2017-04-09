@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Extended
+namespace Ixq.Extensions
 {
     public class AssemblyFinder
     {

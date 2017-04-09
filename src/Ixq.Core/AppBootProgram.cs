@@ -1,5 +1,4 @@
-﻿using Ixq.Extended;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.DependencyInjection.Extensions;
 using System.Web;
+using Ixq.Extensions;
 
 namespace Ixq.Core
 {
@@ -26,7 +26,7 @@ namespace Ixq.Core
         public IServiceCollection ServiceCollection { get { return _serviceCollection; } }
 
         /// <summary>
-        ///     初始化一个<see cref="AppBootProgram"/>实例
+        ///     初始化一个<see cref="AppBootProgram{T}"/>实例
         /// </summary>
         public AppBootProgram()
         {

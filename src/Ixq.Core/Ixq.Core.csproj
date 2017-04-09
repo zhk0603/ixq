@@ -51,7 +51,7 @@
     <Compile Include="DependencyInjection\ISupportRequiredService.cs" />
     <Compile Include="DependencyInjection\ServiceCollection.cs" />
     <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
-    <Compile Include="DependencyInjection\ServiceProvider.cs" />
+    <Compile Include="Dto\IDto.cs" />
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="DependencyInjection\Interface\IScopeDependency.cs" />
     <Compile Include="DependencyInjection\Interface\ISingletonDependency.cs" />
     <Compile Include="DependencyInjection\Interface\ITransientDependency.cs" />
+    <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IRepositoryBase.cs" />
