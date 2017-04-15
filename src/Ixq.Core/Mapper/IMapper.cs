@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace Ixq.Core.Mapper
 {
-    /// <summary>
-    ///     映射器
-    /// </summary>
     public interface IMapper
     {
         /// <summary>

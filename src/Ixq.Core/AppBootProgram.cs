@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.DependencyInjection.Extensions;
 using System.Web;
+using Ixq.Core.Mapper;
 using Ixq.Extensions;
 
 namespace Ixq.Core
@@ -17,6 +18,7 @@ namespace Ixq.Core
     /// </summary>
     public class AppBootProgram<T> where T : HttpApplication, new()
     {
+        private IMapperCollection _mapper;
         private IServiceCollection _serviceCollection;
         private Type[] _scopeAssembly;
         private Type[] _singletonAssembly;
@@ -46,6 +48,7 @@ namespace Ixq.Core
             AddTypeWithInterfaces(_serviceCollection, _transientAssembly, ServiceLifetime.Transient);
             return this;
         }
+
         /// <summary>
         ///     以类型实现的接口进行服务添加，需排除
         ///     <see cref="ITransientDependency" />、

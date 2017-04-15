@@ -20,7 +20,7 @@ namespace Ixq.Core.Dto
         TKey Index { get; set; }
 
         TEntity MapTo();
-        IMapper Mapper { get; set; }
+        IMapperCollection Mapper { get; set; }
     }
     public interface IDto { }
 }

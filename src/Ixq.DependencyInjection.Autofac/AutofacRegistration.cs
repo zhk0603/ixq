@@ -55,7 +55,6 @@ namespace Ixq.DependencyInjection.Autofac
                     registrationBuilder.InstancePerDependency();
                     break;
             }
-
             return registrationBuilder;
         }
 
