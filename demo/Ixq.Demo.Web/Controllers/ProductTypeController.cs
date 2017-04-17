@@ -7,6 +7,7 @@ using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Web.Models;
+using System.Data.Entity;
 
 namespace Ixq.Demo.Web.Controllers
 {
@@ -47,10 +48,11 @@ namespace Ixq.Demo.Web.Controllers
             var typeList = ProductTypeRepository.GetAll().ToList();
             //typeList[0]
             var mapper = ServiceProvider.GetService<IMapper>();
-            var dto1 = new ProductTypeDot(mapper)
+            var dto1 = new ProductTypeDot
             {
-                Index = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Name = "Test",
+                ParentType = null
             };
             var ent = dto1.MapTo();
 

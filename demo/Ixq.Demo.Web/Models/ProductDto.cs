@@ -13,9 +13,5 @@ namespace Ixq.Demo.Web.Models
         public Guid Type { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-
-        public ProductDto(IMapper mapper) : base(mapper)
-        {
-        }
     }
 }

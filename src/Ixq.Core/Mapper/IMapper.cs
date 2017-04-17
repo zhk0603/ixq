@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Ixq.Core.DependencyInjection;
 
 namespace Ixq.Core.Mapper
@@ -23,6 +24,6 @@ namespace Ixq.Core.Mapper
         /// <returns>更新后的目标类型对象</returns>
         TTarget MapTo<TSource, TTarget>(TSource source, TTarget target);
 
-        void CreateMap(Type sourceType, Type targetType);
+        void Initialize(IEnumerable<MapperDescriptor> mapperCollection);
     }
 }

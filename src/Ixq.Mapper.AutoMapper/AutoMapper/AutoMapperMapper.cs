@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Ixq.Core.Mapper;
 using M = AutoMapper.Mapper;
 using AM = AutoMapper;
@@ -15,7 +16,7 @@ namespace Ixq.Mapper.AutoMapper
         /// <returns>目标类型的对象</returns>
         public TTarget MapTo<TTarget>(object source)
         {
-            return M.Map<TTarget>(source);
+            return M.Instance.Map<TTarget>(source);
         }
 
         /// <summary>
@@ -28,12 +29,18 @@ namespace Ixq.Mapper.AutoMapper
         /// <returns>更新后的目标类型对象</returns>
         public TTarget MapTo<TSource, TTarget>(TSource source, TTarget target)
         {
-            return M.Map(source, target);
+            return M.Instance.Map(source, target);
         }
-
-        public void CreateMap(Type sourceType, Type targetType)
+        public void Initialize(IEnumerable<MapperDescriptor> mapperCollection)
         {
-            M.Initialize(cfg => cfg.CreateMap(sourceType, targetType));
+            M.Initialize(cfg =>
+            {
+                foreach (var descriptor in mapperCollection)
+                {
+                    cfg.CreateMap(descriptor.SourceType, descriptor.TargetType);
+                    cfg.CreateMap(descriptor.TargetType, descriptor.SourceType);
+                }
+            });
         }
     }
 }

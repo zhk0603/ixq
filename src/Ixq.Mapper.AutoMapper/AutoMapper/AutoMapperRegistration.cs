@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using Ixq.Core;
+using Ixq.Core.Mapper;
 
 namespace Ixq.Mapper.AutoMapper
 {
@@ -9,13 +11,9 @@ namespace Ixq.Mapper.AutoMapper
         public static AppBootProgram<T> RegisterAutoMappe<T>(this AppBootProgram<T> app)
             where T : HttpApplication, new()
         {
-            var mapper = new AutoMapperMapper();
+            MapperExtensions.LazyMapper = new Lazy<IMapper>(() => new AutoMapperMapper());
             if (!app.MapperCollection.Any()) return app;
-            foreach (var descriptor in app.MapperCollection)
-            {
-                mapper.CreateMap(descriptor.SourceType, descriptor.TargetType);
-                mapper.CreateMap(descriptor.TargetType, descriptor.SourceType);
-            }
+            MapperExtensions.Instance.Initialize(app.MapperCollection);
             return app;
         }
     }

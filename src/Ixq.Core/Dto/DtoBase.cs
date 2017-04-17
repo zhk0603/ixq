@@ -10,14 +10,14 @@ namespace Ixq.Core.Dto
 {
     public abstract class DtoBase<TEntity> : IDto<TEntity, Guid>
     {
-        protected DtoBase(IMapper mapper)
+        protected DtoBase()
         {
-            Mapper = mapper;
+            Mapper = MapperExtensions.Instance;
         }
         [JsonIgnore]
         public IMapper Mapper { get; set; }
 
-        public Guid Index { get; set; }
+        public Guid Id { get; set; }
 
         public TEntity MapTo()
         {

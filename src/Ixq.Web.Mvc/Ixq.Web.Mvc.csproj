@@ -75,6 +75,24 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ixq.Core\Ixq.Core.csproj">
+      <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
+      <Name>Ixq.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Data\Ixq.Data.csproj">
+      <Project>{7685a3b6-3b22-46f8-8b73-e49d02812961}</Project>
+      <Name>Ixq.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Extensions\Ixq.Extensions.csproj">
+      <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
+      <Name>Ixq.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
+      <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
+      <Name>Ixq.Mapper.AutoMapper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,7 +12,7 @@ namespace Ixq.Core.Dto
         /// <summary>
         ///     主键标识。
         /// </summary>
-        TKey Index { get; set; }
+        TKey Id { get; set; }
 
         IMapper Mapper { get; set; }
 
