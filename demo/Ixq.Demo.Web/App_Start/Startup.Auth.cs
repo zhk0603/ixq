@@ -1,11 +1,10 @@
 ﻿using System;
+using Ixq.Demo.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
-using Ixq.Demo.Web.Models;
 
 namespace Ixq.Demo.Web
 {
@@ -30,11 +29,11 @@ namespace Ixq.Demo.Web
                 {
                     // 当用户登录时使应用程序可以验证安全戳。
                     // 这是一项安全功能，当你更改密码或者向帐户添加外部登录名时，将使用此功能。
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity =
+                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                            TimeSpan.FromMinutes(30), (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // 使应用程序可以在双重身份验证过程中验证第二因素时暂时存储用户信息。

@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Ixq.Core.DependencyInjection
 {
     /// <summary>
-    /// 指定服务描述符集合的合同
+    ///     指定服务描述符集合的合同
     /// </summary>
     public interface IServiceCollection : IList<ServiceDescriptor>
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Ixq.Extensions;
 using System.Linq;
-using Ixq.Core.Entity;
+using System.Reflection;
 using Ixq.Core.Dto;
+using Ixq.Core.Entity;
+using Ixq.Extensions;
 
 namespace Ixq.Core.Mapper
 {
@@ -50,6 +50,7 @@ namespace Ixq.Core.Mapper
 
         public int Count => _descriptors.Count;
         public bool IsReadOnly => false;
+
         public int IndexOf(MapperDescriptor item)
         {
             return _descriptors.IndexOf(item);
@@ -67,14 +68,8 @@ namespace Ixq.Core.Mapper
 
         public MapperDescriptor this[int index]
         {
-            get
-            {
-                return _descriptors[index];
-            }
-            set
-            {
-                _descriptors[index] = value;
-            }
+            get { return _descriptors[index]; }
+            set { _descriptors[index] = value; }
         }
 
         public void Init(Assembly[] assembly)
@@ -105,8 +100,9 @@ namespace Ixq.Core.Mapper
                     t.IsGenericAssignableFrom(type) && !type.IsAbstract))
                 .Distinct().ToArray();
         }
+
         /// <summary>
-        /// 获取目标类型
+        ///     获取目标类型
         /// </summary>
         /// <param name="interfaceTypes"></param>
         /// <returns></returns>
@@ -120,6 +116,7 @@ namespace Ixq.Core.Mapper
             }
             return targetType;
         }
+
         #endregion
     }
 }

@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Ixq.Core.Repository;
-using Ixq.Demo.Entities;
+﻿using System.Web.Mvc;
 using Ixq.Core.DependencyInjection.Extensions;
+using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
+using Ixq.Demo.Entities;
 
 namespace Ixq.Demo.Web.Controllers
 {
     public class ProductTypeController : BaseController
     {
         private readonly IRepository<ProductType> _productTypeRepository;
-        public IRepository<ProductType> ProductTypeRepository { get; set; }
-        public IRepository<Product> ProductRepository { get; set; }
+
         public ProductTypeController(IRepository<ProductType> productTypeRepository)
         {
             _productTypeRepository = productTypeRepository;
         }
+
+        public IRepository<ProductType> ProductTypeRepository { get; set; }
+        public IRepository<Product> ProductRepository { get; set; }
 
         // GET: ProductType
         public ActionResult Index()

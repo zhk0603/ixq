@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
 
 namespace Ixq.Core.Repository
 {
     /// <summary>
-    /// 工作单元
+    ///     工作单元
     /// </summary>
     public interface IUnitOfWork : ISingletonDependency
     {
@@ -28,6 +24,5 @@ namespace Ixq.Core.Repository
         ///     回滚事务
         /// </summary>
         void Rollback();
-
     }
 }

@@ -1,19 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
 using Ixq.Core.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using M=AutoMapper.Mapper;
+using M = AutoMapper.Mapper;
 using AM = AutoMapper;
 
 namespace Ixq.Mapper.AutoMapper
 {
-    public class AutoMapperMapper : Core.Mapper.IMapper
+    public class AutoMapperMapper : IMapper
     {
         /// <summary>
-        /// 将对象映射为指定类型
+        ///     将对象映射为指定类型
         /// </summary>
         /// <typeparam name="TTarget">要映射的目标类型</typeparam>
         /// <param name="source">源对象</param>
@@ -24,7 +19,7 @@ namespace Ixq.Mapper.AutoMapper
         }
 
         /// <summary>
-        /// 使用源类型的对象更新目标类型的对象
+        ///     使用源类型的对象更新目标类型的对象
         /// </summary>
         /// <typeparam name="TSource">源类型</typeparam>
         /// <typeparam name="TTarget">目标类型</typeparam>

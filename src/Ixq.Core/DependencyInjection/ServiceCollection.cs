@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Ixq.Core.DependencyInjection
 {
     /// <summary>
-    /// Default implementation of <see cref="IServiceCollection"/>.
+    ///     Default implementation of <see cref="IServiceCollection" />.
     /// </summary>
     public class ServiceCollection : IServiceCollection
     {
@@ -24,14 +24,8 @@ namespace Ixq.Core.DependencyInjection
 
         public ServiceDescriptor this[int index]
         {
-            get
-            {
-                return _descriptors[index];
-            }
-            set
-            {
-                _descriptors[index] = value;
-            }
+            get { return _descriptors[index]; }
+            set { _descriptors[index] = value; }
         }
 
         public void Init(Assembly[] assembly)
@@ -101,33 +95,35 @@ namespace Ixq.Core.DependencyInjection
         }
 
         #region parvate method
+
         private static Type[] SelectManyForEnumLifetimeStyle(Assembly[] assemblies, ServiceLifetime lifetime)
         {
-            Type[] type = { };
+            Type[] type = {};
             switch (lifetime)
             {
                 case ServiceLifetime.Scoped:
                     type = assemblies.SelectMany(assembly =>
                         assembly.GetTypes().Where(t =>
-                            typeof(IScopeDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            typeof (IScopeDependency).IsAssignableFrom(t) && !t.IsAbstract))
                         .Distinct().ToArray();
                     break;
                 case ServiceLifetime.Singleton:
                     type = assemblies.SelectMany(assembly =>
                         assembly.GetTypes().Where(t =>
-                            typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            typeof (ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract))
                         .Distinct().ToArray();
                     break;
                 case ServiceLifetime.Transient:
                     type = assemblies.SelectMany(assembly =>
                         assembly.GetTypes().Where(t =>
-                            typeof(ITransientDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            typeof (ITransientDependency).IsAssignableFrom(t) && !t.IsAbstract))
                         .Distinct().ToArray();
                     break;
             }
 
             return type;
         }
+
         /// <summary>
         ///     以类型实现的接口进行服务添加，需排除
         ///     <see cref="ITransientDependency" />、
@@ -182,6 +178,7 @@ namespace Ixq.Core.DependencyInjection
                 }
             }
         }
+
         private static Type[] GetImplementedInterfaces(Type type)
         {
             Type[] exceptInterfaces =

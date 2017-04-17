@@ -10,11 +10,11 @@ namespace Ixq.Core.DependencyInjection.Extensions
     public static class ServiceCollectionDescriptorExtensions
     {
         /// <summary>
-        /// Adds the specified <paramref name="descriptor"/> to the <paramref name="collection"/>.
+        ///     Adds the specified <paramref name="descriptor" /> to the <paramref name="collection" />.
         /// </summary>
-        /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptor">The <see cref="ServiceDescriptor"/>.</param>
-        /// <returns>A reference to the current instance of <see cref="IServiceCollection"/>.</returns>
+        /// <param name="collection">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptor">The <see cref="ServiceDescriptor" />.</param>
+        /// <returns>A reference to the current instance of <see cref="IServiceCollection" />.</returns>
         public static IServiceCollection Add(
             this IServiceCollection collection,
             ServiceDescriptor descriptor)
@@ -34,11 +34,11 @@ namespace Ixq.Core.DependencyInjection.Extensions
         }
 
         /// <summary>
-        /// Adds a sequence of <see cref="ServiceDescriptor"/> to the <paramref name="collection"/>.
+        ///     Adds a sequence of <see cref="ServiceDescriptor" /> to the <paramref name="collection" />.
         /// </summary>
-        /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptors">The <see cref="IEnumerable{T}"/> of <see cref="ServiceDescriptor"/>s to add.</param>
-        /// <returns>A reference to the current instance of <see cref="IServiceCollection"/>.</returns>
+        /// <param name="collection">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptors">The <see cref="IEnumerable{T}" /> of <see cref="ServiceDescriptor" />s to add.</param>
+        /// <returns>A reference to the current instance of <see cref="IServiceCollection" />.</returns>
         public static IServiceCollection Add(
             this IServiceCollection collection,
             IEnumerable<ServiceDescriptor> descriptors)
@@ -62,11 +62,11 @@ namespace Ixq.Core.DependencyInjection.Extensions
         }
 
         /// <summary>
-        /// Adds the specified <paramref name="descriptor"/> to the <paramref name="collection"/> if the
-        /// service type hasn't been already registered.
+        ///     Adds the specified <paramref name="descriptor" /> to the <paramref name="collection" /> if the
+        ///     service type hasn't been already registered.
         /// </summary>
-        /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptor">The <see cref="ServiceDescriptor"/>.</param>
+        /// <param name="collection">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptor">The <see cref="ServiceDescriptor" />.</param>
         public static void TryAdd(
             this IServiceCollection collection,
             ServiceDescriptor descriptor)
@@ -88,11 +88,11 @@ namespace Ixq.Core.DependencyInjection.Extensions
         }
 
         /// <summary>
-        /// Adds the specified <paramref name="descriptors"/> to the <paramref name="collection"/> if the
-        /// service type hasn't been already registered.
+        ///     Adds the specified <paramref name="descriptors" /> to the <paramref name="collection" /> if the
+        ///     service type hasn't been already registered.
         /// </summary>
-        /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptors">The <see cref="ServiceDescriptor"/>s.</param>
+        /// <param name="collection">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptors">The <see cref="ServiceDescriptor" />s.</param>
         public static void TryAdd(
             this IServiceCollection collection,
             IEnumerable<ServiceDescriptor> descriptors)
@@ -187,7 +187,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddTransient(collection, typeof(TService), typeof(TService));
+            TryAddTransient(collection, typeof (TService), typeof (TService));
         }
 
         public static void TryAddTransient<TService, TImplementation>(this IServiceCollection collection)
@@ -199,7 +199,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddTransient(collection, typeof(TService), typeof(TImplementation));
+            TryAddTransient(collection, typeof (TService), typeof (TImplementation));
         }
 
         public static void TryAddTransient<TService>(
@@ -284,7 +284,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddScoped(collection, typeof(TService), typeof(TService));
+            TryAddScoped(collection, typeof (TService), typeof (TService));
         }
 
         public static void TryAddScoped<TService, TImplementation>(this IServiceCollection collection)
@@ -296,7 +296,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddScoped(collection, typeof(TService), typeof(TImplementation));
+            TryAddScoped(collection, typeof (TService), typeof (TImplementation));
         }
 
         public static void TryAddScoped<TService>(
@@ -381,7 +381,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddSingleton(collection, typeof(TService), typeof(TService));
+            TryAddSingleton(collection, typeof (TService), typeof (TService));
         }
 
         public static void TryAddSingleton<TService, TImplementation>(this IServiceCollection collection)
@@ -393,7 +393,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddSingleton(collection, typeof(TService), typeof(TImplementation));
+            TryAddSingleton(collection, typeof (TService), typeof (TImplementation));
         }
 
         public static void TryAddSingleton<TService>(this IServiceCollection collection, TService instance)
@@ -409,7 +409,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var descriptor = ServiceDescriptor.Singleton(typeof(TService), instance);
+            var descriptor = ServiceDescriptor.Singleton(typeof (TService), instance);
             TryAdd(collection, descriptor);
         }
 
@@ -422,21 +422,22 @@ namespace Ixq.Core.DependencyInjection.Extensions
         }
 
         /// <summary>
-        /// Adds a <see cref="ServiceDescriptor"/> if an existing descriptor with the same
-        /// <see cref="ServiceDescriptor.ServiceType"/> and an implementation that does not already exist
-        /// in <paramref name="services."/>.
+        ///     Adds a <see cref="ServiceDescriptor" /> if an existing descriptor with the same
+        ///     <see cref="ServiceDescriptor.ServiceType" /> and an implementation that does not already exist
+        ///     in <paramref name="services." />.
         /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptor">The <see cref="ServiceDescriptor"/>.</param>
+        /// <param name="services">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptor">The <see cref="ServiceDescriptor" />.</param>
         /// <remarks>
-        /// Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> when registing a service implementation of a
-        /// service type that
-        /// supports multiple registrations of the same service type. Using
-        /// <see cref="Add(IServiceCollection, ServiceDescriptor)"/> is not idempotent and can add
-        /// duplicate
-        /// <see cref="ServiceDescriptor"/> instances if called twice. Using
-        /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
-        /// of multiple implementation types.
+        ///     Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)" /> when registing a service implementation
+        ///     of a
+        ///     service type that
+        ///     supports multiple registrations of the same service type. Using
+        ///     <see cref="Add(IServiceCollection, ServiceDescriptor)" /> is not idempotent and can add
+        ///     duplicate
+        ///     <see cref="ServiceDescriptor" /> instances if called twice. Using
+        ///     <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)" /> will prevent registration
+        ///     of multiple implementation types.
         /// </remarks>
         public static void TryAddEnumerable(
             this IServiceCollection services,
@@ -454,37 +455,38 @@ namespace Ixq.Core.DependencyInjection.Extensions
 
             var implementationType = descriptor.GetImplementationType();
 
-            if (implementationType == typeof(object) ||
+            if (implementationType == typeof (object) ||
                 implementationType == descriptor.ServiceType)
             {
-                throw new ArgumentException($"Implementation type cannot be '{implementationType}' because it is indistinguishable from other services registered for '{descriptor.ServiceType}'.",
+                throw new ArgumentException(
+                    $"Implementation type cannot be '{implementationType}' because it is indistinguishable from other services registered for '{descriptor.ServiceType}'.",
                     nameof(descriptor));
             }
 
             if (!services.Any(d =>
-                              d.ServiceType == descriptor.ServiceType &&
-                              d.GetImplementationType() == implementationType))
+                d.ServiceType == descriptor.ServiceType &&
+                d.GetImplementationType() == implementationType))
             {
                 services.Add(descriptor);
             }
         }
 
         /// <summary>
-        /// Adds the specified <see cref="ServiceDescriptor"/>s if an existing descriptor with the same
-        /// <see cref="ServiceDescriptor.ServiceType"/> and an implementation that does not already exist
-        /// in <paramref name="services."/>.
+        ///     Adds the specified <see cref="ServiceDescriptor" />s if an existing descriptor with the same
+        ///     <see cref="ServiceDescriptor.ServiceType" /> and an implementation that does not already exist
+        ///     in <paramref name="services." />.
         /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptors">The <see cref="ServiceDescriptor"/>s.</param>
+        /// <param name="services">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptors">The <see cref="ServiceDescriptor" />s.</param>
         /// <remarks>
-        /// Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> when registing a service
-        /// implementation of a service type that
-        /// supports multiple registrations of the same service type. Using
-        /// <see cref="Add(IServiceCollection, ServiceDescriptor)"/> is not idempotent and can add
-        /// duplicate
-        /// <see cref="ServiceDescriptor"/> instances if called twice. Using
-        /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
-        /// of multiple implementation types.
+        ///     Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)" /> when registing a service
+        ///     implementation of a service type that
+        ///     supports multiple registrations of the same service type. Using
+        ///     <see cref="Add(IServiceCollection, ServiceDescriptor)" /> is not idempotent and can add
+        ///     duplicate
+        ///     <see cref="ServiceDescriptor" /> instances if called twice. Using
+        ///     <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)" /> will prevent registration
+        ///     of multiple implementation types.
         /// </remarks>
         public static void TryAddEnumerable(
             this IServiceCollection services,
@@ -507,11 +509,11 @@ namespace Ixq.Core.DependencyInjection.Extensions
         }
 
         /// <summary>
-        /// Removes the first service in <see cref="IServiceCollection"/> with the same service type
-        /// as <paramref name="descriptor"/> and adds <paramef name="descriptor"/> to the collection.
+        ///     Removes the first service in <see cref="IServiceCollection" /> with the same service type
+        ///     as <paramref name="descriptor" /> and adds <paramef name="descriptor" /> to the collection.
         /// </summary>
-        /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptor">The <see cref="ServiceDescriptor"/> to replace with.</param>
+        /// <param name="collection">The <see cref="IServiceCollection" />.</param>
+        /// <param name="descriptor">The <see cref="ServiceDescriptor" /> to replace with.</param>
         /// <returns></returns>
         public static IServiceCollection Replace(
             this IServiceCollection collection,

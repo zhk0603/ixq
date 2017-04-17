@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ixq.Extensions
@@ -22,7 +21,7 @@ namespace Ixq.Extensions
         /// <returns> 是返回True，不是返回False </returns>
         public static bool IsNullableType(this Type type)
         {
-            return (type != null) && type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Nullable<>));
+            return (type != null) && type.IsGenericType && (type.GetGenericTypeDefinition() == typeof (Nullable<>));
         }
 
         /// <summary>
@@ -79,7 +78,7 @@ namespace Ixq.Extensions
             {
                 return desc.Description;
             }
-            DisplayNameAttribute displayName = member.GetAttribute<DisplayNameAttribute>(inherit);
+            var displayName = member.GetAttribute<DisplayNameAttribute>(inherit);
             if (displayName != null)
             {
                 return displayName.DisplayName;
@@ -101,7 +100,7 @@ namespace Ixq.Extensions
         /// <returns>是否存在</returns>
         public static bool HasAttribute<T>(this MemberInfo memberInfo, bool inherit = false) where T : Attribute
         {
-            return memberInfo.IsDefined(typeof(T), inherit);
+            return memberInfo.IsDefined(typeof (T), inherit);
             //return memberInfo.GetCustomAttributes(typeof(T), inherit).Any(m => (m as T) != null);
         }
 
@@ -114,7 +113,7 @@ namespace Ixq.Extensions
         /// <returns>存在返回第一个，不存在返回null</returns>
         public static T GetAttribute<T>(this MemberInfo memberInfo, bool inherit = false) where T : Attribute
         {
-            var descripts = memberInfo.GetCustomAttributes(typeof(T), inherit);
+            var descripts = memberInfo.GetCustomAttributes(typeof (T), inherit);
             return descripts.FirstOrDefault() as T;
         }
 
@@ -127,7 +126,7 @@ namespace Ixq.Extensions
         /// <returns>返回所有指定Attribute特性的数组</returns>
         public static T[] GetAttributes<T>(this MemberInfo memberInfo, bool inherit = false) where T : Attribute
         {
-            return memberInfo.GetCustomAttributes(typeof(T), inherit).Cast<T>().ToArray();
+            return memberInfo.GetCustomAttributes(typeof (T), inherit).Cast<T>().ToArray();
         }
 
         /// <summary>
@@ -137,11 +136,11 @@ namespace Ixq.Extensions
         /// <returns>是返回True，不是返回False</returns>
         public static bool IsEnumerable(this Type type)
         {
-            if (type == typeof(string))
+            if (type == typeof (string))
             {
                 return false;
             }
-            return typeof(IEnumerable).IsAssignableFrom(type);
+            return typeof (IEnumerable).IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -157,7 +156,7 @@ namespace Ixq.Extensions
                 throw new ArgumentException("该功能只支持泛型类型的调用，非泛型类型可使用 IsAssignableFrom 方法。");
             }
 
-            var allOthers = new List<Type> { type };
+            var allOthers = new List<Type> {type};
             if (genericType.IsInterface)
             {
                 allOthers.AddRange(type.GetInterfaces());
@@ -187,8 +186,8 @@ namespace Ixq.Extensions
         /// </summary>
         public static bool IsAsync(this MethodInfo method)
         {
-            return method.ReturnType == typeof(Task)
-                   || method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>);
+            return method.ReturnType == typeof (Task)
+                   || method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof (Task<>);
         }
 
         /// <summary>
@@ -214,7 +213,7 @@ namespace Ixq.Extensions
         /// <returns></returns>
         public static bool IsBaseOn<TBaseType>(this Type type)
         {
-            var baseType = typeof(TBaseType);
+            var baseType = typeof (TBaseType);
             return type.IsBaseOn(baseType);
         }
     }

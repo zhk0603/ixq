@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Ixq.Web.Mvc
 {
     /// <summary>
-    /// 基础控制器。
+    ///     基础控制器。
     /// </summary>
     public abstract class BaseController : Controller
     {
         /// <summary>
-        /// IoC服务提供者
+        ///     IoC服务提供者
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
 
@@ -29,5 +25,4 @@ namespace Ixq.Web.Mvc
             return userId;
         }
     }
-
 }

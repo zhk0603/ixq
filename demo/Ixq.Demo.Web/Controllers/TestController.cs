@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Ixq.Core.DependencyInjection;
-using Ixq.Core.DependencyInjection.Extensions;
-using Ixq.DependencyInjection.Autofac;
+﻿using System.Web.Mvc;
 
 namespace Ixq.Demo.Web.Controllers
 {

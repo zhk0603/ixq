@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ixq.Web.Mvc
+﻿namespace Ixq.Web.Mvc
 {
-    class EntityController
+    internal class EntityController
     {
     }
 }

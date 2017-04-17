@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ixq.Core.DependencyInjection
+﻿namespace Ixq.Core.DependencyInjection
 {
     /// <summary>
     ///     表示依赖注入的对象生命周期

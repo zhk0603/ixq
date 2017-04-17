@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.Entity;
@@ -21,15 +20,15 @@ namespace Ixq.Data.Repository
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
     public abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
-        where TEntity : class,IEntity<TKey>,new() 
-        where TKey:struct
+        where TEntity : class, IEntity<TKey>, new()
+        where TKey : struct
     {
-        private DbSet<TEntity> Table => ((DbContext)UnitOfWork).Set<TEntity>();
-
         protected RepositoryBase(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }
+
+        private DbSet<TEntity> Table => ((DbContext) UnitOfWork).Set<TEntity>();
         public IUnitOfWork UnitOfWork { get; }
 
 
@@ -67,14 +66,14 @@ namespace Ixq.Data.Repository
 
         public virtual bool Edit(TEntity entity)
         {
-            var entry = ((DbContext)UnitOfWork).Entry(entity);
+            var entry = ((DbContext) UnitOfWork).Entry(entity);
             entry.State = EntityState.Modified;
             return Save();
         }
 
         public virtual async Task<bool> EditAsync(TEntity entity)
         {
-            var entry = ((DbContext)UnitOfWork).Entry(entity);
+            var entry = ((DbContext) UnitOfWork).Entry(entity);
             entry.State = EntityState.Modified;
             return await SaveAsync();
         }
@@ -99,12 +98,14 @@ namespace Ixq.Data.Repository
             throw new NotImplementedException();
         }
 
-        public virtual IQueryable<TEntity> OrderBy(string propertyName, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        public virtual IQueryable<TEntity> OrderBy(string propertyName,
+            ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             return GetAll().OrderBy(propertyName, sortDirection);
         }
 
-        public virtual async Task<IQueryable<TEntity>> OrderByAsync(string propertyName, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        public virtual async Task<IQueryable<TEntity>> OrderByAsync(string propertyName,
+            ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             return await Task.FromResult(OrderBy(propertyName, sortDirection));
         }
@@ -234,12 +235,13 @@ namespace Ixq.Data.Repository
 
         public virtual IEnumerable<TEntity> SqlQuery(string sql, bool trackEnabled = true, params object[] parameters)
         {
-            return trackEnabled ?
-                Table.SqlQuery(sql, parameters) :
-                Table.SqlQuery(sql, parameters).AsNoTracking();
+            return trackEnabled
+                ? Table.SqlQuery(sql, parameters)
+                : Table.SqlQuery(sql, parameters).AsNoTracking();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> SqlQueryAsync(string sql, bool trackEnabled = true, params object[] parameters)
+        public virtual async Task<IEnumerable<TEntity>> SqlQueryAsync(string sql, bool trackEnabled = true,
+            params object[] parameters)
         {
             return await Task.FromResult(SqlQuery(sql, trackEnabled, parameters));
         }
@@ -262,11 +264,12 @@ namespace Ixq.Data.Repository
             return await Task.FromResult(SqlQuerySingle(index, trackEnabled));
         }
 
-        public virtual IEnumerable<T2> SqlQuery<T2, TKey2>(string sql, bool trackEnabled = true, params object[] parameters) 
-            where T2 : class, IEntity<TKey2>, new() 
-            where TKey2:struct
+        public virtual IEnumerable<T2> SqlQuery<T2, TKey2>(string sql, bool trackEnabled = true,
+            params object[] parameters)
+            where T2 : class, IEntity<TKey2>, new()
+            where TKey2 : struct
         {
-            var table = ((DbContext)UnitOfWork).Set<T2>();
+            var table = ((DbContext) UnitOfWork).Set<T2>();
             return trackEnabled
                 ? table.SqlQuery(sql, parameters)
                 : table.SqlQuery(sql, parameters).AsNoTracking();
@@ -284,7 +287,7 @@ namespace Ixq.Data.Repository
             where T2 : class, IEntity<TKey2>, new()
             where TKey2 : struct
         {
-            var table = ((DbContext)UnitOfWork).Set<T2>();
+            var table = ((DbContext) UnitOfWork).Set<T2>();
 
             var tableName = _GetTableName<T2>();
             var sql = "select * from " + tableName + " where [Index] = @index";
@@ -306,14 +309,14 @@ namespace Ixq.Data.Repository
 
 
         /// <summary>
-        /// 查看实体是否有 <see cref="TableAttribute"/> 特性，如果有则返回 <see cref="TableAttribute.Name"/>.
-        /// 默认返回实体的类名。
+        ///     查看实体是否有 <see cref="TableAttribute" /> 特性，如果有则返回 <see cref="TableAttribute.Name" />.
+        ///     默认返回实体的类名。
         /// </summary>
         /// <typeparam name="TType"></typeparam>
         /// <returns></returns>
         protected virtual string _GetTableName<TType>()
         {
-            var type = typeof(TType);
+            var type = typeof (TType);
             var tableName = type.Name;
             var tableAttribute = type.GetAttribute<TableAttribute>();
             if (tableAttribute != null)

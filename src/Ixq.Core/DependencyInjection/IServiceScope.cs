@@ -6,15 +6,15 @@ using System;
 namespace Ixq.Core.DependencyInjection
 {
     /// <summary>
-    /// The <see cref="System.IDisposable.Dispose"/> method ends the scope lifetime. Once Dispose
-    /// is called, any scoped services that have been resolved from
-    /// <see cref="Ixq.Core.DependencyInjection.IServiceScope.ServiceProvider"/> will be
-    /// disposed.
+    ///     The <see cref="System.IDisposable.Dispose" /> method ends the scope lifetime. Once Dispose
+    ///     is called, any scoped services that have been resolved from
+    ///     <see cref="Ixq.Core.DependencyInjection.IServiceScope.ServiceProvider" /> will be
+    ///     disposed.
     /// </summary>
     public interface IServiceScope : IDisposable
     {
         /// <summary>
-        /// The <see cref="System.IServiceProvider"/> used to resolve dependencies from the scope.
+        ///     The <see cref="System.IServiceProvider" /> used to resolve dependencies from the scope.
         /// </summary>
         IServiceProvider ServiceProvider { get; }
     }

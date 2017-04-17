@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Extensions
 {
@@ -15,7 +11,7 @@ namespace Ixq.Extensions
 
         public static LambdaExpression GetKeySelector(string keyName)
         {
-            var type = typeof(T);
+            var type = typeof (T);
             var key = type.FullName + "." + keyName;
             if (cache.ContainsKey(key))
             {

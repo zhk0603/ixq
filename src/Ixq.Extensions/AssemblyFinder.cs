@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Extensions
 {
@@ -12,6 +10,7 @@ namespace Ixq.Extensions
     {
         private static readonly IDictionary<string, Assembly[]> AssembliesesDict = new Dictionary<string, Assembly[]>();
         private readonly string _path;
+
         /// <summary>
         ///     初始化一个<see cref="AssemblyFinder" />类型的新实例
         /// </summary>
@@ -19,6 +18,7 @@ namespace Ixq.Extensions
             : this(GetBinPath())
         {
         }
+
         /// <summary>
         ///     初始化一个<see cref="AssemblyFinder" />类型的新实例
         /// </summary>
@@ -26,6 +26,7 @@ namespace Ixq.Extensions
         {
             _path = path;
         }
+
         /// <summary>
         ///     查找所有项
         /// </summary>
@@ -43,6 +44,7 @@ namespace Ixq.Extensions
             AssembliesesDict.Add(_path, assemblies);
             return assemblies;
         }
+
         /// <summary>
         ///     查找指定条件的项
         /// </summary>
@@ -52,6 +54,7 @@ namespace Ixq.Extensions
         {
             return FindAll().Where(predicate).ToArray();
         }
+
         private static string GetBinPath()
         {
             var path = AppDomain.CurrentDomain.BaseDirectory;

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Integration.Mvc;
-using Ixq.Core.DependencyInjection;
 using Ixq.Core;
-using System.Reflection;
-using Autofac.Core;
-using System.Web;
+using Ixq.Core.DependencyInjection;
 
 namespace Ixq.DependencyInjection.Autofac
 {
@@ -87,7 +83,7 @@ namespace Ixq.DependencyInjection.Autofac
                 }
                 else if (descriptor.ImplementationFactory != null)
                 {
-                    IComponentRegistration registration = RegistrationBuilder.ForDelegate(descriptor.ServiceType,
+                    var registration = RegistrationBuilder.ForDelegate(descriptor.ServiceType,
                         (context, paramters) =>
                         {
                             var provider = context.Resolve<IServiceProvider>();

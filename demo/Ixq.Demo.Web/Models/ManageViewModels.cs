@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -35,7 +36,7 @@ namespace Ixq.Demo.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "确认新密码")]
-        [Compare("NewPassword", ErrorMessage = "新密码和确认密码不匹配。")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "新密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -54,7 +55,7 @@ namespace Ixq.Demo.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "确认新密码")]
-        [Compare("NewPassword", ErrorMessage = "新密码和确认密码不匹配。")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "新密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -81,6 +82,6 @@ namespace Ixq.Demo.Web.Models
     public class ConfigureTwoFactorViewModel
     {
         public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+        public ICollection<SelectListItem> Providers { get; set; }
     }
 }

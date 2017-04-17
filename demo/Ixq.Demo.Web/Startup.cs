@@ -1,7 +1,9 @@
-﻿using Microsoft.Owin;
+﻿using Ixq.Demo.Web;
+using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Ixq.Demo.Web.Startup))]
+[assembly: OwinStartup(typeof (Startup))]
+
 namespace Ixq.Demo.Web
 {
     public partial class Startup

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -9,9 +8,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityFramework.DynamicFilters;
 using Ixq.Core.Entity;
 using Ixq.Core.Repository;
-using EntityFramework.DynamicFilters;
 
 namespace Ixq.Data.Repository
 {
@@ -85,7 +84,7 @@ namespace Ixq.Data.Repository
                 {
                     var sqlEx = e.InnerException.InnerException as SqlException;
                     var errorMessages = new StringBuilder();
-                    for (int i = 0; i < sqlEx.Errors.Count; i++)
+                    for (var i = 0; i < sqlEx.Errors.Count; i++)
                     {
                         errorMessages.Append("Index #" + i + "\n" +
                                              "Message: " + sqlEx.Errors[i].Message + "\n" +
@@ -129,11 +128,11 @@ namespace Ixq.Data.Repository
                 {
                     var errorResults = ex.EntityValidationErrors;
                     var ls = (from result in errorResults
-                              let lines =
-                                  result.ValidationErrors.Select(
-                                      error => $"{error.PropertyName}: {error.ErrorMessage}").ToArray()
-                              select
-                                  $"{result.Entry.Entity.GetType().FullName}({string.Join(",", lines)})").ToList();
+                        let lines =
+                            result.ValidationErrors.Select(
+                                error => $"{error.PropertyName}: {error.ErrorMessage}").ToArray()
+                        select
+                            $"{result.Entry.Entity.GetType().FullName}({string.Join(",", lines)})").ToList();
                     var message = "数据验证引发异常——" + string.Join(" | ", ls);
                     throw new DataException(message, ex);
                 }
@@ -146,7 +145,7 @@ namespace Ixq.Data.Repository
                 {
                     var sqlEx = e.InnerException.InnerException as SqlException;
                     var errorMessages = new StringBuilder();
-                    for (int i = 0; i < sqlEx.Errors.Count; i++)
+                    for (var i = 0; i < sqlEx.Errors.Count; i++)
                     {
                         errorMessages.Append("Index #" + i + "\n" +
                                              "Message: " + sqlEx.Errors[i].Message + "\n" +
@@ -195,7 +194,7 @@ namespace Ixq.Data.Repository
 
 
         /// <summary>
-        /// 自动填充Guid
+        ///     自动填充Guid
         /// </summary>
         /// <param name="entry"></param>
         protected virtual void AutofillGuid(DbEntityEntry entry)
