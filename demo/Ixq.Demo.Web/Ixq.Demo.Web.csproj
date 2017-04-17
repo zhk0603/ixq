@@ -277,6 +277,10 @@
       <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
       <Name>Ixq.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
+      <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
+      <Name>Ixq.Mapper.AutoMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ixq.Demo.DbContext\ixq.Demo.DbContext.csproj">
       <Project>{cb998c97-c593-424d-a366-88c412e477ff}</Project>
       <Name>ixq.Demo.DbContext</Name>

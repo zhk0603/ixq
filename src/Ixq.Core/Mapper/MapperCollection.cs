@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Ixq.Extensions;
+using System.Linq;
+using Ixq.Core.Entity;
+using Ixq.Core.Dto;
 
 namespace Ixq.Core.Mapper
 {
-    public abstract class MapperCollection : IMapperCollection
+    public class MapperCollection : IMapperCollection
     {
         private readonly List<MapperDescriptor> _descriptors = new List<MapperDescriptor>();
 
@@ -70,5 +76,50 @@ namespace Ixq.Core.Mapper
                 _descriptors[index] = value;
             }
         }
+
+        public void Init(Assembly[] assembly)
+        {
+            var sourceTypes = SelectMany(typeof (IDto<,>), assembly);
+            var targetTypes = SelectMany(typeof (IEntity<>), assembly);
+            if (sourceTypes.Length == 0 || targetTypes.Length == 0)
+            {
+                return;
+            }
+            foreach (var sType in sourceTypes)
+            {
+                var iType = sType.GetInterfaces();
+                var targetType = _getTargetType(iType);
+                if (targetType != null)
+                {
+                }
+                Add(new MapperDescriptor(sType, targetType));
+            }
+        }
+
+        #region private method
+
+        private Type[] SelectMany(Type t, Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(assembly =>
+                assembly.GetTypes().Where(type =>
+                    t.IsGenericAssignableFrom(type) && !type.IsAbstract))
+                .Distinct().ToArray();
+        }
+        /// <summary>
+        /// 获取目标类型
+        /// </summary>
+        /// <param name="interfaceTypes"></param>
+        /// <returns></returns>
+        private Type _getTargetType(Type[] interfaceTypes)
+        {
+            Type targetType = null;
+            foreach (var iType in interfaceTypes)
+            {
+                if (targetType != null) break;
+                targetType = iType.GenericTypeArguments.FirstOrDefault(x => TargetTypes.Contains(x));
+            }
+            return targetType;
+        }
+        #endregion
     }
 }

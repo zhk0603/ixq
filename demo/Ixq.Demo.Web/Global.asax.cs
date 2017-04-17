@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Ixq.Core;
 using Ixq.DependencyInjection.Autofac;
+using Ixq.Mapper.AutoMapper;
 
 namespace Ixq.Demo.Web
 {
@@ -21,7 +22,8 @@ namespace Ixq.Demo.Web
 
             var app = new AppBootProgram<MvcApplication>();
             app.Initialization()
-                .RegisterAutofac();
+                .RegisterAutofac()
+                .RegisterAutoMappe();
         }
     }
 }

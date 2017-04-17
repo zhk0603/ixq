@@ -13,7 +13,13 @@ namespace Ixq.Mapper.AutoMapper
         public static AppBootProgram<T> RegisterAutoMappe<T>(this AppBootProgram<T> app)
             where T : HttpApplication, new()
         {
-
+            var mapper = new AutoMapperMapper();
+            if (!app.MapperCollection.Any()) return app;
+            foreach (var descriptor in app.MapperCollection)
+            {
+                mapper.MapTo(descriptor.SourceType, descriptor.TargetType);
+                mapper.MapTo(descriptor.TargetType, descriptor.SourceType);
+            }
             return app;
         }
     }

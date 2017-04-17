@@ -7,7 +7,7 @@
     <ProjectGuid>{3CCC94EB-2579-41B9-A9E4-2FA03A114275}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ixq.Mapper.AutoMapper</RootNamespace>
+    <RootNamespace>Ixq.Mapper</RootNamespace>
     <AssemblyName>Ixq.Mapper.AutoMapper</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapperRegistration.cs" />
+    <Compile Include="AutoMapper\AutoMapperMapper.cs" />
+    <Compile Include="AutoMapper\AutoMapperRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
