@@ -83,11 +83,11 @@ namespace Ixq.Core.Mapper
             foreach (var sType in sourceTypes)
             {
                 var iType = sType.GetInterfaces();
-                var targetType = _getTargetType(iType);
+                var targetType = _getTargetType(iType, targetTypes);
                 if (targetType != null)
                 {
+                    Add(new MapperDescriptor(sType, targetType));
                 }
-                Add(new MapperDescriptor(sType, targetType));
             }
         }
 
@@ -105,14 +105,15 @@ namespace Ixq.Core.Mapper
         ///     获取目标类型
         /// </summary>
         /// <param name="interfaceTypes"></param>
+        /// <param name="targetTypes"></param>
         /// <returns></returns>
-        private Type _getTargetType(Type[] interfaceTypes)
+        private Type _getTargetType(Type[] interfaceTypes, Type[] targetTypes)
         {
             Type targetType = null;
             foreach (var iType in interfaceTypes)
             {
                 if (targetType != null) break;
-                targetType = iType.GenericTypeArguments.FirstOrDefault(x => TargetTypes.Contains(x));
+                targetType = iType.GenericTypeArguments.FirstOrDefault(x => targetTypes.Contains(x));
             }
             return targetType;
         }

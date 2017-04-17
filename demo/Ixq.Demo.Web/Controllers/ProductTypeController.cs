@@ -1,8 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
 using Ixq.Core.DependencyInjection.Extensions;
+using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
+using Ixq.Demo.Web.Models;
 
 namespace Ixq.Demo.Web.Controllers
 {
@@ -34,6 +38,21 @@ namespace Ixq.Demo.Web.Controllers
             var c2 = ServiceProvider.GetService<IRepository<Product>>().GetHashCode();
 
             var c3 = ServiceProvider.GetRepository<Product>().GetHashCode();
+
+            return View();
+        }
+
+        public ActionResult Index1()
+        {
+            var typeList = ProductTypeRepository.GetAll().ToList();
+            //typeList[0]
+            var mapper = ServiceProvider.GetService<IMapper>();
+            var dto1 = new ProductTypeDot(mapper)
+            {
+                Index = Guid.NewGuid(),
+                Name = "Test",
+            };
+            var ent = dto1.MapTo();
 
             return View();
         }

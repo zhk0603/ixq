@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -51,6 +55,7 @@
     <Compile Include="DependencyInjection\ISupportRequiredService.cs" />
     <Compile Include="DependencyInjection\ServiceCollection.cs" />
     <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
+    <Compile Include="Dto\DtoBase.cs" />
     <Compile Include="Dto\IDto.cs" />
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
@@ -77,6 +82,9 @@
       <Project>{D55F3FA0-8638-49C3-8998-0425871C1420}</Project>
       <Name>Ixq.Extensions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
