@@ -17,8 +17,8 @@ namespace Ixq.Mapper.AutoMapper
             if (!app.MapperCollection.Any()) return app;
             foreach (var descriptor in app.MapperCollection)
             {
-                mapper.MapTo(descriptor.SourceType, descriptor.TargetType);
-                mapper.MapTo(descriptor.TargetType, descriptor.SourceType);
+                mapper.CreateMap(descriptor.SourceType, descriptor.TargetType);
+                mapper.CreateMap(descriptor.TargetType, descriptor.SourceType);
             }
             return app;
         }

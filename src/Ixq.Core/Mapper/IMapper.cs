@@ -26,5 +26,7 @@ namespace Ixq.Core.Mapper
         /// <param name="target">待更新的目标对象</param>
         /// <returns>更新后的目标类型对象</returns>
         TTarget MapTo<TSource, TTarget>(TSource source, TTarget target);
+
+        void CreateMap(Type sourceType, Type targetType);
     }
 }

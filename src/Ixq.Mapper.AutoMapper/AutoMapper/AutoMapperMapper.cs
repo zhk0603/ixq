@@ -1,14 +1,16 @@
-﻿using Ixq.Core.Mapper;
+﻿using AutoMapper;
+using Ixq.Core.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using M=AutoMapper.Mapper;
+using AM = AutoMapper;
 
 namespace Ixq.Mapper.AutoMapper
 {
-    public class AutoMapperMapper : IMapper
+    public class AutoMapperMapper : Core.Mapper.IMapper
     {
         /// <summary>
         /// 将对象映射为指定类型
@@ -32,6 +34,11 @@ namespace Ixq.Mapper.AutoMapper
         public TTarget MapTo<TSource, TTarget>(TSource source, TTarget target)
         {
             return M.Map(source, target);
+        }
+
+        public void CreateMap(Type sourceType, Type targetType)
+        {
+            M.Initialize(cfg => cfg.CreateMap(sourceType, targetType));
         }
     }
 }
