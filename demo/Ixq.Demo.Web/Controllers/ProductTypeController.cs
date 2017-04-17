@@ -58,5 +58,12 @@ namespace Ixq.Demo.Web.Controllers
 
             return View();
         }
+
+        // test url : locahost/ProductType/ProductDto?Id=8A2734FF-4C33-48ED-8257-9E3B612FF38F&Type.Id=8A2734FF-4C33-48ED-8257-9E3B612FF38A&Name=123
+        public ActionResult ProductDto(ProductDto input)
+        {
+            var p = input.MapTo();
+            return View();
+        }
     }
 }

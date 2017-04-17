@@ -10,7 +10,7 @@ namespace Ixq.Demo.Web.Models
 {
     public class ProductDto : DtoBase<Product>
     {
-        public Guid Type { get; set; }
+        public ProductType Type { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
     }
