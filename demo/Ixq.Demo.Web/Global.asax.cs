@@ -18,10 +18,10 @@ namespace Ixq.Demo.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var app = new AppBootProgram<MvcApplication>();
-            app.Initialization()
-                .RegisterAutofac()
-                .RegisterAutoMappe();
+            //var app = AppBootProgram<MvcApplication>.Instance;
+            //app.Initialization()
+            //    .RegisterAutofac()
+            //    .RegisterAutoMappe();
         }
     }
 }

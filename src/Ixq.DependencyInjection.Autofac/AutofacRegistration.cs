@@ -13,7 +13,7 @@ namespace Ixq.DependencyInjection.Autofac
 {
     public static class AutofacRegistration
     {
-        public static AppBootProgram<T> RegisterAutofac<T>(this AppBootProgram<T> app) where T : HttpApplication, new()
+        public static AppBootProgram<T> RegisterAutofac<T>(this AppBootProgram<T> app) where T : class, new()
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof (T).Assembly)

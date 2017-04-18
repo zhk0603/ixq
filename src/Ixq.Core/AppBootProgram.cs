@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.Mapper;
 using Ixq.Extensions;
@@ -8,10 +9,12 @@ namespace Ixq.Core
     /// <summary>
     ///     引导程序
     /// </summary>
-    public class AppBootProgram<T> where T : HttpApplication, new()
+    public class AppBootProgram<T> where T : class, new()
     {
-        private readonly AssemblyFinder _assemblyFinder;
+        private static readonly Lazy<AppBootProgram<T>> LazyBootprogram = new Lazy<AppBootProgram<T>>(() => new AppBootProgram<T>());
+        public static AppBootProgram<T> Instance => LazyBootprogram.Value;
 
+        private readonly AssemblyFinder _assemblyFinder;
         /// <summary>
         ///     初始化一个<see cref="AppBootProgram{T}" />实例
         /// </summary>

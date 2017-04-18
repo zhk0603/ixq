@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Web.Mvc", "src\Ixq.Web.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Mapper.AutoMapper", "src\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj", "{3CCC94EB-2579-41B9-A9E4-2FA03A114275}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Owin", "src\Ixq.Owin\Ixq.Owin.csproj", "{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{3CCC94EB-2579-41B9-A9E4-2FA03A114275}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CCC94EB-2579-41B9-A9E4-2FA03A114275}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CCC94EB-2579-41B9-A9E4-2FA03A114275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +94,6 @@ Global
 		{CB998C97-C593-424D-A366-88C412E477FF} = {11C09600-E4C6-4EB5-8D4B-014F9AF86AD1}
 		{BDC5D24E-2D1B-4AF3-AB42-A9AD3F0211D5} = {860DC603-F0EE-4E74-8A39-1799FE162601}
 		{3CCC94EB-2579-41B9-A9E4-2FA03A114275} = {860DC603-F0EE-4E74-8A39-1799FE162601}
+		{89A24CED-36D8-4CE6-B4A5-C4DC50F00295} = {860DC603-F0EE-4E74-8A39-1799FE162601}
 	EndGlobalSection
 EndGlobal

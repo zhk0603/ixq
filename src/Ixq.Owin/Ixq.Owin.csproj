@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3CCC94EB-2579-41B9-A9E4-2FA03A114275}</ProjectGuid>
+    <ProjectGuid>{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ixq.Mapper</RootNamespace>
-    <AssemblyName>Ixq.Mapper.AutoMapper</AssemblyName>
+    <RootNamespace>Ixq</RootNamespace>
+    <AssemblyName>Ixq.Owin</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -44,8 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapper\AutoMapperMapper.cs" />
-    <Compile Include="AutoMapper\AutoMapperRegistration.cs" />
+    <Compile Include="Owin\Extensions\AppBuilderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +54,14 @@
     <ProjectReference Include="..\Ixq.Core\Ixq.Core.csproj">
       <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
       <Name>Ixq.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.DependencyInjection.Autofac\Ixq.DependencyInjection.Autofac.csproj">
+      <Project>{99337276-4a1a-439c-a323-ac86ca2929c3}</Project>
+      <Name>Ixq.DependencyInjection.Autofac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
+      <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
+      <Name>Ixq.Mapper.AutoMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
