@@ -6,7 +6,7 @@ namespace ixq.Demo.DbContext
 {
     public class DataContext : DbContextBase
     {
-        public DbSet<ProductType> ProductType { get; set; }
-        public DbSet<Product> Product { get; set; }
+        public IDbSet<ProductType> ProductType { get; set; }
+        public IDbSet<Product> Product { get; set; }
     }
 }
