@@ -25,6 +25,31 @@ namespace Ixq.Demo.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css"));
+
+
+            // HPlus
+            bundles.Add(new StyleBundle("~/css/hplus").Include(
+                "~/Content/Hplus/css/bootstrap.min.css",
+                "~/Content/Hplus/css/font-awesome.min.css",
+                "~/Content/Hplus/css/animate.css",
+                "~/Content/Hplus/css/style.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/js/phlus").Include(
+                "~/Content/Hplus/js/jquery.min.js",
+                "~/Content/Hplus/js/bootstrap.min.js",
+                "~/Content/Hplus/js/plugins/metisMenu/jquery.metisMenu.js",
+                "~/Content/Hplus/js/plugins/slimscroll/jquery.slimscroll.min.js",
+                "~/Content/Hplus/js/plugins/layer/layer.min.js",
+                "~/Content/Hplus/js/hplus.js",
+                "~/Content/Hplus/js/contabs.js",
+                "~/Content/Hplus/js/plugins/pace/pace.min.js"
+                ));
+            bundles.Add(new ScriptBundle("~/js/phlus/iframe").Include(
+                "~/Content/Hplus/js/jquery.min.js",
+                "~/Content/Hplus/js/bootstrap.min.js",
+                "~/Content/Hplus/js/plugins/layer/layer.min.js",
+                "~/Content/Hplus/js/content.js"));
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Ixq.Demo.Web.Controllers
     {
         public ActionResult Index()
         {
+            return RedirectToRoute("Hplus_default");
             return View();
         }
 
