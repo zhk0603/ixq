@@ -4,6 +4,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Ixq.Core;
 using Ixq.DependencyInjection.Autofac;
+using Ixq.Extensions;
 using Ixq.Mapper.AutoMapper;
 
 namespace Ixq.Demo.Web
