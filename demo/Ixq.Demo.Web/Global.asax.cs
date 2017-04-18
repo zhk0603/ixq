@@ -18,9 +18,9 @@ namespace Ixq.Demo.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //var app = AppBootProgram<MvcApplication>.Instance;
+            //var app = AppBootProgram.Instance;
             //app.Initialization()
-            //    .RegisterAutofac()
+            //    .RegisterAutofac(typeof(MvcApplication))
             //    .RegisterAutoMappe();
         }
     }

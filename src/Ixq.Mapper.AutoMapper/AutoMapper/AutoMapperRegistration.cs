@@ -8,8 +8,7 @@ namespace Ixq.Mapper.AutoMapper
 {
     public static class AutoMapperRegistration
     {
-        public static AppBootProgram<T> RegisterAutoMappe<T>(this AppBootProgram<T> app)
-            where T : class, new()
+        public static AppBootProgram RegisterAutoMappe(this AppBootProgram app)
         {
             MapperExtensions.LazyMapper = new Lazy<IMapper>(() => new AutoMapperMapper());
             if (!app.MapperCollection.Any()) return app;

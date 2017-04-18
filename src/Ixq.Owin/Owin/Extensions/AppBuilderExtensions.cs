@@ -13,20 +13,20 @@ namespace Ixq.Owin.Extensions
 {
     public static class AppBuilderExtensions
     {
-        public static IAppBuilder Initialization<T>(this IAppBuilder app) where T : class, new()
+        public static IAppBuilder Initialization(this IAppBuilder app)
         {
-            AppBootProgram<T>.Instance.Initialization();
+            AppBootProgram.Instance.Initialization();
             return app;
         }
 
-        public static IAppBuilder RegisterAutofac<T>(this IAppBuilder app) where T : class, new()
+        public static IAppBuilder RegisterAutofac(this IAppBuilder app, Type httpApplicationType)
         {
-            AppBootProgram<T>.Instance.RegisterAutofac();
+            AppBootProgram.Instance.RegisterAutofac(httpApplicationType);
             return app;
         }
-        public static IAppBuilder RegisterAutoMappe<T>(this IAppBuilder app) where T : class, new()
+        public static IAppBuilder RegisterAutoMappe(this IAppBuilder app)
         {
-            AppBootProgram<T>.Instance.RegisterAutoMappe();
+            AppBootProgram.Instance.RegisterAutoMappe();
             return app;
         }
     }

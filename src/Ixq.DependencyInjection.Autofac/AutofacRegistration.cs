@@ -13,10 +13,10 @@ namespace Ixq.DependencyInjection.Autofac
 {
     public static class AutofacRegistration
     {
-        public static AppBootProgram<T> RegisterAutofac<T>(this AppBootProgram<T> app) where T : class, new()
+        public static AppBootProgram RegisterAutofac(this AppBootProgram app, Type httpApplicationType)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterControllers(typeof (T).Assembly)
+            builder.RegisterControllers(httpApplicationType.Assembly)
                 .PropertiesAutowired();
             builder.RegisterFilterProvider();
             builder.Populate(app.ServiceCollection);

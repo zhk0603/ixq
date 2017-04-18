@@ -9,14 +9,14 @@ namespace Ixq.Core
     /// <summary>
     ///     引导程序
     /// </summary>
-    public class AppBootProgram<T> where T : class, new()
+    public class AppBootProgram
     {
-        private static readonly Lazy<AppBootProgram<T>> LazyBootprogram = new Lazy<AppBootProgram<T>>(() => new AppBootProgram<T>());
-        public static AppBootProgram<T> Instance => LazyBootprogram.Value;
+        private static readonly Lazy<AppBootProgram> LazyBootprogram = new Lazy<AppBootProgram>(() => new AppBootProgram());
+        public static AppBootProgram Instance => LazyBootprogram.Value;
 
         private readonly AssemblyFinder _assemblyFinder;
         /// <summary>
-        ///     初始化一个<see cref="AppBootProgram{T}" />实例
+        ///     初始化一个<see cref="AppBootProgram" />实例
         /// </summary>
         public AppBootProgram()
         {
@@ -29,7 +29,7 @@ namespace Ixq.Core
 
         public IMapperCollection MapperCollection { get; }
 
-        public AppBootProgram<T> Initialization()
+        public AppBootProgram Initialization()
         {
             var assemblies = _assemblyFinder.FindAll();
             ServiceCollection.Init(assemblies);
