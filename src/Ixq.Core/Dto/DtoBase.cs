@@ -22,7 +22,7 @@ namespace Ixq.Core.Dto
         public TEntity MapTo()
         {
             if (Mapper == null)
-                throw new ArgumentNullException("Mapper", "尚未初始化Mapper组件。");
+                throw new ArgumentNullException(nameof(Mapper), "尚未初始化Mapper组件。");
             return Mapper.MapTo<TEntity>(this);
         }
     }

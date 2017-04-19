@@ -9,15 +9,15 @@ namespace Ixq.Core.Cache
 {
     public abstract class CacheProviderBase : ICacheProvider
     {
-        private static readonly string GlobalCacheKey = "__globalCacheKey:" + typeof (CacheProviderBase).FullName;
-        private static readonly ConcurrentDictionary<string, ICache> Caches;
+        private static readonly string GlobalCacheKey = "__globalCacheKey";// + typeof (CacheProviderBase).FullName;
+        protected static readonly ConcurrentDictionary<string, ICache> Caches;
 
         static CacheProviderBase()
         {
             Caches = new ConcurrentDictionary<string, ICache>();
         }
 
-        public virtual ICache GetGlobalCache()
+        ICache ICacheProvider.GetGlobalCache()
         {
             ICache cache;
             if (Caches.TryGetValue(GlobalCacheKey, out cache))
@@ -28,7 +28,10 @@ namespace Ixq.Core.Cache
             Caches[GlobalCacheKey] = cache;
             return cache;
         }
-
         public abstract ICache GetCache(string regionName);
+        ICache ICacheProvider.GetCache(string regionName)
+        {
+            return GetCache(regionName);
+        }
     }
 }

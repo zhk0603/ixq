@@ -15,12 +15,12 @@ namespace Ixq.Core.Cache
         Task<object> GetAsync(string key);
         T Get<T>(string key);
         Task<T> GetAsync<T>(string key);
-        void Set(string key, object value);
-        Task SetAsync(string key, object value);
-        void Set(string key, object value, DateTime absoluteExpiration);
-        Task SetAsync(string key, object value, DateTime absoluteExpiration);
-        void Set(string key, object value, TimeSpan slidingExpiration);
-        Task SetAsync(string key, object value, TimeSpan slidingExpiration);
+        void Set<T>(string key, T value);
+        Task SetAsync<T>(string key, T value);
+        void Set<T>(string key, T value, DateTime absoluteExpiration);
+        Task SetAsync<T>(string key, T value, DateTime absoluteExpiration);
+        void Set<T>(string key, T value, TimeSpan slidingExpiration);
+        Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration);
         void Remove(string key);
         Task RemoveAsync(string key);
         void Clear();
