@@ -11,10 +11,9 @@ namespace Ixq.Demo.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
             app.Initialization()
-                .RegisterAutofac(typeof (MvcApplication))
-                .RegisterAutoMappe();
+                .RegisterAutoMappe()
+                .RegisterAutofac(typeof (MvcApplication));
         }
     }
 }

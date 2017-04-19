@@ -38,6 +38,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBootProgram.cs" />
+    <Compile Include="Cache\CacheManager.cs" />
+    <Compile Include="Cache\CacheProviderBase.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionServiceExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceProviderServiceExtensions.cs" />
