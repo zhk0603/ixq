@@ -21,17 +21,7 @@ namespace Ixq.Core.Cache
         public virtual object Get(string key)
         {
             string cacheKey = GetCacheKey(key);
-            object value = _cache.Get(cacheKey);
-            if (value == null)
-            {
-                return null;
-            }
-            DictionaryEntry entry = (DictionaryEntry)value;
-            if (!key.Equals(entry.Key))
-            {
-                return null;
-            }
-            return entry.Value;
+            return _cache.Get(cacheKey);
         }
 
         public virtual Task<object> GetAsync(string key)
@@ -47,12 +37,7 @@ namespace Ixq.Core.Cache
             {
                 return default(T);
             }
-            DictionaryEntry entry = (DictionaryEntry)value;
-            if (!key.Equals(entry.Key))
-            {
-                return default(T);
-            }
-            return (T)entry.Value;
+            return (T)value;
         }
 
         public virtual Task<T> GetAsync<T>(string key)
@@ -63,9 +48,8 @@ namespace Ixq.Core.Cache
         public virtual void Set<T>(string key, T value)
         {
             string cacheKey = GetCacheKey(key);
-            DictionaryEntry entry = new DictionaryEntry(key, value);
             CacheItemPolicy policy = new CacheItemPolicy();
-            _cache.Set(cacheKey, entry, policy);
+            _cache.Set(cacheKey, value, policy);
         }
 
         public virtual Task SetAsync<T>(string key, T value)
@@ -76,9 +60,8 @@ namespace Ixq.Core.Cache
         public virtual void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
             string cacheKey = GetCacheKey(key);
-            DictionaryEntry entry = new DictionaryEntry(key, value);
             CacheItemPolicy policy = new CacheItemPolicy() { AbsoluteExpiration = absoluteExpiration };
-            _cache.Set(cacheKey, entry, policy);
+            _cache.Set(cacheKey, value, policy);
         }
 
         public virtual Task SetAsync<T>(string key, T value, DateTime absoluteExpiration)
@@ -89,9 +72,8 @@ namespace Ixq.Core.Cache
         public virtual void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
             string cacheKey = GetCacheKey(key);
-            DictionaryEntry entry = new DictionaryEntry(key, value);
             CacheItemPolicy policy = new CacheItemPolicy() { SlidingExpiration = slidingExpiration };
-            _cache.Set(cacheKey, entry, policy);
+            _cache.Set(cacheKey, value, policy);
         }
 
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
