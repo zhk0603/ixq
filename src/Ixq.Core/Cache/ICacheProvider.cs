@@ -10,5 +10,8 @@ namespace Ixq.Core.Cache
     {
         ICache GetGlobalCache();
         ICache GetCache(string regionName);
+        IDictionary<string, ICache> GetAllRegionCaches();
+        void RemoveCache(string regionName);
+        void RemoveAllRegionCahces();
     }
 }

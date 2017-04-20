@@ -9,7 +9,7 @@ namespace Ixq.Core.Cache
     /// <summary>
     /// 缓存接口。
     /// </summary>
-    public interface ICache : IDisposable
+    public interface ICache
     {
         IEnumerable<KeyValuePair<string, object>> GetAll();
         Task<IEnumerable<KeyValuePair<string, object>>> GetAllAsync();
@@ -19,6 +19,8 @@ namespace Ixq.Core.Cache
         Task<T> GetAsync<T>(string key);
         void Set<T>(string key, T value);
         Task SetAsync<T>(string key, T value);
+        void Set<T>(string key, T value, int second);
+        Task SetAsync<T>(string key, T value, int second);
         void Set<T>(string key, T value, DateTime absoluteExpiration);
         Task SetAsync<T>(string key, T value, DateTime absoluteExpiration);
         void Set<T>(string key, T value, TimeSpan slidingExpiration);

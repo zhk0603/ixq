@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ixq.Demo.Console
@@ -23,6 +24,8 @@ namespace Ixq.Demo.Console
 
             TestMethod1();
             TestMethod2();
+            TestMethod3();
+            TestMethod4();
 
             System.Console.ReadKey();
         }
@@ -46,6 +49,29 @@ namespace Ixq.Demo.Console
             {
                 System.Console.WriteLine($"key:{item.Key}\tvalue:{item.Value}");
             }
+        }
+
+        static void TestMethod3()
+        {
+            System.Console.WriteLine("TestMethod3 start");
+            var globalCache = CacheManager.GetGlobalCache();
+            globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(-10));
+            System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
+            Thread.Sleep(9*1000);
+            System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
+            System.Console.WriteLine("TestMethod3 end");
+        }
+
+        static void TestMethod4()
+        {
+            var cacheProvider = CacheManager.GetCacheProvider();
+            Thread.Sleep(2000);
+            foreach (var item in cacheProvider.GetAllRegionCaches())
+            {
+                System.Console.WriteLine($"regionName:{item.Key}");
+            }
+            cacheProvider.GetCache(nameof(Program)).Set("disposeTest", "disposeTest");
+            System.Console.WriteLine(cacheProvider.GetCache(nameof(Program)).Get("disposeTest"));
         }
 
         class TestMemoryCache : CacheProviderBase

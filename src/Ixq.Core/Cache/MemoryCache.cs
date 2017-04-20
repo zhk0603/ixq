@@ -10,9 +10,8 @@ namespace Ixq.Core.Cache
 {
     public class MemoryCache : ICache
     {
-        private bool _disposed = false;
         private readonly string _region;
-        private readonly System.Runtime.Caching.MemoryCache _cache;
+        private System.Runtime.Caching.MemoryCache _cache;
 
         public MemoryCache(string region)
         {
@@ -55,6 +54,17 @@ namespace Ixq.Core.Cache
             return Task.Run(() => Set<T>(key, value));
         }
 
+        public void Set<T>(string key, T value, int second)
+        {
+            var absoluteExpiration = DateTime.Now.AddSeconds(second);
+            Set(key, value, absoluteExpiration);
+        }
+
+        public Task SetAsync<T>(string key, T value, int second)
+        {
+            return Task.Run(() => Set(key, value, second));
+        }
+
         public virtual void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
             CacheItemPolicy policy = new CacheItemPolicy() { AbsoluteExpiration = absoluteExpiration };
@@ -89,8 +99,7 @@ namespace Ixq.Core.Cache
 
         public virtual void Clear()
         {
-            string token = _region + ":";
-            List<string> cacheKeys = _cache.Where(m => m.Key.StartsWith(token)).Select(m => m.Key).ToList();
+            List<string> cacheKeys = _cache.Select(m => m.Key).ToList();
             foreach (string cacheKey in cacheKeys)
             {
                 _cache.Remove(cacheKey);
@@ -100,14 +109,6 @@ namespace Ixq.Core.Cache
         public virtual Task ClearAsync()
         {
             return Task.Run(() => Clear());
-        }
-
-        public void Dispose()
-        {
-            if (_disposed)
-                return;
-            _cache.Dispose();
-            _disposed = true;
         }
 
         public virtual IEnumerable<KeyValuePair<string, object>> GetAll()

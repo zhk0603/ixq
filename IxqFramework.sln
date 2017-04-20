@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Security", "src\Ixq.Sec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Demo.Console", "demo\Ixq.Demo.Console\Ixq.Demo.Console.csproj", "{587F77B0-F018-4C47-A336-BEFFA17E48E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Redis", "src\Ixq.Redis\Ixq.Redis.csproj", "{DA022C0C-6CC8-4C37-A017-2C62716F2650}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{587F77B0-F018-4C47-A336-BEFFA17E48E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{587F77B0-F018-4C47-A336-BEFFA17E48E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{587F77B0-F018-4C47-A336-BEFFA17E48E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA022C0C-6CC8-4C37-A017-2C62716F2650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA022C0C-6CC8-4C37-A017-2C62716F2650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA022C0C-6CC8-4C37-A017-2C62716F2650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA022C0C-6CC8-4C37-A017-2C62716F2650}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{89A24CED-36D8-4CE6-B4A5-C4DC50F00295} = {860DC603-F0EE-4E74-8A39-1799FE162601}
 		{A104CD13-AC10-4F74-80BC-61B6F9449DAE} = {860DC603-F0EE-4E74-8A39-1799FE162601}
 		{587F77B0-F018-4C47-A336-BEFFA17E48E3} = {11C09600-E4C6-4EB5-8D4B-014F9AF86AD1}
+		{DA022C0C-6CC8-4C37-A017-2C62716F2650} = {860DC603-F0EE-4E74-8A39-1799FE162601}
 	EndGlobalSection
 EndGlobal

@@ -15,6 +15,11 @@ namespace Ixq.Core.Cache
             _cacheProvider = cacheProvider;
         }
 
+        public static ICacheProvider GetCacheProvider()
+        {
+            return _cacheProvider;
+        }
+
         public static ICache GetCache(string region)
         {
             if (_cacheProvider == null)

@@ -33,5 +33,22 @@ namespace Ixq.Core.Cache
         {
             return GetCache(regionName);
         }
+
+        public IDictionary<string, ICache> GetAllRegionCaches()
+        {
+            return Caches;
+        }
+
+        void ICacheProvider.RemoveCache(string regionName)
+        {
+            ICache cache;
+            if (!Caches.TryRemove(regionName, out cache)) return;
+            cache = null;
+        }
+
+        void ICacheProvider.RemoveAllRegionCahces()
+        {
+            Caches.Clear();
+        }
     }
 }
