@@ -9,8 +9,10 @@ namespace Ixq.Core.Cache
     /// <summary>
     /// 缓存接口。
     /// </summary>
-    public interface ICache
+    public interface ICache : IDisposable
     {
+        IEnumerable<KeyValuePair<string, object>> GetAll();
+        Task<IEnumerable<KeyValuePair<string, object>>> GetAllAsync();
         object Get(string key);
         Task<object> GetAsync(string key);
         T Get<T>(string key);

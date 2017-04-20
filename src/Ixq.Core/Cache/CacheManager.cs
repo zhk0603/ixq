@@ -8,8 +8,6 @@ namespace Ixq.Core.Cache
 {
     public sealed class CacheManager
     {
-        //private readonly Lazy<CacheManager> _lazyCacheManager = new Lazy<CacheManager>(() => new CacheManager());
-        //public CacheManager Instance => _lazyCacheManager.Value;
         private static ICacheProvider _cacheProvider;
 
         public static void SetCacheProvider(ICacheProvider cacheProvider)
@@ -19,7 +17,7 @@ namespace Ixq.Core.Cache
 
         public static ICache GetCache(string region)
         {
-            if(_cacheProvider == null)
+            if (_cacheProvider == null)
                 throw new ArgumentNullException(nameof(_cacheProvider));
             if (string.IsNullOrEmpty(region))
                 throw new ArgumentNullException(nameof(region));

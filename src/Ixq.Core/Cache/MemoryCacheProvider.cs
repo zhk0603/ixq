@@ -17,7 +17,6 @@ namespace Ixq.Core.Cache
             }
             cache = new MemoryCache(regionName);
             Caches[regionName] = cache;
-            var n = cache.GetHashCode();
             return cache;
         }
     }

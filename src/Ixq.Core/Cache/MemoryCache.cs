@@ -10,8 +10,9 @@ namespace Ixq.Core.Cache
 {
     public class MemoryCache : ICache
     {
+        private bool _disposed = false;
         private readonly string _region;
-        public readonly ObjectCache _cache;
+        private readonly System.Runtime.Caching.MemoryCache _cache;
 
         public MemoryCache(string region)
         {
@@ -20,8 +21,7 @@ namespace Ixq.Core.Cache
         }
         public virtual object Get(string key)
         {
-            string cacheKey = GetCacheKey(key);
-            return _cache.Get(cacheKey);
+            return _cache.Get(key);
         }
 
         public virtual Task<object> GetAsync(string key)
@@ -31,8 +31,7 @@ namespace Ixq.Core.Cache
 
         public virtual T Get<T>(string key)
         {
-            string cacheKey = GetCacheKey(key);
-            object value = _cache.Get(cacheKey);
+            object value = _cache.Get(key);
             if (value == null)
             {
                 return default(T);
@@ -47,9 +46,8 @@ namespace Ixq.Core.Cache
 
         public virtual void Set<T>(string key, T value)
         {
-            string cacheKey = GetCacheKey(key);
             CacheItemPolicy policy = new CacheItemPolicy();
-            _cache.Set(cacheKey, value, policy);
+            _cache.Set(key, value, policy);
         }
 
         public virtual Task SetAsync<T>(string key, T value)
@@ -59,9 +57,8 @@ namespace Ixq.Core.Cache
 
         public virtual void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
-            string cacheKey = GetCacheKey(key);
             CacheItemPolicy policy = new CacheItemPolicy() { AbsoluteExpiration = absoluteExpiration };
-            _cache.Set(cacheKey, value, policy);
+            _cache.Set(key, value, policy);
         }
 
         public virtual Task SetAsync<T>(string key, T value, DateTime absoluteExpiration)
@@ -71,9 +68,8 @@ namespace Ixq.Core.Cache
 
         public virtual void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            string cacheKey = GetCacheKey(key);
             CacheItemPolicy policy = new CacheItemPolicy() { SlidingExpiration = slidingExpiration };
-            _cache.Set(cacheKey, value, policy);
+            _cache.Set(key, value, policy);
         }
 
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
@@ -83,8 +79,7 @@ namespace Ixq.Core.Cache
 
         public virtual void Remove(string key)
         {
-            string cacheKey = GetCacheKey(key);
-            _cache.Remove(cacheKey);
+            _cache.Remove(key);
         }
 
         public virtual Task RemoveAsync(string key)
@@ -107,10 +102,22 @@ namespace Ixq.Core.Cache
             return Task.Run(() => Clear());
         }
 
-
-        private string GetCacheKey(string key)
+        public void Dispose()
         {
-            return string.Concat(_region, ":", key, "@", key.GetHashCode());
+            if (_disposed)
+                return;
+            _cache.Dispose();
+            _disposed = true;
+        }
+
+        public virtual IEnumerable<KeyValuePair<string, object>> GetAll()
+        {
+            return _cache.AsEnumerable();
+        }
+
+        public virtual Task<IEnumerable<KeyValuePair<string, object>>> GetAllAsync()
+        {
+            return Task.FromResult(GetAll());
         }
     }
 }
