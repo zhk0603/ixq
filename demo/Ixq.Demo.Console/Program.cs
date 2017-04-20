@@ -1,18 +1,24 @@
 ﻿using Ixq.Core.Cache;
+using Ixq.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 
 namespace Ixq.Demo.Console
 {
+    [Serializable]
     class Program
     {
         static void Main(string[] args)
         {
-            MemoryCacheProvider cacheProvider = new MemoryCacheProvider();
+            var config = new ConfigurationOptions();
+            config.Password = "zhaokun123";
+
+            ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun123");
             CacheManager.SetCacheProvider(cacheProvider);
 
 
@@ -23,7 +29,7 @@ namespace Ixq.Demo.Console
             System.Console.WriteLine(CacheManager.GetCache(nameof(Program)).Get<string>("test"));
 
             TestMethod1();
-            TestMethod2();
+            //TestMethod2();
             TestMethod3();
             TestMethod4();
 
@@ -55,7 +61,7 @@ namespace Ixq.Demo.Console
         {
             System.Console.WriteLine("TestMethod3 start");
             var globalCache = CacheManager.GetGlobalCache();
-            globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(-10));
+            globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(10));
             System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
             Thread.Sleep(9*1000);
             System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));

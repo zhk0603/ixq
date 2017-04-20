@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Cache;
@@ -10,17 +12,14 @@ namespace Ixq.Redis
 {
     public class RedisCache : ICache
     {
-        private IDatabase _Database;
+        private readonly IDatabase _database;
         public RedisCache(IDatabase database)
         {
             if (database == null)
                 throw new ArgumentNullException(nameof(database));
-            _Database = database;
+            _database = database;
         }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public IEnumerable<KeyValuePair<string, object>> GetAll()
         {
@@ -34,72 +33,104 @@ namespace Ixq.Redis
 
         public object Get(string key)
         {
-            throw new NotImplementedException();
+            var byteValue = _database.StringGet(key);
+            var value = Deserialize<object>(byteValue);
+            return value;
         }
 
-        public Task<object> GetAsync(string key)
+        public async Task<object> GetAsync(string key)
         {
-            throw new NotImplementedException();
+            var byteValue = await _database.StringGetAsync(key);
+            var value = Deserialize<object>(byteValue);
+            return value;
         }
 
         public T Get<T>(string key)
         {
-            throw new NotImplementedException();
+            var byteValue = _database.StringGet(key);
+            var value = Deserialize<T>(byteValue);
+            if (value == null) return default(T);
+            return value;
         }
 
-        public Task<T> GetAsync<T>(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
-            throw new NotImplementedException();
+            var byteValue = await _database.StringGetAsync(key);
+            var value = Deserialize<T>(byteValue);
+            if (value == null) return default(T);
+            return value;
         }
 
         public void Set<T>(string key, T value)
         {
-            throw new NotImplementedException();
+            _database.StringSet(key, Serialize(value));
         }
 
         public Task SetAsync<T>(string key, T value)
         {
-            throw new NotImplementedException();
+            return Do(db => db.StringSetAsync(key, Serialize(value)));
         }
 
         public void Set<T>(string key, T value, int second)
         {
-            throw new NotImplementedException();
+            if (second <= 0)
+            {
+                throw new Exception("无效的到期时间");
+            }
+            _database.StringSet(key, Serialize(value), new TimeSpan(0, 0, 0, second));
         }
 
         public Task SetAsync<T>(string key, T value, int second)
         {
-            throw new NotImplementedException();
+            if (second <= 0)
+            {
+                throw new Exception("无效的到期时间");
+            }
+            return Do(db => db.StringSetAsync(key, Serialize(value), new TimeSpan(0, 0, 0, second)));
         }
 
         public void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
-            throw new NotImplementedException();
+            TimeSpan expiry = absoluteExpiration - DateTime.Now;
+            if (expiry.TotalSeconds <= 0)
+            {
+                throw new Exception("无效的到期时间");
+            }
+            _database.StringSet(key, Serialize(value), expiry);
         }
 
         public Task SetAsync<T>(string key, T value, DateTime absoluteExpiration)
         {
-            throw new NotImplementedException();
+            TimeSpan expiry = absoluteExpiration - DateTime.Now;
+            if (expiry.TotalSeconds <= 0)
+            {
+                throw new Exception("无效的到期时间");
+            }
+            return Do(db => db.StringSetAsync(key, Serialize(value), expiry));
         }
 
         public void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            throw new NotImplementedException();
+            if (slidingExpiration.TotalSeconds <= 0)
+            {
+                throw new Exception("无效的到期时间");
+            }
+            _database.StringSet(key, Serialize(value), slidingExpiration);
         }
 
         public Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            throw new NotImplementedException();
+            return Do(db => db.StringSetAsync(key, Serialize(value), slidingExpiration));
         }
 
         public void Remove(string key)
         {
-            throw new NotImplementedException();
+            _database.KeyDelete(key);
         }
 
         public Task RemoveAsync(string key)
         {
-            throw new NotImplementedException();
+            return Do(db => db.KeyDeleteAsync(key));
         }
 
         public void Clear()
@@ -111,5 +142,50 @@ namespace Ixq.Redis
         {
             throw new NotImplementedException();
         }
+
+        #region 私有方法
+        private T Do<T>(Func<IDatabase, T> func)
+        {
+            return func(_database);
+        }
+
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private static byte[] Serialize(object obj)
+        {
+            if (obj == null)
+                return null;
+
+            var binaryFormatter = new BinaryFormatter();
+            using (var memoryStream = new MemoryStream())
+            {
+                binaryFormatter.Serialize(memoryStream, obj);
+                var data = memoryStream.ToArray();
+                return data;
+            }
+        }
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private static T Deserialize<T>(byte[] data)
+        {
+            if (data == null)
+                return default(T);
+
+            var binaryFormatter = new BinaryFormatter();
+            using (var memoryStream = new MemoryStream(data))
+            {
+                var result = (T)binaryFormatter.Deserialize(memoryStream);
+                return result;
+            }
+        }
+
+        #endregion
     }
 }

@@ -19,14 +19,7 @@ namespace Ixq.Core.Cache
 
         ICache ICacheProvider.GetGlobalCache()
         {
-            ICache cache;
-            if (Caches.TryGetValue(GlobalCacheKey, out cache))
-            {
-                return cache;
-            }
-            cache = GetCache(GlobalCacheKey);
-            Caches[GlobalCacheKey] = cache;
-            return cache;
+            return GetCache(GlobalCacheKey);
         }
         public abstract ICache GetCache(string regionName);
         ICache ICacheProvider.GetCache(string regionName)
@@ -34,7 +27,7 @@ namespace Ixq.Core.Cache
             return GetCache(regionName);
         }
 
-        public IDictionary<string, ICache> GetAllRegionCaches()
+        public virtual IDictionary<string, ICache> GetAllRegionCaches()
         {
             return Caches;
         }
