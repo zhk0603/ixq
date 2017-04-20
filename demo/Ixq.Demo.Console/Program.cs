@@ -18,9 +18,10 @@ namespace Ixq.Demo.Console
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
 
-            ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun123");
+            ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379");
             CacheManager.SetCacheProvider(cacheProvider);
 
+            
 
             CacheManager.GetGlobalCache().Set("test", "test");
             CacheManager.GetCache<Program>().Set("test", "test");
@@ -28,10 +29,11 @@ namespace Ixq.Demo.Console
             System.Console.WriteLine(CacheManager.GetGlobalCache().Get<string>("test"));
             System.Console.WriteLine(CacheManager.GetCache(nameof(Program)).Get<string>("test"));
 
-            TestMethod1();
+            //TestMethod1();
             //TestMethod2();
-            TestMethod3();
-            TestMethod4();
+            //TestMethod3();
+            //TestMethod4();
+            TestMethod5();
 
             System.Console.ReadKey();
         }
@@ -78,6 +80,20 @@ namespace Ixq.Demo.Console
             }
             cacheProvider.GetCache(nameof(Program)).Set("disposeTest", "disposeTest");
             System.Console.WriteLine(cacheProvider.GetCache(nameof(Program)).Get("disposeTest"));
+        }
+
+        static void TestMethod5()
+        {
+            for (var i = 0; i < 20; i++)
+            {
+                var cache = CacheManager.GetCache("region_" + i);
+                cache.Set("cache" + i + "_Test", "value");
+            }
+            for (var i = 0; i < 20; i++)
+            {
+                var cache = CacheManager.GetCache("region_" + i);
+                System.Console.WriteLine(cache.Get("cache" + i + "_Test"));
+            }
         }
 
         class TestMemoryCache : CacheProviderBase
