@@ -8,7 +8,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
+using Ixq.Core.Dto;
 using Ixq.Core.Entity;
+using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
 using Ixq.Extensions;
 
@@ -88,14 +90,16 @@ namespace Ixq.Data.Repository
             return await Task.FromResult(GetAll());
         }
 
-        public virtual TDto GetSingleDtoById<TDto>(TKey index)
+        public virtual TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>, new()
         {
-            throw new NotImplementedException();
+            var entity = SingleById(index);
+            return entity.MapToDto<TDto, TEntity, TKey>();
         }
 
-        public virtual TDto GetSingleDtoByIdAsync<TDto>(TKey index)
+        public virtual async Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index)
+            where TDto : class, IDto<TEntity, TKey>, new()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(GetSingleDtoById<TDto>(index));
         }
 
         public virtual IQueryable<TEntity> OrderBy(string propertyName,

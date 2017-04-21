@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
+using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 
 namespace Ixq.Core.Repository
@@ -368,7 +369,7 @@ namespace Ixq.Core.Repository
         /// <typeparam name="TDto"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        TDto GetSingleDtoById<TDto>(TKey index);
+        TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>, new();
 
         /// <summary>
         ///     异步根据Id获取Dto对象
@@ -376,7 +377,7 @@ namespace Ixq.Core.Repository
         /// <typeparam name="TDto"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        TDto GetSingleDtoByIdAsync<TDto>(TKey index);
+        Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>, new();
 
         #endregion
     }

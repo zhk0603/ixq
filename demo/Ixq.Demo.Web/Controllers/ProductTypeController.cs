@@ -8,6 +8,7 @@ using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Web.Models;
 using System.Data.Entity;
+using Ixq.Core.Entity;
 
 namespace Ixq.Demo.Web.Controllers
 {
@@ -55,6 +56,7 @@ namespace Ixq.Demo.Web.Controllers
                 ParentType = null
             };
             var ent = dto1.MapTo();
+            var dto = ent.MapToDto<ProductTypeDot>();
 
             return View();
         }

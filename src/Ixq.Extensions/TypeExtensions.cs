@@ -83,7 +83,7 @@ namespace Ixq.Extensions
             {
                 return displayName.DisplayName;
             }
-            DisplayAttribute display = member.GetAttribute<DisplayAttribute>(inherit);
+            var display = member.GetAttribute<DisplayAttribute>(inherit);
             if (display != null)
             {
                 return display.Name;

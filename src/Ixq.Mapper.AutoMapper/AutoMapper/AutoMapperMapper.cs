@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Ixq.Core.Mapper;
 using M = AutoMapper.Mapper;
 using AM = AutoMapper;
@@ -31,6 +30,7 @@ namespace Ixq.Mapper.AutoMapper
         {
             return M.Instance.Map(source, target);
         }
+
         public void Initialize(IEnumerable<MapperDescriptor> mapperCollection)
         {
             M.Initialize(cfg =>

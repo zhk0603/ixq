@@ -11,8 +11,8 @@ namespace Ixq.Core.Cache
     /// </summary>
     public class MemoryCache : ICache
     {
-        private readonly string _region;
         private readonly System.Runtime.Caching.MemoryCache _cache;
+        private readonly string _region;
 
         /// <summary>
         ///     初始化一个<see cref="MemoryCache" />实例。
