@@ -91,7 +91,8 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual Task SetAsync<T>(string key, T value)
         {
-            return Task.Run(() => Set(key, value));
+            Set(key, value);
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -116,7 +117,8 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual Task SetAsync<T>(string key, T value, int second)
         {
-            return Task.Run(() => Set(key, value, second));
+            Set(key, value, second);
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -141,7 +143,8 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual Task SetAsync<T>(string key, T value, DateTime absoluteExpiration)
         {
-            return Task.Run(() => Set(key, value, absoluteExpiration));
+            Set(key, value, absoluteExpiration);
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -166,7 +169,8 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            return Task.Run(() => Set(key, value, slidingExpiration));
+            Set(key, value, slidingExpiration);
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -184,7 +188,8 @@ namespace Ixq.Core.Cache
         /// <param name="key">要移除的缓存项的唯一标识符。</param>
         public virtual Task RemoveAsync(string key)
         {
-            return Task.Run(() => Remove(key));
+            Remove(key);
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -205,7 +210,8 @@ namespace Ixq.Core.Cache
         /// <returns></returns>
         public virtual Task ClearAsync()
         {
-            return Task.Run(() => Clear());
+            Clear();
+            return Task.FromResult(0);
         }
 
         /// <summary>
