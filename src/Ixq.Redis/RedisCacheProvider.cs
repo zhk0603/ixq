@@ -11,11 +11,11 @@ namespace Ixq.Redis
 {
     public class RedisCacheProvider : CacheProviderBase
     {
-        private static object _lock = new object();
+        private static readonly object Lock = new object();
         private static readonly Lazy<ConnectionMultiplexer> ConnectionMultiplexer;
         private static string _connStr;
         private static ConfigurationOptions _options;
-        private static ConcurrentDictionary<string, int> _dbNumDic;
+        private static readonly ConcurrentDictionary<string, int> DbNumDic;
         public static ConnectionMultiplexer ConnectionMultiplexerInstance => ConnectionMultiplexer.Value;
 
         public RedisCacheProvider(string connectionString)
@@ -29,7 +29,7 @@ namespace Ixq.Redis
         static RedisCacheProvider()
         {
             ConnectionMultiplexer = new Lazy<ConnectionMultiplexer>(GetConnectionMultiplexer);
-            _dbNumDic = new ConcurrentDictionary<string, int>();
+            DbNumDic = new ConcurrentDictionary<string, int>();
         }
 
         private static ConnectionMultiplexer GetConnectionMultiplexer()
@@ -57,21 +57,21 @@ namespace Ixq.Redis
         private int GetDbNum(string regionName)
         {
             int dbNum = 0;
-            lock (_lock)
+            lock (Lock)
             {
-                if (_dbNumDic.TryGetValue(regionName, out dbNum))
+                if (DbNumDic.TryGetValue(regionName, out dbNum))
                 {
                     return dbNum;
                 }
-                if (!_dbNumDic.Any())
+                if (!DbNumDic.Any())
                 {
                     dbNum = 0;
                 }
                 else
                 {
-                    dbNum = _dbNumDic.Max(x => x.Value) + 1;
+                    dbNum = DbNumDic.Max(x => x.Value) + 1;
                 }
-                _dbNumDic[regionName] = dbNum;
+                DbNumDic[regionName] = dbNum;
             }
             return dbNum;
         }

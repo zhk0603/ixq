@@ -54,13 +54,13 @@ namespace Ixq.Core.Cache
             return Task.Run(() => Set<T>(key, value));
         }
 
-        public void Set<T>(string key, T value, int second)
+        public virtual void Set<T>(string key, T value, int second)
         {
             var absoluteExpiration = DateTime.Now.AddSeconds(second);
             Set(key, value, absoluteExpiration);
         }
 
-        public Task SetAsync<T>(string key, T value, int second)
+        public virtual Task SetAsync<T>(string key, T value, int second)
         {
             return Task.Run(() => Set(key, value, second));
         }
