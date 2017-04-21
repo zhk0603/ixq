@@ -10,7 +10,7 @@ using Ixq.Extensions;
 namespace Ixq.Core.Mapper
 {
     /// <summary>
-    /// 映射集合。
+    ///     映射集合。
     /// </summary>
     public class MapperCollection : IMapperCollection
     {

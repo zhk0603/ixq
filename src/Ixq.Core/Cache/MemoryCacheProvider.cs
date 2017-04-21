@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ixq.Core.Cache
+﻿namespace Ixq.Core.Cache
 {
     /// <summary>
-    /// <see cref="MemoryCache"/>提供者。
+    ///     <see cref="MemoryCache" />提供者。
     /// </summary>
     public class MemoryCacheProvider : CacheProviderBase
     {
         /// <summary>
-        /// 获取 <see cref="ICache"/>
+        ///     获取 <see cref="ICache" />
         /// </summary>
         /// <param name="regionName">缓存区域。</param>
         /// <returns></returns>

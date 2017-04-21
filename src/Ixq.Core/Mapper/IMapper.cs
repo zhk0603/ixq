@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Ixq.Core.DependencyInjection;
 
 namespace Ixq.Core.Mapper

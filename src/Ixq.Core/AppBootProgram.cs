@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.Mapper;
 using Ixq.Extensions;
@@ -11,10 +10,11 @@ namespace Ixq.Core
     /// </summary>
     public class AppBootProgram
     {
-        private static readonly Lazy<AppBootProgram> LazyBootprogram = new Lazy<AppBootProgram>(() => new AppBootProgram());
-        public static AppBootProgram Instance => LazyBootprogram.Value;
+        private static readonly Lazy<AppBootProgram> LazyBootprogram =
+            new Lazy<AppBootProgram>(() => new AppBootProgram());
 
         private readonly AssemblyFinder _assemblyFinder;
+
         /// <summary>
         ///     初始化一个<see cref="AppBootProgram" />实例
         /// </summary>
@@ -24,6 +24,8 @@ namespace Ixq.Core
             ServiceCollection = new ServiceCollection();
             MapperCollection = new MapperCollection();
         }
+
+        public static AppBootProgram Instance => LazyBootprogram.Value;
 
         public IServiceCollection ServiceCollection { get; }
 

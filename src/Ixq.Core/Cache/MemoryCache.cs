@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Caching;
-using System.Collections;
+using System.Threading.Tasks;
 
 namespace Ixq.Core.Cache
 {
     /// <summary>
-    /// 内存缓存。
+    ///     内存缓存。
     /// </summary>
     public class MemoryCache : ICache
     {
         private readonly string _region;
-        private System.Runtime.Caching.MemoryCache _cache;
+        private readonly System.Runtime.Caching.MemoryCache _cache;
 
         /// <summary>
-        /// 初始化一个<see cref="MemoryCache"/>实例。
+        ///     初始化一个<see cref="MemoryCache" />实例。
         /// </summary>
         /// <param name="region"></param>
         public MemoryCache(string region)
@@ -25,6 +23,7 @@ namespace Ixq.Core.Cache
             _cache = new System.Runtime.Caching.MemoryCache(region);
             _region = region;
         }
+
         /// <summary>
         ///     获取缓存项。
         /// </summary>
@@ -53,12 +52,12 @@ namespace Ixq.Core.Cache
         /// <returns>缓存项。</returns>
         public virtual T Get<T>(string key)
         {
-            object value = _cache.Get(key);
+            var value = _cache.Get(key);
             if (value == null)
             {
                 return default(T);
             }
-            return (T)value;
+            return (T) value;
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual void Set<T>(string key, T value)
         {
-            CacheItemPolicy policy = new CacheItemPolicy();
+            var policy = new CacheItemPolicy();
             _cache.Set(key, value, policy);
         }
 
@@ -92,7 +91,7 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual Task SetAsync<T>(string key, T value)
         {
-            return Task.Run(() => Set<T>(key, value));
+            return Task.Run(() => Set(key, value));
         }
 
         /// <summary>
@@ -129,7 +128,7 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
-            CacheItemPolicy policy = new CacheItemPolicy() { AbsoluteExpiration = absoluteExpiration };
+            var policy = new CacheItemPolicy {AbsoluteExpiration = absoluteExpiration};
             _cache.Set(key, value, policy);
         }
 
@@ -154,7 +153,7 @@ namespace Ixq.Core.Cache
         /// <param name="value">该缓存项的数据。</param>
         public virtual void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            CacheItemPolicy policy = new CacheItemPolicy() { SlidingExpiration = slidingExpiration };
+            var policy = new CacheItemPolicy {SlidingExpiration = slidingExpiration};
             _cache.Set(key, value, policy);
         }
 
@@ -193,8 +192,8 @@ namespace Ixq.Core.Cache
         /// </summary>
         public virtual void Clear()
         {
-            List<string> cacheKeys = _cache.Select(m => m.Key).ToList();
-            foreach (string cacheKey in cacheKeys)
+            var cacheKeys = _cache.Select(m => m.Key).ToList();
+            foreach (var cacheKey in cacheKeys)
             {
                 _cache.Remove(cacheKey);
             }

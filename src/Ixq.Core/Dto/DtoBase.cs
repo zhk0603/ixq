@@ -1,9 +1,5 @@
-﻿using Ixq.Core.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Ixq.Core.Mapper;
 using Newtonsoft.Json;
 
 namespace Ixq.Core.Dto
@@ -14,6 +10,7 @@ namespace Ixq.Core.Dto
         {
             Mapper = MapperExtensions.Instance;
         }
+
         [JsonIgnore]
         public IMapper Mapper { get; set; }
 

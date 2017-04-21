@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core.Cache;
 using StackExchange.Redis;
 
 namespace Ixq.Redis
 {
     /// <summary>
-    /// <see cref="RedisCache"/>提供者。
+    ///     <see cref="RedisCache" />提供者。
     /// </summary>
     public class RedisCacheProvider : CacheProviderBase
     {
@@ -19,31 +16,35 @@ namespace Ixq.Redis
         private static string _connStr;
         private static ConfigurationOptions _options;
         private static readonly ConcurrentDictionary<string, int> DbNumDic;
-        public static ConnectionMultiplexer ConnectionMultiplexerInstance => ConnectionMultiplexer.Value;
+
+        static RedisCacheProvider()
+        {
+            ConnectionMultiplexer = new Lazy<ConnectionMultiplexer>(GetConnectionMultiplexer);
+            DbNumDic = new ConcurrentDictionary<string, int>();
+        }
 
         /// <summary>
-        /// 初始化一个<see cref="RedisCacheProvider"/>实例。
+        ///     初始化一个<see cref="RedisCacheProvider" />实例。
         /// </summary>
         /// <param name="connectionString">Redis 连接串。</param>
         public RedisCacheProvider(string connectionString)
         {
             _connStr = connectionString;
         }
+
         /// <summary>
-        /// 初始化一个<see cref="RedisCacheProvider"/>实例。
+        ///     初始化一个<see cref="RedisCacheProvider" />实例。
         /// </summary>
         /// <param name="options">配置选项。</param>
         public RedisCacheProvider(ConfigurationOptions options)
         {
             _options = options;
         }
-        static RedisCacheProvider()
-        {
-            ConnectionMultiplexer = new Lazy<ConnectionMultiplexer>(GetConnectionMultiplexer);
-            DbNumDic = new ConcurrentDictionary<string, int>();
-        }
+
+        public static ConnectionMultiplexer ConnectionMultiplexerInstance => ConnectionMultiplexer.Value;
+
         /// <summary>
-        /// 获取 <see cref="ConnectionMultiplexer"/> 实例。
+        ///     获取 <see cref="ConnectionMultiplexer" /> 实例。
         /// </summary>
         /// <returns></returns>
         private static ConnectionMultiplexer GetConnectionMultiplexer()
@@ -53,8 +54,9 @@ namespace Ixq.Redis
                 throw new ArgumentNullException(nameof(connStr));
             return StackExchange.Redis.ConnectionMultiplexer.Connect(connStr);
         }
+
         /// <summary>
-        /// 获取 <see cref="ICache"/>
+        ///     获取 <see cref="ICache" />
         /// </summary>
         /// <param name="regionName">缓存区域。</param>
         /// <returns></returns>
@@ -75,7 +77,7 @@ namespace Ixq.Redis
 
         private int GetDbNum(string regionName)
         {
-            int dbNum = 0;
+            var dbNum = 0;
             lock (Lock)
             {
                 if (DbNumDic.TryGetValue(regionName, out dbNum))
