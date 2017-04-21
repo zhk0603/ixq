@@ -21,9 +21,11 @@ namespace Ixq.Demo.Console
             ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun123");
             CacheManager.SetCacheProvider(cacheProvider);
 
-
             CacheManager.GetGlobalCache().Set("test", "test");
             CacheManager.GetCache<Program>().Set("test", "test");
+            CacheManager.GetCache<Program>().Set("test1", "test");
+            CacheManager.GetCache<Program>().Set("test2", "test");
+            CacheManager.GetCache<Program>().Set("test3", "test");
             CacheManager.GetCache(nameof(Program)).Set("test", "test1");
             System.Console.WriteLine(CacheManager.GetGlobalCache().Get<string>("test"));
             System.Console.WriteLine(CacheManager.GetCache(nameof(Program)).Get<string>("test"));
