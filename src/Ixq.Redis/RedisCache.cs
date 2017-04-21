@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Cache;
 using StackExchange.Redis;
 
 namespace Ixq.Redis
 {
+    /// <summary>
+    ///     Redis缓存。
+    /// </summary>
     public class RedisCache : ICache
     {
         private readonly IDatabase _database;
+
+        /// <summary>
+        ///     初始化一个<see cref="RedisCache" />实例。
+        /// </summary>
+        /// <param name="database"></param>
         public RedisCache(IDatabase database)
         {
             if (database == null)
@@ -20,16 +27,29 @@ namespace Ixq.Redis
             _database = database;
         }
 
+        /// <summary>
+        ///     从<see cref="IDatabase" />中获取全部的缓存项。
+        /// </summary>
+        /// <returns>全部的缓存项。</returns>
         public virtual IEnumerable<KeyValuePair<string, object>> GetAll()
         {
-            return GetAllKeys().Select(key => new KeyValuePair<string, object>(key, Get(key)));//.ToList();
+            return GetAllKeys().Select(key => new KeyValuePair<string, object>(key, Get(key))); //.ToList();
         }
 
+        /// <summary>
+        ///     异步从<see cref="IDatabase" />中获取全部的缓存项。
+        /// </summary>
+        /// <returns>全部的缓存项。</returns>
         public virtual Task<IEnumerable<KeyValuePair<string, object>>> GetAllAsync()
         {
             return Task.FromResult(GetAll());
         }
 
+        /// <summary>
+        ///     从<see cref="IDatabase" />中获取缓存项。
+        /// </summary>
+        /// <param name="key">缓存项的唯一标识符。</param>
+        /// <returns>缓存项。</returns>
         public virtual object Get(string key)
         {
             var byteValue = _database.StringGet(key);
@@ -38,6 +58,11 @@ namespace Ixq.Redis
             return value;
         }
 
+        /// <summary>
+        ///     异步从<see cref="IDatabase" />中获取缓存项。
+        /// </summary>
+        /// <param name="key">缓存项的唯一标识符。</param>
+        /// <returns>缓存项。</returns>
         public virtual async Task<object> GetAsync(string key)
         {
             var byteValue = await _database.StringGetAsync(key);
@@ -46,6 +71,12 @@ namespace Ixq.Redis
             return value;
         }
 
+        /// <summary>
+        ///     从<see cref="IDatabase" />中获取缓存项。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">缓存项的唯一标识符。</param>
+        /// <returns>缓存项。</returns>
         public virtual T Get<T>(string key)
         {
             var byteValue = _database.StringGet(key);
@@ -55,6 +86,12 @@ namespace Ixq.Redis
             return value;
         }
 
+        /// <summary>
+        ///     异步从<see cref="IDatabase" />中获取缓存项。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">缓存项的唯一标识符。</param>
+        /// <returns>缓存项。</returns>
         public virtual async Task<T> GetAsync<T>(string key)
         {
             var byteValue = await _database.StringGetAsync(key);
@@ -64,16 +101,38 @@ namespace Ixq.Redis
             return value;
         }
 
+        /// <summary>
+        ///     将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <returns></returns>
         public virtual void Set<T>(string key, T value)
         {
             _database.StringSet(key, Serialize(value));
         }
 
+        /// <summary>
+        ///     异步将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value)
         {
             return Do(db => db.StringSetAsync(key, Serialize(value)));
         }
 
+        /// <summary>
+        ///     将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <param name="second">有效时长，单位：秒。</param>
+        /// <returns></returns>
         public virtual void Set<T>(string key, T value, int second)
         {
             if (second <= 0)
@@ -83,6 +142,14 @@ namespace Ixq.Redis
             _database.StringSet(key, Serialize(value), new TimeSpan(0, 0, 0, second));
         }
 
+        /// <summary>
+        ///     异步将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <param name="second">有效时长，单位：秒。</param>
+        /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value, int second)
         {
             if (second <= 0)
@@ -92,9 +159,17 @@ namespace Ixq.Redis
             return Do(db => db.StringSetAsync(key, Serialize(value), new TimeSpan(0, 0, 0, second)));
         }
 
+        /// <summary>
+        ///     将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <param name="absoluteExpiration">缓存项过期时间。</param>
+        /// <returns></returns>
         public virtual void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
-            TimeSpan expiry = absoluteExpiration - DateTime.Now;
+            var expiry = absoluteExpiration - DateTime.Now;
             if (expiry.TotalSeconds <= 0)
             {
                 throw new Exception("无效的到期时间");
@@ -102,9 +177,17 @@ namespace Ixq.Redis
             _database.StringSet(key, Serialize(value), expiry);
         }
 
+        /// <summary>
+        ///     异步将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <param name="absoluteExpiration">缓存项过期时间。</param>
+        /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value, DateTime absoluteExpiration)
         {
-            TimeSpan expiry = absoluteExpiration - DateTime.Now;
+            var expiry = absoluteExpiration - DateTime.Now;
             if (expiry.TotalSeconds <= 0)
             {
                 throw new Exception("无效的到期时间");
@@ -112,6 +195,14 @@ namespace Ixq.Redis
             return Do(db => db.StringSetAsync(key, Serialize(value), expiry));
         }
 
+        /// <summary>
+        ///     将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <param name="slidingExpiration">在此时间内访问缓存，缓存将继续有效（Redis Cache 暂未实现。）</param>
+        /// <returns></returns>
         public virtual void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
             if (slidingExpiration.TotalSeconds <= 0)
@@ -121,21 +212,42 @@ namespace Ixq.Redis
             _database.StringSet(key, Serialize(value), slidingExpiration);
         }
 
+        /// <summary>
+        ///     异步将某个缓存项插入<see cref="IDatabase" />中。
+        /// </summary>
+        /// <typeparam name="T">数据类型。</typeparam>
+        /// <param name="key">要插入的缓存项的唯一标识符。</param>
+        /// <param name="value">该缓存项的数据。</param>
+        /// <param name="slidingExpiration">在此时间内访问缓存，缓存将继续有效（Redis Cache 暂未实现。）</param>
+        /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
         {
             return Do(db => db.StringSetAsync(key, Serialize(value), slidingExpiration));
         }
 
+        /// <summary>
+        ///     从<see cref="IDatabase" />移除某个缓存项。
+        /// </summary>
+        /// <param name="key">要移除的缓存项的唯一标识符。</param>
+        /// <returns></returns>
         public virtual void Remove(string key)
         {
             _database.KeyDelete(key);
         }
 
+        /// <summary>
+        ///     异步从<see cref="IDatabase" />移除某个缓存项。
+        /// </summary>
+        /// <param name="key">要移除的缓存项的唯一标识符。</param>
+        /// <returns></returns>
         public virtual Task RemoveAsync(string key)
         {
             return Do(db => db.KeyDeleteAsync(key));
         }
 
+        /// <summary>
+        ///     清空<see cref="IDatabase" />所有的缓存项。
+        /// </summary>
         public virtual void Clear()
         {
             foreach (var key in GetAllKeys())
@@ -144,6 +256,10 @@ namespace Ixq.Redis
             }
         }
 
+        /// <summary>
+        ///     异步清空<see cref="IDatabase" />所有的缓存项。
+        /// </summary>
+        /// <returns></returns>
         public virtual async Task ClearAsync()
         {
             foreach (var key in GetAllKeys())
@@ -154,6 +270,10 @@ namespace Ixq.Redis
 
         #region 私有方法
 
+        /// <summary>
+        ///     获取 <see cref="IDatabase" /> 所有的Key。
+        /// </summary>
+        /// <returns></returns>
         private IEnumerable<RedisKey> GetAllKeys()
         {
             var option = ConfigurationOptions.Parse(RedisCacheProvider.ConnectionMultiplexerInstance.Configuration);
@@ -168,7 +288,7 @@ namespace Ixq.Redis
         }
 
         /// <summary>
-        /// 序列化
+        ///     序列化
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -187,7 +307,7 @@ namespace Ixq.Redis
         }
 
         /// <summary>
-        /// 反序列化
+        ///     反序列化
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>

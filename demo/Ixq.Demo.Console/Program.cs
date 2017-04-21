@@ -18,7 +18,8 @@ namespace Ixq.Demo.Console
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
 
-            ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun");
+            //ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun");
+            ICacheProvider cacheProvider = new MemoryCacheProvider();
             CacheManager.SetCacheProvider(cacheProvider);
 
             CacheManager.GetGlobalCache().Set("test", "test");
@@ -54,9 +55,13 @@ namespace Ixq.Demo.Console
         static async void TestMethod2()
         {
             var globalCache = CacheManager.GetGlobalCache();
-            foreach (var item in await globalCache.GetAllAsync())
+            foreach (var cache in CacheManager.GetCacheProvider().GetAllRegionCaches())
             {
-                System.Console.WriteLine($"key:{item.Key}\tvalue:{item.Value}");
+                foreach (var item in await cache.Value.GetAllAsync())
+                {
+                    System.Console.WriteLine($"region:{cache.Key}\tkey:{item.Key}\tvalue:{item.Value}");
+
+                }
             }
         }
 

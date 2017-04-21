@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Ixq.Core.Cache
 {
+    /// <summary>
+    /// <see cref="MemoryCache"/>提供者。
+    /// </summary>
     public class MemoryCacheProvider : CacheProviderBase
     {
+        /// <summary>
+        /// 获取 <see cref="ICache"/>
+        /// </summary>
+        /// <param name="regionName">缓存区域。</param>
+        /// <returns></returns>
         public override ICache GetCache(string regionName)
         {
             ICache cache;
