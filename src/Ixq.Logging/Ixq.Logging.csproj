@@ -44,13 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Log4Net\Log4NetLoggerFactory.cs" />
+    <Compile Include="Log4Net\Log4NetLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Log4Net\" />
+    <ProjectReference Include="..\Ixq.Core\Ixq.Core.csproj">
+      <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
+      <Name>Ixq.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

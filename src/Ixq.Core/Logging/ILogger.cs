@@ -11,6 +11,12 @@ namespace Ixq.Core.Logging
     /// </summary>
     public interface ILogger
     {
+        bool IsWarnEnabled { get; }
+        bool IsFatalEnabled { get; }
+        bool IsErrorEnabled { get; }
+        bool IsDebugEnabled { get; }
+        bool IsInfoEnabled { get; }
+
         /// <summary>
         /// 输入日志。
         /// </summary>
