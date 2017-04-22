@@ -11,6 +11,7 @@ namespace Ixq.Demo.Web.Models
     public class ProductTypeDot : DtoBase<ProductType>
     {
         public string Name { get; set; }
+
         public ProductType ParentType { get; set; }
     }
 }

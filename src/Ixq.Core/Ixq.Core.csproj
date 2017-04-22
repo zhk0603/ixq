@@ -67,6 +67,9 @@
     <Compile Include="DependencyInjection\Interface\IScopeDependency.cs" />
     <Compile Include="DependencyInjection\Interface\ISingletonDependency.cs" />
     <Compile Include="DependencyInjection\Interface\ITransientDependency.cs" />
+    <Compile Include="Logging\ILoggerFactory.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="Mapper\IMapper.cs" />
     <Compile Include="Mapper\IMapperCollection.cs" />
     <Compile Include="Mapper\MapperCollection.cs" />
@@ -86,9 +89,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
