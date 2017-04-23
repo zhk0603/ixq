@@ -3,8 +3,7 @@ using System.Web.Mvc;
 
 namespace Ixq.Demo.Web.Controllers
 {
-    public abstract class BaseController : Controller
+    public abstract class BaseController : Ixq.Web.Mvc.BaseController
     {
-        public IServiceProvider ServiceProvider { get; set; }
     }
 }

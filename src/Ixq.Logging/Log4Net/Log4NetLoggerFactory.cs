@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Ixq.Core.Logging;
 using log4net;
 using log4net.Config;
+using LogManager = log4net.LogManager;
 
 namespace Ixq.Logging.Log4Net
 {

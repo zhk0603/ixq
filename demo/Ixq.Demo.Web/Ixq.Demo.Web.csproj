@@ -736,6 +736,7 @@
     <Content Include="Areas\Hplus\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Hplus\Views\Home\Index.cshtml" />
+    <Content Include="log4net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -819,6 +820,10 @@
       <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
       <Name>Ixq.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Logging\Ixq.Logging.csproj">
+      <Project>{33acfea3-be13-4c15-9003-0d44fad30f9e}</Project>
+      <Name>Ixq.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
       <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
       <Name>Ixq.Mapper.AutoMapper</Name>
@@ -826,6 +831,14 @@
     <ProjectReference Include="..\..\src\Ixq.Owin\Ixq.Owin.csproj">
       <Project>{89a24ced-36d8-4ce6-b4a5-c4dc50f00295}</Project>
       <Name>Ixq.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Redis\Ixq.Redis.csproj">
+      <Project>{da022c0c-6cc8-4c37-a017-2c62716f2650}</Project>
+      <Name>Ixq.Redis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Web.Mvc\Ixq.Web.Mvc.csproj">
+      <Project>{bdc5d24e-2d1b-4af3-ab42-a9ad3f0211d5}</Project>
+      <Name>Ixq.Web.Mvc</Name>
     </ProjectReference>
     <ProjectReference Include="..\ixq.Demo.DbContext\ixq.Demo.DbContext.csproj">
       <Project>{cb998c97-c593-424d-a366-88c412e477ff}</Project>

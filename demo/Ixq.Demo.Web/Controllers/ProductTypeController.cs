@@ -27,6 +27,12 @@ namespace Ixq.Demo.Web.Controllers
         // GET: ProductType
         public ActionResult Index()
         {
+            Logger.Debug("Debug");
+            Logger.Error("Error");
+            Logger.Fatal("Fatal");
+            Logger.Info("Info");
+            Logger.Warn("Warn");
+
             var a = _productTypeRepository.GetHashCode();
             var b = ProductTypeRepository.GetHashCode();
 

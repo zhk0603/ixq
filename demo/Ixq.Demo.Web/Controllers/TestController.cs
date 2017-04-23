@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 namespace Ixq.Demo.Web.Controllers
 {
@@ -7,6 +8,12 @@ namespace Ixq.Demo.Web.Controllers
         // GET: Test
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult Exception()
+        {
+            throw new Exception("Exp");
             return View();
         }
     }

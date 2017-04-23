@@ -17,12 +17,20 @@ namespace Ixq.Core.Logging
         bool IsDebugEnabled { get; }
         bool IsInfoEnabled { get; }
 
-        /// <summary>
-        /// 输入日志。
-        /// </summary>
-        /// <param name="message">日志消息。</param>
-        /// <param name="exception">日志异常。</param>
-        /// <param name="logLevel">日志级别。</param>
-        void Write(string message, Exception exception, LogLevel logLevel);
+        void Debug(string message);
+        void Debug(Func<string> func);
+        void Debug(string message, Exception exception);
+        void Error(string message);
+        void Error(Func<string> func);
+        void Error(string message, Exception exception);
+        void Fatal(string message);
+        void Fatal(Func<string> func);
+        void Fatal(string message, Exception exception);
+        void Info(string message);
+        void Info(Func<string> func);
+        void Info(string message, Exception exception);
+        void Warn(string message);
+        void Warn(Func<string> func);
+        void Warn(string message, Exception exception);
     }
 }

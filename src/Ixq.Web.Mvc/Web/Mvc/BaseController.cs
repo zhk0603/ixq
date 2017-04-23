@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Ixq.Core.Logging;
 
 namespace Ixq.Web.Mvc
 {
@@ -12,5 +13,12 @@ namespace Ixq.Web.Mvc
         ///     依赖注入服务提供者
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
+
+        public ILogger Logger { get; set; }
+
+        protected BaseController()
+        {
+            Logger = LogManager.GetLogger(GetType());
+        }
     }
 }
