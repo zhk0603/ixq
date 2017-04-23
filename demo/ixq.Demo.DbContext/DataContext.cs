@@ -2,11 +2,11 @@
 using Ixq.Data.Repository;
 using Ixq.Demo.Entities;
 using Ixq.Security;
-using Ixq.Security.Identity.Identity;
+using Ixq.Security.Identity;
 
 namespace ixq.Demo.DbContext
 {
-    public class DataContext : IdentityDbContextBase<ApplicationUser>
+    public class DataContext : IdentityDbContextBase<ApplicationUser, ApplicationRole>
     {
         public DataContext() : base("DataContext")
         {

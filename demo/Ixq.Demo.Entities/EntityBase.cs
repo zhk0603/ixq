@@ -3,26 +3,25 @@ using Ixq.Core.Entity;
 
 namespace Ixq.Demo.Entities
 {
-    public abstract class EntityBase : Data.Entity.EntityBase, ICreateSpecification, IUpdataSpecification,
+    public abstract class EntityBase : EntityBase<Guid>
+    {
+    }
+
+    public abstract class EntityBase<TKey> :IEntity<TKey>, ICreateSpecification, IUpdataSpecification,
         ISoftDeleteSpecification
     {
+        public TKey Id { get; set; }
         public DateTime CreateDate { get; set; }
-
-        public void OnCreateComplete()
-        {
-            CreateDate = DateTime.Now;
-        }
-
+        public DateTime? UpdataDate { get; set; }
         public DateTime? DeleteDate { get; set; }
         public bool IsDeleted { get; set; }
-
-        public void OnSoftDeleteComplete()
+        public void OnCreateComplete()
         {
         }
-
-        public DateTime? UpdataDate { get; set; }
-
         public void OnUpdataComplete()
+        {
+        }
+        public void OnSoftDeleteComplete()
         {
         }
     }

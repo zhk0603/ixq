@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Ixq.Demo.Entities;
 
 namespace ixq.Demo.DbContext
 {
@@ -21,6 +22,12 @@ namespace ixq.Demo.DbContext
                 context.ProductType.Add(tmp);
             }
             context.SaveChanges();
+        }
+
+        public static void SeedSysRole(DataContext context)
+        {
+            var role1 = new ApplicationRole() {Name = "Admin", Description = "具备全部权限的用户组"};
+
         }
     }
 }

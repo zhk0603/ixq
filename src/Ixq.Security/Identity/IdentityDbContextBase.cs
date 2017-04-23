@@ -13,14 +13,16 @@ using Ixq.Core.Entity;
 using Ixq.Core.Repository;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Ixq.Security.Identity.Identity
+namespace Ixq.Security.Identity
 {
-    public abstract class IdentityDbContextBase<TUser> : IdentityDbContext<TUser>, IUnitOfWork
+    public abstract class IdentityDbContextBase<TUser, TRole> : IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
         where TUser : IdentityUser
+        where TRole : IdentityRole
     {
         protected IdentityDbContextBase(string nameOrConnectionString) : base(nameOrConnectionString)
         {
         }
+        protected IdentityDbContextBase() { }
 
         public void Rollback()
         {
