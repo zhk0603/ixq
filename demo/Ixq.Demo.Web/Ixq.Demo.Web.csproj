@@ -170,6 +170,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Hplus\Controllers\AccountController.cs" />
     <Compile Include="Areas\Hplus\Controllers\HomeController.cs" />
     <Compile Include="Areas\Hplus\HplusAreaRegistration.cs" />
     <Compile Include="Content\Hplus\plugins\fullavatareditor\asp.net\c#\Upload.aspx.cs">
@@ -184,8 +185,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ProductDto.cs" />
-    <Compile Include="Models\ProductTypeDot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -789,8 +788,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Hplus\Models\" />
+    <Folder Include="Areas\Hplus\Views\Account\" />
     <Folder Include="Content\Hplus\plugins\fullavatareditor\asp.net\c#\bin\" />
     <Folder Include="Content\Hplus\plugins\fullavatareditor\asp.net\vb\bin\" />
+    <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\ProductType\" />
     <Folder Include="Views\Test\" />
@@ -836,6 +837,10 @@
       <Project>{da022c0c-6cc8-4c37-a017-2c62716f2650}</Project>
       <Name>Ixq.Redis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Security\Ixq.Security.csproj">
+      <Project>{a104cd13-ac10-4f74-80bc-61b6f9449dae}</Project>
+      <Name>Ixq.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.Web.Mvc\Ixq.Web.Mvc.csproj">
       <Project>{bdc5d24e-2d1b-4af3-ab42-a9ad3f0211d5}</Project>
       <Name>Ixq.Web.Mvc</Name>
@@ -843,6 +848,10 @@
     <ProjectReference Include="..\ixq.Demo.DbContext\ixq.Demo.DbContext.csproj">
       <Project>{cb998c97-c593-424d-a366-88c412e477ff}</Project>
       <Name>ixq.Demo.DbContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Demo.Domain\Ixq.Demo.Domain.csproj">
+      <Project>{F1B26146-0912-46FC-ACC3-3AE4E53D3557}</Project>
+      <Name>Ixq.Demo.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ixq.Demo.Entities\Ixq.Demo.Entities.csproj">
       <Project>{65364a79-f3f1-4b7e-9be7-2ee424258ef7}</Project>

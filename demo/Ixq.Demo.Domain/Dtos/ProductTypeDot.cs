@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Ixq.Core.Dto;
-using Ixq.Core.Mapper;
+﻿using Ixq.Core.Dto;
 using Ixq.Demo.Entities;
 
-namespace Ixq.Demo.Web.Models
+namespace Ixq.Demo.Domain.Dtos
 {
     public class ProductTypeDot : DtoBase<ProductType>
     {

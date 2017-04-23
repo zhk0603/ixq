@@ -12,7 +12,7 @@ namespace Ixq.Web.Mvc
     /// <summary>
     /// 日志记录器。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class RuntimeLogHandleErrorAttribute : HandleErrorAttribute
     {
         public override void OnException(ExceptionContext filterContext)

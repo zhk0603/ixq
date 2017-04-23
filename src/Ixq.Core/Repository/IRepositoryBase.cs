@@ -17,7 +17,6 @@ namespace Ixq.Core.Repository
     /// <typeparam name="TKey"></typeparam>
     public interface IRepositoryBase<TEntity, TKey> : IScopeDependency
         where TEntity : class, IEntity<TKey>, new()
-        where TKey : struct
     {
         /// <summary>
         ///     工作单元
@@ -262,8 +261,7 @@ namespace Ixq.Core.Repository
         /// </param>
         /// <returns></returns>
         IEnumerable<T2> SqlQuery<T2, TKey2>(string sql, bool trackEnabled = true, params object[] parameters)
-            where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct;
+            where T2 : class, IEntity<TKey2>, new();
 
         /// <summary>
         ///     通过Sql语句查找带给定主键值的实体。
@@ -286,8 +284,7 @@ namespace Ixq.Core.Repository
         /// <param name="trackEnabled">是否跟踪返回实体</param>
         /// <returns></returns>
         T2 SqlQuerySingle<T2, TKey2>(TKey index, bool trackEnabled = true)
-            where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct;
+            where T2 : class, IEntity<TKey2>, new();
 
         /// <summary>
         ///     异步的创建一个原始 SQL 查询，该查询将返回此集中的实体。
@@ -332,8 +329,7 @@ namespace Ixq.Core.Repository
         /// </param>
         /// <returns></returns>
         Task<IEnumerable<T2>> SqlQueryAsync<T2, TKey2>(string sql, bool trackEnabled = true, params object[] parameters)
-            where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct;
+            where T2 : class, IEntity<TKey2>, new();
 
         /// <summary>
         ///     通过Sql语句查找带给定主键值的实体。
@@ -356,8 +352,7 @@ namespace Ixq.Core.Repository
         /// <param name="trackEnabled">是否跟踪返回实体</param>
         /// <returns></returns>
         Task<T2> SqlQuerySingleAsync<T2, TKey2>(TKey index, bool trackEnabled = true)
-            where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct;
+            where T2 : class, IEntity<TKey2>, new();
 
         #endregion
 

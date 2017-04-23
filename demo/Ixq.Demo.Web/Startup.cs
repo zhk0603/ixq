@@ -1,8 +1,14 @@
 ﻿using Ixq.Core.Cache;
+using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.Core.Logging;
+using Ixq.Demo.Domain.ApplicationServer;
+using Ixq.Demo.Entities;
 using Ixq.Demo.Web;
 using Ixq.Logging.Log4Net;
 using Ixq.Owin.Extensions;
+using Ixq.Security;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 
@@ -24,6 +30,11 @@ namespace Ixq.Demo.Web
 
             app.Initialization()
                 .RegisterAutoMappe()
+                .RegisterIdentity(serverCollection =>
+                {
+                    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
+                    serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
+                })
                 .RegisterAutofac(typeof (MvcApplication));
         }
     }

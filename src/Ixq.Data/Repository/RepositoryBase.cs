@@ -23,7 +23,6 @@ namespace Ixq.Data.Repository
     /// <typeparam name="TKey"></typeparam>
     public abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
         where TEntity : class, IEntity<TKey>, new()
-        where TKey : struct
     {
         protected RepositoryBase(IUnitOfWork unitOfWork)
         {
@@ -271,7 +270,6 @@ namespace Ixq.Data.Repository
         public virtual IEnumerable<T2> SqlQuery<T2, TKey2>(string sql, bool trackEnabled = true,
             params object[] parameters)
             where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct
         {
             var table = ((DbContext) UnitOfWork).Set<T2>();
             return trackEnabled
@@ -282,14 +280,12 @@ namespace Ixq.Data.Repository
         public virtual async Task<IEnumerable<T2>> SqlQueryAsync<T2, TKey2>(string sql, bool trackEnabled,
             params object[] parameters)
             where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct
         {
             return await Task.FromResult(SqlQuery<T2, TKey2>(sql, trackEnabled, parameters));
         }
 
         public virtual T2 SqlQuerySingle<T2, TKey2>(TKey index, bool trackEnabled)
             where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct
         {
             var table = ((DbContext) UnitOfWork).Set<T2>();
 
@@ -306,7 +302,6 @@ namespace Ixq.Data.Repository
 
         public virtual async Task<T2> SqlQuerySingleAsync<T2, TKey2>(TKey index, bool trackEnabled)
             where T2 : class, IEntity<TKey2>, new()
-            where TKey2 : struct
         {
             return await Task.FromResult(SqlQuerySingle<T2, TKey2>(index, trackEnabled));
         }

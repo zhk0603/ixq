@@ -63,6 +63,10 @@
       <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
       <Name>Ixq.Mapper.AutoMapper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ixq.Security\Ixq.Security.csproj">
+      <Project>{a104cd13-ac10-4f74-80bc-61b6f9449dae}</Project>
+      <Name>Ixq.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

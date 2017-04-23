@@ -6,9 +6,9 @@ using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
-using Ixq.Demo.Web.Models;
 using System.Data.Entity;
 using Ixq.Core.Entity;
+using Ixq.Demo.Domain.Dtos;
 
 namespace Ixq.Demo.Web.Controllers
 {
