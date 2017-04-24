@@ -17,6 +17,7 @@ namespace Ixq.Demo.Entities
         public bool IsDeleted { get; set; }
         public void OnCreateComplete()
         {
+            CreateDate = DateTime.Now;
         }
         public void OnUpdataComplete()
         {

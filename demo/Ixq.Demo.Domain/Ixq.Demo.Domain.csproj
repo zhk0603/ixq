@@ -57,8 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationServer\ApplicationRoleServer.cs" />
-    <Compile Include="ApplicationServer\ApplicationUserServer.cs" />
+    <Compile Include="ApplicationRoleManager.cs" />
+    <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="ApplicationServer\ProductServer.cs" />
     <Compile Include="ApplicationServer\ProductTypeServer.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
@@ -66,6 +66,7 @@
     <Compile Include="IApplicationServer\IProductServer.cs" />
     <Compile Include="IApplicationServer\IProductTypeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ixq.Core\Ixq.Core.csproj">

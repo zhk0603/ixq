@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Ixq.Demo.Entities;
+using Ixq.Security.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ixq.Demo.DbContext
 {
@@ -26,8 +29,33 @@ namespace ixq.Demo.DbContext
 
         public static void SeedSysRole(DataContext context)
         {
-            var role1 = new ApplicationRole() {Name = "Admin", Description = "具备全部权限的用户组"};
+            var roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
+            var adminRole = new ApplicationRole() {Name = "Admin", Description = "具备全部权限的用户组", CreateDate = DateTime.Now};
+            if (!roleManager.RoleExists(adminRole.Name))
+                roleManager.Create(adminRole);
+
+            var adminUser = new ApplicationUser
+            {
+                UserName = "qixiao1",
+                Age = 20,
+                CreateDate = DateTime.Now,
+                PhoneNumber = "110",
+
+            };
+            userManager.Create(adminUser, "123@Abc");
+            userManager.AddToRole(adminUser.Id, adminRole.Name);
+
+            context.SaveChanges();
+        }
+    }
+
+    public class UserStore<TUser> : UserStoreBase<TUser, ApplicationRole>
+    where TUser : IdentityUser
+    {
+        public UserStore(System.Data.Entity.DbContext context) : base(context)
+        {
         }
     }
 }

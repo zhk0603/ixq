@@ -67,6 +67,7 @@
     <Compile Include="Identity\IdentityRegistration.cs" />
     <Compile Include="Identity\IdentityRoleBase.cs" />
     <Compile Include="Identity\IdentityUserBase.cs" />
+    <Compile Include="Identity\UserStoreBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

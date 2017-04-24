@@ -15,7 +15,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Security.Identity
 {
-    public abstract class IdentityDbContextBase<TUser, TRole> : IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    public abstract class IdentityDbContextBase<TUser, TRole> : IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim> ,IUnitOfWork
         where TUser : IdentityUser
         where TRole : IdentityRole
     {

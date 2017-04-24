@@ -1,4 +1,6 @@
-﻿using Ixq.Core.Cache;
+﻿using System.Data.Entity;
+using ixq.Demo.DbContext;
+using Ixq.Core.Cache;
 using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.Core.Logging;
 using Ixq.Demo.Domain.ApplicationServer;
@@ -32,7 +34,8 @@ namespace Ixq.Demo.Web
                 .RegisterAutoMappe()
                 .RegisterIdentity(serverCollection =>
                 {
-                    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
+                    serverCollection.TryAddSingleton<DbContext, DataContext>();
+                    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
                     serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
                 })
                 .RegisterAutofac(typeof (MvcApplication));
