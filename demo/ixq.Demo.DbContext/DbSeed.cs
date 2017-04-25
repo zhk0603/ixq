@@ -33,19 +33,32 @@ namespace ixq.Demo.DbContext
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
             var adminRole = new ApplicationRole() {Name = "Admin", Description = "具备全部权限的用户组", CreateDate = DateTime.Now};
+            var supervisorRole = new ApplicationRole() {Name = "Supervisor", Description = "主管的用户组", CreateDate = DateTime.Now};
             if (!roleManager.RoleExists(adminRole.Name))
                 roleManager.Create(adminRole);
+            if (!roleManager.RoleExists(supervisorRole.Name))
+                roleManager.Create(supervisorRole);
 
             var adminUser = new ApplicationUser
             {
-                UserName = "qixiao1",
+                UserName = "admin",
                 Age = 20,
                 CreateDate = DateTime.Now,
-                PhoneNumber = "110",
-
+                PhoneNumber = "",
             };
             userManager.Create(adminUser, "123@Abc");
+            var zkUser = new ApplicationUser
+            {
+                UserName = "zhaokun",
+                Age = 20,
+                CreateDate = DateTime.Now,
+                PhoneNumber = "",
+            };
+            userManager.Create(zkUser, "123@Abc");
+            context.SaveChanges();
+
             userManager.AddToRole(adminUser.Id, adminRole.Name);
+            userManager.AddToRole(zkUser.Id, supervisorRole.Name);
 
             context.SaveChanges();
         }

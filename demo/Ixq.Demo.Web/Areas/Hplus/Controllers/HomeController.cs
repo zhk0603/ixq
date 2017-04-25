@@ -8,11 +8,14 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class HomeController : Controller
     {
         // GET: Hplus/Home
         public ActionResult Index()
         {
+            var user = User.Identity.IsAuthenticated;
+
             return View();
         }
         public ActionResult Welcome()

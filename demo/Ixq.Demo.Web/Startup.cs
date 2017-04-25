@@ -22,6 +22,8 @@ namespace Ixq.Demo.Web
     {
         public void Configuration(IAppBuilder app)
         {
+            ConfigureAuth(app);
+
             // 启用缓存
             ICacheProvider cacheProvider = new MemoryCacheProvider();
             CacheManager.SetCacheProvider(cacheProvider);
@@ -30,14 +32,15 @@ namespace Ixq.Demo.Web
             ILoggerFactory factory = new Log4NetLoggerFactory();
             LogManager.SetLoggerFactory(factory);
 
+
             app.Initialization()
                 .RegisterAutoMappe()
-                .RegisterIdentity(serverCollection =>
-                {
-                    serverCollection.TryAddSingleton<DbContext, DataContext>();
-                    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
-                    serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
-                })
+                //.RegisterIdentity(serverCollection =>
+                //{
+                //    serverCollection.TryAddSingleton<DbContext, DataContext>();
+                //    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
+                //    serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
+                //})
                 .RegisterAutofac(typeof (MvcApplication));
         }
     }

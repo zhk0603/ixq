@@ -3,13 +3,19 @@ using Ixq.Data.Repository;
 using Ixq.Demo.Entities;
 using Ixq.Security;
 using Ixq.Security.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ixq.Demo.DbContext
 {
-    public class DataContext : IdentityDbContextBase<ApplicationUser, ApplicationRole>
+    public class DataContext : IdentityDbContext<ApplicationUser>//IdentityDbContextBase<ApplicationUser, ApplicationRole>
     {
         public DataContext() : base("DataContext")
         {
+        }
+
+        public static DataContext Create()
+        {
+            return new DataContext();
         }
 
         public IDbSet<ProductType> ProductType { get; set; }
