@@ -12,6 +12,7 @@ using Ixq.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Owin;
 
 [assembly: OwinStartup(typeof (Startup))]
@@ -22,8 +23,6 @@ namespace Ixq.Demo.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
-
             // 启用缓存
             ICacheProvider cacheProvider = new MemoryCacheProvider();
             CacheManager.SetCacheProvider(cacheProvider);
@@ -35,12 +34,13 @@ namespace Ixq.Demo.Web
 
             app.Initialization()
                 .RegisterAutoMappe()
-                //.RegisterIdentity(serverCollection =>
-                //{
-                //    serverCollection.TryAddSingleton<DbContext, DataContext>();
-                //    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
-                //    serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
-                //})
+                .RegisterIdentity(serverCollection =>
+                {
+                    serverCollection.TryAddSingleton<DbContext, DataContext>();
+                    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
+                    serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
+                    ConfigureAuth(app);
+                })
                 .RegisterAutofac(typeof (MvcApplication));
         }
     }

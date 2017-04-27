@@ -56,7 +56,7 @@ namespace ixq.Demo.DbContext
             };
             userManager.Create(zkUser, "123@Abc");
             context.SaveChanges();
-
+            
             userManager.AddToRole(adminUser.Id, adminRole.Name);
             userManager.AddToRole(zkUser.Id, supervisorRole.Name);
 

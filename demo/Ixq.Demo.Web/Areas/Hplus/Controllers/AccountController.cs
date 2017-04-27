@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Web.Controllers;
 using Ixq.Security;
@@ -16,41 +17,32 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
     public class AccountController : BaseController
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationRoleManager _roleManager;
+        private ApplicationUserManager _userManager;
+
         //private readonly ApplicationUserManager _userManager;
         //private readonly ApplicationRoleManager _roleManager;
         //private readonly ApplicationSignInManager _signInManager;
 
-        //public AccountController(IUserStore<ApplicationUser> userStore,
-        //    IRoleStore<ApplicationRole, string> roleStore)
-        //{
-        //    _userManager = new ApplicationUserManager(userStore);
-        //    _roleManager = new ApplicationRoleManager(roleStore);
-        //}
-        //public AccountController(ApplicationRoleManager roleManager, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        //{
-        //    _userManager = userManager;
-        //    _roleManager = roleManager;
-        //    _signInManager = signInManager;
-        //}
 
-        //public ApplicationUserManager UserManager { get; set; }
-        //public ApplicationRoleManager RoleManager { get; set; }
-
-
-
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-
-        public AccountController()
+        public AccountController(ApplicationRoleManager roleManager, ApplicationUserManager userManager)
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ApplicationRoleManager RoleManager
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -74,16 +66,26 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
                 _userManager = value;
             }
         }
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
 
 
         // GET: Hplus/Account
         public ActionResult Index()
         {
+            var b1 = HttpContext.GetOwinContext().Get<ApplicationRoleManager>().GetHashCode();
+            var b5 = HttpContext.GetOwinContext().Get<ApplicationRoleManager>().GetHashCode();
+
             var a1 = _userManager.GetHashCode();
             var a2 = UserManager.GetHashCode();
 
-            //var b1 = _roleManager.GetHashCode();
-            //var b2 = RoleManager.GetHashCode();
+            var b3 = _roleManager.GetHashCode();
+            var b2 = RoleManager.GetHashCode();
 
             return View();
         }
@@ -109,6 +111,12 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
                     ViewBag.ErrorMessage = "登录失败";
                     return View();
             }
+        }
+
+        public ActionResult Logout()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login");
         }
     }
 }

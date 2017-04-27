@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ixq.Demo.DbContext
 {
-    public class DataContext : IdentityDbContext<ApplicationUser>//IdentityDbContextBase<ApplicationUser, ApplicationRole>
+    public class DataContext : IdentityDbContextBase<ApplicationUser, ApplicationRole>
     {
         public DataContext() : base("DataContext")
         {

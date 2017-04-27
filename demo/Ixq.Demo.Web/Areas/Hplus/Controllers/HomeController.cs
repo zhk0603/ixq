@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize]
     public class HomeController : Controller
     {
         // GET: Hplus/Home

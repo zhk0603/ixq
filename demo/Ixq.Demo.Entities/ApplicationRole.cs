@@ -12,10 +12,13 @@ namespace Ixq.Demo.Entities
     public class ApplicationRole : IdentityRoleBase, ICreateSpecification, IUpdataSpecification,
         ISoftDeleteSpecification
     {
+        public ApplicationRole() : base() { }
+        public ApplicationRole(string name) : base(name) { }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdataDate { get; set; }
         public DateTime? DeleteDate { get; set; }
+        public bool? IsDel { get; set; }
         public bool IsDeleted { get; set; }
         public void OnCreateComplete()
         {

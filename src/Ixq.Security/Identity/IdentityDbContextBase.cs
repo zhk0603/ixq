@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -12,17 +13,47 @@ using EntityFramework.DynamicFilters;
 using Ixq.Core.Entity;
 using Ixq.Core.Repository;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Ixq.Security.Identity
 {
-    public abstract class IdentityDbContextBase<TUser, TRole> : IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim> ,IUnitOfWork
+    public class IdentityDbContextBase<TUser, TRole> :
+        IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>, IUnitOfWork
         where TUser : IdentityUser
         where TRole : IdentityRole
     {
+        protected IdentityDbContextBase() : base()
+        {
+        }
+
         protected IdentityDbContextBase(string nameOrConnectionString) : base(nameOrConnectionString)
         {
         }
-        protected IdentityDbContextBase() { }
+
+        protected IdentityDbContextBase(DbCompiledModel model) : base(model)
+        {
+
+        }
+
+        protected IdentityDbContextBase(DbConnection existingConnection, bool contextOwnsConnection)
+            : base(existingConnection, contextOwnsConnection)
+        {
+
+        }
+
+        protected IdentityDbContextBase(string nameOrConnectionString, DbCompiledModel model)
+            : base(nameOrConnectionString, model)
+        {
+
+        }
+
+        protected IdentityDbContextBase(DbConnection existingConnection, DbCompiledModel model,
+            bool contextOwnsConnection) : base(existingConnection, model, contextOwnsConnection)
+        {
+
+        }
+
+        //public new IDbSet<TRole> Roles { get; set; }
 
         public void Rollback()
         {
@@ -242,6 +273,7 @@ namespace Ixq.Security.Identity
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             // 禁用 级联删除
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             // 移除 表名复数
