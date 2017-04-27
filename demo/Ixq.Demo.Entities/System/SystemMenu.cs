@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Demo.Entities
+namespace Ixq.Demo.Entities.System
 {
     /// <summary>
     ///     系统菜单

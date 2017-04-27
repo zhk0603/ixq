@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,6 +14,8 @@ using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
 using Ixq.Extensions;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace Ixq.Data.Repository
 {
@@ -251,7 +254,7 @@ namespace Ixq.Data.Repository
 
         public virtual TEntity SqlQuerySingle(TKey index, bool trackEnabled = true)
         {
-            var tableName = _GetTableName<TEntity>();
+            var tableName = GetTableName<TEntity>();
 
             var sql = "select * from " + tableName + " where [Id] = @index";
             return trackEnabled
@@ -289,7 +292,7 @@ namespace Ixq.Data.Repository
         {
             var table = ((DbContext) UnitOfWork).Set<T2>();
 
-            var tableName = _GetTableName<T2>();
+            var tableName = GetTableName<T2>();
             var sql = "select * from " + tableName + " where [Index] = @index";
 
             return trackEnabled
@@ -313,16 +316,42 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <typeparam name="TType"></typeparam>
         /// <returns></returns>
-        protected virtual string _GetTableName<TType>()
+        protected virtual string GetTableName<TType>()
         {
             var type = typeof (TType);
-            var tableName = type.Name;
+            var tableName = GetEntityDataBaseTableName<TType>((DbContext) UnitOfWork) ?? type.Name;
             var tableAttribute = type.GetAttribute<TableAttribute>();
             if (tableAttribute != null)
             {
                 tableName = tableAttribute.Name;
             }
             return tableName;
+        }
+
+        /// <summary>
+        ///     获取数据库中的表名。
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="contextAdapter"></param>
+        /// <returns></returns>
+        private string GetEntityDataBaseTableName<T>(IObjectContextAdapter contextAdapter)
+        {
+            if (contextAdapter == null)
+            {
+                throw new ArgumentNullException(nameof(contextAdapter));
+            }
+
+            var ojbectContext = contextAdapter.ObjectContext;
+            var className = typeof (T).Name;
+
+            var container = ojbectContext.MetadataWorkspace.GetItemCollection(DataSpace.SSpace).GetItems<EntityContainer>().Single();
+            var entityTableName = (from meta in container.BaseEntitySets.OfType<EntitySet>()
+                where
+                    (!meta.MetadataProperties.Contains("Type") || meta.MetadataProperties["Type"].ToString() == "Tables") &&
+                    meta.ElementType.Name == className
+                select meta.Name).FirstOrDefault();
+
+            return entityTableName;
         }
     }
 }

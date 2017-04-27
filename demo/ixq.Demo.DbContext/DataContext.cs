@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using Ixq.Data.Repository;
 using Ixq.Demo.Entities;
+using Ixq.Demo.Entities.System;
 using Ixq.Security;
 using Ixq.Security.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -18,7 +19,8 @@ namespace ixq.Demo.DbContext
             return new DataContext();
         }
 
-        public IDbSet<ProductType> ProductType { get; set; }
-        public IDbSet<Product> Product { get; set; }
+        public IDbSet<ProductType> ProductTypes { get; set; }
+        public IDbSet<Product> Products { get; set; }
+        public IDbSet<SystemMenu> SystemMenus { get; set; }
     }
 }

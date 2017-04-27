@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -19,6 +20,39 @@ namespace Ixq.Data.Repository
     /// </summary>
     public abstract class DbContextBase : DbContext, IUnitOfWork
     {
+
+        protected DbContextBase() : base()
+        {
+        }
+
+        protected DbContextBase(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+        }
+
+        protected DbContextBase(DbCompiledModel model) : base(model)
+        {
+
+        }
+
+        protected DbContextBase(DbConnection existingConnection, bool contextOwnsConnection)
+            : base(existingConnection, contextOwnsConnection)
+        {
+
+        }
+
+        protected DbContextBase(string nameOrConnectionString, DbCompiledModel model)
+            : base(nameOrConnectionString, model)
+        {
+
+        }
+
+        protected DbContextBase(DbConnection existingConnection, DbCompiledModel model,
+            bool contextOwnsConnection) : base(existingConnection, model, contextOwnsConnection)
+        {
+
+        }
+
+
         /// <summary>
         ///     异步提交当前单元操作的更改。
         /// </summary>
