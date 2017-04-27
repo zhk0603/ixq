@@ -53,8 +53,6 @@ namespace Ixq.Security.Identity
 
         }
 
-        //public new IDbSet<TRole> Roles { get; set; }
-
         public void Rollback()
         {
             Database.CurrentTransaction?.Rollback();

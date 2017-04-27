@@ -100,7 +100,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string userName, string password, string code, string returnUrl)
         {
-            var result = await SignInManager.PasswordSignInAsync(userName, password, false, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(userName, password, false, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:

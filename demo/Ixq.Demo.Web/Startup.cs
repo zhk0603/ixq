@@ -31,7 +31,6 @@ namespace Ixq.Demo.Web
             ILoggerFactory factory = new Log4NetLoggerFactory();
             LogManager.SetLoggerFactory(factory);
 
-
             app.Initialization()
                 .RegisterAutoMappe()
                 .RegisterIdentity(serverCollection =>

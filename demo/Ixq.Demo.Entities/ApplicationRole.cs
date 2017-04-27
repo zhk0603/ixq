@@ -18,7 +18,6 @@ namespace Ixq.Demo.Entities
         public DateTime CreateDate { get; set; }
         public DateTime? UpdataDate { get; set; }
         public DateTime? DeleteDate { get; set; }
-        public bool? IsDel { get; set; }
         public bool IsDeleted { get; set; }
         public void OnCreateComplete()
         {

@@ -5,6 +5,7 @@ namespace Ixq.Demo.Entities
 {
     public abstract class EntityBase : EntityBase<Guid>
     {
+        public virtual string SortCode { get; set; }
     }
 
     public abstract class EntityBase<TKey> :IEntity<TKey>, ICreateSpecification, IUpdataSpecification,
@@ -15,14 +16,14 @@ namespace Ixq.Demo.Entities
         public DateTime? UpdataDate { get; set; }
         public DateTime? DeleteDate { get; set; }
         public bool IsDeleted { get; set; }
-        public void OnCreateComplete()
+        public virtual void OnCreateComplete()
         {
             CreateDate = DateTime.Now;
         }
-        public void OnUpdataComplete()
+        public virtual void OnUpdataComplete()
         {
         }
-        public void OnSoftDeleteComplete()
+        public virtual void OnSoftDeleteComplete()
         {
         }
     }
