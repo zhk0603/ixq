@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAnnotations\HideAttribute.cs" />
+    <Compile Include="DataAnnotations\PropertyAuthorizationAttribute.cs" />
     <Compile Include="DataAnnotations\SearcherAttribute.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

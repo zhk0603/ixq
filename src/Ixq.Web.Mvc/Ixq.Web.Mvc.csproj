@@ -74,6 +74,7 @@
     <Compile Include="Web\Mvc\BaseController.cs" />
     <Compile Include="Web\Mvc\EntityController.cs" />
     <Compile Include="Web\Mvc\RuntimeLogHandleErrorAttribute.cs" />
+    <Compile Include="Web\Mvc\RuntimeEntityMenberInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

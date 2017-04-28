@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Ixq.Extensions;
 
 namespace System.Linq
@@ -24,6 +25,13 @@ namespace System.Linq
             return sortDirection == ListSortDirection.Ascending
                 ? Queryable.OrderBy(source, keySelector)
                 : Queryable.OrderByDescending(source, keySelector);
+        }
+
+        public static Task<IQueryable<T>> OrderByAsync<T>(this IQueryable<T> source,
+            string propertyName,
+            ListSortDirection sortDirection = ListSortDirection.Ascending)
+        {
+            return Task.FromResult(OrderBy(source, propertyName, sortDirection));
         }
     }
 }
