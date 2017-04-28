@@ -90,6 +90,7 @@
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="ApplicationServer\ProductServer.cs" />
     <Compile Include="ApplicationServer\ProductTypeServer.cs" />
+    <Compile Include="Dtos\DtoBase.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
     <Compile Include="Dtos\ProductTypeDot.cs" />
     <Compile Include="IApplicationServer\IProductServer.cs" />

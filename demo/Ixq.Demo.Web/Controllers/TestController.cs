@@ -5,6 +5,7 @@ using Ixq.Demo.Entities;
 
 namespace Ixq.Demo.Web.Controllers
 {
+    [Authorize]
     public class TestController : BaseController
     {
         private readonly IRepository<ProductType> _productTypeRepository;

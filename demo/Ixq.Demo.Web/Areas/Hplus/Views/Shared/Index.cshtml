@@ -1,0 +1,156 @@
+﻿@{
+    Layout = "~/Areas/Hplus/Views/Shared/_LayoutHplusIframe.cshtml";
+}
+@section styles{
+<link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet"/>
+@RenderSection("pageStyles",false)
+}
+<div class="wrapper wrapper-content  animated fadeIn" style="width:100%">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>ProductType</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-primary" type="button" onclick="getSelectedRows()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                        <button class="btn btn-warning" type="button">
+                            <i class="fa fa-remove"></i>
+                            删除
+                        </button>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-info" type="button">
+                            <i class="fa fa-arrow-up"></i>
+                            导入
+                        </button>
+                        <button class="btn btn-primary" type="button">
+                            <i class="fa fa-arrow-down"></i>
+                            导入
+                        </button>
+                    </div>
+                    <hr>
+                    <div class="jqGrid_wrapper">
+                        <table id="table_list_1"></table>
+                        <div id="pager_list_1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/Hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js"></script>
+    <script src="~/Content/Hplus/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+            $("#table_list_1").jqGrid({
+                url:'',
+                editurl:'',
+                datatype: "json",
+                height: 'auto',
+                autowidth: true,
+                shrinkToFit: true,
+                multiselect: true,
+                rowNum: 10,
+                rowList: [10, 20, 30],
+                colNames: ['序号', '类型名称', '客户', '金额', '运费', '总额', '备注', '操作'],
+                colModel: [
+                    {
+                        name: 'id',
+                        index: 'id',
+                        width: 60,
+                        sorttype: "int",
+                        key: true
+                    },
+                    {
+                        name: 'invdate',
+                        index: 'invdate',
+                        width: 90,
+                        sorttype: "date",
+                        formatter: "date"
+                    },
+                    {
+                        name: 'name',
+                        index: 'name',
+                        width: 100
+                    },
+                    {
+                        name: 'amount',
+                        index: 'amount',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float",
+                        formatter: "number"
+                    },
+                    {
+                        name: 'tax',
+                        index: 'tax',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float"
+                    },
+                    {
+                        name: 'total',
+                        index: 'total',
+                        width: 80,
+                        align: "right",
+                        sorttype: "float"
+                    },
+                    {
+                        name: 'note',
+                        index: 'note',
+                        width: 150,
+                        sortable: false
+                    }, {
+                        name: 'operation',
+                        index: 'operation',
+                        width: 150,
+                        formatter: operationFormat
+                    }
+                ],
+                beforeSelectRow: function(rowid, e) {
+                    var $myGrid = $(this),
+                        i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
+                        cm = $myGrid.jqGrid('getGridParam', 'colModel');
+                    return (cm[i].name === 'cb');
+                },
+                pager: "#pager_list_1",
+                viewrecords: true
+            });
+
+            // Add responsive to jqGrid
+            $(window).bind('resize', function() {
+                var width = $('.jqGrid_wrapper').width();
+                $('#table_list_1').setGridWidth(width);
+            });
+        });
+
+        function getSelectedRows() {
+            var grid = $("#table_list_1");
+            var rowKey = grid.getGridParam("selrow");
+            if (!rowKey)
+                alert("No rows are selected");
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                var result = "";
+                for (var i = 0; i < selectedIDs.length; i++) {
+                    result += selectedIDs[i] + ",";
+                }
+
+                alert(result);
+            }
+        }
+
+        function operationFormat(cellvalue, options, rowObject) {
+            return "$" + rowObject.id;
+        }
+
+    </script>
+@RenderSection("pageScripts", false)
+}

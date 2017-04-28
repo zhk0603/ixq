@@ -21,11 +21,6 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         private ApplicationRoleManager _roleManager;
         private ApplicationUserManager _userManager;
 
-        //private readonly ApplicationUserManager _userManager;
-        //private readonly ApplicationRoleManager _roleManager;
-        //private readonly ApplicationSignInManager _signInManager;
-
-
         public AccountController(ApplicationRoleManager roleManager, ApplicationUserManager userManager)
         {
             _userManager = userManager;
@@ -66,13 +61,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
                 _userManager = value;
             }
         }
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
 
         // GET: Hplus/Account
