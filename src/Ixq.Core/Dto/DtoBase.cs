@@ -14,9 +14,9 @@ namespace Ixq.Core.Dto
         [JsonIgnore]
         public IMapper Mapper { get; set; }
 
-        public Guid Id { get; set; }
+        public virtual Guid Id { get; set; }
 
-        public TEntity MapTo()
+        public virtual TEntity MapTo()
         {
             if (Mapper == null)
                 throw new ArgumentNullException(nameof(Mapper), "尚未初始化Mapper组件。");

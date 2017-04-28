@@ -132,7 +132,6 @@ namespace Ixq.Core.DependencyInjection
         ///     <see cref="IDependency" />、
         ///     <see cref="IDisposable" />等非业务接口，如无接口则注册自身
         /// </summary>
-        /// <param name="services">服务映射信息集合</param>
         /// <param name="implementationTypes">要注册的实现类型集合</param>
         /// <param name="lifetime">注册的生命周期类型</param>
         protected virtual void AddTypeWithInterfaces(Type[] implementationTypes,

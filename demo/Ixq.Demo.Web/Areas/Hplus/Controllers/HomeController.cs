@@ -15,6 +15,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         public ActionResult Index()
         {
             var user = User.Identity.IsAuthenticated;
+            var a = User.IsInRole("Supervisor");
 
             return View();
         }

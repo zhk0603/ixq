@@ -35,6 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -93,6 +94,10 @@
     <ProjectReference Include="..\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
       <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
       <Name>Ixq.Mapper.AutoMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.UI\Ixq.UI.csproj">
+      <Project>{E51F018D-ACB2-4117-864B-7F02B9096112}</Project>
+      <Name>Ixq.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

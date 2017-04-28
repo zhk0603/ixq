@@ -17,7 +17,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Ixq.Security.Identity
 {
-    public class IdentityDbContextBase<TUser, TRole> :
+    public abstract class IdentityDbContextBase<TUser, TRole> :
         IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>, IUnitOfWork
         where TUser : IdentityUser
         where TRole : IdentityRole

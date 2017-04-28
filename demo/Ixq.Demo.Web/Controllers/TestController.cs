@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace Ixq.Demo.Web.Controllers
 {
+    [Authorize]
     public class TestController : BaseController
     {
         // GET: Test

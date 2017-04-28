@@ -276,17 +276,17 @@ $(function () {
 
     //刷新iframe
     function refreshTab() {
-        var target = $('.J_iframe[data-id="' + $(this).data('id') + '"]');
+        var target = $('.J_iframe[data-id="' + $('.J_menuTab.active').data('id') + '"]');
         var url = target.attr('src');
-//        //显示loading提示
-//        var loading = layer.load();
-//        target.attr('src', url).load(function () {
-//            //关闭loading提示
-//            layer.close(loading);
-//        });
+        //显示loading提示
+        var loading = layer.load();
+        target.attr('src', url).load(function () {
+            //关闭loading提示
+            layer.close(loading);
+        });
     }
-
-    $('.J_menuTabs').on('dblclick', '.J_menuTab', refreshTab);
+    // 刷新活动iframe
+    $('.J_refreshTab').on('click', refreshTab);
 
     // 左移按扭
     $('.J_tabLeft').on('click', scrollTabLeft);
