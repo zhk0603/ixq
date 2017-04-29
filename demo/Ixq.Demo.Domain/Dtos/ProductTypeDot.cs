@@ -4,6 +4,7 @@ using Ixq.Demo.Entities;
 
 namespace Ixq.Demo.Domain.Dtos
 {
+
     public class ProductTypeDot : DtoBase<ProductType>
     {
         [Required(ErrorMessage = "产品类型名称不能为空。")]

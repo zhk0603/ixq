@@ -15,10 +15,5 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         public ProductTypeController(IRepository<ProductType> repository) : base(repository)
         {
         }
-
-        public new ActionResult Index()
-        {
-            return View();
-        }
     }
 }

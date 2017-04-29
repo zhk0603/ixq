@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.UI
+namespace Ixq.Core
 {
     /// <summary>
     ///     文字对齐方向。

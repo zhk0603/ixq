@@ -1,9 +1,13 @@
-﻿@{
+﻿@using System.ComponentModel.DataAnnotations
+@using Ixq.Extensions
+@model Ixq.UI.Controls.IPageViewModel
+@{
+    var tableId = Model.EntityType.Name + "_jqGrid";
+    var controller = Request.RequestContext.RouteData.Values["controller"].ToString();
     Layout = "~/Areas/Hplus/Views/Shared/_LayoutHplusIframe.cshtml";
 }
 @section styles{
 <link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet"/>
-@RenderSection("pageStyles",false)
 }
 <div class="wrapper wrapper-content  animated fadeIn" style="width:100%">
     <div class="row">
@@ -14,11 +18,11 @@
                 </div>
                 <div class="ibox-content">
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary" type="button" onclick="getSelectedRows()">
+                        <button class="btn btn-primary" type="button">
                             <i class="fa fa-plus"></i>
                             新增
                         </button>
-                        <button class="btn btn-warning" type="button">
+                        <button class="btn btn-warning" type="button" onclick="getSelectedRows()">
                             <i class="fa fa-remove"></i>
                             删除
                         </button>
@@ -35,8 +39,8 @@
                     </div>
                     <hr>
                     <div class="jqGrid_wrapper">
-                        <table id="table_list_1"></table>
-                        <div id="pager_list_1"></div>
+                        <table id="@tableId"></table>
+                        <div id="pager_@tableId"></div>
                     </div>
                 </div>
             </div>
@@ -47,92 +51,50 @@
     <script src="~/Content/Hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js"></script>
     <script src="~/Content/Hplus/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
     <script>
+
+        var colNames = @Html.Raw(Model.GetColNames());
+        var colModel = @Html.Raw(Model.GetColModel());
         $(document).ready(function() {
             $.jgrid.defaults.styleUI = 'Bootstrap';
-            $("#table_list_1").jqGrid({
-                url:'',
-                editurl:'',
+            $("#@tableId").jqGrid({
+                mtype: 'post',
+                url: '@Url.Action(Model.Datagrid.DatagridConfig.DataActin)',
                 datatype: "json",
                 height: 'auto',
                 autowidth: true,
                 shrinkToFit: true,
                 multiselect: true,
-                rowNum: 10,
-                rowList: [10, 20, 30],
-                colNames: ['序号', '类型名称', '客户', '金额', '运费', '总额', '备注', '操作'],
-                colModel: [
-                    {
-                        name: 'id',
-                        index: 'id',
-                        width: 60,
-                        sorttype: "int",
-                        key: true
-                    },
-                    {
-                        name: 'invdate',
-                        index: 'invdate',
-                        width: 90,
-                        sorttype: "date",
-                        formatter: "date"
-                    },
-                    {
-                        name: 'name',
-                        index: 'name',
-                        width: 100
-                    },
-                    {
-                        name: 'amount',
-                        index: 'amount',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float",
-                        formatter: "number"
-                    },
-                    {
-                        name: 'tax',
-                        index: 'tax',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float"
-                    },
-                    {
-                        name: 'total',
-                        index: 'total',
-                        width: 80,
-                        align: "right",
-                        sorttype: "float"
-                    },
-                    {
-                        name: 'note',
-                        index: 'note',
-                        width: 150,
-                        sortable: false
-                    }, {
-                        name: 'operation',
-                        index: 'operation',
-                        width: 150,
-                        formatter: operationFormat
-                    }
-                ],
+                rowNum: @Model.Pagination.DefualtPageSize,
+                rowList: @Model.Pagination.GetSelectPageSize(),
+                colNames: colNames,
+                colModel: colModel,
                 beforeSelectRow: function(rowid, e) {
                     var $myGrid = $(this),
                         i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
                         cm = $myGrid.jqGrid('getGridParam', 'colModel');
                     return (cm[i].name === 'cb');
                 },
-                pager: "#pager_list_1",
+                pager: "#pager@(tableId)",
+                prmNames: {
+                    page: 'pageCurrent',
+                    rows: 'pageSize',
+                    sort: 'orderField',
+                    order: 'orderDirection',
+                    search: '_search',
+                    nd: 'nd'
+                },
                 viewrecords: true
             });
 
             // Add responsive to jqGrid
             $(window).bind('resize', function() {
                 var width = $('.jqGrid_wrapper').width();
-                $('#table_list_1').setGridWidth(width);
+                $('#@tableId').setGridWidth(width);
             });
         });
 
         function getSelectedRows() {
-            var grid = $("#table_list_1");
+            var grid = $("#@tableId");
             var rowKey = grid.getGridParam("selrow");
             if (!rowKey)
                 alert("No rows are selected");
@@ -152,5 +114,4 @@
         }
 
     </script>
-@RenderSection("pageScripts", false)
 }

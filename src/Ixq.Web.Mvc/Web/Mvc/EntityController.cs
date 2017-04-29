@@ -13,16 +13,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using Ixq.Data.DataAnnotations;
 using System.Web.Routing;
+using Ixq.UI;
 
 namespace Ixq.Web.Mvc
 {
-    public class EntityController<TEntity, TDto> : BaseController
+    public abstract class EntityController<TEntity, TDto> : BaseController
         where TEntity : class, IEntity<Guid>, new()
         where TDto : class, IDto<TEntity, Guid>, new()
     {
         public readonly IRepository<TEntity> Repository;
         public int[] SelectPageSize { get; set; }
-        public DatagridAttribute DatagridAttribute { get; set; }
+        public IDatagridConfig DatagridConfig { get; set; }
         public RuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
 
         protected EntityController(IRepository<TEntity> repository)
@@ -31,14 +32,25 @@ namespace Ixq.Web.Mvc
                 throw new ArgumentNullException(nameof(repository));
 
             SelectPageSize = new[] { 30, 60, 120, 150 };
-            DatagridAttribute = typeof(TDto).GetAttribute<DatagridAttribute>() ??
+            DatagridConfig = typeof(TDto).GetAttribute<DatagridAttribute>() ??
                                 new DatagridAttribute();
             Repository = repository;
         }
 
-        protected virtual async Task<ActionResult> Index(string orderField = "CreateDate", string orderDirection = "asc",
+        public virtual async Task<ActionResult> Index(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
         {
+            if (pageCurrent < 1)
+            {
+                pageCurrent = 1;
+            }
+            if (pageSize < 1)
+            {
+                pageSize = 1;
+            }
+
+            orderField = orderField ?? DatagridConfig.DefaultSortname ?? "Id";
+            orderDirection = orderDirection ?? "asc";
             var queryable = orderDirection.Equals("asc")
                 ? await GetQueryable().OrderByAsync(orderField)
                 : await GetQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
@@ -50,57 +62,59 @@ namespace Ixq.Web.Mvc
                 SelectPageSize = SelectPageSize,
                 DefualtPageSize = 30,
                 Total = queryable.Count(),
-                OrderField = orderField
+                OrderField = orderField,
+                OrderDirection = orderDirection
             };
 
             var dataGrid = new Datagrid<TEntity, TDto>
             {
-                Pagination = pagination,
-                EntityType = typeof (TEntity),
-                DtoType = typeof (TDto),
-                DatagridAttribute = DatagridAttribute,
+                DatagridConfig = DatagridConfig,
             };
 
-            var properties =
-                dataGrid.DtoType.GetProperties()
-                    .Where(x => x.HasAttribute<DisplayAttribute>() && (x.HasAttribute<HideAttribute>()))
-                    .OrderBy(x => x.GetAttribute<DisplayAttribute>().Order).ToArray();
-            dataGrid.ColumnsPropertyInfo = properties;
+            var pageViewModel = new PageViewModel<TEntity>()
+            {
+                RuntimeEntityMenberInfo = RuntimeEntityMenberInfo,
+                EntityType = typeof (TEntity),
+                DtoType = typeof (TDto),
+                Pagination = pagination,
+                Datagrid = dataGrid
+            };
 
-            return View();
+            return View(pageViewModel);
         }
-
-        protected virtual IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> predicate = null)
+        public virtual IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> predicate = null)
         {
             return predicate == null ?  Repository.GetAll() : Repository.Query(predicate);
         }
 
-        protected virtual ActionResult List()
+        public virtual ActionResult List(string orderField, string orderDirection,
+            int pageSize = 30, int pageCurrent = 1)
+        {
+
+            return View();
+        }
+
+        public virtual ActionResult Edit()
         {
             return View();
         }
 
-        protected virtual ActionResult Edit()
+        public virtual ActionResult Delete()
         {
             return View();
         }
 
-        protected virtual ActionResult Delete()
+        public virtual ActionResult Searchers()
         {
             return View();
         }
 
-        protected virtual ActionResult Searchers()
+        public virtual ActionResult Selector()
         {
             return View();
         }
 
-        protected virtual ActionResult Selector()
-        {
-            return View();
-        }
-
-        protected virtual ActionResult MultipleSelector()
+        public virtual ActionResult MultipleSelector()
         {
             return View();
         }
@@ -108,7 +122,7 @@ namespace Ixq.Web.Mvc
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (RuntimeEntityMenberInfo == null)
-                RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TEntity), User);
+                RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
             base.OnActionExecuting(filterContext);
         }
     }

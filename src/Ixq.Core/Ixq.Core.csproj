@@ -45,6 +45,7 @@
     <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\MemoryCacheProvider.cs" />
+    <Compile Include="DataType.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionServiceExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceProviderServiceExtensions.cs" />
@@ -59,6 +60,8 @@
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
+    <Compile Include="Entity\IRuntimeEntityMenberInfo.cs" />
+    <Compile Include="Entity\IRuntimePropertyMenberInfo.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\ISoftDeleteSpecification.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IRepositoryBase.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
+    <Compile Include="TextAlign.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ixq.Extensions\Ixq.Extensions.csproj">

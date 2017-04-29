@@ -12,15 +12,10 @@ namespace Ixq.UI.Controls
 {
     public interface IDatagrid<TEntity, TKey> where TEntity : class, IEntity<TKey>
     {
-        DatagridAttribute DatagridAttribute { get; set; }
-        Type EntityType { get; set; }
-        Type DtoType { get; set; }
-        Pagination Pagination { get; set; }
+        IDatagridConfig DatagridConfig { get; set; }
         IDto<TEntity, TKey>[] Items { get; set; }
-        PropertyInfo[] ColumnsPropertyInfo { get; set; }
     }
     public interface IDatagrid : IDatagrid<IEntity<Guid>, Guid>
     {
-
     }
 }

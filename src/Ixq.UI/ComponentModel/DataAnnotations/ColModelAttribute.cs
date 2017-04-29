@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core;
 
 namespace Ixq.UI.ComponentModel.DataAnnotations
 {
@@ -12,6 +13,10 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class ColModelAttribute : Attribute
     {
+        /// <summary>
+        ///     css样式类。
+        /// </summary>
+        public string CssClass { get; set; }
         /// <summary>
         ///     列宽。
         /// </summary>

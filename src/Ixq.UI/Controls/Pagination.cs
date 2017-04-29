@@ -18,12 +18,13 @@ namespace Ixq.UI.Controls
         public int PageCurrent { get; set; }
         public int Total { get; set; }
         public string OrderField { get; set; }
+        public string OrderDirection { get; set; }
 
         public string GetSelectPageSize()
         {
             var result = SelectPageSize.Aggregate("[", (current, i) => current + (i + ","));
             result = result.Substring(0, result.Length - 1);
-            result += result + ']';
+            result += ']';
             return result;
         }
     }

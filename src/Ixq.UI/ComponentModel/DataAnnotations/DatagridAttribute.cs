@@ -8,7 +8,7 @@ using Ixq.UI.Controls;
 namespace Ixq.UI.ComponentModel.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class DatagridAttribute : Attribute
+    public class DatagridAttribute : Attribute, IDatagridConfig
     {
         /// <summary>
         ///     表格名称。
