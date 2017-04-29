@@ -77,5 +77,18 @@ namespace Ixq.Demo.Web.Controllers
             var p = input.MapTo();
             return View();
         }
+
+
+        public ActionResult TestAction1()
+        {
+
+            var allType = _productTypeRepository.GetAll().Include(x => x.ParentType).ToDtoList<ProductTypeDot, ProductType>();
+
+            //var context = new DataContext();
+            //var allProductType = context.ProductTypes.Include(x => x.ParentType).ToList();
+            //var allProduct = context.Products.Include("Type").ToList();
+
+            return View();
+        }
     }
 }

@@ -219,7 +219,7 @@ namespace Ixq.Data.Repository
             }
         }
 
-        public IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector)
+        public virtual IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector)
         {
            return GetAll().Select(selector);
         }

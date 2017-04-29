@@ -61,13 +61,7 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<Guid>, new()
             where TDto : class, IDto<IEntity<Guid>, Guid>, new()
         {
-            List<TDto> array = new List<TDto>();
-            foreach (var item in queryable.ToList())
-            {
-                var dto = item.MapToDto<TDto>();
-                array.Add(dto);
-            }
-            return array.ToArray();
+            return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToArray();
         }
 
         /// <summary>
@@ -81,13 +75,7 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<Guid>, new()
             where TDto : class, IDto<IEntity<Guid>, Guid>, new()
         {
-            List<TDto> array = new List<TDto>();
-            foreach (var item in queryable.ToList())
-            {
-                var dto = item.MapToDto<TDto>();
-                array.Add(dto);
-            }
-            return array;
+            return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToList();
         }
     }
 }
