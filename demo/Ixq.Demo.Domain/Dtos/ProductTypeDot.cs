@@ -17,7 +17,7 @@ namespace Ixq.Demo.Domain.Dtos
 
         [Required(ErrorMessage = "产品类型名称不能为空。")]
         [Display(Name = "产品类型名称", Order = 2)]
-        [ColModel(Align = Core.TextAlign.Center, Sortable = false)]
+        [ColModel(Align = Core.TextAlign.Center, Sortable = true)]
         public string Name { get; set; }
 
         public ProductType ParentType { get; set; }

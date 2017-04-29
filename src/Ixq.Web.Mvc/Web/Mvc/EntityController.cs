@@ -110,7 +110,7 @@ namespace Ixq.Web.Mvc
                     .ToDtoList<TDto, TEntity>()
             };
 
-            return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
+            return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });
         }
 
         public virtual ActionResult Edit()

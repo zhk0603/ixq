@@ -22,7 +22,6 @@ namespace ixq.Demo.DbContext
                 tmp.OnCreateComplete();
                 tmp.Id = Guid.NewGuid();
                 tmp.Name = "ProductTypeName" + i;
-                tmp.ParentType = tmp;
                 context.ProductTypes.Add(tmp);
             }
             context.SaveChanges();
