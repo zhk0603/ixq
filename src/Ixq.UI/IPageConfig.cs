@@ -7,7 +7,7 @@ using Ixq.UI.Controls;
 
 namespace Ixq.UI
 {
-    public interface IDatagridConfig
+    public interface IPageConfig
     {
         string TitleName { get; set; }
         string DefaultSortname { get; set; }

@@ -14,7 +14,7 @@
         <div class="col-sm-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>ProductType</h5>
+                    <h5>@(Model.PageConfig.TitleName ?? Model.EntityType.Name)</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="btn-group btn-group-sm">
@@ -58,7 +58,7 @@
             $.jgrid.defaults.styleUI = 'Bootstrap';
             $("#@tableId").jqGrid({
                 mtype: 'post',
-                url: '@Url.Action(Model.Datagrid.DatagridConfig.DataActin)',
+                url: '@Url.Action(Model.PageConfig.DataActin)',
                 datatype: "json",
                 height: 'auto',
                 autowidth: true,
@@ -74,14 +74,13 @@
                         cm = $myGrid.jqGrid('getGridParam', 'colModel');
                     return (cm[i].name === 'cb');
                 },
-                pager: "#pager@(tableId)",
+                pager: "#pager_@(tableId)",
                 prmNames: {
                     page: 'pageCurrent',
                     rows: 'pageSize',
                     sort: 'orderField',
                     order: 'orderDirection',
-                    search: '_search',
-                    nd: 'nd'
+                    search: '_search'
                 },
                 viewrecords: true
             });

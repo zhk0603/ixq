@@ -14,10 +14,10 @@ namespace Ixq.Web.Mvc
     {
         private readonly Type _entityType;
         private readonly IPrincipal _user;
+        private PropertyInfo[] _entityPropertys;
         private IRuntimePropertyMenberInfo[] _createPropertyInfo;
         private IRuntimePropertyMenberInfo[] _detailPropertyInfo;
         private IRuntimePropertyMenberInfo[] _editPropertyInfo;
-        private PropertyInfo[] _entityPropertys;
         private IRuntimePropertyMenberInfo[] _searcherPropertyInfo;
         private IRuntimePropertyMenberInfo[] _viewPropertyInfo;
 

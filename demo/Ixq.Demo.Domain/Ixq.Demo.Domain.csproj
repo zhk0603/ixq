@@ -111,6 +111,10 @@
       <Project>{A104CD13-AC10-4F74-80BC-61B6F9449DAE}</Project>
       <Name>Ixq.Security</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.UI\Ixq.UI.csproj">
+      <Project>{E51F018D-ACB2-4117-864B-7F02B9096112}</Project>
+      <Name>Ixq.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ixq.Demo.DbContext\ixq.Demo.DbContext.csproj">
       <Project>{cb998c97-c593-424d-a366-88c412e477ff}</Project>
       <Name>ixq.Demo.DbContext</Name>

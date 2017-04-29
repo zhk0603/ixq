@@ -21,11 +21,11 @@ namespace Ixq.Data.DataAnnotations
                 return false;
             }
 
-            if (Users.Any() && !Users.Contains(user.Identity.Name, StringComparer.OrdinalIgnoreCase))
+            if (Users != null && Users.Any() && !Users.Contains(user.Identity.Name, StringComparer.OrdinalIgnoreCase))
             {
                 return false;
             }
-            if (!Roles.Any(user.IsInRole))
+            if (Roles != null && !Roles.Any(user.IsInRole))
             {
                 return false;
             }

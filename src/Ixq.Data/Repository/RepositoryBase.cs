@@ -219,6 +219,11 @@ namespace Ixq.Data.Repository
             }
         }
 
+        public IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+           return GetAll().Select(selector);
+        }
+
         public virtual TEntity SingleBy(Expression<Func<TEntity, bool>> predicate)
         {
             return GetAll().SingleOrDefault(predicate);

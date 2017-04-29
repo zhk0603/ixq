@@ -7,6 +7,7 @@ using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
 using System.Data.Entity;
+using ixq.Demo.DbContext;
 using Ixq.Core.Entity;
 using Ixq.Demo.Domain.Dtos;
 
@@ -52,7 +53,10 @@ namespace Ixq.Demo.Web.Controllers
 
         public ActionResult Index1()
         {
-            var typeList = ProductTypeRepository.GetAll().ToList();
+            var typeList = ProductTypeRepository.FilterField(x => new ProductTypeDot { Name = x.Name});
+            var list =
+                ProductTypeRepository.GetDbContext<ProductType, DataContext>()
+                    .ProductTypes.Select(x => new {CreateDate = x.CreateDate, Id = x.Id, Name = x.Name});
             //typeList[0]
             var mapper = ServiceProvider.GetService<IMapper>();
             var dto1 = new ProductTypeDot

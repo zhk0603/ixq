@@ -11,10 +11,20 @@ namespace Ixq.UI.Controls
 {
     public class PageDataViewModel
     {
+        public PageDataViewModel(int total, int pageCurrent,int pageSize)
+        {
+            this.Total = total;
+            this.PageCurrent = pageCurrent;
+            this.TotalPage = (int)Math.Ceiling(total / (double)pageSize);
+        }
+
         [JsonProperty("rows")]
-        public IEnumerable<IDto<IEntity<Guid>, Guid>> List { get; set; }
+        public IEnumerable<IDto<IEntity<Guid>, Guid>> Items { get; set; }
+
         [JsonProperty("total")]
-        public int TotalPage { get; set; }
+        public int TotalPage { get; private set; }
+        
+
         [JsonProperty("records")]
         public int Total { get; set;}
         [JsonProperty("page")]

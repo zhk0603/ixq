@@ -13,7 +13,7 @@ namespace Ixq.Demo.Domain.Dtos
         [Key]
         [Required]
         [Hide(IsHiddenOnCreate = true, IsHiddenOnDetail = true, IsHiddenOnEdit = true, IsHiddenOnView = false)]
-        [Display(Name = "唯一标识")]
+        [Display(Name = "唯一标识",Order = 0)]
         public override Guid Id { get; set; }
     }
 }

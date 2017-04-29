@@ -216,6 +216,8 @@ namespace Ixq.Core.Repository
         /// <returns></returns>
         Task<bool> SaveAsync();
 
+        IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector);
+
         #region Sql查询
 
         /// <summary>

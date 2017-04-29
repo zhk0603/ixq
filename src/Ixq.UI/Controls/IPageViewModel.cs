@@ -16,7 +16,7 @@ namespace Ixq.UI.Controls
         IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
         Type EntityType { get; set; }
         Type DtoType { get; set; }
-        IDatagrid<TEntity, TKey> Datagrid { get; set; }
+        IPageConfig PageConfig { get; set; }
         Pagination Pagination { get; set; }
         string GetColNames();
         string GetColModel();
