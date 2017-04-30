@@ -119,9 +119,9 @@ namespace Ixq.Web.Mvc
             return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });
         }
 
-        public virtual ActionResult Edit()
+        public virtual ActionResult Edit(string id)
         {
-            return View();
+            return View(RuntimeEntityMenberInfo.EditPropertyInfo);
         }
 
         public virtual ActionResult Delete()
