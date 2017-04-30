@@ -734,7 +734,10 @@
     <Content Include="Areas\Hplus\Views\Home\Index.cshtml" />
     <Content Include="log4net.config" />
     <Content Include="Areas\Hplus\Views\Account\Login.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\EntityIndex.cshtml" />
+    <Content Include="Areas\Hplus\Views\ProductType\Index.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\Index.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -778,7 +781,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Hplus\Models\" />
-    <Folder Include="Areas\Hplus\Views\ProductType\" />
     <Folder Include="Areas\Hplus\Views\Product\" />
     <Folder Include="Areas\Hplus\Views\Test\" />
     <Folder Include="Content\Hplus\plugins\fullavatareditor\asp.net\c#\bin\" />

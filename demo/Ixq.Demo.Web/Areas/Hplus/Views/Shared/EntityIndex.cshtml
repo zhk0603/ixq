@@ -1,0 +1,122 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Ixq.Extensions
+@model Ixq.UI.Controls.IPageViewModel
+@{
+    var tableId = Model.EntityType.Name + "_jqGrid";
+    var pageTitle = Model.PageConfig.TitleName ?? Model.EntityType.Name;
+    Layout = "~/Areas/Hplus/Views/Shared/_LayoutHplusIframe.cshtml";
+}
+@section styles{
+<link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet"/>
+}
+@RenderSection("pageStyles", false)
+<div class="wrapper wrapper-content  animated fadeIn">
+    @RenderBody()
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>@pageTitle</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-primary" type="button" onclick="Insert@(Model.EntityType.Name)()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                        <button class="btn btn-warning" type="button" onclick="getSelectedRows()">
+                            <i class="fa fa-remove"></i>
+                            删除
+                        </button>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-info" type="button">
+                            <i class="fa fa-arrow-up"></i>
+                            导入
+                        </button>
+                        <button class="btn btn-primary" type="button">
+                            <i class="fa fa-arrow-down"></i>
+                            导入
+                        </button>
+                    </div>
+                    <hr>
+                    <div class="jqGrid_wrapper">
+                        <table id="@tableId"></table>
+                        <div id="pager_@tableId"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="~/Content/Hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js"></script>
+    <script src="~/Content/Hplus/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+    @RenderSection("pageScripts", false)
+    <script>
+        var colNames = @Html.Raw(Model.GetColNames());
+        var colModel = @Html.Raw(Model.GetColModel());
+
+        function Insert@(Model.EntityType.Name)() {
+            layer.open({
+                title: '新增 @pageTitle',
+                type: 2,
+                area: ['800px','600px'],
+                maxmin: true,
+                resize: true,
+                content: '@Url.Action(Model.PageConfig.EditAction)'
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+            $("#@tableId").jqGrid({
+                mtype: 'post',
+                url: '@Url.Action(Model.PageConfig.DataActin)',
+                datatype: "json",
+                height: 'auto',
+                autowidth: true,
+                shrinkToFit: true,
+                multiselect: true,
+                rowNum: @Model.Pagination.DefualtPageSize,
+                rowList: @Model.Pagination.GetSelectPageSize(),
+                sortorder: '@Model.Pagination.OrderDirection',
+                sortname: '@Model.Pagination.OrderField',
+                colNames: colNames,
+                colModel: colModel,
+                beforeSelectRow: function(rowid, e) {
+                    var $myGrid = $(this),
+                        i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
+                        cm = $myGrid.jqGrid('getGridParam', 'colModel');
+                    return (cm[i].name === 'cb');
+                },
+                pager: "#pager_@(tableId)",
+                prmNames: {
+                    page: 'pageCurrent',
+                    rows: 'pageSize',
+                    sort: 'orderField',
+                    order: 'orderDirection',
+                    search: '_search'
+                },
+                viewrecords: true,
+                loadError: function(xhr, status, error) {
+                    if (xhr.responseJSON.error) {
+                        layer.open({
+                            type: 0,
+                            content: xhr.responseJSON.message
+                        });
+                    }
+                }
+            });
+
+            // Add responsive to jqGrid
+            $(window).bind('resize', function() {
+                var width = $('.jqGrid_wrapper').width();
+                $('#@tableId').setGridWidth(width);
+            });
+        });
+    </script>
+}

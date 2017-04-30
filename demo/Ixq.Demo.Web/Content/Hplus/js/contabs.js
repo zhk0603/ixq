@@ -279,12 +279,14 @@ $(function () {
         var target = $('.J_iframe[data-id="' + $('.J_menuTab.active').data('id') + '"]');
         var url = target.attr('src');
         //显示loading提示
-        var loading = layer.load();
-        target.attr('src', url).load(function () {
+        var frame = window.frames[target.attr('name')];
+        var loading = frame.layer.load();
+        target.attr('src', url).load(function() {
             //关闭loading提示
-            layer.close(loading);
+            frame.layer.close(loading);
         });
     }
+
     // 刷新活动iframe
     $('.J_refreshTab').on('click', refreshTab);
 

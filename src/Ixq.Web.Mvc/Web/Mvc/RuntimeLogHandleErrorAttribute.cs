@@ -25,7 +25,7 @@ namespace Ixq.Web.Mvc
             {
                 return;
             }
-            if (filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled)
+            if (filterContext.ExceptionHandled /*|| !filterContext.HttpContext.IsCustomErrorEnabled*/)
             {
                 return;
             }
