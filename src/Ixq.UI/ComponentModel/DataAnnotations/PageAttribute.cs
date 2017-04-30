@@ -19,6 +19,10 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// </summary>
         public string DefaultSortname { get; set; }
         /// <summary>
+        ///     是否降序排序。
+        /// </summary>
+        public bool IsDescending { get; set; }
+        /// <summary>
         /// Ajax请求数据的 Actin 名。
         /// </summary>
         public string DataActin { get; set; } = "List";

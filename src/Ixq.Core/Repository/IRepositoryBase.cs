@@ -366,7 +366,7 @@ namespace Ixq.Core.Repository
         /// <typeparam name="TDto"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>, new();
+        TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>;
 
         /// <summary>
         ///     异步根据Id获取Dto对象
@@ -374,7 +374,7 @@ namespace Ixq.Core.Repository
         /// <typeparam name="TDto"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>, new();
+        Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>;
 
         #endregion
     }

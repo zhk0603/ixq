@@ -20,16 +20,16 @@ using Newtonsoft.Json;
 
 namespace Ixq.Web.Mvc
 {
-    public abstract class EntityController<TEntity, TDto> : BaseController
-        where TEntity : class, IEntity<Guid>, new()
-        where TDto : class, IDto<TEntity, Guid>, new()
+    public abstract class EntityController<TEntity, TDto,TKey> : BaseController
+        where TEntity : class, IEntity<TKey>, new()
+        where TDto : class, IDto<TEntity, TKey>, new()
     {
-        public readonly IRepository<TEntity> Repository;
+        public readonly IRepositoryBase<TEntity, TKey> Repository;
         public int[] SelectPageSize { get; set; }
         public IPageConfig PageConfig { get; set; }
         public RuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
 
-        protected EntityController(IRepository<TEntity> repository)
+        protected EntityController(IRepositoryBase<TEntity, TKey> repository)
         {
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
@@ -53,10 +53,12 @@ namespace Ixq.Web.Mvc
             }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
-            orderDirection = string.IsNullOrWhiteSpace(orderDirection) ? "asc" : orderDirection;
+            orderDirection = string.IsNullOrWhiteSpace(orderDirection)
+                ? PageConfig.IsDescending ? "desc" : "asc"
+                : orderDirection;
             var queryable = orderDirection.Equals("asc")
-                ? await GetQueryable().OrderByAsync(orderField)
-                : await GetQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
+                ? await EntityQueryable().OrderByAsync(orderField)
+                : await EntityQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
 
             var pagination = new Pagination
             {
@@ -69,7 +71,7 @@ namespace Ixq.Web.Mvc
                 OrderDirection = orderDirection
             };
 
-            var pageViewModel = new PageViewModel<TEntity>()
+            var pageViewModel = new PageViewModel<TEntity, TKey>()
             {
                 RuntimeEntityMenberInfo = RuntimeEntityMenberInfo,
                 EntityType = typeof (TEntity),
@@ -79,11 +81,13 @@ namespace Ixq.Web.Mvc
             };
             return View(pageViewModel);
         }
-        public virtual IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> predicate = null)
+
+        public virtual IQueryable<TEntity> EntityQueryable(Expression<Func<TEntity, bool>> predicate = null)
         {
             return predicate == null ?  Repository.GetAll() : Repository.Query(predicate);
         }
 
+        [HttpPost]
         public virtual async Task<ActionResult> List(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
         {
@@ -97,17 +101,19 @@ namespace Ixq.Web.Mvc
             }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
-            orderDirection = string.IsNullOrWhiteSpace(orderDirection) ? "asc" : orderDirection;
+            orderDirection = string.IsNullOrWhiteSpace(orderDirection)
+                ? PageConfig.IsDescending ? "desc" : "asc"
+                : orderDirection;
             var queryable = orderDirection.Equals("asc")
-                ? await GetQueryable().OrderByAsync(orderField)
-                : await GetQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
+                ? await EntityQueryable().OrderByAsync(orderField)
+                : await EntityQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
 
-            var pageListViewModel = new PageDataViewModel(queryable.Count(), pageCurrent, pageSize)
+            var pageListViewModel = new PageDataViewModel<TKey>(queryable.Count(), pageCurrent, pageSize)
             {
                 Items = queryable
                     .Skip((pageCurrent - 1)*pageSize)
                     .Take(pageSize)
-                    .ToDtoList<TDto, TEntity>()
+                    .ToDtoArray<TDto, TEntity,TKey>()
             };
 
             return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });

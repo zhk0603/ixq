@@ -62,6 +62,7 @@
     <Compile Include="Repository\Extensions\RepositoryExtensions.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />
+    <Compile Include="Repository\RepositoryInt32.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

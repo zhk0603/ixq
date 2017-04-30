@@ -7,7 +7,7 @@ using Ixq.UI.ComponentModel.DataAnnotations;
 
 namespace Ixq.Demo.Domain.Dtos
 {
-    [Page(DefaultSortname = nameof(Name), TitleName = "产品分类")]
+    [Page(DefaultSortname = nameof(Id), TitleName = "产品分类")]
     public class ProductTypeDot : DtoBase<ProductType>
     {
         [Display(Name = "创建时间", Order = 1)]

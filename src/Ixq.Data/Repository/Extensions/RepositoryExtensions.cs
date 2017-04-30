@@ -59,9 +59,24 @@ namespace Ixq.Data.Repository.Extensions
         /// <returns></returns>
         public static TDto[] ToDtoArray<TDto, TEntity>(this IQueryable<TEntity> queryable)
             where TEntity : class, IEntity<Guid>, new()
-            where TDto : class, IDto<IEntity<Guid>, Guid>, new()
+            where TDto : class, IDto<TEntity,Guid>, new()
         {
             return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToArray();
+        }
+
+        /// <summary>
+        /// 将指定的 <see cref="IQueryable{TEntity}"/> 转为 <see cref="IDto"/>
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="queryable"></param>
+        /// <returns></returns>
+        public static TDto[] ToDtoArray<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
+            where TEntity : class, IEntity<TKey>, new()
+            where TDto : class, IDto<TEntity, TKey>, new()
+        {
+            return queryable.ToList().Select(item => item.MapToDto<TDto, TKey>()).ToArray();
         }
 
         /// <summary>
@@ -73,9 +88,24 @@ namespace Ixq.Data.Repository.Extensions
         /// <returns></returns>
         public static List<TDto> ToDtoList<TDto, TEntity>(this IQueryable<TEntity> queryable)
             where TEntity : class, IEntity<Guid>, new()
-            where TDto : class, IDto<IEntity<Guid>, Guid>, new()
+            where TDto : class, IDto<TEntity, Guid>, new()
         {
             return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToList();
+        }
+
+        /// <summary>
+        /// 将 <see cref="IQueryable{TEntity}"/> 转为 <see cref="List{TDto}"/>
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="queryable"></param>
+        /// <returns></returns>
+        public static List<TDto> ToDtoList<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
+            where TEntity : class, IEntity<TKey>, new()
+            where TDto : class, IDto<TEntity, TKey>, new()
+        {
+            return queryable.ToList().Select(item => item.MapToDto<TDto, TKey>()).ToList();
         }
     }
 }

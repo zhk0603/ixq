@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Ixq.UI.Controls
 {
-    public class PageDataViewModel
+    public class PageDataViewModel<TKey>
     {
         public PageDataViewModel(int total, int pageCurrent,int pageSize)
         {
@@ -19,7 +19,7 @@ namespace Ixq.UI.Controls
         }
 
         [JsonProperty("rows")]
-        public IEnumerable<IDto<IEntity<Guid>, Guid>> Items { get; set; }
+        public IEnumerable<IDto<IEntity<TKey>, TKey>> Items { get; set; }
 
         [JsonProperty("total")]
         public int TotalPage { get; private set; }

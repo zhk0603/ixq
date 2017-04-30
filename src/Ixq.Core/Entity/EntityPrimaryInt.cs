@@ -1,7 +1,13 @@
-﻿namespace Ixq.Core.Entity
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Ixq.Core.Entity
 {
-    internal class EntityPrimaryInt : IEntity<int>
+    public abstract class EntityPrimaryInt : IEntity<int>
     {
+        [Key]
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
     }
 }

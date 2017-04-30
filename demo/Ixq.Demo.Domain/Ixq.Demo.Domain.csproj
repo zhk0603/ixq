@@ -93,6 +93,7 @@
     <Compile Include="Dtos\DtoBase.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
     <Compile Include="Dtos\ProductTypeDot.cs" />
+    <Compile Include="Dtos\TestDto.cs" />
     <Compile Include="IApplicationServer\IProductServer.cs" />
     <Compile Include="IApplicationServer\IProductTypeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

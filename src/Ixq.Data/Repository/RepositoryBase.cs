@@ -92,14 +92,14 @@ namespace Ixq.Data.Repository
             return await Task.FromResult(GetAll());
         }
 
-        public virtual TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>, new()
+        public virtual TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>
         {
             var entity = SingleById(index);
             return entity.MapToDto<TDto, TEntity, TKey>();
         }
 
         public virtual async Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index)
-            where TDto : class, IDto<TEntity, TKey>, new()
+            where TDto : class, IDto<TEntity, TKey>
         {
             return await Task.FromResult(GetSingleDtoById<TDto>(index));
         }

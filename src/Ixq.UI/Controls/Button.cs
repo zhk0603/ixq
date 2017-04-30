@@ -20,10 +20,14 @@ namespace Ixq.UI.Controls
             Text = text;
         }
 
-        public Button(string icon, string text, string link, string js, string className) : this(icon, text)
+        public Button(string icon, string text, string javascript):this(icon,text)
+        {
+            Javascript = javascript;
+        }
+
+        public Button(string icon, string text, string link, string javascript, string className) : this(icon, text, javascript)
         {
             Link = link;
-            Javascript = js;
             ClassName = className;
         }
     }

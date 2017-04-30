@@ -10,16 +10,10 @@ using Ixq.Web.Mvc;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
-    public class ProductController : EntityController<Product, ProductDto, Guid>
+    public class TestController : EntityController<Test,TestDto,int>
     {
-        public ProductController(IRepository<Product> repository) : base(repository)
+        public TestController(IRepositoryInt32<Test> repository) : base(repository)
         {
-        }
-
-        // GET: Hplus/Product
-        public ActionResult Index()
-        {
-            return View();
         }
     }
 }

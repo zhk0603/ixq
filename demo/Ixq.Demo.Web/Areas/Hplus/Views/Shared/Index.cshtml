@@ -66,6 +66,8 @@
                 multiselect: true,
                 rowNum: @Model.Pagination.DefualtPageSize,
                 rowList: @Model.Pagination.GetSelectPageSize(),
+                sortorder: '@Model.Pagination.OrderDirection',
+                sortname: '@Model.Pagination.OrderField',
                 colNames: colNames,
                 colModel: colModel,
                 beforeSelectRow: function(rowid, e) {
@@ -82,7 +84,15 @@
                     order: 'orderDirection',
                     search: '_search'
                 },
-                viewrecords: true
+                viewrecords: true,
+                loadError:function(xhr, status, error) {
+                    if (xhr.responseJSON.error) {
+                        layer.open({
+                            type: 0,
+                            content: xhr.responseJSON.message
+                        });
+                    }
+                }
             });
 
             // Add responsive to jqGrid

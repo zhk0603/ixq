@@ -1,4 +1,5 @@
-﻿using Ixq.Core.Mapper;
+﻿using Ixq.Core.Entity;
+using Ixq.Core.Mapper;
 
 namespace Ixq.Core.Dto
 {
@@ -8,6 +9,7 @@ namespace Ixq.Core.Dto
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TEntity"></typeparam>
     public interface IDto<out TEntity, TKey> : IDto
+        where TEntity : class, IEntity<TKey>
     {
         /// <summary>
         ///     主键标识。

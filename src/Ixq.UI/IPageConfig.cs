@@ -11,6 +11,7 @@ namespace Ixq.UI
     {
         string TitleName { get; set; }
         string DefaultSortname { get; set; }
+        bool IsDescending { get; set; }
         string DataActin { get; set; }
         string EditAction { get; set; }
         string DelAction { get; set; }

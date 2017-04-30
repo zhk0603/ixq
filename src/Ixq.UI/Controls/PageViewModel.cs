@@ -9,8 +9,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ixq.UI.Controls
 {
-    public class PageViewModel<TEntity> : IPageViewModel
-        where TEntity : class, IEntity<Guid>, new()
+    public class PageViewModel<TEntity, TKey> : IPageViewModel
+        where TEntity : class, IEntity<TKey>, new()
     {
         public IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
         public Type EntityType { get; set; }

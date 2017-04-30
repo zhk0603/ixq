@@ -25,7 +25,7 @@ namespace Ixq.Web.Mvc
             {
                 return;
             }
-            if (filterContext.ExceptionHandled /*|| !filterContext.HttpContext.IsCustomErrorEnabled*/)
+            if (filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled)
             {
                 return;
             }
@@ -38,8 +38,44 @@ namespace Ixq.Web.Mvc
             {
                 return;
             }
+
+            if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                filterContext.Result = new JsonResult()
+                {
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    Data = new
+                    {
+                        error = true,
+                        message = filterContext.Exception.Message
+                    }
+                };
+            }
+            else
+            {
+                string controllerName = (string)filterContext.RouteData.Values["controller"];
+                string actionName = (string)filterContext.RouteData.Values["action"];
+                HandleErrorInfo model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
+                filterContext.Result = new ViewResult
+                {
+                    ViewName = View,
+                    MasterName = Master,
+                    ViewData = new ViewDataDictionary<HandleErrorInfo>(model),
+                    TempData = filterContext.Controller.TempData
+                };
+            }
+
+            // 记录异常。
             LogManager.GetLogger(GetType())?.Error(exception.Message, exception);
-            base.OnException(filterContext);
+
+            filterContext.ExceptionHandled = true;
+            filterContext.HttpContext.Response.Clear();
+            filterContext.HttpContext.Response.StatusCode = 500;
+
+            // Certain versions of IIS will sometimes use their own error page when
+            // they detect a server error. Setting this property indicates that we
+            // want it to try to render ASP.NET MVC's error page instead.
+            filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
         }
     }
 }

@@ -2,6 +2,9 @@
 using Ixq.Redis;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,8 +16,9 @@ namespace Ixq.Demo.Console
     [Serializable]
     class Program
     {
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
+
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
 
@@ -37,6 +41,12 @@ namespace Ixq.Demo.Console
             TestMethod4();
             //TestMethod5();
 
+            System.Console.ReadKey();
+        }
+
+        static void Main(string[] args)
+        {
+            BulkInsert();
             System.Console.ReadKey();
         }
 
@@ -109,5 +119,85 @@ namespace Ixq.Demo.Console
                 throw new NotImplementedException();
             }
         }
+
+        //使用Bulk插入的情况 [ 较快 ]
+        #region [ 使用Bulk插入的情况 ]
+        static void BulkToDB(DataTable dt)
+        {
+            Stopwatch sw = new Stopwatch();
+            SqlConnection sqlconn = new SqlConnection("server=.;database=IxqDb;user=sa;password=123@Abc;");
+            SqlBulkCopy bulkCopy = new SqlBulkCopy(sqlconn);
+            bulkCopy.DestinationTableName = "Test";
+            bulkCopy.BatchSize = dt.Rows.Count;
+            try
+            {
+                sqlconn.Open();
+                if (dt != null && dt.Rows.Count != 0)
+                {
+                    bulkCopy.WriteToServer(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                sqlconn.Close();
+                if (bulkCopy != null)
+                {
+                    bulkCopy.Close();
+                }
+            }
+        }
+        static DataTable GetTableSchema()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[] {
+                new DataColumn("Id",typeof(int)),
+                new DataColumn("Name",typeof(string)),
+                new DataColumn("Name1",typeof(string)),
+                new DataColumn("Name2",typeof(string)),
+                new DataColumn("Name3",typeof(string)),
+                new DataColumn("Name4",typeof(string)),
+                new DataColumn("SortCode",typeof(string)),
+                new DataColumn("CreateDate",typeof(DateTime)),
+                new DataColumn("UpdataDate",typeof(DateTime)),
+                new DataColumn("DeleteDate",typeof(DateTime)),
+                new DataColumn("IsDeleted",typeof(int)),
+            });
+            return dt;
+        }
+
+        static void BulkInsert()
+        {
+            System.Console.WriteLine("使用简单的Bulk插入的情况");
+            Stopwatch sw = new Stopwatch();
+            var i = 0;
+            for (int multiply = 0; multiply < 10*5000; multiply++) // 10000000
+            {
+                DataTable dt = GetTableSchema();
+                for (int count = multiply*100; count < (multiply + 1)*100; count++)
+                {
+                    DataRow r = dt.NewRow();
+                    //r[0] = Guid.NewGuid();
+                    r[1] = $"TestName{i}";
+                    r[2] = $"TestName1{i}";
+                    r[3] = $"TestName2{i}";
+                    r[4] = $"TestName3{i}";
+                    r[5] = $"TestName4{i}";
+                    r[7] = DateTime.Now;
+                    r[10] = 0;
+                    dt.Rows.Add(r);
+                    i++;
+                }
+                sw.Start();
+                BulkToDB(dt);
+                sw.Stop();
+                System.Console.WriteLine(string.Format("Elapsed Time is {0} Milliseconds", sw.ElapsedMilliseconds));
+            }
+        }
+
+        #endregion
     }
 }

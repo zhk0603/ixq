@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Newtonsoft.Json;
 
 namespace Ixq.Core.Dto
 {
-    public abstract class DtoBase<TEntity> : IDto<TEntity, Guid>
-        where TEntity : class, IEntity<Guid>
+    public abstract class DtoBaseInt32<TEntity> : IDto<TEntity, int>
+        where TEntity : class, IEntity<int>
     {
-        protected DtoBase()
+        protected DtoBaseInt32()
         {
             Mapper = MapperExtensions.Instance;
         }
@@ -16,7 +20,7 @@ namespace Ixq.Core.Dto
         [JsonIgnore]
         public IMapper Mapper { get; set; }
 
-        public virtual Guid Id { get; set; }
+        public virtual int Id { get; set; }
 
         public virtual TEntity MapTo()
         {

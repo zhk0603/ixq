@@ -22,7 +22,7 @@ namespace Ixq.Core.Mapper
         /// <returns>数据传输对象。</returns>
         public static TDto MapToDto<TDto, TEntity, TKey>(this IEntity<TKey> entity)
             where TEntity : class, IEntity<TKey>, new()
-            where TDto : class, IDto<TEntity, TKey>, new()
+            where TDto : class, IDto<TEntity, TKey>
         {
             return Instance.MapTo<TDto>(entity);
         }
@@ -34,7 +34,7 @@ namespace Ixq.Core.Mapper
         /// <param name="entity">数据对象。</param>
         /// <returns>数据传输对象。</returns>
         public static TDto MapToDto<TDto>(this IEntity<Guid> entity)
-            where TDto : class, IDto<IEntity<Guid>, Guid>, new()
+            where TDto : class, IDto<IEntity<Guid>, Guid>
         {
             return Instance.MapTo<TDto>(entity);
         }
@@ -47,7 +47,7 @@ namespace Ixq.Core.Mapper
         /// <param name="entity">数据对象。</param>
         /// <returns>数据传输对象。</returns>
         public static TDto MapToDto<TDto, TKey>(this IEntity<TKey> entity)
-            where TDto : class, IDto<IEntity<TKey>, TKey>, new()
+            where TDto : class, IDto<IEntity<TKey>, TKey>
         {
             return Instance.MapTo<TDto>(entity);
         }

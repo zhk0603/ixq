@@ -168,6 +168,7 @@
     <Compile Include="Areas\Hplus\Controllers\HomeController.cs" />
     <Compile Include="Areas\Hplus\Controllers\ProductController.cs" />
     <Compile Include="Areas\Hplus\Controllers\ProductTypeController.cs" />
+    <Compile Include="Areas\Hplus\Controllers\TestController.cs" />
     <Compile Include="Areas\Hplus\HplusAreaRegistration.cs" />
     <Compile Include="Content\Hplus\plugins\fullavatareditor\asp.net\c#\Upload.aspx.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
@@ -779,6 +780,7 @@
     <Folder Include="Areas\Hplus\Models\" />
     <Folder Include="Areas\Hplus\Views\ProductType\" />
     <Folder Include="Areas\Hplus\Views\Product\" />
+    <Folder Include="Areas\Hplus\Views\Test\" />
     <Folder Include="Content\Hplus\plugins\fullavatareditor\asp.net\c#\bin\" />
     <Folder Include="Content\Hplus\plugins\fullavatareditor\asp.net\vb\bin\" />
     <Folder Include="Models\" />

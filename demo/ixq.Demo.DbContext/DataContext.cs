@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using Ixq.Data.Repository;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Entities.System;
@@ -22,5 +23,6 @@ namespace ixq.Demo.DbContext
         public IDbSet<ProductType> ProductTypes { get; set; }
         public IDbSet<Product> Products { get; set; }
         public IDbSet<SystemMenu> SystemMenus { get; set; }
+        public IDbSet<Test> Tests { get; set; }
     }
 }

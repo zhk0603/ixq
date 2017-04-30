@@ -11,7 +11,7 @@ using Ixq.Web.Mvc;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
-    public class ProductTypeController : EntityController<ProductType, ProductTypeDot>
+    public class ProductTypeController : EntityController<ProductType, ProductTypeDot, Guid>
     {
         public ProductTypeController(IRepository<ProductType> repository) : base(repository)
         {

@@ -15,17 +15,23 @@ namespace ixq.Demo.DbContext
             {
                 return;
             }
-
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 10000; i++)
             {
-                var tmp = context.ProductTypes.Create();
-                tmp.OnCreateComplete();
-                tmp.Id = Guid.NewGuid();
-                tmp.Name = "ProductTypeName" + i;
-                context.ProductTypes.Add(tmp);
+                for (var j = 0; j < 1000; j++)
+                {
+                    var tmp = context.ProductTypes.Create();
+                    tmp.OnCreateComplete();
+                    tmp.Id = Guid.NewGuid();
+                    tmp.Name = "ProductTypeName" + i;
+                    context.ProductTypes.Add(tmp);
+                }
+                context.SaveChanges();
             }
-            context.SaveChanges();
+
+
         }
+
+
 
         public static void SeedSysRole(DataContext context)
         {
