@@ -21,6 +21,7 @@ namespace Ixq.Demo.Domain.Dtos
         [ColModel(Sortable =true)]
         public override int Id { get; set; }
 
+        [Required]
         [Display(Name = "创建时间", Order = 1)]
         [ColModel(Sortable = true)]
         [PropertyAuthorization(Roles = new[] { "Admin" })]

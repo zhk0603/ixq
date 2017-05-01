@@ -171,7 +171,7 @@ namespace Ixq.Web.Mvc
                     {
                         runtimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
                         CacheManager.GetGlobalCache()
-                            .Set<RuntimeEntityMenberInfo>("RuntimeEntityMenberInfo:" + typeof (TDto),
+                            .Set("RuntimeEntityMenberInfo:" + typeof (TDto),
                                 runtimeEntityMenberInfo);
                     }
                     RuntimeEntityMenberInfo = runtimeEntityMenberInfo;

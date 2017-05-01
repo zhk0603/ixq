@@ -5,6 +5,9 @@
     Layout = "~/Areas/Hplus/Views/Shared/_LayoutHplusIframe.cshtml";
     var entityName = Model.EntityDto.GetType().Name;
 }
+@section styles{
+<link href="~/Content/Hplus/css/plugins/datapicker/datepicker3.css" rel="stylesheet" />
+}
 
 <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
@@ -33,7 +36,7 @@
 @section scripts{
     <script src="~/Content/Hplus/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="~/Content/Hplus/js/plugins/validate/messages_zh.min.js"></script>
-
+    @Html.RenderScripts()
     <script>
         $().ready(function() {
             $("#@(entityName)_from").validate();

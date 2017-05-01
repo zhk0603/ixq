@@ -1,7 +1,25 @@
-﻿@model IPropertyEditModel
+﻿@using Ixq.UI
+@model IPropertyEditModel
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
     <div class="col-sm-8">
-        <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"":"")  >
+        <div class="input-group">
+            <input id="@Model.RuntimeProperty.PropertyInfo.Name" name="@Model.RuntimeProperty.PropertyInfo.Name" date="true" type="date" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"" : "")/>
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
     </div>
 </div>
+@Html.Script(
+    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>,
+    @<script>
+         $().ready(function() {
+             $('#@Model.RuntimeProperty.PropertyInfo.Name').datepicker({
+                 todayBtn: "linked",
+                 keyboardNavigation: false,
+                 forceParse: false,
+                 calendarWeeks: true,
+                 autoclose: true
+             });
+         });
+     </script>
+    )
