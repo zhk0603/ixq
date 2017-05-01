@@ -10,6 +10,7 @@ using Ixq.Extensions;
 
 namespace Ixq.Web.Mvc
 {
+    [Serializable]
     public class RuntimeEntityMenberInfo : IRuntimeEntityMenberInfo
     {
         private readonly Type _entityType;

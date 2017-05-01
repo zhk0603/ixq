@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Entity;
+using Ixq.UI.Controls;
 
-namespace Ixq.UI.Controls
+namespace Ixq.UI.ComponentModel
 {
     /// <summary>
     ///     页面视图模型接口。
     /// </summary>
-    public interface IPageViewModel<TEntity,TKey>
-        where TEntity : class, IEntity<TKey>
+    public interface IPageViewModel
     {
         IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
         Type EntityType { get; set; }
@@ -20,9 +20,5 @@ namespace Ixq.UI.Controls
         Pagination Pagination { get; set; }
         string GetColNames();
         string GetColModel();
-    }
-
-    public interface IPageViewModel : IPageViewModel<IEntity<Guid>, Guid> 
-    {
     }
 }

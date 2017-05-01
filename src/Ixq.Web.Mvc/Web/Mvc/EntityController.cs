@@ -16,12 +16,14 @@ using System.Web.Routing;
 using Ixq.Data.Repository.Extensions;
 using Ixq.UI;
 using System.Text;
+using Ixq.Core.Cache;
 using Newtonsoft.Json;
 using Ixq.Core.Mapper;
+using Ixq.UI.ComponentModel;
 
 namespace Ixq.Web.Mvc
 {
-    public abstract class EntityController<TEntity, TDto,TKey> : BaseController
+    public abstract class EntityController<TEntity, TDto, TKey> : BaseController
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
     {
@@ -35,9 +37,9 @@ namespace Ixq.Web.Mvc
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
 
-            SelectPageSize = new[] { 30, 60, 120, 150 };
-            PageConfig = typeof(TDto).GetAttribute<PageAttribute>() ??
-                                new PageAttribute();
+            SelectPageSize = new[] {30, 60, 120, 150};
+            PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
+                         new PageAttribute();
             Repository = repository;
         }
 
@@ -72,7 +74,7 @@ namespace Ixq.Web.Mvc
                 OrderDirection = orderDirection
             };
 
-            var pageViewModel = new PageViewModel<TEntity, TKey>()
+            var pageViewModel = new PageViewModel
             {
                 RuntimeEntityMenberInfo = RuntimeEntityMenberInfo,
                 EntityType = typeof (TEntity),
@@ -80,12 +82,14 @@ namespace Ixq.Web.Mvc
                 Pagination = pagination,
                 PageConfig = PageConfig
             };
+
+
             return View(pageViewModel);
         }
 
         public virtual IQueryable<TEntity> EntityQueryable(Expression<Func<TEntity, bool>> predicate = null)
         {
-            return predicate == null ?  Repository.GetAll() : Repository.Query(predicate);
+            return predicate == null ? Repository.GetAll() : Repository.Query(predicate);
         }
 
         [HttpPost]
@@ -114,10 +118,10 @@ namespace Ixq.Web.Mvc
                 Items = queryable
                     .Skip((pageCurrent - 1)*pageSize)
                     .Take(pageSize)
-                    .ToDtoArray<TDto, TEntity,TKey>()
+                    .ToDtoArray<TDto, TEntity, TKey>()
             };
 
-            return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });
+            return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
         }
 
         public virtual async Task<ActionResult> Edit(string id)
@@ -129,7 +133,7 @@ namespace Ixq.Web.Mvc
             var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
                 RuntimeEntityMenberInfo.EditPropertyInfo)
             {
-                Title = string.IsNullOrEmpty(id) ? "新增" : "编辑" + PageConfig.TitleName
+                Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.TitleName ?? typeof (TEntity).Name)
             };
             return View(editModel);
         }
@@ -157,7 +161,24 @@ namespace Ixq.Web.Mvc
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (RuntimeEntityMenberInfo == null)
-                RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
+            {
+                if (CacheManager.IsEnable)
+                {
+                    var runtimeEntityMenberInfo =
+                        CacheManager.GetGlobalCache().Get("RuntimeEntityMenberInfo:" + typeof (TDto)) as
+                            RuntimeEntityMenberInfo;
+                    if (runtimeEntityMenberInfo == null)
+                    {
+                        runtimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
+                        CacheManager.GetGlobalCache()
+                            .Set<RuntimeEntityMenberInfo>("RuntimeEntityMenberInfo:" + typeof (TDto),
+                                runtimeEntityMenberInfo);
+                    }
+                    RuntimeEntityMenberInfo = runtimeEntityMenberInfo;
+                }
+                else
+                    RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
+            }
             base.OnActionExecuting(filterContext);
         }
 
@@ -165,15 +186,20 @@ namespace Ixq.Web.Mvc
         {
             return Json(data, null, null, JsonRequestBehavior.DenyGet, serializerSettings);
         }
+
         protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding)
         {
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet);
         }
-        protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
+
+        protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding,
+            JsonRequestBehavior behavior)
         {
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet, null);
         }
-        protected JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior,
+
+        protected JsonResult Json(object data, string contentType, Encoding contentEncoding,
+            JsonRequestBehavior behavior,
             JsonSerializerSettings serializerSettings)
         {
             return new JsonResult
@@ -189,16 +215,26 @@ namespace Ixq.Web.Mvc
         protected virtual object GetValue(string value)
         {
             var type = typeof (TKey);
-            
+
+            dynamic resultValue = value;
             if (type == typeof (Guid))
             {
-                return Guid.Parse(value);
+                resultValue =  Guid.Parse(value);
             }
-            if (type == typeof(int))
+            if (type == typeof (int))
             {
-                return int.Parse(value);
+                resultValue = Convert.ToInt32(value);
             }
-            return value;
+            if (type == typeof (short))
+            {
+                resultValue = Convert.ToInt16(value);
+            }
+            if (type == typeof (long))
+            {
+                resultValue = Convert.ToInt64(value);
+            }
+
+            return resultValue;
         }
     }
 }

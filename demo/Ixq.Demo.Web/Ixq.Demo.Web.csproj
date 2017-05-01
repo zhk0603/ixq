@@ -77,9 +77,14 @@
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.1\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -738,6 +743,15 @@
     <Content Include="Areas\Hplus\Views\ProductType\Index.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\Index.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\Edit.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\DefaultEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\TextEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\DateEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\TimeEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\BooleanEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\CurrencyEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\IntegerEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\NumberEditor.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\EnumEditor.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

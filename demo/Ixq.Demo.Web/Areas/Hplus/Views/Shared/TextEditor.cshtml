@@ -1,0 +1,23 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Ixq.Extensions
+@model IPropertyEditModel
+@{
+    var minLen = 0;
+    var maxLen = 0;
+    StringLengthAttribute attribute;
+    if (Model.RuntimeProperty.PropertyInfo.TryGetAttribute(out attribute))
+    {
+        minLen = attribute.MinimumLength;
+        maxLen = attribute.MaximumLength;
+    }
+}
+<div class="form-group">
+    <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
+    <div class="col-sm-8">
+        <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control"
+               @Html.Raw(minLen == 0 ? "" : $"minlength=\"{minLen}\"")
+               @Html.Raw(maxLen == 0 ? "" : $"maxlength=\"{maxLen}\"")
+               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"" : "")
+               value="@Model.Value" />
+    </div>
+</div>

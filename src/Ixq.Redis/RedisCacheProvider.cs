@@ -32,6 +32,11 @@ namespace Ixq.Redis
             _connStr = connectionString;
         }
 
+        public RedisCacheProvider() : this("localhost:6379")
+        {
+            
+        }
+
         /// <summary>
         ///     初始化一个<see cref="RedisCacheProvider" />实例。
         /// </summary>
@@ -68,7 +73,7 @@ namespace Ixq.Redis
                 return cache;
             }
             var dbNum = GetDbNum(regionName);
-            cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(dbNum));
+            cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(dbNum), regionName);
             Caches[regionName] = cache;
             return cache;
         }

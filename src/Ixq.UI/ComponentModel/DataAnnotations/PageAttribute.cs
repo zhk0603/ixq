@@ -11,9 +11,10 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     public class PageAttribute : Attribute, IPageConfig
     {
         /// <summary>
-        ///     表格名称。
+        ///     标题名称。
         /// </summary>
         public string TitleName { get; set; }
+
         /// <summary>
         ///     默认排序字段名称。
         /// </summary>

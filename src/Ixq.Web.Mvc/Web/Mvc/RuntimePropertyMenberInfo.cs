@@ -70,6 +70,12 @@ namespace Ixq.Web.Mvc
             if (dataTypeAttribute != null)
             {
                 DataType = dataTypeAttribute.DataType;
+                CustomDataType = dataTypeAttribute.CustomDataType;
+                PartialViewPath = dataTypeAttribute.PartialViewPath;
+            }
+            else
+            {
+                DataType = EntityExtensions.GetDataType(PropertyInfo);
             }
         }
 
@@ -97,6 +103,7 @@ namespace Ixq.Web.Mvc
         public string Formatter { get; set; }
         public string UnFormatter { get; set; }
         public DataType DataType { get; set; }
-
+        public string CustomDataType { get; set; }
+        public string PartialViewPath { get; set; }
     }
 }

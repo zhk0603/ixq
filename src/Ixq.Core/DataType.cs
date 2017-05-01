@@ -11,19 +11,36 @@ namespace Ixq.Core
     /// </summary>
     public enum DataType
     {
+        Default,
         Text,
         Textarea,
+        Image,
+        SingleFile,
+        MultipleFile,
+        PhoneNumber,
+        EmailAddress,
+        Code,
+        Ip,
+        Url,
+        Color,
+        Password,
+
+        Integer,
+        Number,
+
+        Currency,
+
         Select,
         Checkbox,
-        Password,
-        Image,
-        File,
+        Boolean,
         Sex,
+
+        Enum,
+        
         DateTime,
         Date,
         Time,
-        PhoneNumber,
-        EmailAddress,
-        Code
+
+        CustomDataType
     }
 }

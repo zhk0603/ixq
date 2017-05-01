@@ -15,16 +15,27 @@ namespace Ixq.Redis
     public class RedisCache : ICache
     {
         private readonly IDatabase _database;
+        private readonly string _region;
 
         /// <summary>
         ///     初始化一个<see cref="RedisCache" />实例。
         /// </summary>
         /// <param name="database"></param>
-        public RedisCache(IDatabase database)
+        public RedisCache(IDatabase database, string region)
         {
             if (database == null)
                 throw new ArgumentNullException(nameof(database));
             _database = database;
+            _region = region;
+        }
+
+        /// <summary>
+        ///     获取缓存区域民称。
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetRegion()
+        {
+            return _region;
         }
 
         /// <summary>

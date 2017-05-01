@@ -59,6 +59,7 @@
     <Compile Include="Dto\DtoBase.cs" />
     <Compile Include="Dto\DtoBaseInt32.cs" />
     <Compile Include="Dto\IDto.cs" />
+    <Compile Include="Entity\EntityExtensions.cs" />
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />

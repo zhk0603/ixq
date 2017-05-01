@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 
-namespace Ixq.UI.Controls
+namespace Ixq.UI.ComponentModel
 {
     public class PageEditViewModel<TDto, TKey> : IPageEditViewModel
         where TDto : class, IDto<IEntity<TKey>,TKey>, new()

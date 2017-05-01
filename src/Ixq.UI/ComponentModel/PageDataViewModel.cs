@@ -7,7 +7,7 @@ using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Newtonsoft.Json;
 
-namespace Ixq.UI.Controls
+namespace Ixq.UI.ComponentModel
 {
     public class PageDataViewModel<TKey>
     {

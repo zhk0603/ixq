@@ -32,5 +32,7 @@ namespace Ixq.Core.Entity
         string Formatter { get; set; }
         string UnFormatter { get; set; }
         DataType DataType { get; set; }
+        string CustomDataType { get; set; }
+        string PartialViewPath { get; set; }
     }
 }

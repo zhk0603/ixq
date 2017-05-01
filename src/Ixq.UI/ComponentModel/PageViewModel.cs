@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Ixq.Core.Entity;
 using Ixq.Extensions;
 using System.ComponentModel.DataAnnotations;
+using Ixq.UI.Controls;
 
-namespace Ixq.UI.Controls
+namespace Ixq.UI.ComponentModel
 {
-    public class PageViewModel<TEntity, TKey> : IPageViewModel
-        where TEntity : class, IEntity<TKey>, new()
+    public class PageViewModel : IPageViewModel
     {
         public IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
         public Type EntityType { get; set; }

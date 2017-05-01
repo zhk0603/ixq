@@ -25,6 +25,14 @@ namespace Ixq.Core.Cache
         }
 
         /// <summary>
+        ///     获取缓存区域民称。
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetRegion()
+        {
+            return _region;
+        }
+        /// <summary>
         ///     获取缓存项。
         /// </summary>
         /// <param name="key">缓存项的唯一标识符。</param>

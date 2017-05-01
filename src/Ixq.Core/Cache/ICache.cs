@@ -10,6 +10,11 @@ namespace Ixq.Core.Cache
     public interface ICache
     {
         /// <summary>
+        ///     获取缓存名称。
+        /// </summary>
+        /// <returns></returns>
+        string GetRegion();
+        /// <summary>
         ///     获取全部的缓存项。
         /// </summary>
         /// <returns>全部的缓存项。</returns>

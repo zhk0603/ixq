@@ -10,6 +10,11 @@ namespace Ixq.Core.Cache
         private static ICacheProvider _cacheProvider;
 
         /// <summary>
+        /// 是否启用缓存。
+        /// </summary>
+        public static bool IsEnable => _cacheProvider != null;
+
+        /// <summary>
         ///     设置 <see cref="ICacheProvider" />
         /// </summary>
         /// <param name="cacheProvider">缓存提供者。</param>

@@ -118,6 +118,21 @@ namespace Ixq.Extensions
         }
 
         /// <summary>
+        ///     尝试从类型成员获取指定Attribute特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="memberInfo"></param>
+        /// <param name="attribute"></param>
+        /// <param name="inherit"></param>
+        /// <returns></returns>
+        public static bool TryGetAttribute<T>(this MemberInfo memberInfo,out T attribute, bool inherit = false) where T : Attribute
+        {
+            var descripts = memberInfo.GetCustomAttributes(typeof(T), inherit);
+            attribute = descripts.FirstOrDefault() as T;
+            return attribute != null;
+        }
+
+        /// <summary>
         ///     从类型成员获取指定Attribute特性
         /// </summary>
         /// <typeparam name="T">Attribute特性类型</typeparam>

@@ -1,6 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using Ixq.Extensions
-@model Ixq.UI.Controls.IPageViewModel
+@model IPageViewModel
 @{
     var tableId = Model.EntityType.Name + "_jqGrid";
     var pageTitle = Model.PageConfig.TitleName ?? Model.EntityType.Name;
@@ -54,7 +54,6 @@
 
     <script src="~/Content/Hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js"></script>
     <script src="~/Content/Hplus/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
-    @RenderSection("pageScripts", false)
     <script>
         var colNames = @Html.Raw(Model.GetColNames());
         var colModel = @Html.Raw(Model.GetColModel());
@@ -63,13 +62,14 @@
             layer.open({
                 title: '新增 @pageTitle',
                 type: 2,
-                area: ['800px','600px'],
+                area: ['800px', '600px'],
                 maxmin: true,
                 resize: true,
                 content: '@Url.Action(Model.PageConfig.EditAction)'
             });
         }
     </script>
+    @RenderSection("pageScripts", false)
     <script>
         $(document).ready(function() {
             $.jgrid.defaults.styleUI = 'Bootstrap';

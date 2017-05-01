@@ -11,7 +11,7 @@ using Ixq.UI.ComponentModel.DataAnnotations;
 
 namespace Ixq.Demo.Domain.Dtos
 {
-    [Page(DefaultSortname = nameof(Id), TitleName = "Test",IsDescending = true)]
+    [Page(DefaultSortname = nameof(Id), TitleName = "Test", IsDescending = true)]
     public class TestDto : DtoBaseInt32<Test>
     {
         [Key]
@@ -27,7 +27,8 @@ namespace Ixq.Demo.Domain.Dtos
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Name")]
-        [StringLength(200)]
+        [StringLength(200,MinimumLength = 2)]
+        [Required]
         [ColModel(Sortable =true)]
         public string Name { get; set; }
 

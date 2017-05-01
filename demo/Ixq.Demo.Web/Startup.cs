@@ -24,7 +24,7 @@ namespace Ixq.Demo.Web
         public void Configuration(IAppBuilder app)
         {
             // 启用缓存
-            ICacheProvider cacheProvider = new MemoryCacheProvider();
+            ICacheProvider cacheProvider = new Redis.RedisCacheProvider();
             CacheManager.SetCacheProvider(cacheProvider);
 
             // 启用日志
