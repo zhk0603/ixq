@@ -17,6 +17,7 @@ using Ixq.Data.Repository.Extensions;
 using Ixq.UI;
 using System.Text;
 using Newtonsoft.Json;
+using Ixq.Core.Mapper;
 
 namespace Ixq.Web.Mvc
 {
@@ -119,9 +120,18 @@ namespace Ixq.Web.Mvc
             return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });
         }
 
-        public virtual ActionResult Edit(string id)
+        public virtual async Task<ActionResult> Edit(string id)
         {
-            return View(RuntimeEntityMenberInfo.EditPropertyInfo);
+            var entity = string.IsNullOrWhiteSpace(id)
+                ? Repository.Create()
+                : await Repository.SingleByIdAsync(GetValue(id));
+
+            var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
+                RuntimeEntityMenberInfo.EditPropertyInfo)
+            {
+                Title = string.IsNullOrEmpty(id) ? "新增" : "编辑" + PageConfig.TitleName
+            };
+            return View(editModel);
         }
 
         public virtual ActionResult Delete()
@@ -174,6 +184,21 @@ namespace Ixq.Web.Mvc
                 JsonRequestBehavior = behavior,
                 SerializerSettings = serializerSettings
             };
+        }
+
+        protected virtual object GetValue(string value)
+        {
+            var type = typeof (TKey);
+            
+            if (type == typeof (Guid))
+            {
+                return Guid.Parse(value);
+            }
+            if (type == typeof(int))
+            {
+                return int.Parse(value);
+            }
+            return value;
         }
     }
 }

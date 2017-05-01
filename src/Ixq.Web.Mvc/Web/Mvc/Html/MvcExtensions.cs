@@ -11,7 +11,11 @@ namespace Ixq.Web.Mvc.Html
 {
     public static class MvcExtensions
     {
-        public static MvcHtmlString PropertyView(this HtmlHelper helper, IRuntimePropertyMenberInfo runtimeProperty)
+        public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IRuntimePropertyMenberInfo runtimeProperty, object entity)
+        {
+            return helper.Partial("");
+        }
+        public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IRuntimePropertyMenberInfo runtimeProperty, object entity)
         {
             return helper.Partial("");
         }

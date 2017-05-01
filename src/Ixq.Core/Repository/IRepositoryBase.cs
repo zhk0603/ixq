@@ -24,7 +24,7 @@ namespace Ixq.Core.Repository
         IUnitOfWork UnitOfWork { get; }
 
         /// <summary>
-        ///     根据上下文创建一个对象，并执行对象的 OnCreate 方法；
+        ///     根据上下文创建一个对象。
         /// </summary>
         /// <returns>创建好的对象</returns>
         TEntity Create();
@@ -48,6 +48,9 @@ namespace Ixq.Core.Repository
         /// <param name="index"></param>
         /// <returns></returns>
         Task<TEntity> SingleByIdAsync(TKey index);
+
+        TEntity SingleById(params object[] index);
+        Task<TEntity> SingleByIdAsync(params object[] index);
 
         /// <summary>
         ///     返回符合条件的第一个对象

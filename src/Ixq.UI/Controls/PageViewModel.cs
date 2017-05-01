@@ -19,7 +19,7 @@ namespace Ixq.UI.Controls
 
         public IPageConfig PageConfig { get; set; }
 
-        public string GetColNames()
+        public virtual string GetColNames()
         {
             var sb = new StringBuilder();
             sb.Append("[");
@@ -38,7 +38,7 @@ namespace Ixq.UI.Controls
             return sb.ToString();
         }
 
-        public string GetColModel()
+        public virtual string GetColModel()
         {
             var sb = new StringBuilder();
             sb.Append("[");

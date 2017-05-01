@@ -49,8 +49,10 @@
     <Compile Include="ComponentModel\DataAnnotations\PageAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DataTypeAttribute.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\IPageEditViewModel.cs" />
     <Compile Include="Controls\IPageViewModel.cs" />
     <Compile Include="Controls\PageDataViewModel.cs" />
+    <Compile Include="Controls\PageEditViewModel.cs" />
     <Compile Include="Controls\PageViewModel.cs" />
     <Compile Include="Controls\Pagination.cs" />
     <Compile Include="IPageConfig.cs" />

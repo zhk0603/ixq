@@ -42,10 +42,10 @@ namespace Ixq.Data.Repository
             return Save();
         }
 
-        public virtual async Task<bool> AddAsync(TEntity entity)
+        public virtual Task<bool> AddAsync(TEntity entity)
         {
             Table.Add(entity);
-            return await SaveAsync();
+            return SaveAsync();
         }
 
         public virtual bool AddRange(IEnumerable<TEntity> entities)
@@ -55,11 +55,11 @@ namespace Ixq.Data.Repository
             return Save();
         }
 
-        public virtual async Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
+        public virtual Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
         {
             entities = entities as TEntity[] ?? entities.ToArray();
             Table.AddRange(entities);
-            return await SaveAsync();
+            return SaveAsync();
         }
 
         public virtual TEntity Create()
@@ -75,11 +75,11 @@ namespace Ixq.Data.Repository
             return Save();
         }
 
-        public virtual async Task<bool> EditAsync(TEntity entity)
+        public virtual Task<bool> EditAsync(TEntity entity)
         {
             var entry = ((DbContext) UnitOfWork).Entry(entity);
             entry.State = EntityState.Modified;
-            return await SaveAsync();
+            return SaveAsync();
         }
 
         public virtual IQueryable<TEntity> GetAll()
@@ -87,9 +87,9 @@ namespace Ixq.Data.Repository
             return Table.AsNoTracking();
         }
 
-        public virtual async Task<IQueryable<TEntity>> GetAllAsync()
+        public virtual Task<IQueryable<TEntity>> GetAllAsync()
         {
-            return await Task.FromResult(GetAll());
+            return Task.FromResult(GetAll());
         }
 
         public virtual TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>
@@ -98,10 +98,10 @@ namespace Ixq.Data.Repository
             return entity.MapToDto<TDto, TEntity, TKey>();
         }
 
-        public virtual async Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index)
+        public virtual Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index)
             where TDto : class, IDto<TEntity, TKey>
         {
-            return await Task.FromResult(GetSingleDtoById<TDto>(index));
+            return Task.FromResult(GetSingleDtoById<TDto>(index));
         }
 
         public virtual IQueryable<TEntity> OrderBy(string propertyName,
@@ -110,10 +110,10 @@ namespace Ixq.Data.Repository
             return GetAll().OrderBy(propertyName, sortDirection);
         }
 
-        public virtual async Task<IQueryable<TEntity>> OrderByAsync(string propertyName,
+        public virtual Task<IQueryable<TEntity>> OrderByAsync(string propertyName,
             ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            return await Task.FromResult(OrderBy(propertyName, sortDirection));
+            return Task.FromResult(OrderBy(propertyName, sortDirection));
         }
 
         public virtual IQueryable<TEntity> OrderByDesc(string propertyName)
@@ -121,9 +121,9 @@ namespace Ixq.Data.Repository
             return OrderBy(propertyName, ListSortDirection.Descending);
         }
 
-        public virtual async Task<IQueryable<TEntity>> OrderByDescAsync(string propertyName)
+        public virtual Task<IQueryable<TEntity>> OrderByDescAsync(string propertyName)
         {
-            return await OrderByAsync(propertyName, ListSortDirection.Descending);
+            return OrderByAsync(propertyName, ListSortDirection.Descending);
         }
 
         public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate)
@@ -131,9 +131,9 @@ namespace Ixq.Data.Repository
             return GetAll().Where(predicate);
         }
 
-        public virtual async Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Task.FromResult(Query(predicate));
+            return Task.FromResult(Query(predicate));
         }
 
         public virtual bool Remove(TKey index)
@@ -148,16 +148,16 @@ namespace Ixq.Data.Repository
             return Save();
         }
 
-        public virtual async Task<bool> RemoveAsync(TKey index)
+        public virtual Task<bool> RemoveAsync(TKey index)
         {
             var entity = SingleById(index);
-            return await RemoveAsync(entity);
+            return RemoveAsync(entity);
         }
 
-        public virtual async Task<bool> RemoveAsync(TEntity entity)
+        public virtual Task<bool> RemoveAsync(TEntity entity)
         {
             Table.Remove(entity);
-            return await SaveAsync();
+            return SaveAsync();
         }
 
         public virtual bool RemoveRange(IEnumerable<TKey> range)
@@ -177,20 +177,20 @@ namespace Ixq.Data.Repository
             return Save();
         }
 
-        public virtual async Task<bool> RemoveRangeAsync(IEnumerable<TKey> range)
+        public virtual Task<bool> RemoveRangeAsync(IEnumerable<TKey> range)
         {
             foreach (var index in range)
             {
-                var entity = await SingleByIdAsync(index);
+                var entity = SingleById(index);
                 Table.Remove(entity);
             }
-            return await SaveAsync();
+            return SaveAsync();
         }
 
-        public virtual async Task<bool> RemoveRangeAsync(IEnumerable<TEntity> range)
+        public virtual Task<bool> RemoveRangeAsync(IEnumerable<TEntity> range)
         {
             Table.RemoveRange(range);
-            return await SaveAsync();
+            return SaveAsync();
         }
 
         public virtual bool Save()
@@ -229,9 +229,9 @@ namespace Ixq.Data.Repository
             return GetAll().SingleOrDefault(predicate);
         }
 
-        public virtual async Task<TEntity> SingleByAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual Task<TEntity> SingleByAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await GetAll().SingleOrDefaultAsync(predicate);
+            return GetAll().SingleOrDefaultAsync(predicate);
         }
 
         public virtual TEntity SingleById(TKey index)
@@ -239,10 +239,21 @@ namespace Ixq.Data.Repository
             return Table.Find(index);
         }
 
-        public virtual async Task<TEntity> SingleByIdAsync(TKey index)
+        public virtual Task<TEntity> SingleByIdAsync(TKey index)
         {
-            return await Table.FindAsync(index);
+            return Table.FindAsync(index);
         }
+
+        public virtual TEntity SingleById(params object[] index)
+        {
+            return Table.Find(index);
+        }
+
+        public virtual Task<TEntity> SingleByIdAsync(params object[] index)
+        {
+            return Table.FindAsync(index);
+        }
+
 
         public virtual IEnumerable<TEntity> SqlQuery(string sql, bool trackEnabled = true, params object[] parameters)
         {
@@ -251,10 +262,10 @@ namespace Ixq.Data.Repository
                 : Table.SqlQuery(sql, parameters).AsNoTracking();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> SqlQueryAsync(string sql, bool trackEnabled = true,
+        public virtual Task<IEnumerable<TEntity>> SqlQueryAsync(string sql, bool trackEnabled = true,
             params object[] parameters)
         {
-            return await Task.FromResult(SqlQuery(sql, trackEnabled, parameters));
+            return Task.FromResult(SqlQuery(sql, trackEnabled, parameters));
         }
 
         public virtual TEntity SqlQuerySingle(TKey index, bool trackEnabled = true)
@@ -270,9 +281,9 @@ namespace Ixq.Data.Repository
                     .FirstOrDefault();
         }
 
-        public virtual async Task<TEntity> SqlQuerySingleAsync(TKey index, bool trackEnabled = true)
+        public virtual Task<TEntity> SqlQuerySingleAsync(TKey index, bool trackEnabled = true)
         {
-            return await Task.FromResult(SqlQuerySingle(index, trackEnabled));
+            return Task.FromResult(SqlQuerySingle(index, trackEnabled));
         }
 
         public virtual IEnumerable<T2> SqlQuery<T2, TKey2>(string sql, bool trackEnabled = true,
@@ -285,11 +296,11 @@ namespace Ixq.Data.Repository
                 : table.SqlQuery(sql, parameters).AsNoTracking();
         }
 
-        public virtual async Task<IEnumerable<T2>> SqlQueryAsync<T2, TKey2>(string sql, bool trackEnabled,
+        public virtual Task<IEnumerable<T2>> SqlQueryAsync<T2, TKey2>(string sql, bool trackEnabled,
             params object[] parameters)
             where T2 : class, IEntity<TKey2>, new()
         {
-            return await Task.FromResult(SqlQuery<T2, TKey2>(sql, trackEnabled, parameters));
+            return Task.FromResult(SqlQuery<T2, TKey2>(sql, trackEnabled, parameters));
         }
 
         public virtual T2 SqlQuerySingle<T2, TKey2>(TKey index, bool trackEnabled)
@@ -308,10 +319,10 @@ namespace Ixq.Data.Repository
                     .FirstOrDefault();
         }
 
-        public virtual async Task<T2> SqlQuerySingleAsync<T2, TKey2>(TKey index, bool trackEnabled)
+        public virtual Task<T2> SqlQuerySingleAsync<T2, TKey2>(TKey index, bool trackEnabled)
             where T2 : class, IEntity<TKey2>, new()
         {
-            return await Task.FromResult(SqlQuerySingle<T2, TKey2>(index, trackEnabled));
+            return Task.FromResult(SqlQuerySingle<T2, TKey2>(index, trackEnabled));
         }
 
 
