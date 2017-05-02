@@ -18,50 +18,51 @@ namespace Ixq.Demo.Domain.Dtos
         [Required]
         [Hide(IsHiddenOnCreate = true, IsHiddenOnDetail = true, IsHiddenOnEdit = true, IsHiddenOnView = false)]
         [Display(Name = "唯一标识")]
-        [ColModel(Sortable =true)]
+        [ColModel(Sortable = true)]
         public override int Id { get; set; }
 
         [Required]
         [Display(Name = "创建时间", Order = 1)]
         [ColModel(Sortable = true)]
-        [PropertyAuthorization(Roles = new[] { "Admin" })]
+        [PropertyAuthorization(Roles = new[] {"Admin"})]
         public DateTime CreateDate { get; set; }
 
         [Display(Name = "Name")]
-        [StringLength(200,MinimumLength = 2)]
+        [StringLength(200, MinimumLength = 2)]
         [Required]
-        [ColModel(Sortable =true)]
+        [ColModel(Sortable = true)]
         public string Name { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name1")]
-        [ColModel(Sortable =true)]
+        [ColModel(Sortable = true)]
         [Hide]
         public string Name1 { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name2")]
-        [ColModel(Sortable =true)]
+        [ColModel(Sortable = true)]
         [Hide]
         public string Name2 { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name3")]
-        [ColModel(Sortable =true)]
+        [ColModel(Sortable = true)]
         [Hide]
         public string Name3 { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name4")]
-        [ColModel(Sortable =true)]
+        [ColModel(Sortable = true)]
         [Hide]
         public string Name4 { get; set; }
 
-        [Display(Name="布尔类型测试")]
+        [Display(Name = "布尔类型测试")]
         [Required]
         [ColModel(Sortable = true)]
         public bool? BoolTest { get; set; }
 
+        [Number(Max = 9999999, Min = 0)]
         [Display(Name = "Decimal 类型测试")]
         [Required]
         [ColModel(Sortable = true)]

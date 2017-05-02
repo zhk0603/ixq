@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core;
+using Ixq.Core.Data;
+using Ixq.Core.Entity;
 
 namespace Ixq.UI.ComponentModel.DataAnnotations
 {
@@ -11,7 +13,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     ///     数据类型特性。
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class DataTypeAttribute : Attribute
+    public class DataTypeAttribute : Attribute , IDataAnnotations
     {
         private DataType _dataType;
 
@@ -30,5 +32,13 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
 
         public string CustomDataType { get; set; }
         public string PartialViewPath { get; set; }
+        public void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty)
+        {
+            if (runtimeProperty == null)
+                throw new ArgumentNullException(nameof(runtimeProperty));
+            runtimeProperty.DataType = DataType;
+            runtimeProperty.CustomDataType = CustomDataType;
+            runtimeProperty.PartialViewPath = PartialViewPath;
+        }
     }
 }

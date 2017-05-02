@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Core.Entity
 {
@@ -34,5 +30,18 @@ namespace Ixq.Core.Entity
         DataType DataType { get; set; }
         string CustomDataType { get; set; }
         string PartialViewPath { get; set; }
+
+        /// <summary>
+        ///     获取或设置步长。
+        /// </summary>
+        double Step { get; set; }
+        /// <summary>
+        ///     获取或设置最大值。
+        /// </summary>
+        long Max { get; set; }
+        /// <summary>
+        ///     获取或设置最小值。
+        /// </summary>
+        long Min { get; set; }
     }
 }
