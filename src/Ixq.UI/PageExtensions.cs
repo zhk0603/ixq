@@ -65,7 +65,7 @@ namespace Ixq.UI
             return MvcHtmlString.Empty;
         }
 
-        public static MvcHtmlString Sytles(this HtmlHelper helper, params Func<object, HelperResult>[] templates)
+        public static MvcHtmlString Styles(this HtmlHelper helper, params Func<object, HelperResult>[] templates)
         {
             foreach (var tmp in templates)
             {
@@ -90,7 +90,7 @@ namespace Ixq.UI
             return MvcHtmlString.Empty;
         }
 
-        public static IHtmlString RenderSytles(this HtmlHelper helper)
+        public static IHtmlString RenderStyles(this HtmlHelper helper)
         {
             foreach (object key in helper.ViewContext.HttpContext.Items.Keys)
             {

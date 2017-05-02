@@ -3,6 +3,6 @@
     <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
     <div class="col-sm-8">
         <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control"
-               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"" : "") value="@Model.Value"/>
+               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "") value="@Model.Value"/>
     </div>
 </div>

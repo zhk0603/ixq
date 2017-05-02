@@ -17,7 +17,7 @@
         <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control"
                @Html.Raw(minLen == 0 ? "" : $"minlength=\"{minLen}\"")
                @Html.Raw(maxLen == 0 ? "" : $"maxlength=\"{maxLen}\"")
-               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"" : "")
+               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "")
                value="@Model.Value" />
     </div>
 </div>

@@ -2,6 +2,17 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
     <div class="col-sm-8">
-        <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"":"")  >
+        <div class="radio radio-inline">
+            <input id="@(Model.RuntimeProperty.PropertyInfo.Name)_true" type="radio" value="true" name="@Model.RuntimeProperty.PropertyInfo.Name" />
+            <label for="@(Model.RuntimeProperty.PropertyInfo.Name)_true"> 是 </label>
+        </div>
+        <div class="radio radio-inline">
+            <input id="@(Model.RuntimeProperty.PropertyInfo.Name)_false" type="radio" value="false" name="@Model.RuntimeProperty.PropertyInfo.Name" />
+            <label for="@(Model.RuntimeProperty.PropertyInfo.Name)_false"> 否 </label>
+        </div>
     </div>
 </div>
+
+@Html.Styles(
+    @<link href="~/Content/Hplus/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" />
+    )

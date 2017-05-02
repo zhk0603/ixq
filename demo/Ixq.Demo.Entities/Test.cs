@@ -24,5 +24,8 @@ namespace Ixq.Demo.Entities
 
         [StringLength(200)]
         public string Name4 { get; set; }
+
+        public bool? BoolTest { get; set; }
+        public decimal? DecimalTest { get; set; }
     }
 }

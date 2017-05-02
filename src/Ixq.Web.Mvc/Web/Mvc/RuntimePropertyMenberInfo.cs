@@ -50,7 +50,7 @@ namespace Ixq.Web.Mvc
             var displayAttribute = PropertyInfo.GetAttribute<DisplayAttribute>();
             if (displayAttribute != null)
             {
-                Name = displayAttribute.GetName();
+                Name = displayAttribute.GetName() ?? PropertyInfo.Name;
                 Order = displayAttribute.GetOrder();
                 Description = displayAttribute.GetDescription();
                 GroupName = displayAttribute.GetGroupName();

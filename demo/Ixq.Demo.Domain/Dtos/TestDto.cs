@@ -36,21 +36,35 @@ namespace Ixq.Demo.Domain.Dtos
         [StringLength(200)]
         [Display(Name = "Name1")]
         [ColModel(Sortable =true)]
+        [Hide]
         public string Name1 { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name2")]
         [ColModel(Sortable =true)]
+        [Hide]
         public string Name2 { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name3")]
         [ColModel(Sortable =true)]
+        [Hide]
         public string Name3 { get; set; }
 
         [StringLength(200)]
         [Display(Name = "Name4")]
         [ColModel(Sortable =true)]
+        [Hide]
         public string Name4 { get; set; }
+
+        [Display(Name="布尔类型测试")]
+        [Required]
+        [ColModel(Sortable = true)]
+        public bool? BoolTest { get; set; }
+
+        [Display(Name = "Decimal 类型测试")]
+        [Required]
+        [ColModel(Sortable = true)]
+        public decimal? DecimalTest { get; set; }
     }
 }
