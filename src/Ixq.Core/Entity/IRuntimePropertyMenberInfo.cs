@@ -34,14 +34,14 @@ namespace Ixq.Core.Entity
         /// <summary>
         ///     获取或设置步长。
         /// </summary>
-        double Step { get; set; }
+        double? Step { get; set; }
         /// <summary>
         ///     获取或设置最大值。
         /// </summary>
-        long Max { get; set; }
+        long? Max { get; set; }
         /// <summary>
         ///     获取或设置最小值。
         /// </summary>
-        long Min { get; set; }
+        long? Min { get; set; }
     }
 }

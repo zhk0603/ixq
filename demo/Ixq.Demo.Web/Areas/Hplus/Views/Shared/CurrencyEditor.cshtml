@@ -4,8 +4,8 @@
     <div class="col-sm-8">
         <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="number" class="form-control" 
             step="@Model.RuntimeProperty.Step"
-            @Html.Raw(Model.RuntimeProperty.Min != 0 ? Model.RuntimeProperty.Min.ToString() : "")
-            @Html.Raw(Model.RuntimeProperty.Max != 0 ? Model.RuntimeProperty.Max.ToString() : "")
-            @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "")>
+               @Html.Raw(Model.RuntimeProperty.Min.HasValue ? $"min=\"{Model.RuntimeProperty.Min}\"" : "")
+               @Html.Raw(Model.RuntimeProperty.Max.HasValue ? $"max=\"{Model.RuntimeProperty.Max}\"" : "")
+               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "")>
     </div>
 </div>

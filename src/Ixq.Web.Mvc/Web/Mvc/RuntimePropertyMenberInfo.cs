@@ -94,15 +94,15 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取或设置步长，默认：0.01。
         /// </summary>
-        public double Step { get; set; } = 0.01;
+        public double? Step { get; set; } = 0.01;
         /// <summary>
         ///     获取或设置最大值。
         /// </summary>
-        public long Max { get; set; }
+        public long? Max { get; set; }
         /// <summary>
         ///     获取或设置最小值。
         /// </summary>
-        public long Min { get; set; }
+        public long? Min { get; set; }
 
     }
 }
