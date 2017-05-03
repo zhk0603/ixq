@@ -24,22 +24,22 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// </summary>
         public bool IsDescending { get; set; }
         /// <summary>
-        /// Ajax请求数据的 Actin 名。
+        ///     Ajax请求数据的 Actin 名。
         /// </summary>
         public string DataActin { get; set; } = "List";
 
         /// <summary>
-        /// 保存编辑、添加数据的  Actin 名。
+        ///     保存编辑、添加数据的  Actin 名。
         /// </summary>
         public string EditAction { get; set; } = "Edit";
 
         /// <summary>
-        /// 删除数据的  Actin 名。
+        ///     删除数据的  Actin 名。
         /// </summary>
         public string DelAction { get; set; } = "Delete";
 
         /// <summary>
-        /// 自定义Button。
+        ///     自定义Button。
         /// </summary>
         public Button[] ButtonCustom { get; set; }
     }

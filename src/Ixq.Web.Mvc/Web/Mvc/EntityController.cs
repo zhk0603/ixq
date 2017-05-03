@@ -182,7 +182,7 @@ namespace Ixq.Web.Mvc
             base.OnActionExecuting(filterContext);
         }
 
-        protected JsonResult Json(object data, JsonSerializerSettings serializerSettings)
+        protected virtual JsonResult Json(object data, JsonSerializerSettings serializerSettings)
         {
             return Json(data, null, null, JsonRequestBehavior.DenyGet, serializerSettings);
         }
@@ -198,7 +198,7 @@ namespace Ixq.Web.Mvc
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet, null);
         }
 
-        protected JsonResult Json(object data, string contentType, Encoding contentEncoding,
+        protected virtual JsonResult Json(object data, string contentType, Encoding contentEncoding,
             JsonRequestBehavior behavior,
             JsonSerializerSettings serializerSettings)
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Ixq.Data.DataAnnotations
 {
 
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class PropertyAuthorizationAttribute : Attribute
     {
         public string[] Roles { get; set; }

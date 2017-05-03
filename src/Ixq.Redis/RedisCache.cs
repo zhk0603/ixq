@@ -21,6 +21,7 @@ namespace Ixq.Redis
         ///     初始化一个<see cref="RedisCache" />实例。
         /// </summary>
         /// <param name="database"></param>
+        /// <param name="region">缓存区域名称</param>
         public RedisCache(IDatabase database, string region)
         {
             if (database == null)

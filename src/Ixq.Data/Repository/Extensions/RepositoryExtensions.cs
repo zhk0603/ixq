@@ -25,16 +25,86 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<Guid>, new()
         {
             if (repository.UnitOfWork == null)
-                throw new ArgumentNullException(nameof(repository.UnitOfWork), @"未初始化工作单元");
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
             return (DbContext) repository.UnitOfWork;
         }
+
+        /// <summary>
+        ///     获取上下文。
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <param name="repository"></param>
+        /// <returns></returns>
         public static TDbContext GetDbContext<TEntity, TDbContext>(this IRepository<TEntity> repository)
             where TEntity : class, IEntity<Guid>, new()
             where TDbContext : DbContext
         {
             if (repository.UnitOfWork == null)
-                throw new ArgumentNullException(nameof(repository.UnitOfWork), @"未初始化工作单元");
-            return (TDbContext)repository.UnitOfWork;
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            return (TDbContext) repository.UnitOfWork;
+        }
+
+        /// <summary>
+        ///     获取上下文。
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="repository"></param>
+        /// <returns></returns>
+        public static DbContext GetDbContext<TEntity>(this IRepositoryInt32<TEntity> repository)
+            where TEntity : class, IEntity<int>, new()
+        {
+            if (repository.UnitOfWork == null)
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            return (DbContext) repository.UnitOfWork;
+        }
+
+        /// <summary>
+        ///     获取上下文。
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <param name="repository"></param>
+        /// <returns></returns>
+        public static TDbContext GetDbContext<TEntity, TDbContext>(this IRepositoryInt32<TEntity> repository)
+            where TEntity : class, IEntity<int>, new()
+            where TDbContext : DbContext
+        {
+            if (repository.UnitOfWork == null)
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            return (TDbContext) repository.UnitOfWork;
+        }
+
+        /// <summary>
+        ///     获取上下文。
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="repository"></param>
+        /// <returns></returns>
+        public static DbContext GetDbContext<TEntity, TKey>(this IRepositoryBase<TEntity, TKey> repository)
+            where TEntity : class, IEntity<TKey>, new()
+        {
+            if (repository.UnitOfWork == null)
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            return (DbContext) repository.UnitOfWork;
+        }
+
+        /// <summary>
+        ///     获取上下文。
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="repository"></param>
+        /// <returns></returns>
+        public static TDbContext GetDbContext<TEntity, TDbContext, TKey>(this IRepositoryBase<TEntity, TKey> repository)
+            where TEntity : class, IEntity<TKey>, new()
+            where TDbContext : DbContext
+        {
+            if (repository.UnitOfWork == null)
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            return (TDbContext) repository.UnitOfWork;
         }
 
         /// <summary>
@@ -49,7 +119,6 @@ namespace Ixq.Data.Repository.Extensions
             return (IRepository<TEntity>) serviceProvider.GetService(typeof (IRepository<TEntity>));
         }
 
-
         /// <summary>
         /// 将指定的 <see cref="IQueryable{TEntity}"/> 转为 <see cref="IDto"/>
         /// </summary>
@@ -59,7 +128,7 @@ namespace Ixq.Data.Repository.Extensions
         /// <returns></returns>
         public static TDto[] ToDtoArray<TDto, TEntity>(this IQueryable<TEntity> queryable)
             where TEntity : class, IEntity<Guid>, new()
-            where TDto : class, IDto<TEntity,Guid>, new()
+            where TDto : class, IDto<TEntity, Guid>, new()
         {
             return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToArray();
         }
