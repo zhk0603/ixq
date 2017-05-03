@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAnnotations\NumberAttribute.cs" />
     <Compile Include="DataAnnotations\HideAttribute.cs" />
     <Compile Include="DataAnnotations\PropertyAuthorizationAttribute.cs" />
     <Compile Include="DataAnnotations\SearcherAttribute.cs" />

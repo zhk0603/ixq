@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core;
+using Ixq.Core.Data;
+using Ixq.Core.Entity;
 
 namespace Ixq.UI.ComponentModel.DataAnnotations
 {
@@ -11,7 +13,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     ///     JQgrid表格的colModel配置信息约束。
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class ColModelAttribute : Attribute
+    public class ColModelAttribute : Attribute, IDataAnnotations
     {
         /// <summary>
         ///     css样式类。
@@ -37,5 +39,17 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         ///     是否可排序。
         /// </summary>
         public bool Sortable { get; set; }
+
+        public void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty)
+        {
+            if (runtimeProperty == null)
+                throw new ArgumentNullException(nameof(runtimeProperty));
+            runtimeProperty.Width = Width;
+            runtimeProperty.Align = Align;
+            runtimeProperty.Formatter = Formatter;
+            runtimeProperty.UnFormatter = UnFormatter;
+            runtimeProperty.Sortable = Sortable;
+            runtimeProperty.CssClass = CssClass;
+        }
     }
 }

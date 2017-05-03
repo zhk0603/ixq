@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Ixq.Core.Repository;
+using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.Extensions;
 using Ixq.UI.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
@@ -27,10 +28,26 @@ namespace Ixq.Web.Mvc
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
     {
+        private IRuntimeEntityMemberInfoProvider _entityMemberInfoProvider;
+
         public readonly IRepositoryBase<TEntity, TKey> Repository;
         public int[] SelectPageSize { get; set; }
         public IPageConfig PageConfig { get; set; }
-        public RuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
+        public IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
+
+        public IRuntimeEntityMemberInfoProvider RuntimeEntityMemberInfoProvider
+        {
+            get
+            {
+                if (_entityMemberInfoProvider == null)
+                {
+                    _entityMemberInfoProvider = CreateEntityMemberInfoProvider();
+                }
+                return _entityMemberInfoProvider;
+            }
+            set { _entityMemberInfoProvider = value; }
+        }
+
 
         protected EntityController(IRepositoryBase<TEntity, TKey> repository)
         {
@@ -162,22 +179,26 @@ namespace Ixq.Web.Mvc
         {
             if (RuntimeEntityMenberInfo == null)
             {
-                if (CacheManager.IsEnable)
-                {
-                    var runtimeEntityMenberInfo =
-                        CacheManager.GetGlobalCache().Get("RuntimeEntityMenberInfo:" + typeof (TDto)) as
-                            RuntimeEntityMenberInfo;
-                    if (runtimeEntityMenberInfo == null)
-                    {
-                        runtimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
-                        CacheManager.GetGlobalCache()
-                            .Set("RuntimeEntityMenberInfo:" + typeof (TDto),
-                                runtimeEntityMenberInfo);
-                    }
-                    RuntimeEntityMenberInfo = runtimeEntityMenberInfo;
-                }
-                else
-                    RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
+                //if (CacheManager.IsEnable)
+                //{
+                //    var runtimeEntityMenberInfo =
+                //        CacheManager.GetGlobalCache().Get("RuntimeEntityMenberInfo:" + typeof (TDto)) as
+                //            RuntimeEntityMenberInfo;
+                //    if (runtimeEntityMenberInfo == null)
+                //    {
+                //        runtimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
+                //        CacheManager.GetGlobalCache()
+                //            .Set("RuntimeEntityMenberInfo:" + typeof (TDto),
+                //                runtimeEntityMenberInfo);
+                //    }
+                //    RuntimeEntityMenberInfo = runtimeEntityMenberInfo;
+                //}
+                //else
+                //    RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
+
+                // 不使用 缓存管理，重新设置了一个运行时实体信息提供者。
+                RuntimeEntityMenberInfo = this.RuntimeEntityMemberInfoProvider.GetRuntimeEntityMenberInfo(
+                    typeof (TDto), User);
             }
             base.OnActionExecuting(filterContext);
         }
@@ -210,6 +231,12 @@ namespace Ixq.Web.Mvc
                 JsonRequestBehavior = behavior,
                 SerializerSettings = serializerSettings
             };
+        }
+
+        protected virtual IRuntimeEntityMemberInfoProvider CreateEntityMemberInfoProvider()
+        {
+            return ServiceProvider.GetService<IRuntimeEntityMemberInfoProvider>() ??
+                   new RuntimeEntityMemberInfoProvider();
         }
 
         protected virtual object GetValue(string value)

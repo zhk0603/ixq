@@ -63,6 +63,7 @@
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
+    <Compile Include="Data\IDataAnnotations.cs" />
     <Compile Include="Entity\IRuntimeEntityMenberInfo.cs" />
     <Compile Include="Entity\IRuntimePropertyMenberInfo.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />

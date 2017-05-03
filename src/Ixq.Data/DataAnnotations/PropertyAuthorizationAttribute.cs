@@ -4,12 +4,14 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core.Data;
+using Ixq.Core.Entity;
 
 namespace Ixq.Data.DataAnnotations
 {
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class PropertyAuthorizationAttribute : Attribute
+    public class PropertyAuthorizationAttribute : Attribute, IDataAnnotations
     {
         public string[] Roles { get; set; }
         public string[] Users { get; set; }
@@ -30,6 +32,15 @@ namespace Ixq.Data.DataAnnotations
                 return false;
             }
             return true;
+        }
+
+        public void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty)
+        {
+            if (runtimeProperty == null)
+                throw new ArgumentNullException(nameof(runtimeProperty));
+
+            runtimeProperty.Roles = Roles;
+            runtimeProperty.Users = Users;
         }
     }
 }

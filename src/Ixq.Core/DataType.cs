@@ -27,7 +27,6 @@ namespace Ixq.Core
 
         Integer,
         Number,
-
         Currency,
 
         Select,

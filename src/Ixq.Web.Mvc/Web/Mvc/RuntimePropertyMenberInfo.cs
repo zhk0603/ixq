@@ -33,20 +33,17 @@ namespace Ixq.Web.Mvc
             IsKey = PropertyInfo.HasAttribute<KeyAttribute>();
 
             var authorizationAttribute = PropertyInfo.GetAttribute<PropertyAuthorizationAttribute>();
-            if (authorizationAttribute != null)
-            {
-                Roles = authorizationAttribute.Roles;
-                Users = authorizationAttribute.Users;
-            }
+            authorizationAttribute?.SetRuntimeProperty(this);
 
             var hideAttribute = PropertyInfo.GetAttribute<HideAttribute>();
-            if (hideAttribute != null)
-            {
-                IsHiddenOnCreate = hideAttribute.IsHiddenOnCreate;
-                IsHiddenOnDetail = hideAttribute.IsHiddenOnDetail;
-                IsHiddenOnView = hideAttribute.IsHiddenOnView;
-                IsHiddenOnEdit = hideAttribute.IsHiddenOnEdit;
-            }
+            hideAttribute?.SetRuntimeProperty(this);
+
+            var numberAttribute = PropertyInfo.GetAttribute<NumberAttribute>();
+            numberAttribute?.SetRuntimeProperty(this);
+
+            var colModelAttribute = PropertyInfo.GetAttribute<ColModelAttribute>();
+            colModelAttribute?.SetRuntimeProperty(this);
+
             var displayAttribute = PropertyInfo.GetAttribute<DisplayAttribute>();
             if (displayAttribute != null)
             {
@@ -55,23 +52,11 @@ namespace Ixq.Web.Mvc
                 Description = displayAttribute.GetDescription();
                 GroupName = displayAttribute.GetGroupName();
             }
-
-            var colModelAttribute = PropertyInfo.GetAttribute<ColModelAttribute>();
-            if (colModelAttribute != null)
-            {
-                Width = colModelAttribute.Width;
-                Align = colModelAttribute.Align;
-                Formatter = colModelAttribute.Formatter;
-                UnFormatter = colModelAttribute.UnFormatter;
-                Sortable = colModelAttribute.Sortable;
-                CssClass = colModelAttribute.CssClass;
-            }
+            
             var dataTypeAttribute = PropertyInfo.GetAttribute<UI.ComponentModel.DataAnnotations.DataTypeAttribute>();
             if (dataTypeAttribute != null)
             {
-                DataType = dataTypeAttribute.DataType;
-                CustomDataType = dataTypeAttribute.CustomDataType;
-                PartialViewPath = dataTypeAttribute.PartialViewPath;
+                dataTypeAttribute.SetRuntimeProperty(this);
             }
             else
             {
@@ -105,5 +90,19 @@ namespace Ixq.Web.Mvc
         public DataType DataType { get; set; }
         public string CustomDataType { get; set; }
         public string PartialViewPath { get; set; }
+
+        /// <summary>
+        ///     获取或设置步长，默认：0.01。
+        /// </summary>
+        public double? Step { get; set; } = 0.01;
+        /// <summary>
+        ///     获取或设置最大值。
+        /// </summary>
+        public long? Max { get; set; }
+        /// <summary>
+        ///     获取或设置最小值。
+        /// </summary>
+        public long? Min { get; set; }
+
     }
 }
