@@ -67,5 +67,12 @@ namespace Ixq.Demo.Domain.Dtos
         [Required]
         [ColModel(Sortable = true)]
         public decimal? DecimalTest { get; set; }
+
+
+        [Number(Max = 9999999, Min = 0)]
+        [Display(Name = "Integer 类型测试")]
+        [Required]
+        [ColModel(Sortable = true)]
+        public int IntegerTest { get; set; }
     }
 }

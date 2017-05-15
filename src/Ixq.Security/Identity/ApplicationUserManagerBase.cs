@@ -1,4 +1,5 @@
-﻿using Ixq.Core.DependencyInjection;
+﻿using System.Threading.Tasks;
+using Ixq.Core.DependencyInjection;
 using Microsoft.AspNet.Identity;
 
 namespace Ixq.Security.Identity
@@ -8,6 +9,12 @@ namespace Ixq.Security.Identity
     {
         protected ApplicationUserManagerBase(IUserStore<TUser> store) : base(store)
         {
+        }
+
+        public virtual async Task<bool> UserExistsAsync(string userName)
+        {
+            var user = await base.FindByNameAsync(userName);
+            return user != null;
         }
     }
 }

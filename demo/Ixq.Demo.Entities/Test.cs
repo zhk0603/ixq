@@ -27,5 +27,8 @@ namespace Ixq.Demo.Entities
 
         public bool? BoolTest { get; set; }
         public decimal? DecimalTest { get; set; }
+
+        public int IntegerTest { get; set; }
+            
     }
 }

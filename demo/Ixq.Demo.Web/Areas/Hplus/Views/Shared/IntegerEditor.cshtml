@@ -2,6 +2,10 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
     <div class="col-sm-8">
-        <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\" aria-required=\"true\"":"")  >
+        <input name="@Model.RuntimeProperty.PropertyInfo.Name" type="number" onkeyup="value = value.replace(/[^\d]/g, '')" class="form-control" 
+               @Html.Raw(Model.RuntimeProperty.Min != null ? $"min=\"{Model.RuntimeProperty.Min}\"":"")
+               @Html.Raw(Model.RuntimeProperty.Max != null ? $"max=\"{Model.RuntimeProperty.Max}\"":"")
+               @Html.Raw(Model.RuntimeProperty.Step != null ? $"step=\"{Model.RuntimeProperty.Step}\"":"")
+               @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"":"")  >
     </div>
 </div>
