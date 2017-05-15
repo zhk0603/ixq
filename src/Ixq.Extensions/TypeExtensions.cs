@@ -231,5 +231,18 @@ namespace Ixq.Extensions
             var baseType = typeof (TBaseType);
             return type.IsBaseOn(baseType);
         }
+
+        /// <summary>
+        ///     获取枚举项
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<EnumItem> GetEnumItem(this Type type)
+        {
+            if (!type.IsEnum)
+                throw new System.ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
+
+
+        }
     }
 }

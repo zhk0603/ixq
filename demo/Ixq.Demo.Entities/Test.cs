@@ -29,6 +29,25 @@ namespace Ixq.Demo.Entities
         public decimal? DecimalTest { get; set; }
 
         public int IntegerTest { get; set; }
+
+        public TestEnum1 TestEnum1 { get; set; }
+        public TestEnum2 TestEnum2 { get; set; }
             
+    }
+
+    public enum TestEnum1
+    {
+        男人,
+        女人,
+        程序员
+    }
+    [Flags]
+    public enum TestEnum2
+    {
+        C,
+        CPlus,
+        Java,
+        CShapr,
+        Php    
     }
 }

@@ -74,5 +74,12 @@ namespace Ixq.Demo.Domain.Dtos
         [Required]
         [ColModel(Sortable = true)]
         public int IntegerTest { get; set; }
+
+
+        [Display(Name = "Enum 类型测试")]
+        public TestEnum1 TestEnum1 { get; set; }
+        [Display(Name = "Enum 类型测试(Flags)")]
+        public TestEnum2 TestEnum2 { get; set; }
+
     }
 }
