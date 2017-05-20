@@ -32,6 +32,8 @@ namespace Ixq.Demo.Entities
 
         public TestEnum1 TestEnum1 { get; set; }
         public TestEnum2 TestEnum2 { get; set; }
+
+        public TimeSpan TestTimeSpan { get; set; }
             
     }
 

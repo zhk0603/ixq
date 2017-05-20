@@ -17,7 +17,7 @@
                     <h5>@(Model.Title)</h5>
                 </div>*@
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="@(entityName)_from">
+                    <form class="form-horizontal m-t" method="post" id="@(entityName)_from">
                         @foreach (IRuntimePropertyMenberInfo item in Model.PropertyMenberInfo)
                         {
                             @Html.PropertyEditor(item, Model.EntityDto)

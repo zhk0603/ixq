@@ -237,12 +237,21 @@ namespace Ixq.Extensions
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static List<EnumItem> GetEnumItem(this Type type)
+        public static List<EnumItem> GetEnumItems(this Type type)
         {
             if (!type.IsEnum)
-                throw new System.ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
+                throw new ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
 
+            var result = new List<EnumItem>();
+            foreach(var item in Enum.GetValues(type))
+            {
+                var tmp = new EnumItem();
+                tmp.Value = (int)item;
+                tmp.Name = Enum.GetName(type, item);
 
+                result.Add(tmp);
+            }
+            return result;
         }
     }
 }

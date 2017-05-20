@@ -88,9 +88,12 @@
     <Compile Include="ComponentModel\PageEditViewModel.cs" />
     <Compile Include="ComponentModel\PageViewModel.cs" />
     <Compile Include="Controls\Pagination.cs" />
+    <Compile Include="HtmlTemplate.cs" />
     <Compile Include="IPageConfig.cs" />
     <Compile Include="PageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptTemplate.cs" />
+    <Compile Include="StyleTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ixq.Core\Ixq.Core.csproj">
