@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Mapper.AutoMapper")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Mapper.AutoMapper，基于AutoMapper实现的自动映射组件。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Mapper.AutoMapper")]

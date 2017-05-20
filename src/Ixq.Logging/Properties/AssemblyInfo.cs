@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("Ixq.Logging")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Logging，基于Log4Net实现的日志组件。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Logging")]

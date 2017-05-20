@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Owin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Owin，对IAppBuilder启动方式的支持。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Owin")]

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Security")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Security身份验证，权限管理组件，基于AspNet.Identity实现。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Security")]

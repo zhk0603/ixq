@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Redis")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Redis，基于StackExchange.Redis实现的缓存组件。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Redis")]

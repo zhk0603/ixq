@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Data")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Data仓储层，基于Entity Framework实现的数据访问。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Data")]

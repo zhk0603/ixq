@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Extensions")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Extensions封装了一些常用的扩展方法。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Extensions")]

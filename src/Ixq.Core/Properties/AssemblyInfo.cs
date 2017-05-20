@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Core")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Core是Ixq framework的核心类库，此类库定义了如实体、Repository、依赖注入、日志、缓存等功能的接口。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Core")]
