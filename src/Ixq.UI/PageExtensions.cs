@@ -59,11 +59,12 @@ namespace Ixq.UI
         ///     注册脚本。
         /// </summary>
         /// <param name="helper"></param>
+        /// <param name="order"></param>
         /// <param name="template"></param>
         /// <returns></returns>
         public static MvcHtmlString Script(this HtmlHelper helper, string order, Func<object, HelperResult> template)
         {
-            helper.ViewContext.HttpContext.Items["_script_" + Guid.NewGuid().ToString()] = new ScriptTemplate(template, order);
+            helper.ViewContext.HttpContext.Items["_script_" + Guid.NewGuid()] = new ScriptTemplate(template, order);
             return MvcHtmlString.Empty;
         }
 
@@ -71,11 +72,12 @@ namespace Ixq.UI
         ///     注册样式。
         /// </summary>
         /// <param name="helper"></param>
+        /// <param name="order"></param>
         /// <param name="template"></param>
         /// <returns></returns>
         public static MvcHtmlString Styles(this HtmlHelper helper, string order, Func<object, HelperResult> template)
         {
-            helper.ViewContext.HttpContext.Items["_styles_" + Guid.NewGuid().ToString()] = new StyleTemplate(template, order);
+            helper.ViewContext.HttpContext.Items["_styles_" + Guid.NewGuid()] = new StyleTemplate(template, order);
             return MvcHtmlString.Empty;
         }
 

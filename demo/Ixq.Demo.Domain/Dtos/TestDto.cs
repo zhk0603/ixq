@@ -80,6 +80,7 @@ namespace Ixq.Demo.Domain.Dtos
         [Required]
         public TestEnum1 TestEnum1 { get; set; }
         [Display(Name = "Enum 类型测试(Flags)")]
+        [Required]
         public TestEnum2 TestEnum2 { get; set; }
 
 

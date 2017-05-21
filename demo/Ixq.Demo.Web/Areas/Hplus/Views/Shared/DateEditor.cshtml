@@ -3,26 +3,27 @@
     <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
     <div class="col-sm-8">
         <div class="input-group">
-            <input id="@Model.RuntimeProperty.PropertyInfo.Name" name="@Model.RuntimeProperty.PropertyInfo.Name" date="true" type="date" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "") />
+            <input id="@Model.RuntimeProperty.PropertyInfo.Name" name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "") />
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         </div>
     </div>
 </div>
 @Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_1",
-    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>)
+    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.min.js"></script>)
 @Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_2",
+    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.zh-CN.js"></script>)
+@Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_3",
     @<script>
-         $().ready(function() {
-             $('#@Model.RuntimeProperty.PropertyInfo.Name').datepicker({
-                 todayBtn: "linked",
-                 keyboardNavigation: false,
-                 forceParse: false,
-                 calendarWeeks: true,
-                 autoclose: true
-             });
-         });
+        $().ready(function () {
+            $('#@Model.RuntimeProperty.PropertyInfo.Name').datepicker({
+                todayBtn: "linked",
+                autoclose: true,
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd'
+            });
+        });
     </script>
     )
 @Html.Styles(Model.RuntimeProperty.PropertyInfo.Name + "_1",
-    @<link href="~/Content/Hplus/css/plugins/datapicker/datepicker3.css" rel="stylesheet" />
+    @<link href="~/Content/Hplus/css/plugins/datapicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
     )

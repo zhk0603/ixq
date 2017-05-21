@@ -28,6 +28,9 @@ namespace Ixq.UI
             var value2 = (obj as StyleTemplate).Template(null).ToHtmlString();
             var match2 = Regex.Match(value2, pattern);
 
+            if (!match1.Success || !match2.Success)
+                return false;
+
             return match1.Groups[1].Value == match2.Groups[1].Value;
         }
         public override int GetHashCode()

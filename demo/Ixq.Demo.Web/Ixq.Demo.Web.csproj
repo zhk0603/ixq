@@ -78,8 +78,8 @@
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StackExchange.Redis, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\StackExchange.Redis.1.2.1\lib\net45\StackExchange.Redis.dll</HintPath>
+    <Reference Include="StackExchange.Redis, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.3\lib\net45\StackExchange.Redis.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -231,6 +231,14 @@
     <Content Include="Content\Hplus\css\plugins\colorpicker\img\bootstrap-colorpicker\hue.png" />
     <Content Include="Content\Hplus\css\plugins\colorpicker\img\bootstrap-colorpicker\saturation.png" />
     <Content Include="Content\Hplus\css\plugins\cropper\cropper.min.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker.min.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\Hplus\css\plugins\datapicker\datepicker3.css" />
     <Content Include="Content\Hplus\css\plugins\dataTables\dataTables.bootstrap.css" />
     <Content Include="Content\Hplus\css\plugins\dropzone\basic.css" />
@@ -552,6 +560,8 @@
     <Content Include="Content\Hplus\js\plugins\colorpicker\bootstrap-colorpicker.min.js" />
     <Content Include="Content\Hplus\js\plugins\cropper\cropper.min.js" />
     <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datepicker.js" />
+    <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datepicker.min.js" />
+    <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Content\Hplus\js\plugins\dataTables\dataTables.bootstrap.js" />
     <Content Include="Content\Hplus\js\plugins\dataTables\jquery.dataTables.js" />
     <Content Include="Content\Hplus\js\plugins\diff_match_patch\diff_match_patch.js" />
@@ -752,6 +762,10 @@
     <Content Include="Areas\Hplus\Views\Shared\IntegerEditor.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\NumberEditor.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\EnumEditor.cshtml" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker.css.map" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.css.map" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.standalone.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
