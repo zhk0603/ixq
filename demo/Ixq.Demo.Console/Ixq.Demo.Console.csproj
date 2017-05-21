@@ -54,12 +54,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ixq.Core\Ixq.Core.csproj">
       <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
       <Name>Ixq.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Logging\Ixq.Logging.csproj">
+      <Project>{33ACFEA3-BE13-4C15-9003-0D44FAD30F9E}</Project>
+      <Name>Ixq.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.Redis\Ixq.Redis.csproj">
       <Project>{DA022C0C-6CC8-4C37-A017-2C62716F2650}</Project>

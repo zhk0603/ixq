@@ -9,7 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Ixq.Core.Logging;
 using StackExchange.Redis;
+using Ixq.Logging.Log4Net;
 
 namespace Ixq.Demo.Console
 {
@@ -44,10 +46,28 @@ namespace Ixq.Demo.Console
             System.Console.ReadKey();
         }
 
+
+
         static void Main(string[] args)
         {
+            TestLog();
+
             BulkInsert();
             System.Console.ReadKey();
+        }
+
+        static void TestLog()
+        {
+            ILoggerFactory factory = new Log4NetLoggerFactory();
+            LogManager.SetLoggerFactory(factory);
+
+            var log = LogManager.GetLogger<Program>();
+            log.Debug("debug log.");
+            log.Info("info log.");
+            log.Error("Error log.");
+            log.Fatal("Fatal log.");
+            log.Warn("Warn log.");
+
         }
 
         static async void TestMethod1()

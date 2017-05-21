@@ -43,7 +43,7 @@ namespace Ixq.Core.Logging
             if (_loggerFactory == null)
                 return null;
             ILogger logger;
-            var name = default(T).GetType().FullName;
+            var name = typeof (T).FullName;
             if (Loggers.TryGetValue(name, out logger))
             {
                 return logger;
