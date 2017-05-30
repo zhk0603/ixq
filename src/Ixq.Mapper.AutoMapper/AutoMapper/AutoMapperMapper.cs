@@ -5,6 +5,9 @@ using AM = AutoMapper;
 
 namespace Ixq.Mapper.AutoMapper
 {
+    /// <summary>
+    ///     AutoMapper 映射器。
+    /// </summary>
     public class AutoMapperMapper : IMapper
     {
         /// <summary>
@@ -31,6 +34,10 @@ namespace Ixq.Mapper.AutoMapper
             return M.Instance.Map(source, target);
         }
 
+        /// <summary>
+        ///     初始化需要映射的信息。
+        /// </summary>
+        /// <param name="mapperCollection">映射信息集合。</param>
         public void Initialize(IEnumerable<MapperDescriptor> mapperCollection)
         {
             M.Initialize(cfg =>

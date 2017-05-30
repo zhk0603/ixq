@@ -12,6 +12,11 @@ namespace Ixq.Core.Entity
     /// </summary>
     public class EntityExtensions
     {
+        /// <summary>
+        ///     获取实体属性的数据类型。
+        /// </summary>
+        /// <param name="propertyInfo">实体属性。</param>
+        /// <returns></returns>
         public static DataType GetDataType(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)

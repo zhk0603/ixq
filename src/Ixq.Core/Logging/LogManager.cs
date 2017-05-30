@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Core.Logging
 {
+    /// <summary>
+    ///     日志管理器。
+    /// </summary>
     public class LogManager
     {
         private static readonly ConcurrentDictionary<string, ILogger> Loggers;
@@ -16,11 +15,21 @@ namespace Ixq.Core.Logging
         {
             Loggers = new ConcurrentDictionary<string, ILogger>();
         }
+
+        /// <summary>
+        ///     设置日志工厂。
+        /// </summary>
+        /// <param name="factory"></param>
         public static void SetLoggerFactory(ILoggerFactory factory)
         {
             _loggerFactory = factory;
         }
 
+        /// <summary>
+        ///     获取<see cref="ILogger" />。
+        /// </summary>
+        /// <param name="name">日志记录器名称。</param>
+        /// <returns></returns>
         public static ILogger GetLogger(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -38,6 +47,11 @@ namespace Ixq.Core.Logging
             return logger;
         }
 
+        /// <summary>
+        ///     获取<see cref="ILogger" />。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static ILogger GetLogger<T>()
         {
             if (_loggerFactory == null)
@@ -53,6 +67,11 @@ namespace Ixq.Core.Logging
             return logger;
         }
 
+        /// <summary>
+        ///     获取<see cref="ILogger" />。
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static ILogger GetLogger(Type type)
         {
             if (type == null)

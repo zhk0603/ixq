@@ -49,7 +49,18 @@ namespace Ixq.Core.Repository
         /// <returns></returns>
         Task<TEntity> SingleByIdAsync(TKey index);
 
+        /// <summary>
+        ///     获取一个对象。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         TEntity SingleById(params object[] index);
+
+        /// <summary>
+        ///     异步获取一个对象。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         Task<TEntity> SingleByIdAsync(params object[] index);
 
         /// <summary>

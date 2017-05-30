@@ -8,6 +8,10 @@ namespace Ixq.Core.Mapper
     /// </summary>
     public interface IMapperCollection : IList<MapperDescriptor>
     {
+        /// <summary>
+        ///     初始化框架需要注册的映射信息。
+        /// </summary>
+        /// <param name="assembly"></param>
         void Init(Assembly[] assembly);
     }
 }

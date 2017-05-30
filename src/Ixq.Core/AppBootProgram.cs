@@ -25,12 +25,25 @@ namespace Ixq.Core
             MapperCollection = new MapperCollection();
         }
 
+        /// <summary>
+        ///     实现单例。
+        /// </summary>
         public static AppBootProgram Instance => LazyBootprogram.Value;
 
+        /// <summary>
+        ///     服务集合。
+        /// </summary>
         public IServiceCollection ServiceCollection { get; }
 
+        /// <summary>
+        ///     映射集合。
+        /// </summary>
         public IMapperCollection MapperCollection { get; }
 
+        /// <summary>
+        ///     初始化框架。
+        /// </summary>
+        /// <returns></returns>
         public AppBootProgram Initialization()
         {
             var assemblies = _assemblyFinder.FindAll();

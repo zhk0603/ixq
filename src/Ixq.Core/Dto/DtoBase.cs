@@ -5,6 +5,10 @@ using Newtonsoft.Json;
 
 namespace Ixq.Core.Dto
 {
+    /// <summary>
+    ///     数据传输对象基类。
+    /// </summary>
+    /// <typeparam name="TEntity">实体。</typeparam>
     public abstract class DtoBase<TEntity> : IDto<TEntity, Guid>
         where TEntity : class, IEntity<Guid>
     {
