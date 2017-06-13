@@ -9,26 +9,26 @@
     </div>
 </div>
 @Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_1",
-    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.min.js"></script>
+    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datetimepicker.min.js"></script>
     )
 @Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_2",
-    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.zh-CN.js"></script>)
+    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datetimepicker.zh-CN.js"></script>)
 
 @Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_3",
     @<script>
         $().ready(function () {
-            $('#@Model.RuntimeProperty.PropertyInfo.Name').datepicker({
+            $('#@Model.RuntimeProperty.PropertyInfo.Name').datetimepicker({
                 todayBtn: "linked",
-                //autoclose: true,
+                autoclose: true,
                 language: 'zh-CN',
+                startView: 'day',
                 minView: 'hour',
-                maxView: 'hour',
-                format: 'yyyy-mm-dd hh:ii:ss'
+                format: 'hh:ii'
             });
         });
     </script>
      )
 
 @Html.Styles(Model.RuntimeProperty.PropertyInfo.Name + "_1",
-    @<link href="~/Content/Hplus/css/plugins/datapicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    @<link href="~/Content/Hplus/css/plugins/datapicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     )

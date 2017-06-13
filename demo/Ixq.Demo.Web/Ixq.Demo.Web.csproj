@@ -239,6 +239,8 @@
     <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.min.css" />
     <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.standalone.css" />
     <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datetimepicker.css" />
+    <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\Hplus\css\plugins\datapicker\datepicker3.css" />
     <Content Include="Content\Hplus\css\plugins\dataTables\dataTables.bootstrap.css" />
     <Content Include="Content\Hplus\css\plugins\dropzone\basic.css" />
@@ -562,6 +564,9 @@
     <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datepicker.js" />
     <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datepicker.min.js" />
     <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datetimepicker.js" />
+    <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\Hplus\js\plugins\datapicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Content\Hplus\js\plugins\dataTables\dataTables.bootstrap.js" />
     <Content Include="Content\Hplus\js\plugins\dataTables\jquery.dataTables.js" />
     <Content Include="Content\Hplus\js\plugins\diff_match_patch\diff_match_patch.js" />
