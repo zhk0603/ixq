@@ -145,7 +145,7 @@ namespace Ixq.Web.Mvc
         {
             var entity = string.IsNullOrWhiteSpace(id)
                 ? Repository.Create()
-                : await Repository.SingleByIdAsync(GetValue(id));
+                : await Repository.SingleByIdAsync(ParseEntityKey(id));
 
             var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
                 RuntimeEntityMenberInfo.EditPropertyInfo)
@@ -179,24 +179,6 @@ namespace Ixq.Web.Mvc
         {
             if (RuntimeEntityMenberInfo == null)
             {
-                //if (CacheManager.IsEnable)
-                //{
-                //    var runtimeEntityMenberInfo =
-                //        CacheManager.GetGlobalCache().Get("RuntimeEntityMenberInfo:" + typeof (TDto)) as
-                //            RuntimeEntityMenberInfo;
-                //    if (runtimeEntityMenberInfo == null)
-                //    {
-                //        runtimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
-                //        CacheManager.GetGlobalCache()
-                //            .Set("RuntimeEntityMenberInfo:" + typeof (TDto),
-                //                runtimeEntityMenberInfo);
-                //    }
-                //    RuntimeEntityMenberInfo = runtimeEntityMenberInfo;
-                //}
-                //else
-                //    RuntimeEntityMenberInfo = new RuntimeEntityMenberInfo(typeof (TDto), User);
-
-                // 不使用 缓存管理，重新设置了一个运行时实体信息提供者。
                 RuntimeEntityMenberInfo = this.RuntimeEntityMemberInfoProvider.GetRuntimeEntityMenberInfo(
                     typeof (TDto), User);
             }
@@ -239,29 +221,9 @@ namespace Ixq.Web.Mvc
                    new RuntimeEntityMemberInfoProvider();
         }
 
-        protected virtual object GetValue(string value)
+        protected virtual object ParseEntityKey(string value)
         {
-            var type = typeof (TKey);
-
-            dynamic resultValue = value;
-            if (type == typeof (Guid))
-            {
-                resultValue =  Guid.Parse(value);
-            }
-            if (type == typeof (int))
-            {
-                resultValue = Convert.ToInt32(value);
-            }
-            if (type == typeof (short))
-            {
-                resultValue = Convert.ToInt16(value);
-            }
-            if (type == typeof (long))
-            {
-                resultValue = Convert.ToInt64(value);
-            }
-
-            return resultValue;
+            return RepositoryExtensions.ParseEntityKey<TKey>(value);
         }
     }
 }
