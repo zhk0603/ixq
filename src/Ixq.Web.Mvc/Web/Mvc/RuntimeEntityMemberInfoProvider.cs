@@ -24,7 +24,7 @@ namespace Ixq.Web.Mvc
 
         public IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo(Type type, IPrincipal user)
         {
-            var key = type.FullName;
+            var key = type.FullName + "_role:";
 
             IRuntimeEntityMenberInfo runtimeEntity;
             if (RuntimeEntityMenberInfo.TryGetValue(key, out runtimeEntity))
