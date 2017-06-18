@@ -18,8 +18,13 @@ namespace Ixq.Demo.Console
     [Serializable]
     class Program
     {
-        static void Main1(string[] args)
+        static void Main(string[] args)
         {
+
+            var s1 = "Admin";
+            var s2 = "Employee";
+            var c1 = s1.GetHashCode();
+            var c2 = s2.GetHashCode();
 
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
@@ -48,7 +53,7 @@ namespace Ixq.Demo.Console
 
 
 
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             TestLog();
 

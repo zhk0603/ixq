@@ -13,12 +13,18 @@ namespace Ixq.Extensions.ObjectModel
             Errors = errors;
         }
 
-        public ReturnModel(bool success)
+        public ReturnModel(params string[] errors)
         {
-            Success = success;
+            Errors = errors;
         }
 
-        public bool Success { get; set; }
+        public ReturnModel(bool success)
+        {
+            Succeeded = success;
+        }
+        public ReturnModel() { }
+
+        public bool Succeeded { get; set; }
         public string Message { get; set; }
         public IEnumerable<string> Errors { get; }
     }

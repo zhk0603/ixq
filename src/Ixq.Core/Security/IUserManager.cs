@@ -10,38 +10,40 @@ using Ixq.Core.DependencyInjection;
 namespace Ixq.Core.Security
 {
     public interface IUserManager<TUser> : IScopeDependency
-        where TUser : class, IEntity<Guid>, new()
+        where TUser : class
     {
         IQueryable<TUser> Users { get; }
         ReturnModel Create(TUser user);
         Task<ReturnModel> CreateAsync(TUser user);
-        TUser Find(Guid userId);
-        Task<TUser> FindAsync(Guid userId);
+        TUser Find(string userId);
+        Task<TUser> FindAsync(string userId);
         TUser Find(string userName, string password);
         Task<TUser> FindAsync(string userName, string password);
-        TUser Find(string userName);
-        Task<TUser> FindAsync(string userName);
+        TUser FindByName(string userName);
+        Task<TUser> FindByNameAsync(string userName);
         bool HasUser(string userName);
         Task<bool> HasUserAsync(string userName);
         ReturnModel Delete(TUser user);
         Task<ReturnModel> DeleteAsync(TUser user);
-        ReturnModel Delete(Guid userId);
-        Task<ReturnModel> DeleteAsync(Guid userId);
+        ReturnModel Delete(string userId);
+        Task<ReturnModel> DeleteAsync(string userId);
         ReturnModel Update(TUser user);
         Task<ReturnModel> UpdateAsync(TUser user);
         bool CheckPassword(string userName, string password);
         Task<bool> CheckPasswordAsync(string userName, string password);
         bool CheckPassword(TUser user, string password);
         Task<bool> CheckPasswordAsync(TUser user, string password);
-        string GetUserName(Guid userId);
-        Task<string> GetUserNameAsync(Guid userId);
-        bool AddToRole(Guid userId, Guid roleId);
-        Task<bool> AddToRoleAsync(Guid userId, Guid roleId);
-        bool AddToRole(Guid userId, IList<Guid> roles);
-        Task<bool> AddToRoleAsync(Guid userId, IList<Guid> roles);
-        List<string> GetUserRoles(Guid userId);
-        Task<List<string>> GetUserRolesAsync(Guid userId);
-        bool IsInRole(Guid userId, string role);
-        Task<bool> IsInRoleAsync(Guid userId, string role);
+        string GetUserName(string userId);
+        Task<string> GetUserNameAsync(string userId);
+        bool AddToRole(string userId, string roleId);
+        Task<bool> AddToRoleAsync(string userId, string roleId);
+        bool AddToRoles(string userId, IList<string> roles);
+        Task<bool> AddToRolesAsync(string userId, IList<string> roles);
+        List<string> GetUserRoles(string userId);
+        Task<List<string>> GetUserRolesAsync(string userId);
+        List<string> GetUserRolesByName(string userName);
+        Task<List<string>> GetUserRolesByNameAsync(string userName);
+        bool IsInRole(string userId, string role);
+        Task<bool> IsInRoleAsync(string userId, string role);
     }
 }

@@ -121,6 +121,10 @@
       <Project>{7685a3b6-3b22-46f8-8b73-e49d02812961}</Project>
       <Name>Ixq.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ixq.Extensions\Ixq.Extensions.csproj">
+      <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
+      <Name>Ixq.Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,6 +20,7 @@ using System.Text;
 using Ixq.Core.Cache;
 using Newtonsoft.Json;
 using Ixq.Core.Mapper;
+using Ixq.Core.Security;
 using Ixq.UI.ComponentModel;
 
 namespace Ixq.Web.Mvc

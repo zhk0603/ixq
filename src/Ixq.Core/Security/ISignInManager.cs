@@ -10,11 +10,13 @@ using Ixq.Extensions.ObjectModel;
 namespace Ixq.Core.Security
 {
     public interface ISignInManager<TUser> : IScopeDependency
-        where TUser :class , IEntity<Guid>, new()
+        where TUser :class
     {
         TUser CurrentUser { get; }
-        ReturnModel SignIn(TUser user, bool rememberBrowser);
-        Task<ReturnModel> SignInAsync(TUser user, bool rememberBrowser);
-        void SignOut();
+        void SignIn(TUser user, bool rememberBrowser);
+        Task SignInAsync(TUser user, bool rememberBrowser);
+        void SignIn(string userId, bool rememberBrowser);
+        Task SignInAsync(string userId, bool rememberBrowser);
+        void SignOut(params string[] authenticationTypes);
     }
 }
