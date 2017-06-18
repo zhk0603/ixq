@@ -3,7 +3,7 @@
 namespace Ixq.Core.Entity
 {
     /// <summary>
-    ///     更新规范
+    ///     更新规范。
     /// </summary>
     public interface IUpdataSpecification
     {

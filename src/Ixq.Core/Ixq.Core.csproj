@@ -77,6 +77,8 @@
     <Compile Include="Data\IDataAnnotations.cs" />
     <Compile Include="Entity\IRuntimeEntityMenberInfo.cs" />
     <Compile Include="Entity\IRuntimePropertyMenberInfo.cs" />
+    <Compile Include="Entity\ISignInSpecification.cs" />
+    <Compile Include="Entity\ISignOutSpecification.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\ISoftDeleteSpecification.cs" />
