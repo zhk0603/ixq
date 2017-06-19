@@ -18,6 +18,7 @@
                 </div>*@
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" method="post" id="@(entityName)_from">
+                        @Html.AntiForgeryToken()
                         @foreach (IRuntimePropertyMenberInfo item in Model.PropertyMenberInfo)
                         {
                             @Html.PropertyEditor(item, Model.EntityDto)
