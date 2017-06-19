@@ -15,8 +15,8 @@ namespace Ixq.Demo.Web.Migrations
 
         protected override void Seed(DataContext context)
         {
-            DbSeed.SeedProductType(context);
-            DbSeed.SeedSysRole(context);
+            //DbSeed.SeedProductType(context);
+            //DbSeed.SeedSysRole(context);
         }
     }
 }

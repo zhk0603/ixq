@@ -10,8 +10,8 @@ using Microsoft.AspNet.Identity;
 
 namespace Ixq.Security.Identity
 {
-    public abstract class ApplicationUserManagerBase<TUser> : UserManager<TUser>, IUserManager<TUser>, IScopeDependency
-        where TUser : class, IUser<string>
+    public abstract class ApplicationUserManagerBase<TUser> : UserManager<TUser>, IUserManager<IUser>, IScopeDependency
+        where TUser : class, IUser
     {
         private readonly UserManager<TUser> _userManager;
 
@@ -20,165 +20,169 @@ namespace Ixq.Security.Identity
             _userManager = this;
         }
 
-        public ReturnModel Create(TUser user)
+        IQueryable<IUser> IUserManager<IUser>.Users
         {
-            var vm = _userManager.Create(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public new async Task<ReturnModel> CreateAsync(TUser user)
-        {
-            var vm = await _userManager.CreateAsync(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public TUser Find(string userId)
-        {
-            return _userManager.FindById(userId);
-        }
-
-        public Task<TUser> FindAsync(string userId)
-        {
-            return _userManager.FindByIdAsync(userId);
-        }
-
-        public TUser Find(string userName, string password)
-        {
-            return _userManager.Find(userName, password);
-        }
-
-        public TUser FindByName(string userName)
-        {
-            return _userManager.FindByName(userName);
-        }
-
-        public bool HasUser(string userName)
-        {
-            return FindByName(userName) != null;
-        }
-
-        public Task<bool> HasUserAsync(string userName)
-        {
-            return Task.FromResult(HasUser(userName));
-        }
-
-        public ReturnModel Delete(TUser user)
-        {
-            var vm = _userManager.Delete(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public new async Task<ReturnModel> DeleteAsync(TUser user)
-        {
-            var vm = await _userManager.DeleteAsync(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public ReturnModel Delete(string userId)
-        {
-            var user = Find(userId);
-            var vm = _userManager.Delete(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public async Task<ReturnModel> DeleteAsync(string userId)
-        {
-            var user = await FindAsync(userId);
-            var vm = await _userManager.DeleteAsync(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public ReturnModel Update(TUser user)
-        {
-            var vm = _userManager.Update(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public new async Task<ReturnModel> UpdateAsync(TUser user)
-        {
-            var vm = await _userManager.UpdateAsync(user);
-            var resultVm = new ReturnModel(vm.Errors) {Succeeded = vm.Succeeded};
-            return resultVm;
-        }
-
-        public bool CheckPassword(string userName, string password)
-        {
-            var user = FindByName(userName);
-            return CheckPassword(user, password);
-        }
-
-        public async Task<bool> CheckPasswordAsync(string userName, string password)
-        {
-            var user = await FindByNameAsync(userName);
-            return await _userManager.CheckPasswordAsync(user, password);
-        }
-
-        public bool CheckPassword(TUser user, string password)
-        {
-            return _userManager.CheckPassword(user, password);
-        }
-
-        public string GetUserName(string userId)
-        {
-            return Find(userId).UserName;
-        }
-
-        public Task<string> GetUserNameAsync(string userId)
-        {
-            return Task.FromResult(GetUserName(userId));
+            get
+            {
+                return _userManager.Users;
+            }
         }
 
         public bool AddToRole(string userId, string roleId)
         {
-            return _userManager.AddToRole(userId, roleId).Succeeded;
-        }
-
-        public new Task<bool> AddToRoleAsync(string userId, string roleId)
-        {
-            return Task.FromResult(AddToRole(userId, roleId));
+            throw new NotImplementedException();
         }
 
         public bool AddToRoles(string userId, IList<string> roles)
         {
-            return _userManager.AddToRoles(userId, roles.ToArray()).Succeeded;
+            throw new NotImplementedException();
         }
 
         public Task<bool> AddToRolesAsync(string userId, IList<string> roles)
         {
-            return Task.FromResult(AddToRoles(userId, roles));
+            throw new NotImplementedException();
+        }
+
+        public bool CheckPassword(IUser user, string password)
+        {
+            _userManager.CheckPassword((TUser)user, password);
+            throw new NotImplementedException();
+        }
+
+        public bool CheckPassword(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CheckPasswordAsync(IUser user, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CheckPasswordAsync(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Create(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> CreateAsync(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Delete(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Delete(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> DeleteAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> DeleteAsync(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUser Find(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUser Find(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IUser> FindAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUser FindByName(string userName)
+        {
+            return _userManager.FindByName(userName);
+        }
+
+        public string GetUserName(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetUserNameAsync(string userId)
+        {
+            throw new NotImplementedException();
         }
 
         public List<string> GetUserRoles(string userId)
         {
-            return _userManager.GetRoles(userId).ToList();
+            throw new NotImplementedException();
         }
 
         public Task<List<string>> GetUserRolesAsync(string userId)
         {
-            return Task.FromResult(GetUserRoles(userId));
+            throw new NotImplementedException();
         }
 
         public List<string> GetUserRolesByName(string userName)
         {
             var user = FindByName(userName);
-            return GetUserRoles(user.Id);
+            return _userManager.GetRoles(user.Id).ToList();
         }
 
         public Task<List<string>> GetUserRolesByNameAsync(string userName)
         {
-            return Task.FromResult(GetUserRolesByName(userName));
+            throw new NotImplementedException();
+        }
+
+        public bool HasUser(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> HasUserAsync(string userName)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsInRole(string userId, string role)
         {
-            return _userManager.IsInRole(userId, role);
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Update(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> UpdateAsync(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IUserManager<IUser>.AddToRoleAsync(string userId, string roleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IUser> IUserManager<IUser>.FindAsync(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IUser> IUserManager<IUser>.FindByNameAsync(string userName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

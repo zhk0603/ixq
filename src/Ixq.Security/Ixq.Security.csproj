@@ -104,6 +104,7 @@
     <Compile Include="Identity\IdentityRoleBase.cs" />
     <Compile Include="Identity\IdentityUserBase.cs" />
     <Compile Include="Identity\ApplicationSignInManagerBase.cs" />
+    <Compile Include="Identity\IUser.cs" />
     <Compile Include="Identity\UserStoreBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

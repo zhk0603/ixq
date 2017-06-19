@@ -14,6 +14,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Owin;
+using Ixq.Core.Security;
+using Ixq.Demo.Domain;
 
 [assembly: OwinStartup(typeof (Startup))]
 
@@ -35,6 +37,7 @@ namespace Ixq.Demo.Web
                 .RegisterAutoMappe()
                 .RegisterIdentity(serverCollection =>
                 {
+                    serverCollection.TryAddScoped<IUserManager<Security.Identity.IUser>, ApplicationUserManager>();
                     serverCollection.TryAddSingleton<DbContext, DataContext>();
                     serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
                     serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();

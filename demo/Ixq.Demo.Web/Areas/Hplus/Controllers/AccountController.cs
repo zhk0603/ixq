@@ -13,6 +13,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.Owin;
+using Ixq.Core.Security;
+using Ixq.Core.DependencyInjection.Extensions;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
@@ -20,9 +22,9 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationRoleManager _roleManager;
-        private ApplicationUserManager _userManager;
+        private IUserManager<Security.Identity.IUser> _userManager;
 
-        public AccountController(ApplicationRoleManager roleManager, ApplicationUserManager userManager)
+        public AccountController(ApplicationRoleManager roleManager, IUserManager<Security.Identity.IUser> userManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -51,17 +53,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
 
@@ -72,13 +64,16 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
             var b5 = HttpContext.GetOwinContext().Get<ApplicationRoleManager>().GetHashCode();
 
             var a1 = _userManager.GetHashCode();
-            var a2 = UserManager.GetHashCode();
+            var a2 = _userManager.GetHashCode();
 
             var b3 = _roleManager.GetHashCode();
             var b2 = RoleManager.GetHashCode();
 
             var roles = RoleManager.Roles.ToList();
-            var users = UserManager.Users.ToList();
+            var users = _userManager.Users.ToList();
+            var aa = _userManager.GetHashCode();
+
+            var b = _userManager is IUserManager<Security.Identity.IUser>;
 
             return View();
         }
