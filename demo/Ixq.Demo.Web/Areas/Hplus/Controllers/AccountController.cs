@@ -21,41 +21,26 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
     public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationRoleManager _roleManager;
+        private IRoleManager<Security.Identity.IRole> _roleManager;
         private IUserManager<Security.Identity.IUser> _userManager;
 
-        public AccountController(ApplicationRoleManager roleManager, IUserManager<Security.Identity.IUser> userManager)
+        public AccountController(IRoleManager<Security.Identity.IRole> roleManager, IUserManager<Security.Identity.IUser> userManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public ApplicationRoleManager RoleManager
-        {
-            get
-            {
-                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
-            }
-            private set
-            {
-                _roleManager = value;
-            }
-        }
         public ApplicationSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? (_signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>());
             }
             private set
             {
                 _signInManager = value;
             }
         }
-
-
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
-
 
         // GET: Hplus/Account
         public ActionResult Index()
@@ -67,9 +52,9 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
             var a2 = _userManager.GetHashCode();
 
             var b3 = _roleManager.GetHashCode();
-            var b2 = RoleManager.GetHashCode();
+            var b2 = _roleManager.GetHashCode();
 
-            var roles = RoleManager.Roles.ToList();
+            var roles = _roleManager.Roles.ToList();
             var users = _userManager.Users.ToList();
             var aa = _userManager.GetHashCode();
 
@@ -91,7 +76,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
             var result = await SignInManager.PasswordSignInAsync(userName, password, false, shouldLockout: true);
             switch (result)
             {
-                case SignInStatus.Success:
+                case Microsoft.AspNet.Identity.Owin.SignInStatus.Success:
                     if (string.IsNullOrWhiteSpace(returnUrl))
                         return RedirectToAction("Index", "Home");
                     return Redirect(returnUrl);
@@ -103,7 +88,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            SignInManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }
     }

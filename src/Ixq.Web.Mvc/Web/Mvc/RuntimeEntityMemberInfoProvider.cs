@@ -29,7 +29,7 @@ namespace Ixq.Web.Mvc
         public IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo(Type type, IPrincipal user)
         {
             var key = type.FullName +
-                      $"_{UserManager.GetUserRolesByName(user.Identity.Name).Aggregate(0, (c, i) => i.GetHashCode())}";
+                      $"_{UserManager?.GetUserRolesByName(user.Identity.Name).Aggregate(0, (c, i) => i.GetHashCode())}";
 
             IRuntimeEntityMenberInfo runtimeEntity;
             if (RuntimeEntityMenberInfo.TryGetValue(key, out runtimeEntity))

@@ -9,8 +9,8 @@ using Microsoft.AspNet.Identity;
 
 namespace Ixq.Security.Identity
 {
-    public abstract class ApplicationRoleManagerBase<TRole> : RoleManager<TRole>, IRoleManager<TRole>, IScopeDependency
-        where TRole : class, IRole<string>
+    public abstract class ApplicationRoleManagerBase<TRole> : RoleManager<TRole>, IRoleManager<IRole>, IScopeDependency
+        where TRole : class, IRole
     {
         private readonly RoleManager<TRole> _roleManager;
         protected ApplicationRoleManagerBase(IRoleStore<TRole, string> store) : base(store)
@@ -18,93 +18,92 @@ namespace Ixq.Security.Identity
             _roleManager = this;
         }
 
-        public ReturnModel Create(TRole role)
+        IQueryable<IRole> IRoleManager<IRole>.Roles
         {
-            var vm = _roleManager.Create(role);
-            var resultVm = new ReturnModel(vm.Errors) { Succeeded = vm.Succeeded };
-            return resultVm;
+            get
+            {
+                return _roleManager.Roles;
+            }
         }
 
-        public new async Task<ReturnModel> CreateAsync(TRole role)
+        public ReturnModel Create(IRole role)
         {
-            var vm = await _roleManager.CreateAsync(role);
-            var resultVm = new ReturnModel(vm.Errors) { Succeeded = vm.Succeeded };
-            return resultVm;
+            throw new NotImplementedException();
         }
 
-        public TRole Find(string roleId)
+        public Task<ReturnModel> CreateAsync(IRole role)
         {
-            return _roleManager.FindById(roleId);
-        }
-
-        public Task<TRole> FindAsync(string roleId)
-        {
-            return _roleManager.FindByIdAsync(roleId);
-        }
-
-        public TRole FindByName(string roleName)
-        {
-            return _roleManager.FindByName(roleName);
-        }
-
-        public bool HasRole(string roleName)
-        {
-            return _roleManager.RoleExists(roleName);
-        }
-
-        public Task<bool> HasRoleAsync(string roleName)
-        {
-            return _roleManager.RoleExistsAsync(roleName);
-        }
-
-        public ReturnModel Delete(TRole role)
-        {
-            var vm = _roleManager.Delete(role);
-            var resultVm = new ReturnModel(vm.Errors) { Succeeded = vm.Succeeded };
-            return resultVm;
-        }
-
-        public new async Task<ReturnModel> DeleteAsync(TRole role)
-        {
-            var vm = await _roleManager.DeleteAsync(role);
-            var resultVm = new ReturnModel(vm.Errors) { Succeeded = vm.Succeeded };
-            return resultVm;
+            throw new NotImplementedException();
         }
 
         public ReturnModel Delete(string roleId)
         {
-            var role = _roleManager.FindById(roleId);
-            return Delete(role);
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Delete(IRole role)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<ReturnModel> DeleteAsync(string roleId)
         {
-            var role = _roleManager.FindById(roleId);
-            return DeleteAsync(role);
+            throw new NotImplementedException();
         }
 
-        public ReturnModel Update(TRole role)
+        public Task<ReturnModel> DeleteAsync(IRole role)
         {
-            var vm = _roleManager.Update(role);
-            var resultVm = new ReturnModel(vm.Errors) { Succeeded = vm.Succeeded };
-            return resultVm;
+            throw new NotImplementedException();
         }
 
-        public new async Task<ReturnModel> UpdateAsync(TRole role)
+        public IRole Find(string roleId)
         {
-            var vm = await _roleManager.UpdateAsync(role);
-            var resultVm = new ReturnModel(vm.Errors) { Succeeded = vm.Succeeded };
-            return resultVm;
+            throw new NotImplementedException();
+        }
+
+        public Task<IRole> FindAsync(string roleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRole FindByName(string roleName)
+        {
+            throw new NotImplementedException();
         }
 
         public string GetRoleName(string roleId)
         {
-            return _roleManager.FindById(roleId).Name;
+            throw new NotImplementedException();
         }
 
         public Task<string> GetRoleNameAsync(string roleId)
         {
-            return Task.FromResult(GetRoleName(roleId));
+            throw new NotImplementedException();
+        }
+
+        public bool HasRole(string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> HasRoleAsync(string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Update(IRole role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> UpdateAsync(IRole role)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IRole> IRoleManager<IRole>.FindByNameAsync(string roleName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

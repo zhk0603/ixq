@@ -54,5 +54,15 @@ namespace Ixq.Security.Identity
         {
             AuthenticationManager.SignOut(authenticationTypes);
         }
+
+        public Core.Security.SignInStatus PasswordSignIn(string userName, string password, bool isPersistent, bool shouldLockout)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Core.Security.SignInStatus> ISignInManager<TUser>.PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
