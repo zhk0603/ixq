@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ixq.Extensions
+namespace Ixq.Extensions.ObjectModel
 {
     public class EnumItem
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Web.Controllers;
@@ -75,6 +76,9 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
             var b3 = _roleManager.GetHashCode();
             var b2 = RoleManager.GetHashCode();
+
+            var roles = RoleManager.Roles.ToList();
+            var users = UserManager.Users.ToList();
 
             return View();
         }

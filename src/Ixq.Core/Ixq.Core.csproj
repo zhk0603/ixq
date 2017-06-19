@@ -77,6 +77,8 @@
     <Compile Include="Data\IDataAnnotations.cs" />
     <Compile Include="Entity\IRuntimeEntityMenberInfo.cs" />
     <Compile Include="Entity\IRuntimePropertyMenberInfo.cs" />
+    <Compile Include="Entity\ISignInSpecification.cs" />
+    <Compile Include="Entity\ISignOutSpecification.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\ISoftDeleteSpecification.cs" />
@@ -99,6 +101,9 @@
     <Compile Include="Repository\IRepositoryBase.cs" />
     <Compile Include="Repository\IRepositoryInt32.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
+    <Compile Include="Security\IUserManager.cs" />
+    <Compile Include="Security\IRoleManager.cs" />
+    <Compile Include="Security\ISignInManager.cs" />
     <Compile Include="TextAlign.cs" />
   </ItemGroup>
   <ItemGroup>

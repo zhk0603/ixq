@@ -22,6 +22,7 @@ namespace Ixq.Security.Identity
         where TUser : IdentityUser
         where TRole : IdentityRole
     {
+        #region 构造函数。
         protected IdentityDbContextBase() : base()
         {
         }
@@ -53,6 +54,7 @@ namespace Ixq.Security.Identity
 
         }
 
+        #endregion
         public void Rollback()
         {
             Database.CurrentTransaction?.Rollback();
@@ -266,6 +268,16 @@ namespace Ixq.Security.Identity
             var createEntry = entry.Cast<ICreateSpecification>();
             createEntry.Entity.CreateDate = DateTime.Now;
             createEntry.Entity.OnCreateComplete();
+        }
+
+        protected virtual void AuditImplodedSignInSpecification(DbEntityEntry entry)
+        {
+            
+        }
+
+        protected virtual void AuditImplodedSignOutSpecification(DbEntityEntry entry)
+        {
+            
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
