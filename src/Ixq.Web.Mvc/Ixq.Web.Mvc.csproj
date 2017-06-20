@@ -38,6 +38,10 @@
     <AssemblyOriginatorKeyFile>IxqFramework.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +97,7 @@
     <Compile Include="Web\Mvc\RuntimePropertyMenberInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="IxqFramework.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -112,6 +117,10 @@
     <ProjectReference Include="..\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
       <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
       <Name>Ixq.Mapper.AutoMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ixq.Security\Ixq.Security.csproj">
+      <Project>{a104cd13-ac10-4f74-80bc-61b6f9449dae}</Project>
+      <Name>Ixq.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ixq.UI\Ixq.UI.csproj">
       <Project>{E51F018D-ACB2-4117-864B-7F02B9096112}</Project>

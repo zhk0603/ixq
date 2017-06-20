@@ -10,10 +10,18 @@ using Microsoft.AspNet.Identity;
 
 namespace Ixq.Security.Identity
 {
-    public abstract class ApplicationUserManagerBase<TUser> : UserManager<TUser>, IUserManager<TUser>, IScopeDependency
+    public abstract class ApplicationUserManagerBase<TUser> : UserManager<TUser>, IUserManager<IUser<string>>, IScopeDependency
         where TUser : class, IUser<string>
     {
         private readonly UserManager<TUser> _userManager;
+
+        IQueryable<IUser<string>> IUserManager<IUser<string>>.Users
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         protected ApplicationUserManagerBase(IUserStore<TUser> store) : base(store)
         {
@@ -179,6 +187,76 @@ namespace Ixq.Security.Identity
         public bool IsInRole(string userId, string role)
         {
             return _userManager.IsInRole(userId, role);
+        }
+
+        public ReturnModel Create(IUser<string> user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> CreateAsync(IUser<string> user)
+        {
+            throw new NotImplementedException();
+        }
+
+        IUser<string> IUserManager<IUser<string>>.Find(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IUser<string>> IUserManager<IUser<string>>.FindAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IUser<string> IUserManager<IUser<string>>.Find(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IUser<string>> IUserManager<IUser<string>>.FindAsync(string userName, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        IUser<string> IUserManager<IUser<string>>.FindByName(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IUser<string>> IUserManager<IUser<string>>.FindByNameAsync(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Delete(IUser<string> user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> DeleteAsync(IUser<string> user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel Update(IUser<string> user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnModel> UpdateAsync(IUser<string> user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CheckPassword(IUser<string> user, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CheckPasswordAsync(IUser<string> user, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Ixq.Core.Entity;
 using Ixq.Core.Security;
+using Ixq.Security.Identity;
 
 namespace Ixq.Web.Mvc
 {
@@ -23,12 +24,12 @@ namespace Ixq.Web.Mvc
             RuntimeEntityMenberInfo = new ConcurrentDictionary<string, IRuntimeEntityMenberInfo>();
         }
 
-        public IUserManager<IEntity<string>> UserManager { get; set; }
+        public IUserManager<IUser<string>> UserManager { get; set; }
 
         public IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo(Type type, IPrincipal user)
         {
             var key = type.FullName +
-                      $"_{UserManager.GetUserRolesByName(user.Identity.Name).Aggregate(0, (c, i) => i.GetHashCode())}";
+                      $"_{UserManager?.GetUserRolesByName(user.Identity.Name).Aggregate(0, (c, i) => i.GetHashCode())}";
 
             IRuntimeEntityMenberInfo runtimeEntity;
             if (RuntimeEntityMenberInfo.TryGetValue(key, out runtimeEntity))

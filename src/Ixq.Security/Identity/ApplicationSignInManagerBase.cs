@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Ixq.Security.Identity
 {
     public abstract class ApplicationSignInManagerBase<TUser> : SignInManager<TUser, string>,
         ISignInManager<TUser>, IScopeDependency
-        where TUser : class, IUser<string>
+        where TUser : class, Microsoft.AspNet.Identity.IUser<string>
     {
         private readonly SignInManager<TUser, string> _signInManager;
 
@@ -52,7 +53,11 @@ namespace Ixq.Security.Identity
 
         public void SignOut(params string[] authenticationTypes)
         {
+            OnSignOut?.Invoke(CurrentUser);
             AuthenticationManager.SignOut(authenticationTypes);
         }
+
+        public static OnSignOutDelegate OnSignOut { get; set; }
+        public delegate void OnSignOutDelegate(TUser user);
     }
 }

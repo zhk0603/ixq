@@ -270,16 +270,6 @@ namespace Ixq.Security.Identity
             createEntry.Entity.OnCreateComplete();
         }
 
-        protected virtual void AuditImplodedSignInSpecification(DbEntityEntry entry)
-        {
-            
-        }
-
-        protected virtual void AuditImplodedSignOutSpecification(DbEntityEntry entry)
-        {
-            
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

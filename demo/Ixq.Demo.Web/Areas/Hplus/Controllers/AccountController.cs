@@ -80,6 +80,8 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
             var roles = RoleManager.Roles.ToList();
             var users = UserManager.Users.ToList();
 
+            var use = SignInManager.CurrentUser;
+
             return View();
         }
 
@@ -108,7 +110,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            SignInManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }
     }
