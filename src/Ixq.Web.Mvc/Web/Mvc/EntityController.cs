@@ -156,6 +156,22 @@ namespace Ixq.Web.Mvc
             return View(editModel);
         }
 
+        [HttpPost]
+        [ValidateInput(true)]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> Edit(TDto model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            else
+            {
+
+            }
+            return Json("");
+        }
+
         public virtual ActionResult Delete()
         {
             return View();

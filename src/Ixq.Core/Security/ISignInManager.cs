@@ -13,6 +13,8 @@ namespace Ixq.Core.Security
         where TUser :class
     {
         TUser CurrentUser { get; }
+        SignInStatus PasswordSignIn(string userName, string password, bool isPersistent, bool shouldLockout);
+        Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout);
         void SignIn(TUser user, bool rememberBrowser);
         Task SignInAsync(TUser user, bool rememberBrowser);
         void SignIn(string userId, bool rememberBrowser);

@@ -15,19 +15,18 @@ namespace ixq.Demo.DbContext
             {
                 return;
             }
-            for (var i = 0; i < 10000; i++)
-            {
+            //for (var i = 0; i < 10000; i++)
+            //{
                 for (var j = 0; j < 1000; j++)
                 {
                     var tmp = context.ProductTypes.Create();
                     tmp.OnCreateComplete();
                     tmp.Id = Guid.NewGuid();
-                    tmp.Name = "ProductTypeName" + i;
+                    tmp.Name = "ProductTypeName" + j;
                     context.ProductTypes.Add(tmp);
                 }
                 context.SaveChanges();
-            }
-
+            //}
 
         }
 
