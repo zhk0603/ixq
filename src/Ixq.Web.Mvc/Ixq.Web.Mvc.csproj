@@ -97,6 +97,7 @@
     <Compile Include="Web\Mvc\RuntimePropertyMenberInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="IxqFramework.pfx" />
     <None Include="packages.config" />
   </ItemGroup>

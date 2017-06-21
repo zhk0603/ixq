@@ -60,6 +60,8 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
             var b = _userManager is IUserManager<Security.Identity.IUser>;
 
+            var use = SignInManager.CurrentUser;
+
             return View();
         }
 
