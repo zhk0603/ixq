@@ -57,12 +57,12 @@ namespace Ixq.Security.Identity
 
         public Core.Security.SignInStatus PasswordSignIn(string userName, string password, bool isPersistent, bool shouldLockout)
         {
-            throw new NotImplementedException();
+            return (Core.Security.SignInStatus)Enum.Parse(typeof(Core.Security.SignInStatus), _signInManager.PasswordSignIn(userName, password, isPersistent, shouldLockout).ToString());
         }
 
         Task<Core.Security.SignInStatus> ISignInManager<TUser>.PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(PasswordSignIn(userName, password, isPersistent, shouldLockout));
         }
     }
 }
