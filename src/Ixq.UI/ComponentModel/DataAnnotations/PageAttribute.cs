@@ -11,18 +11,20 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     public class PageAttribute : Attribute, IPageConfig
     {
         /// <summary>
-        ///     标题名称。
+        ///     标题。
         /// </summary>
-        public string TitleName { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         ///     默认排序字段名称。
         /// </summary>
         public string DefaultSortname { get; set; }
+
         /// <summary>
         ///     是否降序排序。
         /// </summary>
         public bool IsDescending { get; set; }
+
         /// <summary>
         ///     Ajax请求数据的 Actin 名。
         /// </summary>
@@ -42,5 +44,11 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         ///     自定义Button。
         /// </summary>
         public Button[] ButtonCustom { get; set; }
+
+        public bool MultiSelect { get; set; }
+
+        public bool ShowRowNumber { get; set; }
+
+        public string OnLoadCompleteScript { get; set; }
     }
 }

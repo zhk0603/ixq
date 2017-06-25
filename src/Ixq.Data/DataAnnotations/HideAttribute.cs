@@ -25,7 +25,7 @@ namespace Ixq.Data.DataAnnotations
         public bool IsHiddenOnCreate { get; set; }
         public bool IsHiddenOnDetail { get; set; }
 
-        public void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty)
+        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

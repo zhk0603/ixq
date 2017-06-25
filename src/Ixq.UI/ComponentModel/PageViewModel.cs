@@ -12,7 +12,7 @@ namespace Ixq.UI.ComponentModel
 {
     public class PageViewModel : IPageViewModel
     {
-        public IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
+        public IEntityMetadata RuntimeEntityMenberInfo { get; set; }
         public Type EntityType { get; set; }
         public Type DtoType { get; set; }
         public Pagination Pagination { get; set; }
@@ -23,11 +23,11 @@ namespace Ixq.UI.ComponentModel
         {
             var sb = new StringBuilder();
             sb.Append("[");
-            IRuntimePropertyMenberInfo item = null;
-            var length = RuntimeEntityMenberInfo.ViewPropertyInfo.Length;
+            IEntityPropertyMetadata item = null;
+            var length = RuntimeEntityMenberInfo.ViewPropertyMetadatas.Length;
             for (var i = 0; i < length; i++)
             {
-                item = RuntimeEntityMenberInfo.ViewPropertyInfo[i];
+                item = RuntimeEntityMenberInfo.ViewPropertyMetadatas[i];
                 sb.Append($"'{item.Name}'");
                 if (i != length - 1)
                 {
@@ -42,11 +42,11 @@ namespace Ixq.UI.ComponentModel
         {
             var sb = new StringBuilder();
             sb.Append("[");
-            IRuntimePropertyMenberInfo item = null;
-            var length = RuntimeEntityMenberInfo.ViewPropertyInfo.Length;
+            IEntityPropertyMetadata item = null;
+            var length = RuntimeEntityMenberInfo.ViewPropertyMetadatas.Length;
             for (var i = 0; i < length; i++)
             {
-                item = RuntimeEntityMenberInfo.ViewPropertyInfo[i];
+                item = RuntimeEntityMenberInfo.ViewPropertyMetadatas[i];
                 sb.Append("{");
 
                 sb.Append($"name:'{item.PropertyInfo.Name}'" +
@@ -62,13 +62,13 @@ namespace Ixq.UI.ComponentModel
                 {
                     sb.Append($",classes: '{item.CssClass}'");
                 }
-                if (!string.IsNullOrWhiteSpace(item.Formatter))
+                if (!string.IsNullOrWhiteSpace(item.FormatterScript))
                 {
-                    sb.Append($",formatter: {item.Formatter}");
+                    sb.Append($",formatter: {item.FormatterScript}");
                 }
-                if (!string.IsNullOrWhiteSpace(item.UnFormatter))
+                if (!string.IsNullOrWhiteSpace(item.UnFormatterScript))
                 {
-                    sb.Append($",unformatter: {item.UnFormatter}");
+                    sb.Append($",unformatter: {item.UnFormatterScript}");
                 }
 
                 sb.Append("}");

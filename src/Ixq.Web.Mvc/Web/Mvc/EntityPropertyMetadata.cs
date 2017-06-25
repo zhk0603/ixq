@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core;
@@ -14,9 +15,9 @@ using DataType = Ixq.Core.DataType;
 
 namespace Ixq.Web.Mvc
 {
-    public class RuntimePropertyMenberInfo : IRuntimePropertyMenberInfo
+    public class EntityPropertyMetadata : IEntityPropertyMetadata
     {
-        public RuntimePropertyMenberInfo(PropertyInfo propertyInfo)
+        public EntityPropertyMetadata(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)
                 throw new ArgumentNullException(nameof(propertyInfo));
@@ -52,7 +53,7 @@ namespace Ixq.Web.Mvc
                 Description = displayAttribute.GetDescription();
                 GroupName = displayAttribute.GetGroupName();
             }
-            
+
             var dataTypeAttribute = PropertyInfo.GetAttribute<UI.ComponentModel.DataAnnotations.DataTypeAttribute>();
             if (dataTypeAttribute != null)
             {
@@ -76,17 +77,26 @@ namespace Ixq.Web.Mvc
         public bool IsSearcher { get; set; }
         public bool IsRequired { get; set; }
 
+        #region DisplayAttribute
         public string Name { get; set; }
         public int? Order { get; set; }
         public string Description { get; set; }
         public string GroupName { get; set; }
 
+        #endregion
+
+        #region ColModelAttribute
+        public string ColModelIndex { get; set; }
+        public string ColModelName { get; set; }
         public string CssClass { get; set; }
         public int Width { get; set; } = 150;
         public TextAlign Align { get; set; }
         public bool Sortable { get; set; }
-        public string Formatter { get; set; }
-        public string UnFormatter { get; set; }
+        public string FormatterScript { get; set; }
+        public string UnFormatterScript { get; set; }
+        public bool Hidden { get; set; }
+
+        #endregion
         public DataType DataType { get; set; }
         public string CustomDataType { get; set; }
         public string PartialViewPath { get; set; }
@@ -95,14 +105,33 @@ namespace Ixq.Web.Mvc
         ///     获取或设置步长，默认：0.01。
         /// </summary>
         public double? Step { get; set; } = 0.01;
+
         /// <summary>
         ///     获取或设置最大值。
         /// </summary>
         public long? Max { get; set; }
+
         /// <summary>
         ///     获取或设置最小值。
         /// </summary>
         public long? Min { get; set; }
 
+        public bool IsAuthorization(IPrincipal user)
+        {
+            if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
+            {
+                return false;
+            }
+
+            if (Users != null && Users.Any() && !Users.Contains(user.Identity.Name, StringComparer.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+            if (Roles != null && !Roles.Any(user.IsInRole))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

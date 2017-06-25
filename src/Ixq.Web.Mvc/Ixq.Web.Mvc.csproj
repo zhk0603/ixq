@@ -89,12 +89,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Mvc\BaseController.cs" />
     <Compile Include="Web\Mvc\EntityController.cs" />
-    <Compile Include="Web\Mvc\IRuntimeEntityMemberInfoProvider.cs" />
+    <Compile Include="Web\Mvc\IEntityMetadataProvider.cs" />
     <Compile Include="Web\Mvc\JsonResult.cs" />
-    <Compile Include="Web\Mvc\RuntimeEntityMemberInfoProvider.cs" />
+    <Compile Include="Web\Mvc\EntityMetadataProvider.cs" />
     <Compile Include="Web\Mvc\RuntimeLogHandleErrorAttribute.cs" />
-    <Compile Include="Web\Mvc\RuntimeEntityMenberInfo.cs" />
-    <Compile Include="Web\Mvc\RuntimePropertyMenberInfo.cs" />
+    <Compile Include="Web\Mvc\EntityMetadata.cs" />
+    <Compile Include="Web\Mvc\EntityPropertyMetadata.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

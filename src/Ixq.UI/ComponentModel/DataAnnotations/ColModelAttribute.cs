@@ -16,6 +16,16 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     public class ColModelAttribute : Attribute, IDataAnnotations
     {
         /// <summary>
+        ///     获取或设置引索，与后台交互的参数。
+        /// </summary>
+        public string Index { get; set; }
+
+        /// <summary>
+        ///     获取或设置表格列的名称。
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         ///     css样式类。
         /// </summary>
         public string CssClass { get; set; }
@@ -40,14 +50,19 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// </summary>
         public bool Sortable { get; set; }
 
-        public void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty)
+        /// <summary>
+        ///     获取或设置在初始化表格时是否要隐藏此列。
+        /// </summary>
+        public bool Hidden { get; set; }
+
+        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));
             runtimeProperty.Width = Width;
             runtimeProperty.Align = Align;
-            runtimeProperty.Formatter = Formatter;
-            runtimeProperty.UnFormatter = UnFormatter;
+            runtimeProperty.FormatterScript = Formatter;
+            runtimeProperty.UnFormatterScript = UnFormatter;
             runtimeProperty.Sortable = Sortable;
             runtimeProperty.CssClass = CssClass;
         }

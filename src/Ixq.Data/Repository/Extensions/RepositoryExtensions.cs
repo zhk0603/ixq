@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Ixq.Core.Repository;
@@ -141,11 +142,12 @@ namespace Ixq.Data.Repository.Extensions
         /// <typeparam name="TKey"></typeparam>
         /// <param name="queryable"></param>
         /// <returns></returns>
-        public static TDto[] ToDtoArray<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
+        public static async Task<TDto[]> ToDtoArrayAsync<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
             where TEntity : class, IEntity<TKey>, new()
             where TDto : class, IDto<TEntity, TKey>, new()
         {
-            return queryable.ToList().Select(item => item.MapToDto<TDto, TKey>()).ToArray();
+            var entityCollection = await queryable.ToListAsync();
+            return entityCollection.Select(item => item.MapToDto<TDto, TKey>()).ToArray();
         }
 
         /// <summary>

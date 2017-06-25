@@ -11,7 +11,7 @@ namespace Ixq.UI.ComponentModel
     public class PageEditViewModel<TDto, TKey> : IPageEditViewModel
         where TDto : class, IDto<IEntity<TKey>,TKey>, new()
     {
-        public PageEditViewModel(TDto entityDto, IRuntimePropertyMenberInfo[] propertyMemberInfo)
+        public PageEditViewModel(TDto entityDto, IEntityPropertyMetadata[] propertyMemberInfo)
         {
             this._entityDto = entityDto;
             this.PropertyMenberInfo = propertyMemberInfo;
@@ -22,7 +22,7 @@ namespace Ixq.UI.ComponentModel
 
         private TDto _entityDto;
         public string Title { get; set; }
-        public IRuntimePropertyMenberInfo[] PropertyMenberInfo { get; set; }
+        public IEntityPropertyMetadata[] PropertyMenberInfo { get; set; }
         public object EntityDto
         {
             get { return _entityDto; }

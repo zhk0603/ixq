@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Ixq.Core.Mapper;
 using Ixq.Core.Security;
 using Ixq.UI.ComponentModel;
+using System.Web.Mvc.Filters;
 
 namespace Ixq.Web.Mvc
 {
@@ -29,24 +30,17 @@ namespace Ixq.Web.Mvc
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
     {
-        private IRuntimeEntityMemberInfoProvider _entityMemberInfoProvider;
+        private IEntityMetadataProvider _entityMetadataProvider;
 
         public readonly IRepositoryBase<TEntity, TKey> Repository;
-        public int[] SelectPageSize { get; set; }
+        public int[] PageSizeList { get; set; }
         public IPageConfig PageConfig { get; set; }
-        public IRuntimeEntityMenberInfo RuntimeEntityMenberInfo { get; set; }
+        public IEntityMetadata EntityMetadata { get; set; }
 
-        public IRuntimeEntityMemberInfoProvider RuntimeEntityMemberInfoProvider
+        public IEntityMetadataProvider EntityMetadataProvider
         {
-            get
-            {
-                if (_entityMemberInfoProvider == null)
-                {
-                    _entityMemberInfoProvider = CreateEntityMemberInfoProvider();
-                }
-                return _entityMemberInfoProvider;
-            }
-            set { _entityMemberInfoProvider = value; }
+            get { return _entityMetadataProvider ?? (_entityMetadataProvider = CreateEntityMetadataProvider()); }
+            set { _entityMetadataProvider = value; }
         }
 
 
@@ -55,13 +49,14 @@ namespace Ixq.Web.Mvc
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
 
-            SelectPageSize = new[] {30, 60, 120, 150};
+            PageSizeList = new[] {30, 60, 120, 150};
             PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
             Repository = repository;
         }
 
-        public virtual async Task<ActionResult> Index(string orderField, string orderDirection,
+        //public virtual async Task<ActionResult> Index(string orderField, string orderDirection,
+        public virtual ActionResult Index(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
         {
             if (pageCurrent < 1)
@@ -70,31 +65,31 @@ namespace Ixq.Web.Mvc
             }
             if (pageSize < 1)
             {
-                pageSize = 1;
+                pageSize = PageSizeList[0];
             }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)
                 ? PageConfig.IsDescending ? "desc" : "asc"
                 : orderDirection;
-            var queryable = orderDirection.Equals("asc")
-                ? await EntityQueryable().OrderByAsync(orderField)
-                : await EntityQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
+            //var queryable = orderDirection.Equals("asc")
+            //    ? await EntityQueryable().OrderByAsync(orderField)
+            //    : await EntityQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
 
             var pagination = new Pagination
             {
                 PageSize = pageSize,
                 PageCurrent = pageCurrent,
-                SelectPageSize = SelectPageSize,
-                DefualtPageSize = 30,
-                Total = queryable.Count(),
+                PageSizeList = PageSizeList,
+                DefualtPageSize = pageSize,
+                //Total = queryable.Count(),
                 OrderField = orderField,
                 OrderDirection = orderDirection
             };
 
             var pageViewModel = new PageViewModel
             {
-                RuntimeEntityMenberInfo = RuntimeEntityMenberInfo,
+                RuntimeEntityMenberInfo = EntityMetadata,
                 EntityType = typeof (TEntity),
                 DtoType = typeof (TDto),
                 Pagination = pagination,
@@ -120,7 +115,7 @@ namespace Ixq.Web.Mvc
             }
             if (pageSize < 1)
             {
-                pageSize = 1;
+                pageSize = PageSizeList[0];
             }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
@@ -128,15 +123,15 @@ namespace Ixq.Web.Mvc
                 ? PageConfig.IsDescending ? "desc" : "asc"
                 : orderDirection;
             var queryable = orderDirection.Equals("asc")
-                ? await EntityQueryable().OrderByAsync(orderField)
-                : await EntityQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
+                ? EntityQueryable().OrderBy(orderField)
+                : EntityQueryable().OrderBy(orderField, ListSortDirection.Descending);
 
             var pageListViewModel = new PageDataViewModel<TKey>(queryable.Count(), pageCurrent, pageSize)
             {
-                Items = queryable
+                Items = await queryable
                     .Skip((pageCurrent - 1)*pageSize)
                     .Take(pageSize)
-                    .ToDtoArray<TDto, TEntity, TKey>()
+                    .ToDtoArrayAsync<TDto, TEntity, TKey>()
             };
 
             return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
@@ -149,9 +144,9 @@ namespace Ixq.Web.Mvc
                 : await Repository.SingleByIdAsync(ParseEntityKey(id));
 
             var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
-                RuntimeEntityMenberInfo.EditPropertyInfo)
+                EntityMetadata.EditPropertyMetadatas)
             {
-                Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.TitleName ?? typeof (TEntity).Name)
+                Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.Title ?? typeof (TEntity).Name)
             };
             return View(editModel);
         }
@@ -192,32 +187,62 @@ namespace Ixq.Web.Mvc
             return View();
         }
 
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            if (RuntimeEntityMenberInfo == null)
+            if (EntityMetadata == null)
             {
-                RuntimeEntityMenberInfo = this.RuntimeEntityMemberInfoProvider.GetRuntimeEntityMenberInfo(
-                    typeof (TDto), User);
+                EntityMetadata = this.EntityMetadataProvider.GetEntityMetadata(
+                    typeof (TDto), filterContext.Principal);
             }
-            base.OnActionExecuting(filterContext);
+            base.OnAuthentication(filterContext);
         }
 
+        /// <summary>
+        ///     创建一个<see cref="JsonReader"/>对象，将指定的对象序列化为JavaScript Object Notation（JSON）。
+        /// </summary>
+        /// <param name="data">要序列化的对象。</param>
+        /// <param name="serializerSettings">设置。</param>
+        /// <returns></returns>
         protected virtual JsonResult Json(object data, JsonSerializerSettings serializerSettings)
         {
             return Json(data, null, null, JsonRequestBehavior.DenyGet, serializerSettings);
         }
 
+        /// <summary>
+        ///     创建一个<see cref="JsonReader"/>对象，将指定的对象序列化为JavaScript Object Notation（JSON）。
+        /// </summary>
+        /// <param name="data">要序列化的对象。</param>
+        /// <param name="contentType">内容类型（MIME类型）。</param>
+        /// <param name="contentEncoding">内容编码。</param>
+        /// <returns></returns>
         protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding)
         {
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet);
         }
 
+        /// <summary>
+        ///     创建一个<see cref="JsonReader"/>对象，将指定的对象序列化为JavaScript Object Notation（JSON）。
+        /// </summary>
+        /// <param name="data">要序列化的对象。</param>
+        /// <param name="contentType">内容类型（MIME类型）。</param>
+        /// <param name="contentEncoding">内容编码。</param>
+        /// <param name="behavior">JSON请求行为。</param>
+        /// <returns></returns>
         protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding,
             JsonRequestBehavior behavior)
         {
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet, null);
         }
 
+        /// <summary>
+        ///     创建一个<see cref="JsonReader"/>对象，将指定的对象序列化为JavaScript Object Notation（JSON）。
+        /// </summary>
+        /// <param name="data">要序列化的对象。</param>
+        /// <param name="contentType">内容类型（MIME类型）。</param>
+        /// <param name="contentEncoding">内容编码。</param>
+        /// <param name="behavior">JSON请求行为。</param>
+        /// <param name="serializerSettings">设置。</param>
+        /// <returns></returns>
         protected virtual JsonResult Json(object data, string contentType, Encoding contentEncoding,
             JsonRequestBehavior behavior,
             JsonSerializerSettings serializerSettings)
@@ -232,10 +257,14 @@ namespace Ixq.Web.Mvc
             };
         }
 
-        protected virtual IRuntimeEntityMemberInfoProvider CreateEntityMemberInfoProvider()
+        /// <summary>
+        ///     创建实体元数据提供者，默认提供<see cref="Ixq.Web.Mvc.EntityMetadataProvider"/>。可在派生类中重写。
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IEntityMetadataProvider CreateEntityMetadataProvider()
         {
-            return ServiceProvider.GetService<IRuntimeEntityMemberInfoProvider>() ??
-                   new RuntimeEntityMemberInfoProvider();
+            return ServiceProvider.GetService<IEntityMetadataProvider>() ??
+                   new EntityMetadataProvider();
         }
 
         protected virtual object ParseEntityKey(string value)

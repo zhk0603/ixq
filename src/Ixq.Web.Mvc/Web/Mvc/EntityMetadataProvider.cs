@@ -16,35 +16,35 @@ namespace Ixq.Web.Mvc
     /// <summary>
     ///     运行时实体信息提供者。
     /// </summary>
-    public class RuntimeEntityMemberInfoProvider : IRuntimeEntityMemberInfoProvider
+    public class EntityMetadataProvider : IEntityMetadataProvider
     {
-        private static readonly ConcurrentDictionary<string, IRuntimeEntityMenberInfo> RuntimeEntityMenberInfo;
+        private static readonly ConcurrentDictionary<string, IEntityMetadata> EntityMetadatas;
 
-        static RuntimeEntityMemberInfoProvider()
+        static EntityMetadataProvider()
         {
-            RuntimeEntityMenberInfo = new ConcurrentDictionary<string, IRuntimeEntityMenberInfo>();
+            EntityMetadatas = new ConcurrentDictionary<string, IEntityMetadata>();
         }
         public IUserManager<Security.Identity.IUser> UserManager { get; set; }
 
-        public IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo(Type type, IPrincipal user)
+        public IEntityMetadata GetEntityMetadata(Type type, IPrincipal user)
         {
             var key = type.FullName +
                       $"_{UserManager?.GetUserRolesByName(user.Identity.Name).Aggregate(0, (c, i) => i.GetHashCode())}";
 
-            IRuntimeEntityMenberInfo runtimeEntity;
-            if (RuntimeEntityMenberInfo.TryGetValue(key, out runtimeEntity))
+            IEntityMetadata runtimeEntity;
+            if (EntityMetadatas.TryGetValue(key, out runtimeEntity))
             {
                 return runtimeEntity;
             }
-            runtimeEntity = new RuntimeEntityMenberInfo(type, user);
-            RuntimeEntityMenberInfo[key] = runtimeEntity;
+            runtimeEntity = new EntityMetadata(type, user);
+            EntityMetadatas[key] = runtimeEntity;
             return runtimeEntity;
         }
 
-        public IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo<T>(IPrincipal user)
+        public IEntityMetadata GetEntityMetadata<T>(IPrincipal user)
         {
             var type = typeof (T);
-            return GetRuntimeEntityMenberInfo(type, user);
+            return GetEntityMetadata(type, user);
         }
     }
 }

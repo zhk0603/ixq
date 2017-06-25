@@ -13,9 +13,9 @@ namespace Ixq.Core.Data
     public interface IDataAnnotations
     {
         /// <summary>
-        ///     初始化 <see cref="IRuntimePropertyMenberInfo"/>。
+        ///     初始化 <see cref="IEntityPropertyMetadata"/>。
         /// </summary>
         /// <param name="runtimeProperty"></param>
-        void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty);
+        void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty);
     }
 }

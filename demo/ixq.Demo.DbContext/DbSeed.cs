@@ -17,7 +17,7 @@ namespace ixq.Demo.DbContext
             }
             //for (var i = 0; i < 10000; i++)
             //{
-                for (var j = 0; j < 1000; j++)
+                for (var j = 0; j < 200; j++)
                 {
                     var tmp = context.ProductTypes.Create();
                     tmp.OnCreateComplete();

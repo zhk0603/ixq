@@ -9,7 +9,7 @@ namespace Ixq.UI.ComponentModel
 {
     public interface IPropertyEditModel
     {
-        IRuntimePropertyMenberInfo RuntimeProperty { get; set; }
+        IEntityPropertyMetadata RuntimeProperty { get; set; }
         object EntityDto { get; set; }
         object Value { get; }
     }

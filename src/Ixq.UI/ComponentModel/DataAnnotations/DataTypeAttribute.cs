@@ -32,7 +32,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
 
         public string CustomDataType { get; set; }
         public string PartialViewPath { get; set; }
-        public void SetRuntimeProperty(IRuntimePropertyMenberInfo runtimeProperty)
+        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

@@ -9,9 +9,9 @@ using Ixq.Core.Entity;
 
 namespace Ixq.Web.Mvc
 {
-    public interface IRuntimeEntityMemberInfoProvider : IScopeDependency
+    public interface IEntityMetadataProvider : IScopeDependency
     {
-        IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo(Type type, IPrincipal user);
-        IRuntimeEntityMenberInfo GetRuntimeEntityMenberInfo<T>(IPrincipal user);
+        IEntityMetadata GetEntityMetadata(Type type, IPrincipal user);
+        IEntityMetadata GetEntityMetadata<T>(IPrincipal user);
     }
 }

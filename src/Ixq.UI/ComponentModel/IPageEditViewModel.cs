@@ -11,6 +11,6 @@ namespace Ixq.UI.ComponentModel
     {
         string Title { get; set; }
         object EntityDto { get; set; }
-        IRuntimePropertyMenberInfo[] PropertyMenberInfo { get; set; }
+        IEntityPropertyMetadata[] PropertyMenberInfo { get; set; }
     }
 }

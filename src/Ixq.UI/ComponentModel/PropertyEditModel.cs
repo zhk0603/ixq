@@ -11,13 +11,13 @@ namespace Ixq.UI.ComponentModel
     {
         public PropertyEditModel() { }
 
-        public PropertyEditModel(IRuntimePropertyMenberInfo runtimeProperty, object entityDto)
+        public PropertyEditModel(IEntityPropertyMetadata runtimeProperty, object entityDto)
         {
             this.RuntimeProperty = runtimeProperty;
             this.EntityDto = entityDto;
         }
 
-        public IRuntimePropertyMenberInfo RuntimeProperty { get; set; }
+        public IEntityPropertyMetadata RuntimeProperty { get; set; }
         public object EntityDto { get; set; }
 
         public object Value

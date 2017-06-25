@@ -23,7 +23,7 @@ namespace Ixq.Web.Mvc
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
             if (JsonRequestBehavior == JsonRequestBehavior.DenyGet &&
                 String.Equals(context.HttpContext.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))

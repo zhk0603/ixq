@@ -13,16 +13,16 @@ namespace Ixq.UI.Controls
     public class Pagination
     {
         public int PageSize { get; set; }
-        public int[] SelectPageSize { get; set; }
+        public int[] PageSizeList { get; set; }
         public int DefualtPageSize { get; set; }
         public int PageCurrent { get; set; }
         public int Total { get; set; }
         public string OrderField { get; set; }
         public string OrderDirection { get; set; }
 
-        public string GetSelectPageSize()
+        public string GetPageSizeList()
         {
-            var result = SelectPageSize.Aggregate("[", (current, i) => current + (i + ","));
+            var result = PageSizeList.Aggregate("[", (current, i) => current + (i + ","));
             result = result.Substring(0, result.Length - 1);
             result += ']';
             return result;

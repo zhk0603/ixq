@@ -15,7 +15,7 @@ namespace Ixq.UI
 {
     public static class PageExtensions
     {
-        public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IRuntimePropertyMenberInfo runtimeProperty,
+        public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IEntityPropertyMetadata runtimeProperty,
             object entityDto)
         {
             if (helper == null)
@@ -33,7 +33,7 @@ namespace Ixq.UI
 
         }
 
-        public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IRuntimePropertyMenberInfo runtimeProperty,
+        public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IEntityPropertyMetadata runtimeProperty,
             object entityDto)
         {
             if (helper == null)

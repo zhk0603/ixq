@@ -75,8 +75,8 @@
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
     <Compile Include="Data\IDataAnnotations.cs" />
-    <Compile Include="Entity\IRuntimeEntityMenberInfo.cs" />
-    <Compile Include="Entity\IRuntimePropertyMenberInfo.cs" />
+    <Compile Include="Entity\IEntityMetadata.cs" />
+    <Compile Include="Entity\IEntityPropertyMetadata.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\ISoftDeleteSpecification.cs" />
