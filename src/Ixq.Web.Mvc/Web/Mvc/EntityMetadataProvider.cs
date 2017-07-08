@@ -26,10 +26,18 @@ namespace Ixq.Web.Mvc
         }
         public IUserManager<Security.Identity.IUser> UserManager { get; set; }
 
+        /// <summary>
+        ///     获取实体元数据。
+        /// </summary>
+        /// <param name="type">实体类型。</param>
+        /// <param name="user">当前已进行身份验证的用户。</param>
+        /// <returns></returns>
+
         public IEntityMetadata GetEntityMetadata(Type type, IPrincipal user)
         {
+            // 根据用户的所属角色生成唯一key，系统所有拥有相同角色的用户，将获取相同的元数据。
             var key = type.FullName +
-                      $"_{UserManager?.GetUserRolesByName(user.Identity.Name).Aggregate(0, (c, i) => i.GetHashCode())}";
+                      $"_{UserManager?.GetUserRolesByName(user.Identity.Name).Aggregate(0L, (c, i) => i.GetHashCode())}";
 
             IEntityMetadata runtimeEntity;
             if (EntityMetadatas.TryGetValue(key, out runtimeEntity))
@@ -41,6 +49,12 @@ namespace Ixq.Web.Mvc
             return runtimeEntity;
         }
 
+        /// <summary>
+        ///     获取实体元数据。
+        /// </summary>
+        /// <typeparam name="T">实体类型。</typeparam>
+        /// <param name="user">当前已进行身份验证的用户。</param>
+        /// <returns></returns>
         public IEntityMetadata GetEntityMetadata<T>(IPrincipal user)
         {
             var type = typeof (T);

@@ -12,7 +12,7 @@ namespace Ixq.UI.ComponentModel
 {
     public class PageViewModel : IPageViewModel
     {
-        public IEntityMetadata RuntimeEntityMenberInfo { get; set; }
+        public IEntityMetadata EntityMetadata { get; set; }
         public Type EntityType { get; set; }
         public Type DtoType { get; set; }
         public Pagination Pagination { get; set; }
@@ -24,10 +24,11 @@ namespace Ixq.UI.ComponentModel
             var sb = new StringBuilder();
             sb.Append("[");
             IEntityPropertyMetadata item = null;
-            var length = RuntimeEntityMenberInfo.ViewPropertyMetadatas.Length;
+            var viewProMetadatas = EntityMetadata.ViewPropertyMetadatas;
+            var length = viewProMetadatas.Length;
             for (var i = 0; i < length; i++)
             {
-                item = RuntimeEntityMenberInfo.ViewPropertyMetadatas[i];
+                item = viewProMetadatas[i];
                 sb.Append($"'{item.Name}'");
                 if (i != length - 1)
                 {
@@ -43,10 +44,11 @@ namespace Ixq.UI.ComponentModel
             var sb = new StringBuilder();
             sb.Append("[");
             IEntityPropertyMetadata item = null;
-            var length = RuntimeEntityMenberInfo.ViewPropertyMetadatas.Length;
+            var viewProMetadatas = EntityMetadata.ViewPropertyMetadatas;
+            var length = viewProMetadatas.Length;
             for (var i = 0; i < length; i++)
             {
-                item = RuntimeEntityMenberInfo.ViewPropertyMetadatas[i];
+                item = viewProMetadatas[i];
                 sb.Append("{");
 
                 sb.Append($"name:'{item.PropertyInfo.Name}'" +

@@ -47,18 +47,13 @@ namespace Ixq.Demo.Web.Controllers
             var c1 = ServiceProvider.GetService<IRepository<ProductType>>().GetHashCode();
             var c2 = ServiceProvider.GetService<IRepository<Product>>().GetHashCode();
 
-            var c3 = ServiceProvider.GetRepository<Product>().GetHashCode();
+            var aa2 = ServiceProvider.GetService<IRepositoryBase<ProductType, Guid>>().GetHashCode();
 
             return View();
         }
 
         public ActionResult Index1()
         {
-            var typeList = ProductTypeRepository.FilterField(x => new ProductTypeDot { Name = x.Name});
-            var list =
-                ProductTypeRepository.GetDbContext<ProductType, DataContext>()
-                    .ProductTypes.Select(x => new {CreateDate = x.CreateDate, Id = x.Id, Name = x.Name});
-            //typeList[0]
             var mapper = ServiceProvider.GetService<IMapper>();
             var dto1 = new ProductTypeDot
             {
@@ -83,7 +78,10 @@ namespace Ixq.Demo.Web.Controllers
         public ActionResult TestAction1()
         {
 
-            var allType = _productTypeRepository.GetAll().Include(x => x.ParentType).ToDtoList<ProductTypeDot, ProductType>();
+            var allType =
+                _productTypeRepository.GetAll()
+                    .Include(x => x.ParentType)
+                    .ToDtoList<ProductTypeDot, ProductType, Guid>();
 
             var context = new DataContext();
             var allProductType = context.ProductTypes.Include(x => x.ParentType).ToList();

@@ -10,7 +10,7 @@ namespace Ixq.UI
 {
     public class StyleTemplate : HtmlTemplate
     {
-        public StyleTemplate(Func<object, HelperResult> template, string order) : base(template, order)
+        public StyleTemplate(Func<object, HelperResult> template) : base(template)
         {
         }
 

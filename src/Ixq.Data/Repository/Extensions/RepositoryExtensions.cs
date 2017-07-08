@@ -16,65 +16,6 @@ namespace Ixq.Data.Repository.Extensions
     /// </summary>
     public static class RepositoryExtensions
     {
-        /// <summary>
-        ///     获取上下文。
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="repository"></param>
-        /// <returns></returns>
-        public static DbContext GetDbContext<TEntity>(this IRepository<TEntity> repository)
-            where TEntity : class, IEntity<Guid>, new()
-        {
-            if (repository.UnitOfWork == null)
-                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            return (DbContext) repository.UnitOfWork;
-        }
-
-        /// <summary>
-        ///     获取上下文。
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TDbContext"></typeparam>
-        /// <param name="repository"></param>
-        /// <returns></returns>
-        public static TDbContext GetDbContext<TEntity, TDbContext>(this IRepository<TEntity> repository)
-            where TEntity : class, IEntity<Guid>, new()
-            where TDbContext : DbContext
-        {
-            if (repository.UnitOfWork == null)
-                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            return (TDbContext) repository.UnitOfWork;
-        }
-
-        /// <summary>
-        ///     获取上下文。
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="repository"></param>
-        /// <returns></returns>
-        public static DbContext GetDbContext<TEntity>(this IRepositoryInt32<TEntity> repository)
-            where TEntity : class, IEntity<int>, new()
-        {
-            if (repository.UnitOfWork == null)
-                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            return (DbContext) repository.UnitOfWork;
-        }
-
-        /// <summary>
-        ///     获取上下文。
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TDbContext"></typeparam>
-        /// <param name="repository"></param>
-        /// <returns></returns>
-        public static TDbContext GetDbContext<TEntity, TDbContext>(this IRepositoryInt32<TEntity> repository)
-            where TEntity : class, IEntity<int>, new()
-            where TDbContext : DbContext
-        {
-            if (repository.UnitOfWork == null)
-                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            return (TDbContext) repository.UnitOfWork;
-        }
 
         /// <summary>
         ///     获取上下文。
@@ -108,30 +49,21 @@ namespace Ixq.Data.Repository.Extensions
             return (TDbContext) repository.UnitOfWork;
         }
 
-        /// <summary>
-        ///     获取仓储。
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public static IRepository<TEntity> GetRepository<TEntity>(this IServiceProvider serviceProvider)
-            where TEntity : class, IEntity<Guid>, new()
-        {
-            return (IRepository<TEntity>) serviceProvider.GetService(typeof (IRepository<TEntity>));
-        }
 
         /// <summary>
         /// 将指定的 <see cref="IQueryable{TEntity}"/> 转为 <see cref="IDto"/>
         /// </summary>
         /// <typeparam name="TDto"></typeparam>
         /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
         /// <param name="queryable"></param>
         /// <returns></returns>
-        public static TDto[] ToDtoArray<TDto, TEntity>(this IQueryable<TEntity> queryable)
-            where TEntity : class, IEntity<Guid>, new()
-            where TDto : class, IDto<TEntity, Guid>, new()
+        public static TDto[] ToDtoArray<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
+            where TEntity : class, IEntity<TKey>, new()
+            where TDto : class, IDto<TEntity, TKey>, new()
         {
-            return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToArray();
+            var entityColl = queryable.ToList();
+            return entityColl.Select(item => item.MapToDto<TDto, TKey>()).ToArray();
         }
 
         /// <summary>
@@ -142,26 +74,11 @@ namespace Ixq.Data.Repository.Extensions
         /// <typeparam name="TKey"></typeparam>
         /// <param name="queryable"></param>
         /// <returns></returns>
-        public static async Task<TDto[]> ToDtoArrayAsync<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
+        public static Task<TDto[]> ToDtoArrayAsync<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
             where TEntity : class, IEntity<TKey>, new()
             where TDto : class, IDto<TEntity, TKey>, new()
         {
-            var entityCollection = await queryable.ToListAsync();
-            return entityCollection.Select(item => item.MapToDto<TDto, TKey>()).ToArray();
-        }
-
-        /// <summary>
-        /// 将 <see cref="IQueryable{TEntity}"/> 转为 <see cref="List{TDto}"/>
-        /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="queryable"></param>
-        /// <returns></returns>
-        public static List<TDto> ToDtoList<TDto, TEntity>(this IQueryable<TEntity> queryable)
-            where TEntity : class, IEntity<Guid>, new()
-            where TDto : class, IDto<TEntity, Guid>, new()
-        {
-            return queryable.ToList().Select(item => item.MapToDto<TDto>()).ToList();
+            return Task.FromResult(ToDtoArray<TDto, TEntity, TKey>(queryable));
         }
 
         /// <summary>
@@ -176,7 +93,23 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
             where TDto : class, IDto<TEntity, TKey>, new()
         {
-            return queryable.ToList().Select(item => item.MapToDto<TDto, TKey>()).ToList();
+            var entityColl = queryable.ToList();
+            return entityColl.Select(item => item.MapToDto<TDto, TKey>()).ToList();
+        }
+
+        /// <summary>
+        /// 将 <see cref="IQueryable{TEntity}"/> 转为 <see cref="List{TDto}"/>
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="queryable"></param>
+        /// <returns></returns>
+        public static Task<List<TDto>> ToDtoListAsync<TDto, TEntity, TKey>(this IQueryable<TEntity> queryable)
+            where TEntity : class, IEntity<TKey>, new()
+            where TDto : class, IDto<TEntity, TKey>, new()
+        {
+            return Task.FromResult(ToDtoList<TDto, TEntity, TKey>(queryable));
         }
 
         public static object ParseEntityKey<TKey>(string value)

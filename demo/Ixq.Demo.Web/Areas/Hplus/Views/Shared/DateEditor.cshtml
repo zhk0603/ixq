@@ -8,11 +8,13 @@
         </div>
     </div>
 </div>
-@Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_1",
+@Html.Script(
     @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.min.js"></script>)
-@Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_2",
+@Html.Script(
+    @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.min.js"></script>)
+@Html.Script(
     @<script src="~/Content/Hplus/js/plugins/datapicker/bootstrap-datepicker.zh-CN.js"></script>)
-@Html.Script(Model.RuntimeProperty.PropertyInfo.Name + "_3",
+@Html.Script(
     @<script>
         $().ready(function () {
             $('#@Model.RuntimeProperty.PropertyInfo.Name').datepicker({
@@ -24,6 +26,6 @@
         });
     </script>
     )
-@Html.Styles(Model.RuntimeProperty.PropertyInfo.Name + "_1",
+@Html.Styles(
     @<link href="~/Content/Hplus/css/plugins/datapicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
     )

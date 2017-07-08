@@ -9,12 +9,10 @@ namespace Ixq.UI
 {
     public class HtmlTemplate
     {
-        public string Order { get; set; }
         public Func<object, HelperResult> Template { get; set; }
-        public HtmlTemplate(Func<object, HelperResult> template,string order)
+        public HtmlTemplate(Func<object, HelperResult> template)
         {
             this.Template = template;
-            Order = order;
         }
     }
 }

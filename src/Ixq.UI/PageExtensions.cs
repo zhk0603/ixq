@@ -56,15 +56,63 @@ namespace Ixq.UI
         }
 
         /// <summary>
+        ///     注册资源。
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="type"></param>
+        /// <param name="template"></param>
+        /// <returns></returns>
+        public static MvcHtmlString Resource(this HtmlHelper helper, string type, Func<object, HelperResult> template)
+        {
+            var htmlTemplate = new HtmlTemplate(template);
+            if (helper.ViewContext.HttpContext.Items[type] != null)
+            {
+                ((List<HtmlTemplate>) helper.ViewContext.HttpContext.Items[type]).Add(htmlTemplate);
+            }
+            else
+            {
+                helper.ViewContext.HttpContext.Items[type] = new List<HtmlTemplate> {htmlTemplate};
+            }
+            return MvcHtmlString.Empty;
+        }
+
+        /// <summary>
+        ///     渲染资源。
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <returns></returns>
+        public static IHtmlString RenderResources(this HtmlHelper helper, string type)
+        {
+            if (helper.ViewContext.HttpContext.Items[type] != null)
+            {
+                var resources = (List<HtmlTemplate>) helper.ViewContext.HttpContext.Items[type];
+
+                foreach (var resource in resources)
+                {
+                    if (resource != null) helper.ViewContext.Writer.Write(resource.Template(null));
+                }
+            }
+
+            return MvcHtmlString.Empty;
+        }
+
+        /// <summary>
         ///     注册脚本。
         /// </summary>
         /// <param name="helper"></param>
-        /// <param name="order"></param>
         /// <param name="template"></param>
         /// <returns></returns>
-        public static MvcHtmlString Script(this HtmlHelper helper, string order, Func<object, HelperResult> template)
+        public static MvcHtmlString Script(this HtmlHelper helper, Func<object, HelperResult> template)
         {
-            helper.ViewContext.HttpContext.Items["_script_" + Guid.NewGuid()] = new ScriptTemplate(template, order);
+            var htmlTemplate = new ScriptTemplate(template);
+            if (helper.ViewContext.HttpContext.Items["_scripts_"] != null)
+            {
+                ((List<ScriptTemplate>) helper.ViewContext.HttpContext.Items["_scripts_"]).Add(htmlTemplate);
+            }
+            else
+            {
+                helper.ViewContext.HttpContext.Items["_scripts_"] = new List<ScriptTemplate> {htmlTemplate};
+            }
             return MvcHtmlString.Empty;
         }
 
@@ -72,12 +120,19 @@ namespace Ixq.UI
         ///     注册样式。
         /// </summary>
         /// <param name="helper"></param>
-        /// <param name="order"></param>
         /// <param name="template"></param>
         /// <returns></returns>
-        public static MvcHtmlString Styles(this HtmlHelper helper, string order, Func<object, HelperResult> template)
+        public static MvcHtmlString Styles(this HtmlHelper helper, Func<object, HelperResult> template)
         {
-            helper.ViewContext.HttpContext.Items["_styles_" + Guid.NewGuid()] = new StyleTemplate(template, order);
+            var htmlTemplate = new StyleTemplate(template);
+            if (helper.ViewContext.HttpContext.Items["_styles_"] != null)
+            {
+                ((List<StyleTemplate>) helper.ViewContext.HttpContext.Items["_styles_"]).Add(htmlTemplate);
+            }
+            else
+            {
+                helper.ViewContext.HttpContext.Items["_styles_"] = new List<StyleTemplate> {htmlTemplate};
+            }
             return MvcHtmlString.Empty;
         }
 
@@ -89,15 +144,18 @@ namespace Ixq.UI
         public static IHtmlString RenderScripts(this HtmlHelper helper)
         {
             var scripts = new List<ScriptTemplate>();
-            foreach (ScriptTemplate htmlTemplate in helper.ViewContext.HttpContext.Items.Values.OfType<ScriptTemplate>().OrderBy(x => x.Order))
+            if (helper.ViewContext.HttpContext.Items["_scripts_"] != null)
             {
-                if (!scripts.Any(x => x.Equals(htmlTemplate)))
+                var resources = (List<ScriptTemplate>) helper.ViewContext.HttpContext.Items["_scripts_"];
+                foreach (var resource in resources)
                 {
-                    helper.ViewContext.Writer.Write(htmlTemplate.Template(null));
-                    scripts.Add(htmlTemplate);
+                    if (!scripts.Any(x => x.Equals(resource)))
+                    {
+                        helper.ViewContext.Writer.Write(resource.Template(null));
+                        scripts.Add(resource);
+                    }
                 }
             }
-            scripts = null;
             return MvcHtmlString.Empty;
         }
 
@@ -109,15 +167,18 @@ namespace Ixq.UI
         public static IHtmlString RenderStyles(this HtmlHelper helper)
         {
             var styles = new List<StyleTemplate>();
-            foreach (StyleTemplate htmlTemplate in helper.ViewContext.HttpContext.Items.Values.OfType<StyleTemplate>().OrderBy(x => x.Order))
+            if (helper.ViewContext.HttpContext.Items["_styles_"] != null)
             {
-                if (!styles.Any(x => x.Equals(htmlTemplate)))
+                var resources = (List<StyleTemplate>) helper.ViewContext.HttpContext.Items["_styles_"];
+                foreach (var resource in resources)
                 {
-                    helper.ViewContext.Writer.Write(htmlTemplate.Template(null));
-                    styles.Add(htmlTemplate);
+                    if (!styles.Any(x => x.Equals(resource)))
+                    {
+                        helper.ViewContext.Writer.Write(resource.Template(null));
+                        styles.Add(resource);
+                    }
                 }
             }
-            styles = null;
             return MvcHtmlString.Empty;
         }
     }

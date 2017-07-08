@@ -13,7 +13,7 @@ namespace Ixq.UI.ComponentModel
     /// </summary>
     public interface IPageViewModel
     {
-        IEntityMetadata RuntimeEntityMenberInfo { get; set; }
+        IEntityMetadata EntityMetadata { get; set; }
         Type EntityType { get; set; }
         Type DtoType { get; set; }
         IPageConfig PageConfig { get; set; }

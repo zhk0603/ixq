@@ -49,7 +49,7 @@ namespace Ixq.Web.Mvc
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
 
-            PageSizeList = new[] {30, 60, 120, 150};
+            PageSizeList = new[] {15, 30, 60, 120};
             PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
             Repository = repository;
@@ -89,7 +89,7 @@ namespace Ixq.Web.Mvc
 
             var pageViewModel = new PageViewModel
             {
-                RuntimeEntityMenberInfo = EntityMetadata,
+                EntityMetadata = EntityMetadata,
                 EntityType = typeof (TEntity),
                 DtoType = typeof (TDto),
                 Pagination = pagination,
@@ -131,7 +131,7 @@ namespace Ixq.Web.Mvc
                 Items = await queryable
                     .Skip((pageCurrent - 1)*pageSize)
                     .Take(pageSize)
-                    .ToDtoArrayAsync<TDto, TEntity, TKey>()
+                    .ToDtoListAsync<TDto, TEntity, TKey>()
             };
 
             return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});

@@ -14,7 +14,6 @@ using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
 using Ixq.Extensions;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 
 namespace Ixq.Data.Repository
@@ -24,10 +23,10 @@ namespace Ixq.Data.Repository
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
+    public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
         where TEntity : class, IEntity<TKey>, new()
     {
-        protected RepositoryBase(IUnitOfWork unitOfWork)
+        public RepositoryBase(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

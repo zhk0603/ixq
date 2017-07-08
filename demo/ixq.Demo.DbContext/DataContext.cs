@@ -13,6 +13,7 @@ namespace ixq.Demo.DbContext
     {
         public DataContext() : base("DataContext")
         {
+            Configuration.ValidateOnSaveEnabled = false;
         }
 
         public static DataContext Create()

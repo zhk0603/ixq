@@ -61,9 +61,21 @@ namespace ixq.Demo.DbContext
             };
             userManager.Create(zkUser, "123@Abc");
             context.SaveChanges();
+
+            var zk01User = new ApplicationUser
+            {
+                UserName = "zhaokun1",
+                Age = 25,
+                CreateDate = DateTime.Now,
+                PhoneNumber = ""
+            };
+            userManager.Create(zk01User, "123@Abc");
+            context.SaveChanges();
+
             
             userManager.AddToRole(adminUser.Id, adminRole.Name);
             userManager.AddToRole(zkUser.Id, supervisorRole.Name);
+            userManager.AddToRole(zk01User.Id, supervisorRole.Name);
 
             context.SaveChanges();
         }
