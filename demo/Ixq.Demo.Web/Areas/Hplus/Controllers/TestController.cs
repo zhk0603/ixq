@@ -15,5 +15,9 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         public TestController(IRepositoryInt32<Test> repository) : base(repository)
         {
         }
+        public ActionResult Vue()
+        {
+            return View();
+        }
     }
 }
