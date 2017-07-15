@@ -1,0 +1,260 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    @Styles.Render("~/css/hplus")
+    @RenderSection("styles", false)
+</head>
+
+<body class="gray-bg">
+    <div id="vue_list">
+
+        <div class="wrapper wrapper-content animated fadeInRight" id="vue_list">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{list.list_title.name}}</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="table_basic.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li>
+                                        <a href="table_basic.html#">选项1</a>
+                                    </li>
+                                    <li>
+                                        <a href="table_basic.html#">选项2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                            <button type="button" class="btn btn-sm btn-primary"> 搜索</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-sm-offset-4">
+                                    <a class="btn btn-primary pull-right" data-toggle="modal" href="#myModal5">
+                                        新增
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>{{list.list_table.th.th1}}</th>
+                                            <th>{{list.list_table.th.th2}}</th>
+                                            <th>{{list.list_table.th.th3}}</th>
+                                            <th>{{list.list_table.th.th4}}</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item,index) in list.list_table.data">
+                                            <td>{{item.num}}</td>
+                                            <td>{{item.xm}}</td>
+                                            <td>{{item.sex}}</td>
+                                            <td>{{item.nl}}</td>
+                                            <td>
+                                                <button class="btn btn-danger" type="button" v-on:="del_item(index)">删除</button>
+                                                <a class="btn btn-file" data-toggle="modal" href="#xq" v-on:click="details_item(item)">详情</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-white">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-white">1</button>
+                                <button class="btn btn-white  active">2</button>
+                                <button class="btn btn-white">3</button>
+                                <button class="btn btn-white">4</button>
+                                <button type="button" class="btn btn-white">
+                                    <i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">TITLE</h4>
+                    </div>
+                    <div class="ibox-content">
+                        <!--input 提交表-->
+
+                        <div class="row">
+                            <label class="col-sm-2 col-sm-2 control-label">序号</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" v-model="cre.num" placeholder="">
+                                <span class="help-block">...</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" v-model="cre.xm" placeholder="">
+                                <span class="help-block">...</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-sm-2 control-label">性别</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" v-model="cre.sex" placeholder="">
+                                <span class="help-block">...</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-sm-2 control-label">年龄</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" v-model="cre.nl" placeholder="">
+                                <span class="help-block">...</span>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="row">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <button class="btn btn-primary" type="button" v-on:click="cre_item()">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal inmodal fade" id="xq" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">详情</h4>
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="form-group" v-for="_item in det_mod">
+                            <label class="col-sm-3 control-label">{{_item.name}}</label>
+
+                            <div class="col-sm-8">
+                                <p class="form-control-static">{{_item.d}}</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/js/phlus")
+    <script src="~/Scripts/vue.min.js"></script>
+    <script type="text/javascript">
+			new Vue({
+				el: "#vue_list",
+				data: {
+					//数据显示页
+					list: {
+						list_title: {
+							name: "vue表格页", //标题
+						},
+						list_table: {
+							th: {
+								th1: "序号",
+								th2: "姓名",
+								th3: "性别",
+								th4: "年龄"
+							},
+							data: [{ //表格数据
+								id: "1",
+								num: 0,
+								xm: "黄",
+								sex: "男",
+								nl: 18
+							}]
+						}
+					},
+					cre: {
+						id: "",
+						name: "",
+						xm: "",
+						sex: "",
+						nl: ""
+					},
+					det_mod: [{
+							name: "id",
+							d: "0"
+						},
+						{
+							name: "序号",
+							d: 0
+						},
+						{
+							name: "姓名",
+							d: "2"
+						},
+						{
+							name: "性别",
+							d: "3"
+						},
+						{
+							name: "年龄",
+							d: 18
+						}
+					]
+				},
+				methods: {
+					del_item: function(index) {
+						//添加删除确认提示
+						this.list.list_table.data.splice(index, 1);
+					},
+					cre_item: function() { //在viewmodel的输入框绑定cre的每一项值
+						this.list.list_table.data.push(this.cre); //新建一条list数据
+						this.cre = {
+							id: "1",
+							num: 0,
+							xm: "",
+							sex: "男",
+							nl: 25
+						} //输入框默认数据
+					},
+					details_item: function(item) {
+						var n = 0;
+						for(var i in item) {
+							this.det_mod[n].d = item[i];
+							n++;
+						}
+					}
+				}
+			});
+    </script>
+</body>
+
+</html>
