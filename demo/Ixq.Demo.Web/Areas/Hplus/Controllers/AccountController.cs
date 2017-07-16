@@ -15,12 +15,12 @@ using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.Owin;
 using Ixq.Core.Security;
 using Ixq.Core.DependencyInjection.Extensions;
+using Ixq.Security.Identity;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
     public class AccountController : BaseController
     {
-        private ApplicationSignInManager _signInManager;
         private IRoleManager<Security.Identity.IRole> _roleManager;
         private IUserManager<Security.Identity.IUser> _userManager;
 
@@ -28,18 +28,6 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         {
             _userManager = userManager;
             _roleManager = roleManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? (_signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>());
-            }
-            private set
-            {
-                _signInManager = value;
-            }
         }
 
         // GET: Hplus/Account
@@ -60,7 +48,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
             var b = _userManager is IUserManager<Security.Identity.IUser>;
 
-            var use = SignInManager.CurrentUser;
+            //var use = SignInManager;
 
             return View();
         }
@@ -75,7 +63,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string userName, string password, string code, string returnUrl)
         {
-            var result = await SignInManager.PasswordSignInAsync(userName, password, false, shouldLockout: true);
+            var result = await ApplicationSignInManager<ApplicationUser>.Instance.PasswordSignInAsync(userName, password, false, shouldLockout: true);
             switch (result)
             {
                 case Microsoft.AspNet.Identity.Owin.SignInStatus.Success:
@@ -90,7 +78,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
-            SignInManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            ApplicationSignInManager<ApplicationUser>.Instance.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }
     }

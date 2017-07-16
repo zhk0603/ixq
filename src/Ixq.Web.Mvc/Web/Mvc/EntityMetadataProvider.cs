@@ -24,27 +24,22 @@ namespace Ixq.Web.Mvc
         {
             EntityMetadatas = new ConcurrentDictionary<string, IEntityMetadata>();
         }
-        public IUserManager<Security.Identity.IUser> UserManager { get; set; }
 
         /// <summary>
         ///     获取实体元数据。
         /// </summary>
         /// <param name="type">实体类型。</param>
-        /// <param name="user">当前已进行身份验证的用户。</param>
         /// <returns></returns>
-
-        public IEntityMetadata GetEntityMetadata(Type type, IPrincipal user)
+        public IEntityMetadata GetEntityMetadata(Type type)
         {
             // 根据用户的所属角色生成唯一key，系统所有拥有相同角色的用户，将获取相同的元数据。
-            var key = type.FullName +
-                      $"_{UserManager?.GetUserRolesByName(user.Identity.Name).Aggregate(0L, (c, i) => i.GetHashCode())}";
-
+            var key = type.FullName;
             IEntityMetadata runtimeEntity;
-            if (EntityMetadatas.TryGetValue(key, out runtimeEntity))
+            if (EntityMetadatas.TryGetValue(type.FullName, out runtimeEntity))
             {
                 return runtimeEntity;
             }
-            runtimeEntity = new EntityMetadata(type, user);
+            runtimeEntity = new EntityMetadata(type);
             EntityMetadatas[key] = runtimeEntity;
             return runtimeEntity;
         }
@@ -53,12 +48,11 @@ namespace Ixq.Web.Mvc
         ///     获取实体元数据。
         /// </summary>
         /// <typeparam name="T">实体类型。</typeparam>
-        /// <param name="user">当前已进行身份验证的用户。</param>
         /// <returns></returns>
-        public IEntityMetadata GetEntityMetadata<T>(IPrincipal user)
+        public IEntityMetadata GetEntityMetadata<T>()
         {
             var type = typeof (T);
-            return GetEntityMetadata(type, user);
+            return GetEntityMetadata(type);
         }
     }
 }

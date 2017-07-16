@@ -192,7 +192,7 @@ namespace Ixq.Web.Mvc
             if (EntityMetadata == null)
             {
                 EntityMetadata = this.EntityMetadataProvider.GetEntityMetadata(
-                    typeof (TDto), filterContext.Principal);
+                    typeof (TDto));
             }
             base.OnAuthentication(filterContext);
         }

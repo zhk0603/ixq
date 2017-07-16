@@ -101,8 +101,6 @@
     <Compile Include="Repository\IUnitOfWork.cs" />
     <Compile Include="Security\IUserManager.cs" />
     <Compile Include="Security\IRoleManager.cs" />
-    <Compile Include="Security\ISignInManager.cs" />
-    <Compile Include="Security\SignInStatus.cs" />
     <Compile Include="TextAlign.cs" />
   </ItemGroup>
   <ItemGroup>

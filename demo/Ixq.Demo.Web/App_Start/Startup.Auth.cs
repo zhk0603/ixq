@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Security.Claims;
 using ixq.Demo.DbContext;
+using Ixq.Core.Security;
 using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
 using Microsoft.AspNet.Identity;
@@ -7,6 +9,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using Ixq.Security.Identity;
+using Ixq.Web.Mvc;
 
 namespace Ixq.Demo.Web
 {
@@ -20,6 +24,7 @@ namespace Ixq.Demo.Web
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            EntityMetadata.CurrentClaimsUser = CurrentClaimsUser;
 
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
             // 并使用 Cookie 来临时存储有关使用第三方登录提供程序登录的用户的信息
@@ -40,6 +45,10 @@ namespace Ixq.Demo.Web
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
+        }
+        private static ClaimsPrincipal CurrentClaimsUser()
+        {
+            return ApplicationSignInManager<ApplicationUser>.CurrentClaimsUser;
         }
     }
 }

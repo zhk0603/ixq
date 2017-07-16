@@ -98,12 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Identity\ApplicationRoleManagerBase.cs" />
+    <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUserManagerBase.cs" />
     <Compile Include="Identity\IdentityDbContextBase.cs" />
     <Compile Include="Identity\IdentityRegistration.cs" />
     <Compile Include="Identity\IdentityRoleBase.cs" />
     <Compile Include="Identity\IdentityUserBase.cs" />
-    <Compile Include="Identity\ApplicationSignInManagerBase.cs" />
     <Compile Include="Identity\IRole.cs" />
     <Compile Include="Identity\IUser.cs" />
     <Compile Include="Identity\UserStoreBase.cs" />

@@ -3,16 +3,13 @@ using ixq.Demo.DbContext;
 using Ixq.Core.Cache;
 using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.Core.Logging;
-using Ixq.Demo.Domain.ApplicationServer;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Web;
 using Ixq.Logging.Log4Net;
 using Ixq.Owin.Extensions;
-using Ixq.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
 using Owin;
 using Ixq.Core.Security;
 using Ixq.Demo.Domain;
@@ -45,5 +42,7 @@ namespace Ixq.Demo.Web
                 })
                 .RegisterAutofac(typeof (MvcApplication));
         }
+
+
     }
 }

@@ -21,6 +21,17 @@ namespace Ixq.Demo.Console
         static void Main(string[] args)
         {
 
+
+            var tc = new CustomTest();
+            ITest tc1 = tc;
+
+
+
+            ITestBase<CustomTest> tb = new TestBase<CustomTest>();
+            var tb1 = (ITestBase<Test>)tb;
+
+
+
             var s1 = "Admin";
             var s2 = "Employee";
             var c1 = s1.GetHashCode();
@@ -51,6 +62,31 @@ namespace Ixq.Demo.Console
             System.Console.ReadKey();
         }
 
+        public interface ITest
+        {
+
+        }
+
+        public abstract class Test : ITest
+        {
+
+        }
+
+        public class CustomTest : Test
+        {
+
+        }
+
+        public interface ITestBase<in T>
+            where T : class
+        {
+
+        }
+
+        public class TestBase<T> : ITestBase<T>
+            where T : class
+        {
+        }
 
 
         static void Main1(string[] args)

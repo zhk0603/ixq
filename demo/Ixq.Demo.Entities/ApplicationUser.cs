@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 namespace Ixq.Demo.Entities
 {
     public class ApplicationUser : IdentityUserBase, ICreateSpecification, IUpdataSpecification,
-        ISoftDeleteSpecification
+        ISoftDeleteSpecification, Security.Identity.IUser
     {
         public virtual int Age { get; set; }
         public virtual DateTime CreateDate { get; set; }

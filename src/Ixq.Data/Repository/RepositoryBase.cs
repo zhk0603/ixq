@@ -49,14 +49,12 @@ namespace Ixq.Data.Repository
 
         public virtual bool AddRange(IEnumerable<TEntity> entities)
         {
-            entities = entities as TEntity[] ?? entities.ToArray();
             Table.AddRange(entities);
             return Save();
         }
 
         public virtual Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            entities = entities as TEntity[] ?? entities.ToArray();
             Table.AddRange(entities);
             return SaveAsync();
         }

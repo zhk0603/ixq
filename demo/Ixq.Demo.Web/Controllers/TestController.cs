@@ -5,7 +5,6 @@ using Ixq.Demo.Entities;
 
 namespace Ixq.Demo.Web.Controllers
 {
-    [Authorize]
     public class TestController : BaseController
     {
         private readonly IRepository<ProductType> _productTypeRepository;
@@ -19,7 +18,7 @@ namespace Ixq.Demo.Web.Controllers
         public ActionResult Index()
         {
             var pt = _productTypeRepository.SqlQuerySingle(Guid.Parse("2FE82B0D-C421-484B-A9CC-8D6E4520EBBC"));
-
+            var user = Ixq.Security.Identity.ApplicationSignInManager<ApplicationUser>.CurrentSystemUser;
 
             return View();
         }

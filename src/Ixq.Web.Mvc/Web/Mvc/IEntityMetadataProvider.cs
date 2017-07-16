@@ -20,7 +20,7 @@ namespace Ixq.Web.Mvc
         /// <param name="type">实体类型。</param>
         /// <param name="user">当前已进行身份验证的用户。</param>
         /// <returns></returns>
-        IEntityMetadata GetEntityMetadata(Type type, IPrincipal user);
+        IEntityMetadata GetEntityMetadata(Type type);
 
         /// <summary>
         ///     获取实体元数据。
@@ -28,6 +28,6 @@ namespace Ixq.Web.Mvc
         /// <typeparam name="T">实体类型。</typeparam>
         /// <param name="user">当前已进行身份验证的用户。</param>
         /// <returns></returns>
-        IEntityMetadata GetEntityMetadata<T>(IPrincipal user);
+        IEntityMetadata GetEntityMetadata<T>();
     }
 }
