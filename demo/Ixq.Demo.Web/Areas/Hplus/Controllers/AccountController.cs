@@ -21,8 +21,8 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
     public class AccountController : BaseController
     {
-        private IRoleManager<Security.Identity.IRole> _roleManager;
-        private IUserManager<Security.Identity.IUser> _userManager;
+        private readonly IRoleManager<Security.Identity.IRole> _roleManager;
+        private readonly IUserManager<Security.Identity.IUser> _userManager;
 
         public AccountController(IRoleManager<Security.Identity.IRole> roleManager, IUserManager<Security.Identity.IUser> userManager)
         {
@@ -63,10 +63,10 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string userName, string password, string code, string returnUrl)
         {
-            var result = await ApplicationSignInManager<ApplicationUser>.Instance.PasswordSignInAsync(userName, password, false, shouldLockout: true);
+            var result = await ApplicationSignInManager<ApplicationUser>.PasswordSignInAsync(userName, password, false, true);
             switch (result)
             {
-                case Microsoft.AspNet.Identity.Owin.SignInStatus.Success:
+                case SignInStatus.Success:
                     if (string.IsNullOrWhiteSpace(returnUrl))
                         return RedirectToAction("Index", "Home");
                     return Redirect(returnUrl);
@@ -78,7 +78,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
-            ApplicationSignInManager<ApplicationUser>.Instance.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            ApplicationSignInManager<ApplicationUser>.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }
     }

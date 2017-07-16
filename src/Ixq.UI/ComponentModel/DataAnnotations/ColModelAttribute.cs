@@ -40,11 +40,11 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// <summary>
         ///     格式化。
         /// </summary>
-        public string Formatter { get; set; }
+        public string FormatterScript { get; set; }
         /// <summary>
         ///     反格式化。
         /// </summary>
-        public string UnFormatter { get; set; }
+        public string UnFormatterScript { get; set; }
         /// <summary>
         ///     是否可排序。
         /// </summary>
@@ -61,8 +61,8 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
                 throw new ArgumentNullException(nameof(runtimeProperty));
             runtimeProperty.Width = Width;
             runtimeProperty.Align = Align;
-            runtimeProperty.FormatterScript = Formatter;
-            runtimeProperty.UnFormatterScript = UnFormatter;
+            runtimeProperty.FormatterScript = FormatterScript;
+            runtimeProperty.UnFormatterScript = UnFormatterScript;
             runtimeProperty.Sortable = Sortable;
             runtimeProperty.CssClass = CssClass;
         }

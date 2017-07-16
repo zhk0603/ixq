@@ -10,7 +10,6 @@ using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.Extensions;
 using Ixq.UI.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
-using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using Ixq.Data.DataAnnotations;
 using System.Web.Routing;
@@ -122,6 +121,7 @@ namespace Ixq.Web.Mvc
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)
                 ? PageConfig.IsDescending ? "desc" : "asc"
                 : orderDirection;
+
             var queryable = orderDirection.Equals("asc")
                 ? EntityQueryable().OrderBy(orderField)
                 : EntityQueryable().OrderBy(orderField, ListSortDirection.Descending);

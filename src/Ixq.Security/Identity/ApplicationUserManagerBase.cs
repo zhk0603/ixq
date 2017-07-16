@@ -20,13 +20,7 @@ namespace Ixq.Security.Identity
             _userManager = this;
         }
 
-        IQueryable<IUser> IUserManager<IUser>.Users
-        {
-            get
-            {
-                return _userManager.Users;
-            }
-        }
+        IQueryable<IUser> IUserManager<IUser>.Users => _userManager.Users;
 
         public bool AddToRole(string userId, string roleId)
         {

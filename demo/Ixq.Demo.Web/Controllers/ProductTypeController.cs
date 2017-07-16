@@ -10,7 +10,7 @@ using System.Data.Entity;
 using ixq.Demo.DbContext;
 using Ixq.Core.Entity;
 using Ixq.Demo.Domain.Dtos;
-using Ixq.Demo.Domain.IApplicationServer;
+using Ixq.Demo.Domain.IApplicationService;
 
 namespace Ixq.Demo.Web.Controllers
 {

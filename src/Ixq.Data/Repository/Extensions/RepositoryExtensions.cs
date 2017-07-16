@@ -40,13 +40,29 @@ namespace Ixq.Data.Repository.Extensions
         /// <typeparam name="TKey"></typeparam>
         /// <param name="repository"></param>
         /// <returns></returns>
-        public static TDbContext GetDbContext<TEntity, TDbContext, TKey>(this IRepositoryBase<TEntity, TKey> repository)
+        public static TDbContext GetDbContext<TEntity, TKey, TDbContext>(this IRepositoryBase<TEntity, TKey> repository)
             where TEntity : class, IEntity<TKey>, new()
             where TDbContext : DbContext
         {
             if (repository.UnitOfWork == null)
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
             return (TDbContext) repository.UnitOfWork;
+        }
+
+        /// <summary>
+        ///     针对对上下文和基础存储中给定类型的实体的访问返回一个 <see cref="DbSet{TEntity}"/> 实例。
+        /// </summary>
+        /// <typeparam name="TEntity">应为其返回一个集的类型实体。</typeparam>
+        /// <typeparam name="TKey">实体主键类型。</typeparam>
+        /// <param name="repository"></param>
+        /// <returns>给定实体类型的集。</returns>
+        public static DbSet<TEntity> GetDbSet<TEntity, TKey>(this IRepositoryBase<TEntity, TKey> repository)
+            where TEntity : class, IEntity<TKey>, new()
+        {
+            if (repository.UnitOfWork == null)
+                throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+
+            return ((DbContext) repository.UnitOfWork).Set<TEntity>();
         }
 
 

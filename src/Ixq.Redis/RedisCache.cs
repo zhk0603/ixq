@@ -31,7 +31,7 @@ namespace Ixq.Redis
         }
 
         /// <summary>
-        ///     获取缓存区域民称。
+        ///     获取缓存区域名称。
         /// </summary>
         /// <returns></returns>
         public virtual string GetRegion()

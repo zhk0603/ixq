@@ -23,7 +23,7 @@ namespace Ixq.Demo.Web
         public void Configuration(IAppBuilder app)
         {
             // 启用缓存
-            ICacheProvider cacheProvider = new MemoryCacheProvider();// new Redis.RedisCacheProvider();
+            ICacheProvider cacheProvider = new MemoryCacheProvider(); // new Redis.RedisCacheProvider();
             CacheManager.SetCacheProvider(cacheProvider);
 
             // 启用日志
@@ -34,15 +34,13 @@ namespace Ixq.Demo.Web
                 .RegisterAutoMappe()
                 .RegisterIdentity(serverCollection =>
                 {
-                    serverCollection.TryAddScoped<IUserManager<Security.Identity.IUser>, ApplicationUserManager>();
                     serverCollection.TryAddSingleton<DbContext, DataContext>();
                     serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
                     serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
+                    serverCollection.TryAddScoped<IUserManager<Security.Identity.IUser>, ApplicationUserManager>();
                     ConfigureAuth(app);
                 })
                 .RegisterAutofac(typeof (MvcApplication));
         }
-
-
     }
 }

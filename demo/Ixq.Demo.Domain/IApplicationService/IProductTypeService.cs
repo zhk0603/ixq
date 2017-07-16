@@ -2,9 +2,9 @@
 using Ixq.Core.Repository;
 using Ixq.Demo.Entities;
 
-namespace Ixq.Demo.Domain.IApplicationServer
+namespace Ixq.Demo.Domain.IApplicationService
 {
-    public interface IProductTypeServer : IScopeDependency
+    public interface IProductTypeService : IScopeDependency
     {
 
     }

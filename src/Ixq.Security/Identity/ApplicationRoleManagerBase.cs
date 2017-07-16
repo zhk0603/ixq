@@ -18,13 +18,7 @@ namespace Ixq.Security.Identity
             _roleManager = this;
         }
 
-        IQueryable<IRole> IRoleManager<IRole>.Roles
-        {
-            get
-            {
-                return _roleManager.Roles;
-            }
-        }
+        IQueryable<IRole> IRoleManager<IRole>.Roles => _roleManager.Roles;
 
         public ReturnModel Create(IRole role)
         {

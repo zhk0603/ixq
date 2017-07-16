@@ -23,7 +23,10 @@ namespace Ixq.Demo.Web
             app.CreatePerOwinContext(DataContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
+            app.CreatePerOwinContext<SignInManager<ApplicationUser, string>>(
+                ApplicationSignInManager<ApplicationUser>.Create<ApplicationUserManager>);
+
             EntityMetadata.CurrentClaimsUser = CurrentClaimsUser;
 
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
