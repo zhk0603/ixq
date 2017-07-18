@@ -22,48 +22,48 @@ namespace Ixq.UI
         ///     属性查看器。
         /// </summary>
         /// <param name="helper"></param>
-        /// <param name="runtimeProperty">实体属性原始数据。</param>
+        /// <param name="propertyMetadata">实体属性原始数据。</param>
         /// <param name="entityDto">实体数据传输对象。</param>
         /// <returns></returns>
-        public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IEntityPropertyMetadata runtimeProperty,
+        public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IEntityPropertyMetadata propertyMetadata,
             object entityDto)
         {
             if (helper == null)
                 throw new ArgumentNullException(nameof(helper));
-            if (runtimeProperty == null)
-                throw new ArgumentNullException(nameof(runtimeProperty));
+            if (propertyMetadata == null)
+                throw new ArgumentNullException(nameof(propertyMetadata));
             if (entityDto == null)
                 throw new ArgumentNullException(nameof(entityDto));
 
-            var model = new PropertyViewModel();
-            if (runtimeProperty.DataType == Core.DataType.CustomDataType)
-                return helper.Partial(runtimeProperty.PartialViewPath + runtimeProperty.CustomDataType + "Viewer", model);
+            var model = new PropertyViewModel(propertyMetadata, entityDto);
+            if (propertyMetadata.DataType == Core.DataType.CustomDataType)
+                return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.CustomDataType + "Viewer", model);
 
-            return helper.Partial(runtimeProperty.PartialViewPath + runtimeProperty.DataType + "Viewer", model);
+            return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Viewer", model);
 
         }
         /// <summary>
         ///     属性编辑器。
         /// </summary>
         /// <param name="helper"></param>
-        /// <param name="runtimeProperty">实体属性原始数据。</param>
+        /// <param name="propertyMetadata">实体属性原始数据。</param>
         /// <param name="entityDto">实体数据传输对象。</param>
         /// <returns></returns>
-        public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IEntityPropertyMetadata runtimeProperty,
+        public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IEntityPropertyMetadata propertyMetadata,
             object entityDto)
         {
             if (helper == null)
                 throw new ArgumentNullException(nameof(helper));
-            if (runtimeProperty == null)
-                throw new ArgumentNullException(nameof(runtimeProperty));
+            if (propertyMetadata == null)
+                throw new ArgumentNullException(nameof(propertyMetadata));
             if (entityDto == null)
                 throw new ArgumentNullException(nameof(entityDto));
 
-            var model = new PropertyEditModel(runtimeProperty, entityDto);
-            if (runtimeProperty.DataType == Core.DataType.CustomDataType)
-                return helper.Partial(runtimeProperty.PartialViewPath + runtimeProperty.CustomDataType + "Editor", model);
+            var model = new PropertyEditModel(propertyMetadata, entityDto);
+            if (propertyMetadata.DataType == Core.DataType.CustomDataType)
+                return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.CustomDataType + "Editor", model);
 
-            return helper.Partial(runtimeProperty.PartialViewPath + runtimeProperty.DataType + "Editor", model);
+            return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Editor", model);
         }
         /// <summary>
         ///     

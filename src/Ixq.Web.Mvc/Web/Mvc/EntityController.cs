@@ -198,6 +198,7 @@ namespace Ixq.Web.Mvc
             {
                 Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.Title ?? typeof (TEntity).Name)
             };
+
             return View(editModel);
         }
 

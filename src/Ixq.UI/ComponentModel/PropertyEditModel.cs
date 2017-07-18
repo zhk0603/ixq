@@ -8,7 +8,7 @@ using Ixq.Core.Entity;
 namespace Ixq.UI.ComponentModel
 {
     /// <summary>
-    ///     属性编辑模型接口。
+    ///     属性编辑模型。
     /// </summary>
     public class PropertyEditModel : IPropertyEditModel
     {
@@ -19,11 +19,11 @@ namespace Ixq.UI.ComponentModel
         /// <summary>
         ///     初始化一个<see cref="PropertyEditModel"/>对象。
         /// </summary>
-        /// <param name="runtimeProperty">实体属性元数据。</param>
+        /// <param name="propertyMetadata">实体属性元数据。</param>
         /// <param name="entityDto">数据传输对象。</param>
-        public PropertyEditModel(IEntityPropertyMetadata runtimeProperty, object entityDto)
+        public PropertyEditModel(IEntityPropertyMetadata propertyMetadata, object entityDto)
         {
-            this.EntityProperty = runtimeProperty;
+            this.EntityProperty = propertyMetadata;
             this.EntityDto = entityDto;
         }
 
