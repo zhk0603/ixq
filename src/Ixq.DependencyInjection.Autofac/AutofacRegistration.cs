@@ -15,10 +15,10 @@ namespace Ixq.DependencyInjection.Autofac
         public static AppBootProgram RegisterAutofac(this AppBootProgram app, Type httpApplicationType)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterControllers(httpApplicationType.Assembly)
-                .PropertiesAutowired();
             builder.RegisterFilterProvider();
             builder.Populate(app.ServiceCollection);
+            builder.RegisterControllers(httpApplicationType.Assembly)
+                .PropertiesAutowired();
             var container = builder.Build();
             var resolver = new AutofacDependencyResolver(container);
             DependencyResolver.SetResolver(resolver);

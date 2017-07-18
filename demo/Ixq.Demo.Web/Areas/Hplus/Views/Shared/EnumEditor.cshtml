@@ -1,11 +1,11 @@
 ﻿@using Ixq.Extensions
 @model IPropertyEditModel
 @{
-    var isHasFlags = Model.RuntimeProperty.PropertyType.HasAttribute<FlagsAttribute>();
-    var enumItem = TypeExtensions.GetEnumItems(Model.RuntimeProperty.PropertyType);
+    var isHasFlags = Model.EntityProperty.PropertyType.HasAttribute<FlagsAttribute>();
+    var enumItem = TypeExtensions.GetEnumItems(Model.EntityProperty.PropertyType);
 }
 <div class="form-group">
-    <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
+    <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
         @if (isHasFlags)
         {
@@ -13,17 +13,17 @@
             foreach (var item in enumItem)
             {
                 <div class="checkbox checkbox-inline">
-                    <input class="@(Model.RuntimeProperty.PropertyInfo.Name)" type="checkbox" id="@(Model.RuntimeProperty.PropertyInfo.Name)_@i" value="@item.Value" />
-                    <label for="@(Model.RuntimeProperty.PropertyInfo.Name)_@i"> @item.Name </label>
+                    <input class="@(Model.EntityProperty.PropertyInfo.Name)" type="checkbox" id="@(Model.EntityProperty.PropertyInfo.Name)_@i" value="@item.Value" />
+                    <label for="@(Model.EntityProperty.PropertyInfo.Name)_@i"> @item.Name </label>
                 </div>
                 i++;
             }
-            <input type="hidden" id="@(Model.RuntimeProperty.PropertyInfo.Name)" name="@(Model.RuntimeProperty.PropertyInfo.Name)" value="@Model" />
+            <input type="hidden" id="@(Model.EntityProperty.PropertyInfo.Name)" name="@(Model.EntityProperty.PropertyInfo.Name)" value="@Model" />
         }
         else
         {
-            <select class="form-control" name="@Model.RuntimeProperty.PropertyInfo.Name" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "")>
-                @if (!Model.RuntimeProperty.IsRequired)
+            <select class="form-control" name="@Model.EntityProperty.PropertyInfo.Name" @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "")>
+                @if (!Model.EntityProperty.IsRequired)
                 {
                     <option>请选择</option>
                 }
@@ -39,7 +39,7 @@
     @<script>
         $(document).ready(function () {
 
-            $('input[type="checkbox"][class="@(Model.RuntimeProperty.PropertyInfo.Name)"]').change(function () {
+            $('input[type="checkbox"][class="@(Model.EntityProperty.PropertyInfo.Name)"]').change(function () {
                 console.log($(this).prop('checked'));
             });
 

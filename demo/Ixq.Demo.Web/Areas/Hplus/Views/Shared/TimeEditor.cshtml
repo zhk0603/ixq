@@ -1,9 +1,9 @@
 ﻿@model IPropertyEditModel
 <div class="form-group">
-    <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
+    <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
         <div class="input-group">
-            <input id="@Model.RuntimeProperty.PropertyInfo.Name" name="@Model.RuntimeProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.RuntimeProperty.IsRequired ? "required=\"\"" : "") />
+            <input id="@Model.EntityProperty.PropertyInfo.Name" name="@Model.EntityProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "") />
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         </div>
     </div>
@@ -17,7 +17,7 @@
 @Html.Script(
     @<script>
         $().ready(function () {
-            $('#@Model.RuntimeProperty.PropertyInfo.Name').datetimepicker({
+            $('#@Model.EntityProperty.PropertyInfo.Name').datetimepicker({
                 todayBtn: "linked",
                 autoclose: true,
                 language: 'zh-CN',

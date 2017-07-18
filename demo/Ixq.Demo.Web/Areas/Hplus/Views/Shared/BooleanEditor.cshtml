@@ -1,14 +1,14 @@
 ﻿@model IPropertyEditModel
 <div class="form-group">
-    <label class="col-sm-3 control-label">@Model.RuntimeProperty.Name：</label>
+    <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
         <div class="radio radio-inline">
-            <input id="@(Model.RuntimeProperty.PropertyInfo.Name)_true" type="radio" value="true" name="@Model.RuntimeProperty.PropertyInfo.Name" />
-            <label for="@(Model.RuntimeProperty.PropertyInfo.Name)_true"> 是 </label>
+            <input id="@(Model.EntityProperty.PropertyInfo.Name)_true" type="radio" value="true" name="@Model.EntityProperty.PropertyInfo.Name" />
+            <label for="@(Model.EntityProperty.PropertyInfo.Name)_true"> 是 </label>
         </div>
         <div class="radio radio-inline">
-            <input id="@(Model.RuntimeProperty.PropertyInfo.Name)_false" type="radio" value="false" name="@Model.RuntimeProperty.PropertyInfo.Name" />
-            <label for="@(Model.RuntimeProperty.PropertyInfo.Name)_false"> 否 </label>
+            <input id="@(Model.EntityProperty.PropertyInfo.Name)_false" type="radio" value="false" name="@Model.EntityProperty.PropertyInfo.Name" />
+            <label for="@(Model.EntityProperty.PropertyInfo.Name)_false"> 否 </label>
         </div>
     </div>
 </div>

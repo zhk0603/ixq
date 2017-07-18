@@ -50,7 +50,6 @@ namespace Ixq.Web.Mvc
             PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
             Repository = repository;
-            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof (TDto));
         }
 
         /// <summary>
@@ -250,7 +249,15 @@ namespace Ixq.Web.Mvc
         {
             return View();
         }
-
+        /// <summary>
+        ///     在调用操作方法前初始化实体元数据。
+        /// </summary>
+        /// <param name="filterContext"></param>
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof(TDto));
+            base.OnActionExecuting(filterContext);
+        }
         /// <summary>
         ///     创建一个<see cref="JsonReader" />对象，将指定的对象序列化为JavaScript Object Notation（JSON）。
         /// </summary>
@@ -317,7 +324,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         protected virtual IEntityMetadataProvider CreateEntityMetadataProvider()
         {
-            return ServiceProvider.GetService<IEntityMetadataProvider>() ??
+            return ServiceProvider?.GetService<IEntityMetadataProvider>() ??
                    new EntityMetadataProvider();
         }
 
