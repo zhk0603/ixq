@@ -5,7 +5,7 @@
     Layout = "~/Areas/Hplus/Views/Shared/_LayoutHplusIframe.cshtml";
 }
 @section styles{
-<link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet"/>
+    <link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet" />
 }
 @RenderSection("pageStyles", false)
 <div class="wrapper wrapper-content animated fadeIn">
@@ -55,7 +55,8 @@
     <script>
         var colNames = @Html.Raw(Model.GetColNames());
         var colModel = @Html.Raw(Model.GetColModel());
-
+        colNames.push("操作");
+        colModel.push({name : 'act',index : 'act',width : 75});
         function Insert@(Model.EntityType.Name)() {
             layer.open({
                 title: '新增 @pageTitle',
@@ -86,6 +87,28 @@
                 multiselect: @Model.PageConfig.MultiSelect.ToString().ToLower(),
                 colNames: colNames,
                 colModel: colModel,
+                gridComplete : function() {//每一列的操作功能按钮
+                    var ids = jQuery("#@tableId").jqGrid('getDataIDs');
+                    for ( var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        be = "<div class=\"btn-group btn-group-sm\">"+
+                            "<button class=\"btn btn-primary\" type=\"button\" onclick=\"getEditor('"+ids[i]+"')\">"+
+                            "<i class=\"fa fa-pencil\"></i>编辑"+
+                            "</button>";
+
+                        se = "<button class=\"btn btn-warning\" type=\"button\" onclick=\"getDetails('"+ids[i]+"')\">"+
+                            "<i class=\"fa fa-file-o\"></i>详情"+
+                            "</button>";
+
+                        ce = "<button class=\"btn btn-danger\" type=\"button\" onclick=\"getDelete('"+ids[i]+"')\">"+
+                            "<i class=\"fa fa-remove\"></i>删除"+
+                            "</button></div>";
+                        jQuery("#@tableId").jqGrid('setRowData', ids[i],
+                            {
+                                act : be + se + ce
+                            });
+                    }
+                },
                 beforeSelectRow: function(rowid, e) {
                     var $myGrid = $(this),
                         i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
@@ -117,5 +140,22 @@
                 $('#@tableId').setGridWidth(width);
             });
         });
+        function getDetails(id){
+            window.location.href='@Html.Raw(Url.Action("Details"))/'+id;
+        };
+        function getEditor(id){
+            window.location.href='@Html.Raw(Url.Action("Editor"))/'+id;
+
+        };
+        function getDelete(id){
+            layer.confirm('是否删除？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                //$.ajax({});提交到后台执行删除
+                layer.msg('已删除', {icon: 1});
+            }, function(){
+                return;
+            });
+        }
     </script>
 }
