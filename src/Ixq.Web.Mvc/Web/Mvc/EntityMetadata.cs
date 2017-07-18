@@ -4,10 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
-using System.Security.Principal;
 using Ixq.Core.Entity;
-using Ixq.Core.Security;
-using Ixq.Data.DataAnnotations;
 using Ixq.Extensions;
 
 namespace Ixq.Web.Mvc
@@ -34,9 +31,14 @@ namespace Ixq.Web.Mvc
 
             _entityType = entityType;
         }
-
+        /// <summary>
+        ///     获取或设置授权用户委托方法。
+        /// </summary>
         public static ClaimsUserDelegate CurrentClaimsUser { get; set; }
 
+        /// <summary>
+        ///     获取实体在列表中的属性元数据。
+        /// </summary>
         public IEntityPropertyMetadata[] ViewPropertyMetadatas
         {
             get
@@ -46,26 +48,41 @@ namespace Ixq.Web.Mvc
             }
         }
 
+        /// <summary>
+        ///     获取实体在创建时的属性元数据。
+        /// </summary>
         public IEntityPropertyMetadata[] CreatePropertyMetadatas
         {
             get { return PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
         }
 
+        /// <summary>
+        ///     获取实体在编辑时的属性元数据。
+        /// </summary>
         public IEntityPropertyMetadata[] EditPropertyMetadatas
         {
             get { return PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
         }
 
+        /// <summary>
+        ///     获取在查看实体详情时的属性元数据。
+        /// </summary>
         public IEntityPropertyMetadata[] DetailPropertyMetadatas
         {
             get { return PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
         }
 
+        /// <summary>
+        ///     获取能搜索实体的属性元数据。
+        /// </summary>
         public IEntityPropertyMetadata[] SearcherPropertyMetadatas
         {
             get { return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
         }
 
+        /// <summary>
+        ///     获取实体所有公共的属性元数据。
+        /// </summary>
         public IEntityPropertyMetadata[] PropertyMetadatas
         {
             get
@@ -82,6 +99,9 @@ namespace Ixq.Web.Mvc
             }
         }
 
+        /// <summary>
+        ///     获取实体所有的公共属性。
+        /// </summary>
         public PropertyInfo[] EntityPropertyInfos => _entityPropertys ?? (_entityPropertys = _entityType.GetProperties());
 
         /// <summary>
@@ -109,6 +129,10 @@ namespace Ixq.Web.Mvc
             return propertyMetadatas.OrderBy(x => x.Order).ToArray();
         }
 
+        /// <summary>
+        ///     授权用户委托。
+        /// </summary>
+        /// <returns></returns>
         public delegate ClaimsPrincipal ClaimsUserDelegate();
     }
 }

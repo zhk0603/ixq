@@ -34,7 +34,7 @@ namespace Ixq.Data.DataAnnotations
             return true;
         }
 
-        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
+        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

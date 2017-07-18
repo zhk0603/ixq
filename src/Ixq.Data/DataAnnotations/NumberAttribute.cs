@@ -24,7 +24,7 @@ namespace Ixq.Data.DataAnnotations
         /// </summary>
         public long Min { get; set; }
 
-        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
+        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

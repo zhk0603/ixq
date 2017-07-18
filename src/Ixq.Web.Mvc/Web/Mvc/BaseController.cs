@@ -13,9 +13,13 @@ namespace Ixq.Web.Mvc
         ///     依赖注入服务提供者
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
-
+        /// <summary>
+        ///     日志记录器。
+        /// </summary>
         public ILogger Logger { get; set; }
-
+        /// <summary>
+        ///     初始化BaseController。
+        /// </summary>
         protected BaseController()
         {
             Logger = LogManager.GetLogger(GetType());

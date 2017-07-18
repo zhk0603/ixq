@@ -13,9 +13,9 @@ namespace Ixq.Core.Data
     public interface IDataAnnotations
     {
         /// <summary>
-        ///     初始化 <see cref="IEntityPropertyMetadata"/>。
+        ///     将设置复制到实体元数据对象中。
         /// </summary>
-        /// <param name="runtimeProperty"></param>
-        void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty);
+        /// <param name="runtimeProperty">实体元数据</param>
+        void CopyTo(IEntityPropertyMetadata runtimeProperty);
     }
 }

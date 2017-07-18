@@ -11,14 +11,27 @@ using Newtonsoft.Json;
 
 namespace Ixq.Web.Mvc
 {
+    /// <summary>
+    ///     Json格式的操作结果。
+    /// </summary>
     public class JsonResult : System.Web.Mvc.JsonResult
     {
+        /// <summary>
+        ///     初始化一个<see cref="JsonResult"/>对象。
+        /// </summary>
         public JsonResult()
         {
             JsonRequestBehavior = JsonRequestBehavior.DenyGet;
         }
+        /// <summary>
+        ///     获取或设置JsonSerializerSettings
+        /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; }
 
+        /// <summary>
+        ///     通过从 System.Web.Mvc.ActionResult 类继承的自定义类型，启用对操作方法结果的处理。
+        /// </summary>
+        /// <param name="context">执行结果时所处的上下文。</param>
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)

@@ -17,6 +17,9 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     {
         private DataType _dataType;
 
+        /// <summary>
+        ///     获取或设置数据类型
+        /// </summary>
         public DataType DataType
         {
             get
@@ -30,9 +33,19 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
             set { _dataType = value; }
         }
 
+        /// <summary>
+        ///     获取或设置自定义数据类型。
+        /// </summary>
         public string CustomDataType { get; set; }
+        /// <summary>
+        ///     获取或设置局部视图路径。
+        /// </summary>
         public string PartialViewPath { get; set; }
-        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
+        /// <summary>
+        ///     将设置复制到实体元数据对象中。
+        /// </summary>
+        /// <param name="runtimeProperty">实体元数据</param>
+        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

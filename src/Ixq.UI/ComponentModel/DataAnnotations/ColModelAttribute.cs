@@ -55,7 +55,11 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// </summary>
         public bool Hidden { get; set; }
 
-        public void SetRuntimeProperty(IEntityPropertyMetadata runtimeProperty)
+        /// <summary>
+        ///     将设置复制到实体元数据对象中。
+        /// </summary>
+        /// <param name="runtimeProperty">实体元数据</param>
+        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

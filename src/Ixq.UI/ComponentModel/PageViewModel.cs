@@ -10,15 +10,38 @@ using Ixq.UI.Controls;
 
 namespace Ixq.UI.ComponentModel
 {
+    /// <summary>
+    ///     页面视图模型。
+    /// </summary>
     public class PageViewModel : IPageViewModel
     {
+        /// <summary>
+        ///     获取或设置实体元数据。
+        /// </summary>
         public IEntityMetadata EntityMetadata { get; set; }
+        /// <summary>
+        ///     获取或设置实体类型。
+        /// </summary>
         public Type EntityType { get; set; }
+        /// <summary>
+        ///     获取或设置数据传输对象类型。
+        /// </summary>
         public Type DtoType { get; set; }
+        /// <summary>
+        ///     获取或设置页面分页组件。
+        /// </summary>
         public Pagination Pagination { get; set; }
 
+        /// <summary>
+        ///     获取或设置页面配置信息。
+        /// </summary>
         public IPageConfig PageConfig { get; set; }
 
+        /// <summary>
+        ///     生成供页面Jqgrid初始化使用的ColNames信息。
+        ///     返回租户可查看实体的属性信息，即实体属性元数据中IsHiddenOnView=true的属性。
+        /// </summary>
+        /// <returns></returns>
         public virtual string GetColNames()
         {
             var sb = new StringBuilder();
@@ -39,6 +62,11 @@ namespace Ixq.UI.ComponentModel
             return sb.ToString();
         }
 
+        /// <summary>
+        ///     生成供页面Jqgrid初始化使用的ColModel信息。
+        ///     返回租户可查看实体的属性信息，即实体属性元数据中IsHiddenOnView=true的属性。
+        /// </summary>
+        /// <returns></returns>
         public virtual string GetColModel()
         {
             var sb = new StringBuilder();

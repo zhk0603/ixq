@@ -8,12 +8,23 @@ using System.Web.WebPages;
 
 namespace Ixq.UI
 {
+    /// <summary>
+    ///     link标签模版。
+    /// </summary>
     public class StyleTemplate : HtmlTemplate
     {
+        /// <summary>
+        ///     初始化一个<see cref="StyleTemplate"/>对象。
+        /// </summary>
+        /// <param name="template">模版委托方法。</param>
         public StyleTemplate(Func<object, HelperResult> template) : base(template)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -33,11 +44,20 @@ namespace Ixq.UI
 
             return match1.Groups[1].Value == match2.Groups[1].Value;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(StyleTemplate a, StyleTemplate b)
         {
             if (System.Object.ReferenceEquals(a, b))
@@ -52,7 +72,12 @@ namespace Ixq.UI
 
             return a.Equals(b);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=(StyleTemplate a, StyleTemplate b)
         {
             return !(a == b);

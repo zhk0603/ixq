@@ -7,6 +7,9 @@ using Ixq.UI.Controls;
 
 namespace Ixq.UI.ComponentModel.DataAnnotations
 {
+    /// <summary>
+    ///     页面配置属性。
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class PageAttribute : Attribute, IPageConfig
     {
@@ -45,9 +48,17 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// </summary>
         public Button[] ButtonCustom { get; set; }
 
+        /// <summary>
+        ///     获取或设置是否可多选。
+        /// </summary>
         public bool MultiSelect { get; set; }
-
+        /// <summary>
+        ///     获取或设置是否显示行号。
+        /// </summary>
         public bool ShowRowNumber { get; set; }
+        /// <summary>
+        ///     获取或设置加载完成后执行的JavaScript方法。
+        /// </summary>
 
         public string OnLoadCompleteScript { get; set; }
     }

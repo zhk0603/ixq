@@ -7,22 +7,38 @@ using Ixq.Core.Entity;
 
 namespace Ixq.UI.ComponentModel
 {
+    /// <summary>
+    ///     属性编辑模型接口。
+    /// </summary>
     public class PropertyEditModel : IPropertyEditModel
     {
+        /// <summary>
+        ///     初始化一个<see cref="PropertyEditModel"/>对象。
+        /// </summary>
         public PropertyEditModel() { }
-
+        /// <summary>
+        ///     初始化一个<see cref="PropertyEditModel"/>对象。
+        /// </summary>
+        /// <param name="runtimeProperty">实体属性元数据。</param>
+        /// <param name="entityDto">数据传输对象。</param>
         public PropertyEditModel(IEntityPropertyMetadata runtimeProperty, object entityDto)
         {
-            this.RuntimeProperty = runtimeProperty;
+            this.EntityProperty = runtimeProperty;
             this.EntityDto = entityDto;
         }
 
-        public IEntityPropertyMetadata RuntimeProperty { get; set; }
+        /// <summary>
+        ///     获取或设置实体属性元数据。
+        /// </summary>
+        public IEntityPropertyMetadata EntityProperty { get; set; }
+        /// <summary>
+        ///     获取或设置数据传输对象。
+        /// </summary>
         public object EntityDto { get; set; }
 
-        public object Value
-        {
-            get { return RuntimeProperty.PropertyInfo.GetValue(EntityDto); }
-        }
+        /// <summary>
+        ///     获取属性的值。
+        /// </summary>
+        public object Value => EntityProperty.PropertyInfo.GetValue(EntityDto);
     }
 }

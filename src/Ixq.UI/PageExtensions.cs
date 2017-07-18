@@ -13,8 +13,18 @@ using Ixq.UI.Controls;
 
 namespace Ixq.UI
 {
+    /// <summary>
+    ///     HtmlHelper扩展方法。
+    /// </summary>
     public static class PageExtensions
     {
+        /// <summary>
+        ///     属性查看器。
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="runtimeProperty">实体属性原始数据。</param>
+        /// <param name="entityDto">实体数据传输对象。</param>
+        /// <returns></returns>
         public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IEntityPropertyMetadata runtimeProperty,
             object entityDto)
         {
@@ -32,7 +42,13 @@ namespace Ixq.UI
             return helper.Partial(runtimeProperty.PartialViewPath + runtimeProperty.DataType + "Viewer", model);
 
         }
-
+        /// <summary>
+        ///     属性编辑器。
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="runtimeProperty">实体属性原始数据。</param>
+        /// <param name="entityDto">实体数据传输对象。</param>
+        /// <returns></returns>
         public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IEntityPropertyMetadata runtimeProperty,
             object entityDto)
         {
@@ -49,7 +65,12 @@ namespace Ixq.UI
 
             return helper.Partial(runtimeProperty.PartialViewPath + runtimeProperty.DataType + "Editor", model);
         }
-
+        /// <summary>
+        ///     
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="customButton"></param>
+        /// <returns></returns>
         public static MvcHtmlString ButtonCustom(this HtmlHelper helper, Button[] customButton)
         {
             return helper.Partial("");

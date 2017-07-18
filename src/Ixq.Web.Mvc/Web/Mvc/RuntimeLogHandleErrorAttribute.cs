@@ -15,6 +15,10 @@ namespace Ixq.Web.Mvc
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class RuntimeLogHandleErrorAttribute : HandleErrorAttribute
     {
+        /// <summary>
+        ///     在发生异常时调用。
+        /// </summary>
+        /// <param name="filterContext">操作筛选器上下文。</param>
         public override void OnException(ExceptionContext filterContext)
         {
             if (filterContext == null)
