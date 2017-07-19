@@ -74,7 +74,7 @@
             $.jgrid.defaults.styleUI = 'Bootstrap';
             $("#@tableId").jqGrid({
                 mtype: 'post',
-                url: '@Url.Action(Model.PageConfig.DataActin)',
+                url: '@Url.Action(Model.PageConfig.DataAction)',
                 datatype: "json",
                 height: 'auto',
                 autowidth: true,
@@ -84,6 +84,7 @@
                 sortorder: '@Model.Pagination.OrderDirection',
                 sortname: '@Model.Pagination.OrderField',
                 rownumbers: @Model.PageConfig.ShowRowNumber.ToString().ToLower(),
+                multiboxonly: @Model.PageConfig.MultiBoxOnly.ToString().ToLower(),
                 multiselect: @Model.PageConfig.MultiSelect.ToString().ToLower(),
                 colNames: colNames,
                 colModel: colModel,
@@ -109,12 +110,7 @@
                             });
                     }
                 },
-                beforeSelectRow: function(rowid, e) {
-                    var $myGrid = $(this),
-                        i = $.jgrid.getCellIndex($(e.target).closest('td')[0]),
-                        cm = $myGrid.jqGrid('getGridParam', 'colModel');
-                    return (cm[i].name === 'cb');
-                },
+                loadComplete:@(Model.PageConfig.OnLoadCompleteScript ?? "false"),
                 pager: "#pager_@(tableId)",
                 prmNames: {
                     page: 'pageCurrent',

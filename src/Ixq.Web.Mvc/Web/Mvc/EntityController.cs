@@ -101,9 +101,6 @@ namespace Ixq.Web.Mvc
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)
                 ? PageConfig.IsDescending ? "desc" : "asc"
                 : orderDirection;
-            //var queryable = orderDirection.Equals("asc")
-            //    ? await EntityQueryable().OrderByAsync(orderField)
-            //    : await EntityQueryable().OrderByAsync(orderField, ListSortDirection.Descending);
 
             var pagination = new Pagination
             {
@@ -111,7 +108,6 @@ namespace Ixq.Web.Mvc
                 PageCurrent = pageCurrent,
                 PageSizeList = PageSizeList,
                 DefualtPageSize = pageSize,
-                //Total = queryable.Count(),
                 OrderField = orderField,
                 OrderDirection = orderDirection
             };

@@ -31,7 +31,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// <summary>
         ///     Ajax请求数据的 Actin 名。
         /// </summary>
-        public string DataActin { get; set; } = "List";
+        public string DataAction { get; set; } = "List";
 
         /// <summary>
         ///     保存编辑、添加数据的  Actin 名。
@@ -52,6 +52,12 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         ///     获取或设置是否可多选。
         /// </summary>
         public bool MultiSelect { get; set; }
+
+        /// <summary>
+        ///     只有当 <see cref="MultiSelect"/>= true.起作用，当<see cref="MultiBoxOnly"/> 为ture时只有选择checkbox才会起作用
+        /// </summary>
+        public bool MultiBoxOnly { get; set; }
+
         /// <summary>
         ///     获取或设置是否显示行号。
         /// </summary>
@@ -61,5 +67,6 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         /// </summary>
 
         public string OnLoadCompleteScript { get; set; }
+
     }
 }

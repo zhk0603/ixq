@@ -27,7 +27,7 @@ namespace Ixq.UI
         /// <summary>
         ///     获取或设置请求数据的控制器操作名称。
         /// </summary>
-        string DataActin { get; set; }
+        string DataAction { get; set; }
         /// <summary>
         ///     获取或设置编辑数据的控制器操作名称。
         /// </summary>
@@ -41,6 +41,11 @@ namespace Ixq.UI
         ///     获取或设置是否可多选。
         /// </summary>
         bool MultiSelect { get; set; }
+
+        /// <summary>
+        ///     只有当 <see cref="MultiSelect"/>= true.起作用，当<see cref="MultiBoxOnly"/> 为ture时只有选择checkbox才会起作用
+        /// </summary>
+        bool MultiBoxOnly { get; set; }
 
         /// <summary>
         ///     获取或设置是否显示行号。

@@ -11,7 +11,7 @@ using Ixq.UI.ComponentModel.DataAnnotations;
 
 namespace Ixq.Demo.Domain.Dtos
 {
-    [Page(DefaultSortname = nameof(Id), Title = "Test", IsDescending = true)]
+    [Page(DefaultSortname = nameof(Id), Title = "Test", IsDescending = true,MultiSelect =true)]
     public class TestDto : DtoBaseInt32<Entities.Test>
     {
         [Key]
