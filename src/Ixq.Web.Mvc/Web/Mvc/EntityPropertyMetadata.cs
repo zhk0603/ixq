@@ -154,10 +154,11 @@ namespace Ixq.Web.Mvc
         ///     获取或设置实体属性的列宽。
         /// </summary>
         public int Width { get; set; } = 150;
+
         /// <summary>
         ///     获取或设置实体属性在列表时的文字对齐格式。
         /// </summary>
-        public TextAlign Align { get; set; }
+        public TextAlign Align { get; set; } = TextAlign.Center;
         /// <summary>
         ///     获取或设置实体属性是否能排序。
         /// </summary>

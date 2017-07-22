@@ -1,0 +1,16 @@
+﻿@using Ixq.Core.Entity
+@using Ixq.UI
+@model IPageEditViewModel
+@{
+    Layout = "~/Areas/Hplus/Views/Shared/_LayoutHplusIframe.cshtml";
+    var entityName = Model.EntityDto.GetType().Name;
+}
+@section styles{
+    @Html.RenderStyles()
+}
+
+
+
+@section scripts{
+    @Html.RenderScripts()
+}

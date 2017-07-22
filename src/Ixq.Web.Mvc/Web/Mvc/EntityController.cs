@@ -76,6 +76,18 @@ namespace Ixq.Web.Mvc
             set { _entityMetadataProvider = value; }
         }
 
+        /// <summary>
+        ///     根据查询谓词提取仓储元素。
+        ///     所有需要获取数据的时候都应使用此方法，通过谓词可自定义过滤不需要的业务数据，
+        ///     所以不推荐通过<see cref="Repository" />获取数据。
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> EntityQueryable(Expression<Func<TEntity, bool>> predicate = null)
+        {
+            return predicate == null ? Repository.GetAll() : Repository.Query(predicate);
+        }
+
         //public virtual async Task<ActionResult> Index(string orderField, string orderDirection,
         /// <summary>
         ///     Index 操作。
@@ -107,7 +119,7 @@ namespace Ixq.Web.Mvc
                 PageSize = pageSize,
                 PageCurrent = pageCurrent,
                 PageSizeList = PageSizeList,
-                DefualtPageSize = pageSize,
+                DefualtPageSize = PageSizeList[0],
                 OrderField = orderField,
                 OrderDirection = orderDirection
             };
@@ -123,18 +135,6 @@ namespace Ixq.Web.Mvc
 
 
             return View(pageViewModel);
-        }
-
-        /// <summary>
-        ///     根据查询谓词提取仓储元素。
-        ///     所有需要获取数据的时候都应使用此方法，通过谓词可自定义过滤不需要的业务数据，
-        ///     所以不推荐通过<see cref="Repository" />获取数据。
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        public virtual IQueryable<TEntity> EntityQueryable(Expression<Func<TEntity, bool>> predicate = null)
-        {
-            return predicate == null ? Repository.GetAll() : Repository.Query(predicate);
         }
 
         /// <summary>
@@ -176,6 +176,19 @@ namespace Ixq.Web.Mvc
             };
 
             return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
+        }
+
+        /// <summary>
+        ///     Detail 操作。
+        /// </summary>
+        /// <param name="id">实体主键。</param>
+        /// <returns></returns>
+        public virtual async Task<ActionResult> Detail(string id)
+        {
+            var entity = await Repository.SingleByIdAsync(ParseEntityKey(id));
+            var detailModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
+                EntityMetadata.DetailPropertyMetadatas);
+            return View(detailModel);
         }
 
         /// <summary>

@@ -29,6 +29,10 @@ namespace Ixq.UI
         /// </summary>
         string DataAction { get; set; }
         /// <summary>
+        ///     获取或设置查看详情的控制器操作名称。
+        /// </summary>
+        string DetailAction { get; set; }
+        /// <summary>
         ///     获取或设置编辑数据的控制器操作名称。
         /// </summary>
         string EditAction { get; set; }

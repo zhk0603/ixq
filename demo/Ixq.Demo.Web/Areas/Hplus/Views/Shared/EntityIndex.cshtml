@@ -56,7 +56,7 @@
         var colNames = @Html.Raw(Model.GetColNames());
         var colModel = @Html.Raw(Model.GetColModel());
         colNames.push("操作");
-        colModel.push({name : 'act',index : 'act',width : 75});
+        colModel.push({name : '@(Model.EntityType.Name)_options', width : 200, align : 'center', sortable: false});
         function Insert@(Model.EntityType.Name)() {
             layer.open({
                 title: '新增 @pageTitle',
@@ -65,6 +65,29 @@
                 maxmin: true,
                 resize: true,
                 content: '@Url.Action(Model.PageConfig.EditAction)'
+            });
+        }
+        function Detail@(Model.EntityType.Name)(id){
+            window.location.href='@Html.Raw(Model.PageConfig.DetailAction)/'+id;
+        };
+        function Edit@(Model.EntityType.Name)(id) {
+            layer.open({
+                title: '编辑 @pageTitle',
+                type: 2,
+                area: ['800px', '600px'],
+                maxmin: true,
+                resize: true,
+                content: '@Url.Action(Model.PageConfig.EditAction)/' + id
+            });
+        };
+        function Delete@(Model.EntityType.Name)(ids){
+            layer.confirm('是否删除？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                //$.ajax({});提交到后台执行删除
+                layer.msg('已删除', {icon: 1});
+            }, function(){
+                return;
             });
         }
     </script>
@@ -79,34 +102,34 @@
                 height: 'auto',
                 autowidth: true,
                 shrinkToFit: true,
-                rowNum: @Model.Pagination.DefualtPageSize,
+                rowNum: @Model.Pagination.PageSize,
                 rowList: @Model.Pagination.GetPageSizeList(),
                 sortorder: '@Model.Pagination.OrderDirection',
                 sortname: '@Model.Pagination.OrderField',
                 rownumbers: @Model.PageConfig.ShowRowNumber.ToString().ToLower(),
                 multiboxonly: @Model.PageConfig.MultiBoxOnly.ToString().ToLower(),
                 multiselect: @Model.PageConfig.MultiSelect.ToString().ToLower(),
+                page: @Model.Pagination.PageCurrent,
                 colNames: colNames,
                 colModel: colModel,
-                gridComplete : function() {//每一列的操作功能按钮
+                gridComplete : function() {
                     var ids = jQuery("#@tableId").jqGrid('getDataIDs');
                     for ( var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        be = "<div class=\"btn-group btn-group-sm\">"+
-                            "<button class=\"btn btn-primary\" type=\"button\" onclick=\"getEditor('"+ids[i]+"')\">"+
+                        var editHtml = "<div class=\"btn-group btn-group-sm\">"+
+                            "<button class=\"btn btn-primary\" type=\"button\" onclick=\"Edit@(Model.EntityType.Name)('"+ids[i]+"')\">"+
                             "<i class=\"fa fa-pencil\"></i>编辑"+
                             "</button>";
 
-                        se = "<button class=\"btn btn-warning\" type=\"button\" onclick=\"getDetails('"+ids[i]+"')\">"+
+                        var detailHtml = "<button class=\"btn btn-warning\" type=\"button\" onclick=\"Detail@(Model.EntityType.Name)('"+ids[i]+"')\">"+
                             "<i class=\"fa fa-file-o\"></i>详情"+
                             "</button>";
 
-                        ce = "<button class=\"btn btn-danger\" type=\"button\" onclick=\"getDelete('"+ids[i]+"')\">"+
+                        var delHtml = "<button class=\"btn btn-danger\" type=\"button\" onclick=\"Delete@(Model.EntityType.Name)('"+ids[i]+"')\">"+
                             "<i class=\"fa fa-remove\"></i>删除"+
                             "</button></div>";
                         jQuery("#@tableId").jqGrid('setRowData', ids[i],
                             {
-                                act : be + se + ce
+                                @(Model.EntityType.Name)_options : editHtml + detailHtml + delHtml
                             });
                     }
                 },
@@ -136,22 +159,6 @@
                 $('#@tableId').setGridWidth(width);
             });
         });
-        function getDetails(id){
-            window.location.href='@Html.Raw(Url.Action("Details"))/'+id;
-        };
-        function getEditor(id){
-            window.location.href='@Html.Raw(Url.Action("Editor"))/'+id;
 
-        };
-        function getDelete(id){
-            layer.confirm('是否删除？', {
-                btn: ['确认','取消'] //按钮
-            }, function(){
-                //$.ajax({});提交到后台执行删除
-                layer.msg('已删除', {icon: 1});
-            }, function(){
-                return;
-            });
-        }
     </script>
 }

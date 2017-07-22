@@ -772,6 +772,7 @@
     <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.css.map" />
     <Content Include="Content\Hplus\css\plugins\datapicker\bootstrap-datepicker3.standalone.css.map" />
     <Content Include="Areas\Hplus\Views\Test\Vue.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\Detail.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
