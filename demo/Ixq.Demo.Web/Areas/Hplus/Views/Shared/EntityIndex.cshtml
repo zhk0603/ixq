@@ -68,7 +68,8 @@
             });
         }
         function Detail@(Model.EntityType.Name)(id){
-            window.location.href='@Html.Raw(Model.PageConfig.DetailAction)/'+id;
+            window.location.href='@Url.Action(Model.PageConfig.DetailAction)/'+id;
+            @*window.location.href='@Html.Raw(Model.PageConfig.DetailAction)/'+id;*@
         };
         function Edit@(Model.EntityType.Name)(id) {
             layer.open({
