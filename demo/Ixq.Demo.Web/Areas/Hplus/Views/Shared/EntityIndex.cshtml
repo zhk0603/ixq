@@ -17,25 +17,45 @@
                     <h5>@pageTitle</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary" type="button" onclick="Insert@(Model.EntityType.Name)()">
-                            <i class="fa fa-plus"></i>
-                            新增
-                        </button>
-                        <button class="btn btn-warning" type="button" onclick="getSelectedRows()">
-                            <i class="fa fa-remove"></i>
-                            删除
-                        </button>
-                    </div>
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-info" type="button">
-                            <i class="fa fa-arrow-up"></i>
-                            导入
-                        </button>
-                        <button class="btn btn-primary" type="button">
-                            <i class="fa fa-arrow-down"></i>
-                            导入
-                        </button>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-primary" type="button" onclick="Insert@(Model.EntityType.Name)()">
+                                    <i class="fa fa-plus"></i>
+                                    新增
+                                </button>
+                                <button class="btn btn-warning" type="button" onclick="getSelectedRows()">
+                                    <i class="fa fa-remove"></i>
+                                    删除
+                                </button>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-info" type="button">
+                                    <i class="fa fa-arrow-up"></i>
+                                    导入
+                                </button>
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fa fa-arrow-down"></i>
+                                    导入
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3">
+                            <div class="input-group">
+                                <input type="text" id="search_data" class="form-control"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" onclick="SearchFor()">
+                                        搜索
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            function SearchFor(){
+                                var data=document.querySelector("search_data");
+                                //$.ajax({}); //搜索数据
+                                //更新jqgrid插件数据
+                            }
+                        </script>
                     </div>
                     <hr>
                     <div class="jqGrid_wrapper">
