@@ -173,6 +173,9 @@ namespace Ixq.Core.Repository
         /// <returns></returns>
         Task<IQueryable<TEntity>> GetAllAsync();
 
+        IQueryable<TEntity> GetAllBy(IEnumerable<IEntityPropertyMetadata> metadata);
+        Task<IQueryable<TEntity>> GetAllByAsync(IEnumerable<IEntityPropertyMetadata> metadata);
+
         /// <summary>
         ///     升序排序
         /// </summary>

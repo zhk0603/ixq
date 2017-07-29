@@ -9,7 +9,7 @@ using Ixq.Core.Entity;
 namespace Ixq.Data.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class NumberAttribute : Attribute , IDataAnnotations
+    public class NumberAttribute : Attribute , IPropertyMetadataAware
     {
         /// <summary>
         ///     获取或设置步长，默认：0.01。
@@ -24,7 +24,7 @@ namespace Ixq.Data.DataAnnotations
         /// </summary>
         public long Min { get; set; }
 
-        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
+        public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

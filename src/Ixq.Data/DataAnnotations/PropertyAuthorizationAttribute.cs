@@ -11,7 +11,7 @@ namespace Ixq.Data.DataAnnotations
 {
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class PropertyAuthorizationAttribute : Attribute, IDataAnnotations
+    public class PropertyAuthorizationAttribute : Attribute, IPropertyMetadataAware
     {
         public string[] Roles { get; set; }
         public string[] Users { get; set; }
@@ -23,7 +23,7 @@ namespace Ixq.Data.DataAnnotations
                 return false;
             }
 
-            if (Users != null && Users.Any() && !Users.Contains(user.Identity.Name, StringComparer.OrdinalIgnoreCase))
+            if (Users != null && Users.Any() && !Users.Contains(user.Identity.Name))
             {
                 return false;
             }
@@ -34,7 +34,7 @@ namespace Ixq.Data.DataAnnotations
             return true;
         }
 
-        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
+        public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

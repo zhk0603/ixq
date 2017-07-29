@@ -89,6 +89,16 @@ namespace Ixq.Data.Repository
             return Task.FromResult(GetAll());
         }
 
+        public IQueryable<TEntity> GetAllBy(IEnumerable<IEntityPropertyMetadata> metadata)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IQueryable<TEntity>> GetAllByAsync(IEnumerable<IEntityPropertyMetadata> metadata)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>
         {
             var entity = SingleById(index);

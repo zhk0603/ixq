@@ -74,7 +74,7 @@
     <Compile Include="Entity\EntityPrimaryGuid.cs" />
     <Compile Include="Entity\EntityPrimaryInt.cs" />
     <Compile Include="Entity\ICreateSpecification.cs" />
-    <Compile Include="Data\IDataAnnotations.cs" />
+    <Compile Include="Data\IPropertyMetadataAware.cs" />
     <Compile Include="Entity\IEntityMetadata.cs" />
     <Compile Include="Entity\IEntityPropertyMetadata.cs" />
     <Compile Include="Entity\IUpdataSpecification.cs" />

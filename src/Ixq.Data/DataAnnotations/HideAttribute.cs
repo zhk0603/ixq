@@ -10,7 +10,7 @@ namespace Ixq.Data.DataAnnotations
 {
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class HideAttribute : Attribute, IDataAnnotations
+    public class HideAttribute : Attribute, IPropertyMetadataAware
     {
         public HideAttribute()
         {
@@ -25,7 +25,7 @@ namespace Ixq.Data.DataAnnotations
         public bool IsHiddenOnCreate { get; set; }
         public bool IsHiddenOnDetail { get; set; }
 
-        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
+        public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

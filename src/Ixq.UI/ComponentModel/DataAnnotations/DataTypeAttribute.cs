@@ -13,7 +13,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     ///     数据类型特性。
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class DataTypeAttribute : Attribute , IDataAnnotations
+    public class DataTypeAttribute : Attribute , IPropertyMetadataAware
     {
         private DataType _dataType;
 
@@ -45,7 +45,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         ///     将设置复制到实体元数据对象中。
         /// </summary>
         /// <param name="runtimeProperty">实体元数据</param>
-        public void CopyTo(IEntityPropertyMetadata runtimeProperty)
+        public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
                 throw new ArgumentNullException(nameof(runtimeProperty));

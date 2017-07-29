@@ -40,17 +40,20 @@ namespace Ixq.Web.Mvc
             IsRequired = PropertyInfo.HasAttribute<RequiredAttribute>();
             IsKey = PropertyInfo.HasAttribute<KeyAttribute>();
 
+
+            //TODO 下一版本将自动查找所有实现了 IPropertyMetadataAware 接口的属性执行OnPropertyMetadataCreating().
+
             var authorizationAttribute = PropertyInfo.GetAttribute<PropertyAuthorizationAttribute>();
-            authorizationAttribute?.CopyTo(this);
+            authorizationAttribute?.OnPropertyMetadataCreating(this);
 
             var hideAttribute = PropertyInfo.GetAttribute<HideAttribute>();
-            hideAttribute?.CopyTo(this);
+            hideAttribute?.OnPropertyMetadataCreating(this);
 
             var numberAttribute = PropertyInfo.GetAttribute<NumberAttribute>();
-            numberAttribute?.CopyTo(this);
+            numberAttribute?.OnPropertyMetadataCreating(this);
 
             var colModelAttribute = PropertyInfo.GetAttribute<ColModelAttribute>();
-            colModelAttribute?.CopyTo(this);
+            colModelAttribute?.OnPropertyMetadataCreating(this);
 
             var displayAttribute = PropertyInfo.GetAttribute<DisplayAttribute>();
             if (displayAttribute != null)
@@ -64,7 +67,7 @@ namespace Ixq.Web.Mvc
             var dataTypeAttribute = PropertyInfo.GetAttribute<UI.ComponentModel.DataAnnotations.DataTypeAttribute>();
             if (dataTypeAttribute != null)
             {
-                dataTypeAttribute.CopyTo(this);
+                dataTypeAttribute.OnPropertyMetadataCreating(this);
             }
             else
             {

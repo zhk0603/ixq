@@ -8,5 +8,7 @@ namespace Ixq.Demo.Entities
     {
         public string Name { get; set; }
         public virtual ProductType ParentType { get; set; }
+
+        public ProductType() { }
     }
 }
