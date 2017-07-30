@@ -12,7 +12,7 @@ namespace Ixq.Web.Mvc
     /// <summary>
     ///     实体元数据提供者。
     /// </summary>
-    public interface IEntityMetadataProvider : IScopeDependency
+    public interface IEntityMetadataProvider : ISingletonDependency
     {
         /// <summary>
         ///     获取实体元数据。

@@ -32,7 +32,6 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public IEntityMetadata GetEntityMetadata(Type type)
         {
-            // 根据用户的所属角色生成唯一key，系统所有拥有相同角色的用户，将获取相同的元数据。
             var key = type.FullName;
             IEntityMetadata runtimeEntity;
             if (EntityMetadatas.TryGetValue(type.FullName, out runtimeEntity))

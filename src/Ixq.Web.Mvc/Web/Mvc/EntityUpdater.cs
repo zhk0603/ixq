@@ -15,31 +15,29 @@ namespace Ixq.Web.Mvc
         where TDto : class, IDto<TEntity, TKey>, new()
 
     {
-        public EntityUpdater(IEntityMetadata metadata, IRepositoryBase<TEntity, TKey> repository, IEntityControllerData entityControllerData)
+        public EntityUpdater(IRepositoryBase<TEntity, TKey> repository, IEntityControllerData entityControllerData)
         {
-            if (metadata == null)
-                throw new ArgumentNullException(nameof(metadata));
+            if (entityControllerData == null)
+                throw new ArgumentNullException(nameof(entityControllerData));
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
 
-            this.EntityMetadata = metadata;
             this.Repository = repository;
             this.EntityControllerData = entityControllerData;
         }
 
         public IRepositoryBase<TEntity, TKey> Repository { get; }
-        public IEntityMetadata EntityMetadata { get; }
         public IEntityControllerData EntityControllerData { get; }
         public virtual IQueryable<TEntity> Query()
         {
             return Repository.GetAll();
         }
 
-        public PageViewModel CreatePageViewModel()
+        public virtual PageViewModel CreatePageViewModel()
         {
             var viewModel = new PageViewModel
             {
-                EntityMetadata = EntityMetadata,
+                EntityMetadata = EntityControllerData.EntityMetadata,
                 EntityType = typeof (TEntity),
                 DtoType = typeof (TDto)
             };
@@ -47,12 +45,12 @@ namespace Ixq.Web.Mvc
             return viewModel;
         }
 
-        public PageEditViewModel<TDto, TKey> CreatePageEditViewModel()
+        public virtual PageEditViewModel<TDto, TKey> CreatePageEditViewModel()
         {
             throw new NotImplementedException();
         }
 
-        public PageDataViewModel<TKey> CreatePageDataViewModel()
+        public virtual PageDataViewModel<TKey> CreatePageDataViewModel()
         {
             throw new NotImplementedException();
         }

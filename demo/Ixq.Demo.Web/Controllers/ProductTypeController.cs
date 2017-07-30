@@ -29,7 +29,7 @@ namespace Ixq.Demo.Web.Controllers
         // GET: ProductType
         public ActionResult Index()
         {
-            Logger.Debug("Debug");
+            Logger.Debug("Debug", new Exception("asdfasdfadsf"));
             Logger.Error("Error");
             Logger.Fatal("Fatal");
             Logger.Info("Info");

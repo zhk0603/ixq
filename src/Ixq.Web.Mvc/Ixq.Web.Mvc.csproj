@@ -114,7 +114,7 @@
     <Compile Include="Web\Mvc\BaseController.cs" />
     <Compile Include="Web\Mvc\EntityController.cs" />
     <Compile Include="Web\Mvc\EntityUpdater.cs" />
-    <Compile Include="Web\Mvc\IEntityController.cs" />
+    <Compile Include="Web\Mvc\IEntityControllerData.cs" />
     <Compile Include="Web\Mvc\IEntityMetadataProvider.cs" />
     <Compile Include="Web\Mvc\IEntityUpdater.cs" />
     <Compile Include="Web\Mvc\JsonResult.cs" />

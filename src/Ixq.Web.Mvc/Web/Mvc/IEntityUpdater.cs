@@ -18,7 +18,6 @@ namespace Ixq.Web.Mvc
         where TDto : class, IDto<TEntity, TKey>, new()
     {
         IRepositoryBase<TEntity, TKey> Repository { get; }
-        IEntityMetadata EntityMetadata { get; }
         IEntityControllerData EntityControllerData { get; }
         IQueryable<TEntity> Query();
         PageViewModel CreatePageViewModel();
