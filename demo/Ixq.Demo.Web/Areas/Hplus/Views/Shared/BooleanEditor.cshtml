@@ -1,13 +1,32 @@
 ﻿@model IPropertyEditModel
+@{
+    bool? value;
+    if (Model.Value is bool?)
+    {
+        value = (bool)Model.Value;
+    }
+    else if (Model.Value is bool?)
+    {
+        value = (bool?)Model.Value;
+    }
+    else if (Model.Value == null)
+    {
+        value = null;
+    }
+    else
+    {
+        throw new NotSupportedException("Boolean editor do not support type \"" + Model.Value.GetType() + "\".");
+    }
+}
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
         <div class="radio radio-inline">
-            <input id="@(Model.EntityProperty.PropertyInfo.Name)_true" type="radio" value="true" name="@Model.EntityProperty.PropertyInfo.Name" />
+            <input id="@(Model.EntityProperty.PropertyInfo.Name)_true" type="radio" value="true" name="@Model.EntityProperty.PropertyInfo.Name" @Html.Raw(value.HasValue ? value.Value ? "checked=\"checked\"" : "" : "") />
             <label for="@(Model.EntityProperty.PropertyInfo.Name)_true"> 是 </label>
         </div>
         <div class="radio radio-inline">
-            <input id="@(Model.EntityProperty.PropertyInfo.Name)_false" type="radio" value="false" name="@Model.EntityProperty.PropertyInfo.Name" />
+            <input id="@(Model.EntityProperty.PropertyInfo.Name)_false" type="radio" value="false" name="@Model.EntityProperty.PropertyInfo.Name" @Html.Raw(value.HasValue ? value.Value ? "" : "checked=\"checked\"" : "") />
             <label for="@(Model.EntityProperty.PropertyInfo.Name)_false"> 否 </label>
         </div>
     </div>

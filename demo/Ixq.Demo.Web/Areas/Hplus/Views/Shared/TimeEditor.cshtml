@@ -3,7 +3,7 @@
     <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
         <div class="input-group">
-            <input id="@Model.EntityProperty.PropertyInfo.Name" name="@Model.EntityProperty.PropertyInfo.Name" type="text" class="form-control" @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "") />
+            <input id="@Model.EntityProperty.PropertyInfo.Name" name="@Model.EntityProperty.PropertyInfo.Name" type="text" class="form-control" value="@Model.Value" @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "") />
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         </div>
     </div>

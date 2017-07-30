@@ -57,10 +57,15 @@ namespace Ixq.Demo.Domain.Dtos
         [Hide]
         public string Name4 { get; set; }
 
-        [Display(Name = "布尔类型测试")]
+        [Display(Name = "布尔类型测试[NullValue]")]
         [Required]
         [ColModel(Sortable = true)]
         public bool? BoolTest { get; set; }
+
+        [Display(Name = "布尔类型测试[不为空类型]")]
+        [Required]
+        [ColModel(Sortable = true)]
+        public bool BoolTestNotNull { get; set; }
 
         [Number(Max = 9999999, Min = 0)]
         [Display(Name = "Decimal 类型测试")]

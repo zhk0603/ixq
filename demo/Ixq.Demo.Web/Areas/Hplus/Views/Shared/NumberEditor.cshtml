@@ -4,6 +4,7 @@
     <div class="col-sm-8">
         <input name="@Model.EntityProperty.PropertyInfo.Name" type="text" class="form-control"
                @Html.Raw(Model.EntityProperty.Min != null ? $"min=\"{Model.EntityProperty.Min}\"" : "")
+               value="@Model.Value"
             @Html.Raw(Model.EntityProperty.Max != null ? $"max=\"{Model.EntityProperty.Max}\"" : "")
             @Html.Raw(Model.EntityProperty.Step != null ? $"step=\"{Model.EntityProperty.Step}\"" : "")
             @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "")>

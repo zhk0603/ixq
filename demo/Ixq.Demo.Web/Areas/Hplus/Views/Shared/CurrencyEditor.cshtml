@@ -2,10 +2,11 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
-        <input name="@Model.EntityProperty.PropertyInfo.Name" type="number" class="form-control" 
-            step="@Model.EntityProperty.Step"
+        <input name="@Model.EntityProperty.PropertyInfo.Name" type="number" class="form-control"
+               step="@Model.EntityProperty.Step"
+               value="@Model.Value"
                @Html.Raw(Model.EntityProperty.Min.HasValue ? $"min=\"{Model.EntityProperty.Min}\"" : "")
-            @Html.Raw(Model.EntityProperty.Max.HasValue ? $"max=\"{Model.EntityProperty.Max}\"" : "")
-            @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "")>
+               @Html.Raw(Model.EntityProperty.Max.HasValue ? $"max=\"{Model.EntityProperty.Max}\"" : "")
+               @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "")>
     </div>
 </div>

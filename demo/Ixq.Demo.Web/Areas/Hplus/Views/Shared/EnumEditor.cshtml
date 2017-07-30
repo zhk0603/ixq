@@ -1,19 +1,19 @@
 ﻿@using Ixq.Extensions
 @model IPropertyEditModel
 @{
-    var isHasFlags = Model.EntityProperty.PropertyType.HasAttribute<FlagsAttribute>();
-    var enumItem = TypeExtensions.GetEnumItems(Model.EntityProperty.PropertyType);
+    var hasFlags = Model.EntityProperty.PropertyType.HasAttribute<FlagsAttribute>();
+    var enumItem = Model.EntityProperty.PropertyType.GetEnumItems();
 }
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>
     <div class="col-sm-8">
-        @if (isHasFlags)
+        @if (hasFlags)
         {
             var i = 0;
             foreach (var item in enumItem)
             {
                 <div class="checkbox checkbox-inline">
-                    <input class="@(Model.EntityProperty.PropertyInfo.Name)" type="checkbox" id="@(Model.EntityProperty.PropertyInfo.Name)_@i" value="@item.Value" />
+                    <input class="@(Model.EntityProperty.PropertyInfo.Name)" type="checkbox" id="@(Model.EntityProperty.PropertyInfo.Name)_@i" @Html.Raw(((dynamic)Model.Value).HasFlag((Enum)Enum.ToObject(Model.EntityProperty.PropertyType, enumItem[i].Value)) ? " checked=\"checked\"" : "") value="@item.Value" />
                     <label for="@(Model.EntityProperty.PropertyInfo.Name)_@i"> @item.Name </label>
                 </div>
                 i++;
@@ -43,9 +43,16 @@
                 {
                     <option>请选择</option>
                 }
+                @{
+                    var selected = string.Empty;
+                }
                 @foreach (var item in enumItem)
                 {
-                    <option value="@item.Value">@item.Name</option>
+                    if (item.Value == (int) Model.Value)
+                    {
+                        selected = "selected";
+                    }
+                    <option @selected value="@item.Value">@item.Name</option>
                 }
             </select>
         }
