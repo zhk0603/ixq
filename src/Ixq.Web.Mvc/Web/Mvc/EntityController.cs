@@ -1,19 +1,13 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Ixq.Core.DependencyInjection.Extensions;
+using System.Web.Routing;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
-using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
-using Ixq.Data.Repository.Extensions;
 using Ixq.Extensions;
 using Ixq.UI;
-using Ixq.UI.ComponentModel;
 using Ixq.UI.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
 using Newtonsoft.Json;
@@ -46,12 +40,25 @@ namespace Ixq.Web.Mvc
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
 
-            PageSizeList = new[] { 15, 30, 60, 120 };
-            PageConfig = typeof(TDto).GetAttribute<PageAttribute>() ??
+            PageSizeList = new[] {15, 30, 60, 120};
+            PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
             Repository = repository;
-            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof(TDto));
-            EntityUpdater = new EntityUpdater<TEntity, TDto, TKey>(repository, this);
+            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof (TDto));
+        }
+
+        /// <summary>
+        ///     获取或设置实体服务商。
+        /// </summary>
+        public IEntityServicer<TEntity, TDto, TKey> EntityServicer { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体元数据提供者。
+        /// </summary>
+        public IEntityMetadataProvider EntityMetadataProvider
+        {
+            get { return _entityMetadataProvider ?? (_entityMetadataProvider = CreateEntityMetadataProvider()); }
+            set { _entityMetadataProvider = value; }
         }
 
         /// <summary>
@@ -68,32 +75,6 @@ namespace Ixq.Web.Mvc
         ///     获取或设置实体元数据。
         /// </summary>
         public IEntityMetadata EntityMetadata { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体更新器。
-        /// </summary>
-        public IEntityUpdater<TEntity, TDto, TKey> EntityUpdater { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体元数据提供者。
-        /// </summary>
-        public IEntityMetadataProvider EntityMetadataProvider
-        {
-            get { return _entityMetadataProvider ?? (_entityMetadataProvider = CreateEntityMetadataProvider()); }
-            set { _entityMetadataProvider = value; }
-        }
-
-        /// <summary>
-        ///     根据查询谓词提取仓储元素。
-        ///     所有需要获取数据的时候都应使用此方法，通过谓词可自定义过滤不需要的业务数据，
-        ///     所以不推荐通过<see cref="Repository" />获取数据。
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        public virtual IQueryable<TEntity> EntityQueryable(Expression<Func<TEntity, bool>> predicate = null)
-        {
-            return predicate == null ? Repository.GetAll() : Repository.Query(predicate);
-        }
 
         //public virtual async Task<ActionResult> Index(string orderField, string orderDirection,
         /// <summary>
@@ -131,16 +112,7 @@ namespace Ixq.Web.Mvc
                 OrderDirection = orderDirection
             };
 
-            var pageViewModel = new PageViewModel
-            {
-                EntityMetadata = EntityMetadata,
-                EntityType = typeof(TEntity),
-                DtoType = typeof(TDto),
-                Pagination = pagination,
-                PageConfig = PageConfig
-            };
-
-
+            var pageViewModel = EntityServicer.CreateIndexModel(pagination);
             return View(pageViewModel);
         }
 
@@ -170,19 +142,10 @@ namespace Ixq.Web.Mvc
                 ? PageConfig.IsDescending ? "desc" : "asc"
                 : orderDirection;
 
-            var queryable = orderDirection.Equals("asc")
-                ? EntityQueryable().OrderBy(orderField)
-                : EntityQueryable().OrderBy(orderField, ListSortDirection.Descending);
+            var pageListViewModel = await EntityServicer.CreateListModelAsync(pageSize, pageCurrent, orderField,
+                orderDirection);
 
-            var pageListViewModel = new PageDataViewModel<TKey>(queryable.Count(), pageCurrent, pageSize)
-            {
-                Items = await queryable
-                    .Skip((pageCurrent - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToDtoListAsync<TDto, TEntity, TKey>()
-            };
-
-            return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });
+            return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
         }
 
         /// <summary>
@@ -192,9 +155,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual async Task<ActionResult> Detail(string id)
         {
-            var entity = await Repository.SingleByIdAsync(ParseEntityKey(id));
-            var detailModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
-                EntityMetadata.DetailPropertyMetadatas);
+            var detailModel = await EntityServicer.CreateDetailModelAsync(id);
             return View(detailModel);
         }
 
@@ -205,16 +166,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual async Task<ActionResult> Edit(string id)
         {
-            var entity = string.IsNullOrWhiteSpace(id)
-                ? Repository.Create()
-                : await Repository.SingleByIdAsync(ParseEntityKey(id));
-
-            var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
-                EntityMetadata.EditPropertyMetadatas)
-            {
-                Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.Title ?? typeof(TEntity).Name)
-            };
-
+            var editModel = await EntityServicer.CreateEditModelAsync(id);
             return View(editModel);
         }
 
@@ -230,6 +182,7 @@ namespace Ixq.Web.Mvc
         {
             if (ModelState.IsValid)
             {
+                var res = await EntityServicer.UpdateEntity(model.MapTo());
             }
             return Json("");
         }
@@ -265,6 +218,12 @@ namespace Ixq.Web.Mvc
         public virtual ActionResult MultipleSelector()
         {
             return View();
+        }
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            EntityServicer = new EntityServicer<TEntity, TDto, TKey>(Repository, requestContext, this);
         }
 
         /// <summary>
@@ -335,15 +294,6 @@ namespace Ixq.Web.Mvc
         {
             return DependencyResolver.Current.GetService<IEntityMetadataProvider>() ??
                    new EntityMetadataProvider();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected virtual object ParseEntityKey(string value)
-        {
-            return RepositoryExtensions.ParseEntityKey<TKey>(value);
         }
     }
 }

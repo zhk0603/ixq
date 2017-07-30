@@ -10,9 +10,13 @@ namespace Ixq.Core.Entity
     public interface IEntityPropertyMetadata
     {
         /// <summary>
-        ///     获取或设置实体属性。
+        ///     获取实体属性名称。
         /// </summary>
-        PropertyInfo PropertyInfo { get; set; }
+        string PropertyName { get; }
+        /// <summary>
+        ///     获取实体属性。
+        /// </summary>
+        PropertyInfo PropertyInfo { get; }
 
         /// <summary>
         ///     获取实体属性类型。

@@ -18,11 +18,5 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         public ProductTypeController(IRepository<ProductType> repository) : base(repository)
         {
         }
-
-        public override IQueryable<ProductType> EntityQueryable(Expression<Func<ProductType, bool>> predicate = null)
-        {
-            if (predicate != null) return Repository.GetDbSet().Include("ParentType").Where(predicate);
-            return Repository.GetDbSet().Include("ParentType");
-        }
     }
 }

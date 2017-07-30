@@ -31,13 +31,19 @@ namespace Ixq.Web.Mvc
 
             PropertyInfo = propertyInfo;
             PropertyType = propertyInfo.PropertyType;
+            PropertyName = PropertyInfo.Name;
         }
 
 
         /// <summary>
+        ///     获取实体属性名称。
+        /// </summary>
+        public string PropertyName { get; }
+
+        /// <summary>
         ///     获取或设置实体属性。
         /// </summary>
-        public PropertyInfo PropertyInfo { get; set; }
+        public PropertyInfo PropertyInfo { get; }
         /// <summary>
         ///     获取实体属性类型。
         /// </summary>
