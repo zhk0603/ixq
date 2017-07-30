@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Web.Mvc;
+using Ixq.Core.Data;
 using Ixq.Core.Entity;
+using Ixq.Data.DataAnnotations;
 using Ixq.Extensions;
 
 namespace Ixq.Web.Mvc
@@ -31,6 +35,7 @@ namespace Ixq.Web.Mvc
 
             _entityType = entityType;
         }
+
         /// <summary>
         ///     获取或设置授权用户委托方法。
         /// </summary>
@@ -53,7 +58,12 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IEntityPropertyMetadata[] CreatePropertyMetadatas
         {
-            get { return PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
+            get
+            {
+                return
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(CurrentClaimsUser()))
+                        .ToArray();
+            }
         }
 
         /// <summary>
@@ -61,7 +71,11 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IEntityPropertyMetadata[] EditPropertyMetadatas
         {
-            get { return PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
+            get
+            {
+                return
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentClaimsUser())).ToArray();
+            }
         }
 
         /// <summary>
@@ -69,7 +83,12 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IEntityPropertyMetadata[] DetailPropertyMetadatas
         {
-            get { return PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
+            get
+            {
+                return
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(CurrentClaimsUser()))
+                        .ToArray();
+            }
         }
 
         /// <summary>
@@ -77,7 +96,10 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IEntityPropertyMetadata[] SearcherPropertyMetadatas
         {
-            get { return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(CurrentClaimsUser())).ToArray(); }
+            get
+            {
+                return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(CurrentClaimsUser())).ToArray();
+            }
         }
 
         /// <summary>
@@ -102,7 +124,8 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取实体所有的公共属性。
         /// </summary>
-        public PropertyInfo[] EntityPropertyInfos => _entityPropertys ?? (_entityPropertys = _entityType.GetProperties());
+        public PropertyInfo[] EntityPropertyInfos
+            => _entityPropertys ?? (_entityPropertys = _entityType.GetProperties());
 
         /// <summary>
         ///     获取属性元数据。
@@ -114,15 +137,7 @@ namespace Ixq.Web.Mvc
             foreach (var property in EntityPropertyInfos)
             {
                 if (!property.HasAttribute<DisplayAttribute>()) continue;
-
-                //var propertyAuthorizationAttribute = property.GetAttribute<PropertyAuthorizationAttribute>();
-                //if (propertyAuthorizationAttribute != null &&
-                //    !propertyAuthorizationAttribute.IsAuthorization(CurrentClaimsUser()))
-                //{
-                //    continue;
-                //}
-
-                var runtimeProperty = new EntityPropertyMetadata(property);
+                var runtimeProperty = GetEntityPropertyMetadata(property);
                 propertyMetadatas.Add(runtimeProperty);
             }
 
@@ -134,5 +149,61 @@ namespace Ixq.Web.Mvc
         /// </summary>
         /// <returns></returns>
         public delegate ClaimsPrincipal ClaimsUserDelegate();
+
+        protected virtual void ApplyPropertyMetadataAwareAttributes(IEnumerable<Attribute> attributes,
+            IEntityPropertyMetadata metadata)
+        {
+            foreach (var attribute in attributes.OfType<IPropertyMetadataAware>())
+            {
+                attribute.OnPropertyMetadataCreating(metadata);
+            }
+        }
+
+        protected virtual IEntityPropertyMetadata GetEntityPropertyMetadata(PropertyInfo property)
+        {
+            var attributes = property.GetCustomAttributes();
+            var propertyMtadata = CreateEntityPropertyMetadata(property, attributes);
+            ApplyPropertyMetadataAwareAttributes(attributes, propertyMtadata);
+            return propertyMtadata;
+        }
+
+        protected virtual IEntityPropertyMetadata CreateEntityPropertyMetadata(PropertyInfo property,
+            IEnumerable<Attribute> attributes)
+        {
+            var result = new EntityPropertyMetadata(property);
+            result.IsSearcher = attributes.Any(x => x is SearcherAttribute);
+            result.IsRequired = attributes.Any(x => x is RequiredAttribute);
+            result.IsKey = attributes.Any(x => x is KeyAttribute);
+            result.DataType = EntityExtensions.GetDataType(property);
+
+            DisplayAttribute display = attributes.OfType<DisplayAttribute>().FirstOrDefault();
+            string name = null;
+            if (display != null)
+            {
+                result.Description = display.GetDescription();
+                result.Order = display.GetOrder() ?? ModelMetadata.DefaultOrder;
+                result.GroupName = display.GetGroupName();
+                name = display.GetName();
+            }
+
+            if (name != null)
+            {
+                result.Name = name;
+            }
+            else
+            {
+                DisplayNameAttribute displayNameAttribute = attributes.OfType<DisplayNameAttribute>().FirstOrDefault();
+                if (displayNameAttribute != null)
+                {
+                    result.Name = displayNameAttribute.DisplayName;
+                }
+            }
+            if (string.IsNullOrEmpty(result.Name))
+            {
+                result.Name = property.Name;
+            }
+
+            return result;
+        }
     }
 }

@@ -254,5 +254,9 @@ namespace Ixq.Extensions
             }
             return result;
         }
+        public static ICustomTypeDescriptor GetTypeDescriptor(Type type)
+        {
+            return new AssociatedMetadataTypeTypeDescriptionProvider(type).GetTypeDescriptor(type);
+        }
     }
 }

@@ -31,49 +31,8 @@ namespace Ixq.Web.Mvc
 
             PropertyInfo = propertyInfo;
             PropertyType = propertyInfo.PropertyType;
-            Initialization();
         }
 
-        internal void Initialization()
-        {
-            IsSearcher = PropertyInfo.HasAttribute<SerializableAttribute>();
-            IsRequired = PropertyInfo.HasAttribute<RequiredAttribute>();
-            IsKey = PropertyInfo.HasAttribute<KeyAttribute>();
-
-
-            //TODO 下一版本将自动查找所有实现了 IPropertyMetadataAware 接口的属性执行OnPropertyMetadataCreating().
-
-            var authorizationAttribute = PropertyInfo.GetAttribute<PropertyAuthorizationAttribute>();
-            authorizationAttribute?.OnPropertyMetadataCreating(this);
-
-            var hideAttribute = PropertyInfo.GetAttribute<HideAttribute>();
-            hideAttribute?.OnPropertyMetadataCreating(this);
-
-            var numberAttribute = PropertyInfo.GetAttribute<NumberAttribute>();
-            numberAttribute?.OnPropertyMetadataCreating(this);
-
-            var colModelAttribute = PropertyInfo.GetAttribute<ColModelAttribute>();
-            colModelAttribute?.OnPropertyMetadataCreating(this);
-
-            var displayAttribute = PropertyInfo.GetAttribute<DisplayAttribute>();
-            if (displayAttribute != null)
-            {
-                Name = displayAttribute.GetName() ?? PropertyInfo.Name;
-                Order = displayAttribute.GetOrder();
-                Description = displayAttribute.GetDescription();
-                GroupName = displayAttribute.GetGroupName();
-            }
-
-            var dataTypeAttribute = PropertyInfo.GetAttribute<UI.ComponentModel.DataAnnotations.DataTypeAttribute>();
-            if (dataTypeAttribute != null)
-            {
-                dataTypeAttribute.OnPropertyMetadataCreating(this);
-            }
-            else
-            {
-                DataType = EntityExtensions.GetDataType(PropertyInfo);
-            }
-        }
 
         /// <summary>
         ///     获取或设置实体属性。

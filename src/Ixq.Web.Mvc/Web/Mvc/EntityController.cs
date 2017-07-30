@@ -26,7 +26,7 @@ namespace Ixq.Web.Mvc
     /// <typeparam name="TEntity">实体。</typeparam>
     /// <typeparam name="TDto">数据传输对象。</typeparam>
     /// <typeparam name="TKey">实体主键类型。</typeparam>
-    public abstract class EntityController<TEntity, TDto, TKey> : BaseController
+    public abstract class EntityController<TEntity, TDto, TKey> : BaseController, IEntityControllerData
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
     {
@@ -46,10 +46,12 @@ namespace Ixq.Web.Mvc
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
 
-            PageSizeList = new[] {15, 30, 60, 120};
-            PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
+            PageSizeList = new[] { 15, 30, 60, 120 };
+            PageConfig = typeof(TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
             Repository = repository;
+            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof(TDto));
+            EntityUpdater = new EntityUpdater<TEntity, TDto, TKey>(EntityMetadata, repository, this);
         }
 
         /// <summary>
@@ -66,6 +68,11 @@ namespace Ixq.Web.Mvc
         ///     获取或设置实体元数据。
         /// </summary>
         public IEntityMetadata EntityMetadata { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体更新器。
+        /// </summary>
+        public IEntityUpdater<TEntity, TDto, TKey> EntityUpdater { get; set; }
 
         /// <summary>
         ///     获取或设置实体元数据提供者。
@@ -127,8 +134,8 @@ namespace Ixq.Web.Mvc
             var pageViewModel = new PageViewModel
             {
                 EntityMetadata = EntityMetadata,
-                EntityType = typeof (TEntity),
-                DtoType = typeof (TDto),
+                EntityType = typeof(TEntity),
+                DtoType = typeof(TDto),
                 Pagination = pagination,
                 PageConfig = PageConfig
             };
@@ -170,12 +177,12 @@ namespace Ixq.Web.Mvc
             var pageListViewModel = new PageDataViewModel<TKey>(queryable.Count(), pageCurrent, pageSize)
             {
                 Items = await queryable
-                    .Skip((pageCurrent - 1)*pageSize)
+                    .Skip((pageCurrent - 1) * pageSize)
                     .Take(pageSize)
                     .ToDtoListAsync<TDto, TEntity, TKey>()
             };
 
-            return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
+            return Json(pageListViewModel, new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd HH:mm:ss" });
         }
 
         /// <summary>
@@ -205,7 +212,7 @@ namespace Ixq.Web.Mvc
             var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
                 EntityMetadata.EditPropertyMetadatas)
             {
-                Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.Title ?? typeof (TEntity).Name)
+                Title = (string.IsNullOrEmpty(id) ? "新增" : "编辑") + (PageConfig.Title ?? typeof(TEntity).Name)
             };
 
             return View(editModel);
@@ -265,7 +272,6 @@ namespace Ixq.Web.Mvc
         /// <param name="filterContext"></param>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof(TDto));
             base.OnActionExecuting(filterContext);
         }
         /// <summary>
