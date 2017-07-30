@@ -114,22 +114,37 @@ namespace Ixq.Web.Mvc
             return pageListViewModel;
         }
 
-        public virtual async Task<bool> UpdateEntity(TEntity entity)
+        public virtual async Task<bool> UpdateEntity(TEntity sourceEntity)
         {
+            var targetEntity = sourceEntity.Id == null ? Repository.Create() 
+                : await Repository.SingleByIdAsync(sourceEntity.Id);
+
             var editPropertyMetadata = EntityControllerData.EntityMetadata.EditPropertyMetadatas;
             foreach (var metadata in editPropertyMetadata)
             {
-                await UpdateProperty(entity, metadata);
+                await UpdateProperty(targetEntity, sourceEntity, metadata);
+            }
+            if (sourceEntity.Id == null)
+            {
+                await Repository.AddAsync(sourceEntity);
+            }
+            else
+            {
+                await Repository.EditAsync(targetEntity);
             }
             return true;
         }
 
-        public virtual Task<bool> UpdateProperty(TEntity entity, IEntityPropertyMetadata metadata)
+        public virtual Task<bool> UpdateProperty(TEntity targetEntity, TEntity sourceEntity,
+            IEntityPropertyMetadata metadata)
         {
-            throw new NotImplementedException();
+            var entityProperty = typeof (TEntity).GetProperty(metadata.PropertyName);
+            entityProperty.SetValue(targetEntity, entityProperty.GetValue(sourceEntity));
+            return Task.FromResult(true);
         }
 
         /// <summary>
+        ///     转换主键类型。
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

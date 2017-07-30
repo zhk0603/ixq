@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Core.Entity
 {
@@ -13,9 +9,15 @@ namespace Ixq.Core.Entity
     public interface IEntityMetadata
     {
         /// <summary>
+        ///     获取数据传输对象类型。
+        /// </summary>
+        Type DtoType { get; }
+
+        /// <summary>
         ///     获取实体所有公共的属性元数据。
         /// </summary>
         IEntityPropertyMetadata[] PropertyMetadatas { get; }
+
         /// <summary>
         ///     获取实体所有的公共属性。
         /// </summary>

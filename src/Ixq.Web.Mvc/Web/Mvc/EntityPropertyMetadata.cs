@@ -23,29 +23,30 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     初始化一个<see cref="EntityPropertyMetadata"/>对象。
         /// </summary>
-        /// <param name="propertyInfo"></param>
-        public EntityPropertyMetadata(PropertyInfo propertyInfo)
+        /// <param name="dtoPropertyInfo"></param>
+        public EntityPropertyMetadata(PropertyInfo dtoPropertyInfo)
         {
-            if (propertyInfo == null)
-                throw new ArgumentNullException(nameof(propertyInfo));
+            if (dtoPropertyInfo == null)
+                throw new ArgumentNullException(nameof(dtoPropertyInfo));
 
-            PropertyInfo = propertyInfo;
-            PropertyType = propertyInfo.PropertyType;
+            PropertyInfo = dtoPropertyInfo;
+            PropertyType = dtoPropertyInfo.PropertyType;
             PropertyName = PropertyInfo.Name;
         }
 
 
         /// <summary>
-        ///     获取实体属性名称。
+        ///     获取Dto属性名称。
         /// </summary>
         public string PropertyName { get; }
 
         /// <summary>
-        ///     获取或设置实体属性。
+        ///     获取Dto属性信息。
         /// </summary>
         public PropertyInfo PropertyInfo { get; }
+
         /// <summary>
-        ///     获取实体属性类型。
+        ///     获取Dto属性类型。
         /// </summary>
         public Type PropertyType { get; }
         /// <summary>

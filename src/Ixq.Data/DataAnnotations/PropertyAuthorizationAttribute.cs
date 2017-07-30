@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using Ixq.Core.Data;
+using Ixq.Core.DataAnnotations;
 using Ixq.Core.Entity;
 
 namespace Ixq.Data.DataAnnotations

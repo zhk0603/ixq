@@ -89,6 +89,31 @@ namespace Ixq.Data.Repository
             return Task.FromResult(GetAll());
         }
 
+        /// <summary>
+        ///     指定要包括在查询结果中的相关对象。
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> GetAllInclude(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            var res = GetAll();
+            foreach (var includePropertie in includeProperties)
+            {
+                res = res.Include(includePropertie);
+            }
+            return res;
+        }
+
+        /// <summary>
+        ///     指定要包括在查询结果中的相关对象。
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        public virtual Task<IQueryable<TEntity>> GetAllIncludeAsync(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            return Task.FromResult(GetAllInclude(includeProperties));
+        }
+
         public IQueryable<TEntity> GetAllBy(IEnumerable<IEntityPropertyMetadata> metadata)
         {
             throw new NotImplementedException();

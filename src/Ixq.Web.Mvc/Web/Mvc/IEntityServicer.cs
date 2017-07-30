@@ -29,7 +29,7 @@ namespace Ixq.Web.Mvc
             string orderDirection);
 
         Task<PageEditViewModel<TDto, TKey>> CreateDetailModelAsync(string id);
-        Task<bool> UpdateEntity(TEntity entity);
-        Task<bool> UpdateProperty(TEntity entity, IEntityPropertyMetadata metadata);
+        Task<bool> UpdateEntity(TEntity sourceEntity);
+        Task<bool> UpdateProperty(TEntity targetEntity, TEntity sourceEntity, IEntityPropertyMetadata metadata);
     }
 }

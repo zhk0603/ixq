@@ -78,6 +78,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -116,6 +117,10 @@
     <ProjectReference Include="..\..\src\Ixq.UI\Ixq.UI.csproj">
       <Project>{E51F018D-ACB2-4117-864B-7F02B9096112}</Project>
       <Name>Ixq.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Web.Mvc\Ixq.Web.Mvc.csproj">
+      <Project>{bdc5d24e-2d1b-4af3-ab42-a9ad3f0211d5}</Project>
+      <Name>Ixq.Web.Mvc</Name>
     </ProjectReference>
     <ProjectReference Include="..\ixq.Demo.DbContext\ixq.Demo.DbContext.csproj">
       <Project>{cb998c97-c593-424d-a366-88c412e477ff}</Project>

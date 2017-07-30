@@ -18,7 +18,23 @@
                 </div>
                 i++;
             }
-            <input type="hidden" id="@(Model.EntityProperty.PropertyInfo.Name)" name="@(Model.EntityProperty.PropertyInfo.Name)" value="@Model" />
+            <input type="hidden" id="@(Model.EntityProperty.PropertyInfo.Name)" name="@(Model.EntityProperty.PropertyInfo.Name)" value="@Model.Value.ToString()" />
+            @Html.Script(
+                @<script>
+                     $(document).ready(function() {
+                         var hideValue = $('#@(Model.EntityProperty.PropertyInfo.Name)');
+                         var checkBoxList = $('input[type="checkbox"][class="@(Model.EntityProperty.PropertyInfo.Name)"]');
+                         checkBoxList.change(function() {
+                             var num = 0;
+                             checkBoxList.each(function(index, element) {
+                                 if (element.checked)
+                                     num += new Number(element.value);
+                             });
+                             hideValue.val(num);
+                         });
+                     });
+                </script>
+            )
         }
         else
         {
@@ -35,14 +51,3 @@
         }
     </div>
 </div>
-@Html.Script(
-    @<script>
-        $(document).ready(function () {
-
-            $('input[type="checkbox"][class="@(Model.EntityProperty.PropertyInfo.Name)"]').change(function () {
-                console.log($(this).prop('checked'));
-            });
-
-        });
-    </script>
-    )

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Web.Mvc;
-using Ixq.Core.Data;
+using Ixq.Core.DataAnnotations;
 using Ixq.Core.Entity;
 using Ixq.Data.DataAnnotations;
 using Ixq.Extensions;
@@ -20,6 +20,7 @@ namespace Ixq.Web.Mvc
     public class EntityMetadata : IEntityMetadata
     {
         private static readonly object LockObj = new object();
+        private readonly Type _dtoType;
         private readonly Type _entityType;
         private PropertyInfo[] _entityPropertys;
         private IEntityPropertyMetadata[] _propertyMetadatas;
@@ -27,13 +28,13 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     初始化一个<see cref="EntityMetadata"/>。
         /// </summary>
-        /// <param name="entityType">实体类型。</param>
-        public EntityMetadata(Type entityType)
+        /// <param name="dtoType">数据传输对象类型。</param>
+        public EntityMetadata(Type dtoType)
         {
-            if (entityType == null)
-                throw new ArgumentNullException(nameof(entityType));
+            if (dtoType == null)
+                throw new ArgumentNullException(nameof(dtoType));
 
-            _entityType = entityType;
+            _dtoType = dtoType;
         }
 
         /// <summary>
@@ -103,6 +104,14 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
+        ///     获取数据传输对象类型。
+        /// </summary>
+        public Type DtoType
+        {
+            get { return _dtoType; }
+        }
+
+        /// <summary>
         ///     获取实体所有公共的属性元数据。
         /// </summary>
         public IEntityPropertyMetadata[] PropertyMetadatas
@@ -125,7 +134,7 @@ namespace Ixq.Web.Mvc
         ///     获取实体所有的公共属性。
         /// </summary>
         public PropertyInfo[] EntityPropertyInfos
-            => _entityPropertys ?? (_entityPropertys = _entityType.GetProperties());
+            => _entityPropertys ?? (_entityPropertys = _dtoType.GetProperties());
 
         /// <summary>
         ///     获取属性元数据。
@@ -170,11 +179,13 @@ namespace Ixq.Web.Mvc
         protected virtual IEntityPropertyMetadata CreateEntityPropertyMetadata(PropertyInfo property,
             IEnumerable<Attribute> attributes)
         {
-            var result = new EntityPropertyMetadata(property);
-            result.IsSearcher = attributes.Any(x => x is SearcherAttribute);
-            result.IsRequired = attributes.Any(x => x is RequiredAttribute);
-            result.IsKey = attributes.Any(x => x is KeyAttribute);
-            result.DataType = EntityExtensions.GetDataType(property);
+            var result = new EntityPropertyMetadata(property)
+            {
+                IsSearcher = attributes.Any(x => x is SearcherAttribute),
+                IsRequired = attributes.Any(x => x is RequiredAttribute),
+                IsKey = attributes.Any(x => x is KeyAttribute),
+                DataType = EntityExtensions.GetDataType(property)
+            };
 
             DisplayAttribute display = attributes.OfType<DisplayAttribute>().FirstOrDefault();
             string name = null;

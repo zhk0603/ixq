@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Entity;
 
-namespace Ixq.Core.Data
+namespace Ixq.Core.DataAnnotations
 {
     /// <summary>
     ///     定义用于描述实体属性的Attribute，需要继承此接口。

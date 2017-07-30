@@ -6,8 +6,10 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Ixq.Core.Security;
+using Ixq.Extensions;
 using Microsoft.AspNet.Identity;
 using Ixq.Security.Identity;
 
@@ -30,17 +32,23 @@ namespace Ixq.Web.Mvc
         /// </summary>
         /// <param name="type">实体类型。</param>
         /// <returns></returns>
-        public IEntityMetadata GetEntityMetadata(Type type)
+        public virtual IEntityMetadata GetEntityMetadata(Type type)
         {
-            var key = type.FullName;
-            IEntityMetadata runtimeEntity;
-            if (EntityMetadatas.TryGetValue(type.FullName, out runtimeEntity))
+            var dtoInterfaceType = typeof(IDto<,>);
+            if (!dtoInterfaceType.IsGenericAssignableFrom(type))
             {
-                return runtimeEntity;
+                throw new ArgumentException($"类型[{type.FullName}]，不实现接口[{dtoInterfaceType.FullName}]", nameof(type));
             }
-            runtimeEntity = new EntityMetadata(type);
-            EntityMetadatas[key] = runtimeEntity;
-            return runtimeEntity;
+
+            var key = type.FullName;
+            IEntityMetadata metadata;
+            if (EntityMetadatas.TryGetValue(type.FullName, out metadata))
+            {
+                return metadata;
+            }
+            metadata = new EntityMetadata(type);
+            EntityMetadatas[key] = metadata;
+            return metadata;
         }
 
         /// <summary>
@@ -48,7 +56,7 @@ namespace Ixq.Web.Mvc
         /// </summary>
         /// <typeparam name="T">实体类型。</typeparam>
         /// <returns></returns>
-        public IEntityMetadata GetEntityMetadata<T>()
+        public virtual IEntityMetadata GetEntityMetadata<T>()
         {
             var type = typeof (T);
             return GetEntityMetadata(type);

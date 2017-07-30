@@ -173,6 +173,19 @@ namespace Ixq.Core.Repository
         /// <returns></returns>
         Task<IQueryable<TEntity>> GetAllAsync();
 
+        /// <summary>
+        ///     指定要包括在查询结果中的相关对象。
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> GetAllInclude(params Expression<Func<TEntity, object>>[] includeProperties);
+
+        /// <summary>
+        ///     指定要包括在查询结果中的相关对象。
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        Task<IQueryable<TEntity>> GetAllIncludeAsync(params Expression<Func<TEntity, object>>[] includeProperties);
         IQueryable<TEntity> GetAllBy(IEnumerable<IEntityPropertyMetadata> metadata);
         Task<IQueryable<TEntity>> GetAllByAsync(IEnumerable<IEntityPropertyMetadata> metadata);
 

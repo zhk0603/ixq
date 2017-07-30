@@ -10,6 +10,8 @@ using Ixq.Demo.Domain.Dtos;
 using Ixq.Demo.Entities;
 using Ixq.Web.Mvc;
 using Ixq.Data.Repository.Extensions;
+using System.Web.Routing;
+using Ixq.Demo.Domain.ApplicationService;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
@@ -17,6 +19,11 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
     {
         public ProductTypeController(IRepository<ProductType> repository) : base(repository)
         {
+        }
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            this.EntityServicer = new ProductTypeService(Repository, this.Request.RequestContext, this);
         }
     }
 }
