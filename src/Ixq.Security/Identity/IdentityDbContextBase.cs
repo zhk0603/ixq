@@ -277,9 +277,9 @@ namespace Ixq.Security.Identity
             // 禁用 级联删除
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             // 移除 表名复数
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             // 软删除过滤器，通过仓储接口将不能查询到，但直接执行SQL查询语句，仍可查询。
-            //modelBuilder.Filter("SoftDelete", (ISoftDeleteSpecification d) => d.IsDeleted, false);
+            modelBuilder.Filter("SoftDelete", (ISoftDeleteSpecification d) => d.IsDeleted, false);
         }
     }
 }

@@ -397,7 +397,7 @@ namespace Ixq.Data.Repository
                 where
                     (!meta.MetadataProperties.Contains("Type") || meta.MetadataProperties["Type"].ToString() == "Tables") &&
                     meta.ElementType.Name == className
-                select meta.Name).FirstOrDefault();
+                select meta.Table).FirstOrDefault();
 
             return entityTableName;
         }
