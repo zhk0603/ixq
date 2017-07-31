@@ -136,21 +136,24 @@
                 gridComplete : function() {
                     var ids = jQuery("#@tableId").jqGrid('getDataIDs');
                     for ( var i = 0; i < ids.length; i++) {
-                        var editHtml = "<div class=\"btn-group btn-group-sm\">"+
-                            "<button class=\"btn btn-primary\" type=\"button\" onclick=\"Edit@(Model.EntityType.Name)('"+ids[i]+"')\">"+
-                            "<i class=\"fa fa-pencil\"></i>编辑"+
-                            "</button>";
+                        //展开按钮
+                        var openHtml="<div class=\"ibox-tools\">"+
+                            "<a data-toggle=\"dropdown\" href=\"#\" class=\"dropdown-toggle\" aria-expanded=\"false\">"+
+                            "<i class=\"fa fa-toggle-down\"></i>"+
+                            "</a>"+
+                            "<  ul class=\"dropdown-menu dropdown-user\">";
+                        var editHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Edit@(Model.EntityType.Name)('"+ids[i]+"')\">"+
+                            "<i class=\"fa fa-pencil\"></i>编辑</a></li>";
 
-                        var detailHtml = "<button class=\"btn btn-warning\" type=\"button\" onclick=\"Detail@(Model.EntityType.Name)('"+ids[i]+"')\">"+
-                            "<i class=\"fa fa-file-o\"></i>详情"+
-                            "</button>";
+                        var detailHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Detail@(Model.EntityType.Name)('"+ids[i]+"')\">"+
+                            "<i class=\"fa fa-file-o\"></i>详情</a></li>";
 
-                        var delHtml = "<button class=\"btn btn-danger\" type=\"button\" onclick=\"Delete@(Model.EntityType.Name)('"+ids[i]+"')\">"+
-                            "<i class=\"fa fa-remove\"></i>删除"+
-                            "</button></div>";
+                        var delHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Delete@(Model.EntityType.Name)('"+ids[i]+"')\">"+
+                            "<i class=\"fa fa-remove\"></i>删除</a></li></ul></div>";
+
                         jQuery("#@tableId").jqGrid('setRowData', ids[i],
                             {
-                                @(Model.EntityType.Name)_options : editHtml + detailHtml + delHtml
+                                @(Model.EntityType.Name)_options : openHtml + editHtml + detailHtml + delHtml
                             });
                     }
                 },
