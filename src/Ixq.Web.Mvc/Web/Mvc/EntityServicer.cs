@@ -116,15 +116,21 @@ namespace Ixq.Web.Mvc
 
         public virtual async Task<bool> UpdateEntity(TEntity sourceEntity)
         {
-            var targetEntity = sourceEntity.Id == null ? Repository.Create() 
-                : await Repository.SingleByIdAsync(sourceEntity.Id);
+            var addAction = false;
+            var targetEntity =  await Repository.SingleByIdAsync(sourceEntity.Id);
+            if (targetEntity == null)
+            {
+                targetEntity = Repository.Create();
+                addAction = true;
+            }
 
             var editPropertyMetadata = EntityControllerData.EntityMetadata.EditPropertyMetadatas;
             foreach (var metadata in editPropertyMetadata)
             {
                 await UpdateProperty(targetEntity, sourceEntity, metadata);
             }
-            if (sourceEntity.Id == null)
+
+            if (addAction)
             {
                 await Repository.AddAsync(sourceEntity);
             }
