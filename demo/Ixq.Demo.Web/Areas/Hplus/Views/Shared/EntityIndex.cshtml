@@ -15,6 +15,26 @@
             .ui-jqgrid tr.jqgrow td:last-child > .ibox-tools {
                 float: none;
             }
+
+/*表格溢出隐藏 样式调整*/
+    .ui-jqgrid{
+        overflow:inherit;
+    }
+    .table-responsive{
+        overflow:inherit;
+    }
+    .ui-jqgrid .ui-jqgrid-bdiv{
+        overflow:inherit;
+    }
+
+    /*按钮样式*/
+    .btn-white{
+        border-radius:4px!important;
+    }
+    .dropdown-menu{
+        border-radius:4px!important;
+        min-width:110px;
+    }
     </style>
 }
 @RenderSection("pageStyles", false)
