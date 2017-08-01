@@ -8,12 +8,13 @@
     <link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet" />
     <style>
         /*数据-操作栏 样式调整*/
-        .ui-jqgrid tr.jqgrow td:last-child{
-            overflow:inherit;
+        .ui-jqgrid tr.jqgrow td:last-child {
+            overflow: inherit;
         }
-        .ui-jqgrid tr.jqgrow td:last-child>.ibox-tools{
-            float:none;
-        }
+
+            .ui-jqgrid tr.jqgrow td:last-child > .ibox-tools {
+                float: none;
+            }
     </style>
 }
 @RenderSection("pageStyles", false)
@@ -146,23 +147,21 @@
                     var ids = jQuery("#@tableId").jqGrid('getDataIDs');
                     for ( var i = 0; i < ids.length; i++) {
                         //展开按钮
-                        var openHtml="<div class=\"ibox-tools\">"+
-                            "<a data-toggle=\"dropdown\" href=\"#\" class=\"dropdown-toggle\" aria-expanded=\"false\">"+
-                            "<i class=\"fa fa-toggle-down\"></i>"+
-                            "</a>"+
-                            "<ul class=\"dropdown-menu dropdown-user\">";
-                        var editHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Edit@(Model.EntityType.Name)('"+ids[i]+"')\">"+
-                            "<i class=\"fa fa-pencil\"></i>编辑</a></li>";
+                        var editHtml = "<div class=\"input-group-btn\">"+
+                                 "<button tabindex=\"-1\" class=\"btn btn-white\" type=\"button\" onclick=\"Edit@(Model.EntityType.Name)('"+ids[i]+"')\">编辑</button>";
 
-                        var detailHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Detail@(Model.EntityType.Name)('"+ids[i]+"')\">"+
-                            "<i class=\"fa fa-file-o\"></i>详情</a></li>";
+                        var detailHtml = "<button data-toggle=\"dropdown\" class=\"btn btn-white dropdown-toggle\" type=\"button\" aria-expanded=\"true\"><span class=\"caret\"></span>"+
+                                 "</button><ul class=\"dropdown-menu pull-right\">"+
+                                 "<li><a href=\"javascript:void(0);\" onclick=\"Detail@(Model.EntityType.Name)('"+ids[i]+"')\">"+
+                                 "<i class=\"fa fa-file-o\"></i>详情</a></li>";
 
                         var delHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Delete@(Model.EntityType.Name)('"+ids[i]+"')\">"+
-                            "<i class=\"fa fa-remove\"></i>删除</a></li></ul></div>";
+                                 "<i class=\"fa fa-remove\"></i>删除</a></li></ul></div>"+
+                                 "</ul></div>";
 
                         jQuery("#@tableId").jqGrid('setRowData', ids[i],
                             {
-                                @(Model.EntityType.Name)_options : openHtml + editHtml + detailHtml + delHtml
+                                @(Model.EntityType.Name)_options :editHtml+detailHtml+delHtml
                             });
                     }
                 },
