@@ -6,6 +6,15 @@
 }
 @section styles{
     <link href="~/Content/Hplus/css/plugins/jqgrid/ui.jqgrid.css" rel="stylesheet" />
+    <style>
+        /*数据-操作栏 样式调整*/
+        .ui-jqgrid tr.jqgrow td:last-child{
+            overflow:inherit;
+        }
+        .ui-jqgrid tr.jqgrow td:last-child>.ibox-tools{
+            float:none;
+        }
+    </style>
 }
 @RenderSection("pageStyles", false)
 <div class="wrapper wrapper-content animated fadeIn">
@@ -76,7 +85,7 @@
         var colNames = @Html.Raw(Model.GetColNames());
         var colModel = @Html.Raw(Model.GetColModel());
         colNames.push("操作");
-        colModel.push({name : '@(Model.EntityType.Name)_options', width : 200, align : 'center', sortable: false});
+        colModel.push({name : '@(Model.EntityType.Name)_options', width : 60, align : 'center', sortable: false});
         function Insert@(Model.EntityType.Name)() {
             layer.open({
                 title: '新增 @pageTitle',
@@ -141,7 +150,7 @@
                             "<a data-toggle=\"dropdown\" href=\"#\" class=\"dropdown-toggle\" aria-expanded=\"false\">"+
                             "<i class=\"fa fa-toggle-down\"></i>"+
                             "</a>"+
-                            "<  ul class=\"dropdown-menu dropdown-user\">";
+                            "<ul class=\"dropdown-menu dropdown-user\">";
                         var editHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Edit@(Model.EntityType.Name)('"+ids[i]+"')\">"+
                             "<i class=\"fa fa-pencil\"></i>编辑</a></li>";
 
