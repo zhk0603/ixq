@@ -14,13 +14,13 @@ using Ixq.UI.Controls;
 
 namespace Ixq.Web.Mvc
 {
-    public class EntityServicer<TEntity, TDto, TKey> : IEntityServicer<TEntity, TDto, TKey>
+    public class EntityService<TEntity, TDto, TKey> : IEntityService<TEntity, TDto, TKey>
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
 
     {
 
-        public EntityServicer(IRepositoryBase<TEntity, TKey> repository, RequestContext requestContxt,
+        public EntityService(IRepositoryBase<TEntity, TKey> repository, RequestContext requestContxt,
             IEntityControllerData entityControllerData)
         {
             if (entityControllerData == null)
@@ -62,8 +62,8 @@ namespace Ixq.Web.Mvc
             var viewModel = new PageViewModel
             {
                 EntityMetadata = EntityControllerData.EntityMetadata,
-                EntityType = typeof (TEntity),
-                DtoType = typeof (TDto),
+                EntityType = typeof(TEntity),
+                DtoType = typeof(TDto),
                 PageConfig = EntityControllerData.PageConfig,
                 Pagination = pagination
             };
@@ -75,14 +75,23 @@ namespace Ixq.Web.Mvc
             var entity = string.IsNullOrWhiteSpace(id)
                 ? Repository.Create()
                 : await Repository.SingleByIdAsync(ParseEntityKey(id));
+            return await CreateEditModelAsync(entity);
+        }
+        public virtual Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TEntity model)
+        {
+            return CreateEditModelAsync(model.MapToDto<TDto, TKey>());
+        }
 
-            var editModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
-                EntityControllerData.EntityMetadata.EditPropertyMetadatas)
+        public virtual async Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TDto model)
+        {
+            var editModel = new PageEditViewModel<TDto, TKey>(model,
+                            EntityControllerData.EntityMetadata.EditPropertyMetadatas)
             {
                 Title =
-                    (string.IsNullOrEmpty(id) ? "新增" : "编辑") +
-                    (EntityControllerData.PageConfig.Title ?? typeof (TEntity).Name)
+                    ((await Repository.SingleByIdAsync(model.Id)) == null ? "新增" : "编辑") +
+                    (EntityControllerData.PageConfig.Title ?? typeof(TEntity).Name)
             };
+
             return editModel;
         }
 
@@ -107,7 +116,7 @@ namespace Ixq.Web.Mvc
             var pageListViewModel = new PageDataViewModel<TKey>(queryable.Count(), pageCurrent, pageSize)
             {
                 Items = await queryable
-                    .Skip((pageCurrent - 1)*pageSize)
+                    .Skip((pageCurrent - 1) * pageSize)
                     .Take(pageSize)
                     .ToDtoListAsync<TDto, TEntity, TKey>()
             };
@@ -117,7 +126,7 @@ namespace Ixq.Web.Mvc
         public virtual async Task<bool> UpdateEntity(TEntity sourceEntity)
         {
             var addAction = false;
-            var targetEntity =  await Repository.SingleByIdAsync(sourceEntity.Id);
+            var targetEntity = await Repository.SingleByIdAsync(sourceEntity.Id);
             if (targetEntity == null)
             {
                 targetEntity = Repository.Create();
@@ -144,7 +153,7 @@ namespace Ixq.Web.Mvc
         public virtual Task<bool> UpdateProperty(TEntity targetEntity, TEntity sourceEntity,
             IEntityPropertyMetadata metadata)
         {
-            var entityProperty = typeof (TEntity).GetProperty(metadata.PropertyName);
+            var entityProperty = typeof(TEntity).GetProperty(metadata.PropertyName);
             entityProperty.SetValue(targetEntity, entityProperty.GetValue(sourceEntity));
             return Task.FromResult(true);
         }

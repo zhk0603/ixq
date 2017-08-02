@@ -10,7 +10,7 @@ using Ixq.Data.Repository.Extensions;
 
 namespace Ixq.Demo.Domain.ApplicationService
 {
-    public class ProductTypeService : EntityServicer<ProductType, ProductTypeDot, Guid>, IProductTypeService
+    public class ProductTypeService : EntityService<ProductType, ProductTypeDot, Guid>, IProductTypeService
     {
         public ProductTypeService(IRepositoryBase<ProductType, Guid> repository, RequestContext requestContxt,
             IEntityControllerData entityControllerData) :

@@ -24,5 +24,6 @@ namespace Ixq.UI.ComponentModel
         ///     获取或设置实体属性元数据。
         /// </summary>
         IEntityPropertyMetadata[] PropertyMenberInfo { get; set; }
+
     }
 }

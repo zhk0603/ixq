@@ -2,6 +2,13 @@
 using System.Web.Mvc;
 using Ixq.Core.Repository;
 using Ixq.Demo.Entities;
+using System.Collections.Generic;
+using System.Collections;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Text;
+using System.Linq;
+using System.IO;
 
 namespace Ixq.Demo.Web.Controllers
 {
@@ -27,6 +34,56 @@ namespace Ixq.Demo.Web.Controllers
         {
             throw new Exception("Exp");
             return View();
+        }
+
+        public ActionResult Youtube(string id = "ThIBNB5kUsU")
+        {
+            var res = getVideoInfo(id);
+            return View();
+        }
+
+
+        private static List<Hashtable> getVideoInfo(string vid)
+        {
+            List<Hashtable> infoList = new List<Hashtable>();//信息列表
+            //下载信息文件
+            string infoURL = "http://www.youtube.com/get_video_info?video_id=" + vid;
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(infoURL);
+            Stream ns = request.GetResponse().GetResponseStream();
+            byte[] nbytes = new byte[512];
+            int nReadSize;
+            string info = "";
+            while (true)
+            {
+                nReadSize = ns.Read(nbytes, 0, 512);
+                if (nReadSize == 0) break;
+                //转成字符串
+                info += Encoding.Default.GetString(nbytes);
+            }
+            //提取出视频关键信息部分
+            string regStr = "&url_encoded_fmt_stream_map=(.+?)&";
+            Regex reg = new Regex(regStr);
+            Match match = reg.Match(info);
+            info = match.Groups[1].Value;
+            //解码
+            info = Uri.UnescapeDataString(info);
+
+            string[] parts = info.Split(',').ToArray();//每种清晰度的参数
+            Hashtable ht;//存放一种清晰度的参数键值对
+            for (int i = 0; i < parts.Length; i++)
+            {//对于每一种清晰度
+                string[] part_info = parts[i].Split('&').ToArray();//一种清晰度的参数
+                ht = new Hashtable();//新建一个HashTable
+                for (int j = 0; j < part_info.Length; j++)
+                {
+                    string[] pair = part_info[j].Split('=').ToArray();//键值对,itag,quality, type ,fallback_host,url
+                    ht.Add(pair[0], Uri.UnescapeDataString(pair[1]));
+                }
+                //加入列表
+                infoList.Add(ht);
+            }
+
+            return infoList;
         }
     }
 }

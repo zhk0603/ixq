@@ -35,7 +35,7 @@ namespace Ixq.Demo.Entities
         public TestEnum2 TestEnum2 { get; set; }
 
         public TimeSpan TestTimeSpan { get; set; }
-            
+
     }
 
     public enum TestEnum1
@@ -47,10 +47,10 @@ namespace Ixq.Demo.Entities
     [Flags]
     public enum TestEnum2
     {
-        C,
-        CPlus,
-        Java,
-        CShapr,
-        Php    
+        C = 1 << 0,
+        CPlus = 1 << 1,
+        Java = 1 << 2,
+        CShapr = 1 << 3,
+        Php = 1 << 4
     }
 }

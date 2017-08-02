@@ -18,7 +18,7 @@
                 </div>
                 i++;
             }
-            <input type="hidden" id="@(Model.EntityProperty.PropertyInfo.Name)" name="@(Model.EntityProperty.PropertyInfo.Name)" value="@Model.Value.ToString()" />
+            <input type="hidden" id="@(Model.EntityProperty.PropertyInfo.Name)" name="@(Model.EntityProperty.PropertyInfo.Name)" value="@((int)Model.Value)" />
             @Html.Script(
                 @<script>
                      $(document).ready(function() {
@@ -38,7 +38,7 @@
         }
         else
         {
-            <select class="form-control" name="@Model.EntityProperty.PropertyInfo.Name" @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "")>
+            <select class="form-control" name="@Model.EntityProperty.PropertyInfo.Name" @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"required\"" : "")>
                 @if (!Model.EntityProperty.IsRequired)
                 {
                     <option>请选择</option>
@@ -51,6 +51,10 @@
                     if (item.Value == (int) Model.Value)
                     {
                         selected = "selected";
+                    }
+                    else
+                    {
+                        selected = "";
                     }
                     <option @selected value="@item.Value">@item.Name</option>
                 }

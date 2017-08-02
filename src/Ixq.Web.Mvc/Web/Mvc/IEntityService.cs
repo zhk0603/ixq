@@ -10,9 +10,9 @@ using Ixq.UI.Controls;
 namespace Ixq.Web.Mvc
 {
     /// <summary>
-    ///     实体服务商。
+    ///     实体服务接口。
     /// </summary>
-    public interface IEntityServicer<TEntity, TDto, TKey>
+    public interface IEntityService<TEntity, TDto, TKey>
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
     {
@@ -24,6 +24,8 @@ namespace Ixq.Web.Mvc
         IQueryable<TEntity> QueryForSelector();
         PageViewModel CreateIndexModel(Pagination pagination);
         Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(string id);
+        Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TEntity model);
+        Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TDto model);
 
         Task<PageDataViewModel<TKey>> CreateListModelAsync(int pageSize, int pageCurrent, string orderField,
             string orderDirection);

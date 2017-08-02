@@ -113,10 +113,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Mvc\BaseController.cs" />
     <Compile Include="Web\Mvc\EntityController.cs" />
-    <Compile Include="Web\Mvc\EntityServicer.cs" />
+    <Compile Include="Web\Mvc\EntityService.cs" />
     <Compile Include="Web\Mvc\IEntityControllerData.cs" />
     <Compile Include="Web\Mvc\IEntityMetadataProvider.cs" />
-    <Compile Include="Web\Mvc\IEntityServicer.cs" />
+    <Compile Include="Web\Mvc\IEntityService.cs" />
     <Compile Include="Web\Mvc\JsonResult.cs" />
     <Compile Include="Web\Mvc\EntityMetadataProvider.cs" />
     <Compile Include="Web\Mvc\RuntimeLogHandleErrorAttribute.cs" />
@@ -125,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="IxqFramework.pfx" />
     <None Include="packages.config" />
   </ItemGroup>

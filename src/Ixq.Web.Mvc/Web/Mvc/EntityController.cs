@@ -48,9 +48,9 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     获取或设置实体服务商。
+        ///     获取或设置实体服务。
         /// </summary>
-        public IEntityServicer<TEntity, TDto, TKey> EntityServicer { get; set; }
+        public IEntityService<TEntity, TDto, TKey> EntityServicer { get; set; }
 
         /// <summary>
         ///     获取或设置实体元数据提供者。
@@ -76,7 +76,6 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IEntityMetadata EntityMetadata { get; set; }
 
-        //public virtual async Task<ActionResult> Index(string orderField, string orderDirection,
         /// <summary>
         ///     Index 操作。
         /// </summary>
@@ -184,8 +183,13 @@ namespace Ixq.Web.Mvc
             if (ModelState.IsValid)
             {
                 var res = await EntityServicer.UpdateEntity(model.MapTo());
+                return Json("");
             }
-            return Json("");
+            else
+            {
+                var editModel = await EntityServicer.CreateEditModelAsync(model);
+                return View(editModel);
+            }
         }
 
         /// <summary>
@@ -224,7 +228,7 @@ namespace Ixq.Web.Mvc
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            EntityServicer = new EntityServicer<TEntity, TDto, TKey>(Repository, requestContext, this);
+            EntityServicer = new EntityService<TEntity, TDto, TKey>(Repository, requestContext, this);
         }
 
         /// <summary>
