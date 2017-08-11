@@ -121,8 +121,16 @@
             });
         }
         function Detail@(Model.EntityType.Name)(id){
-            window.location.href='@Url.Action(Model.PageConfig.DetailAction)/'+id;
-            @*window.location.href='@Html.Raw(Model.PageConfig.DetailAction)/'+id;*@
+
+            layer.open({
+                title: '@pageTitle 详情',
+                type: 2,
+                area: ['800px', '600px'],
+                maxmin: true,
+                resize: true,
+                content: '@Url.Action(Model.PageConfig.DetailAction)/'+id
+            });
+            //window.location.href='@Url.Action(Model.PageConfig.DetailAction)/'+id;
         };
         function Edit@(Model.EntityType.Name)(id) {
             layer.open({
