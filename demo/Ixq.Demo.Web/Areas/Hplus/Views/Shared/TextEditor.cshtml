@@ -19,5 +19,6 @@
                @Html.Raw(maxLen == 0 ? "" : $"maxlength=\"{maxLen}\"")
                @Html.Raw(Model.EntityProperty.IsRequired ? "required=\"\"" : "")
                value="@Model.Value" />
+        @Html.ValidationMessage(Model.EntityProperty.PropertyName,new { @class= "error" })
     </div>
 </div>

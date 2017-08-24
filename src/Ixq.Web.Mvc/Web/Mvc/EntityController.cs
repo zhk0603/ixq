@@ -179,7 +179,10 @@ namespace Ixq.Web.Mvc
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Edit(TDto model)
         {
-            var a = this.Request["TestEnum2"];
+            //添加测试错误状态
+            ModelState.AddModelError("Id", "adsf");
+            ModelState.AddModelError("Name", "adsf");
+
             if (ModelState.IsValid)
             {
                 var res = await EntityServicer.UpdateEntity(model.MapTo());

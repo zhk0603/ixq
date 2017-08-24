@@ -65,6 +65,29 @@ namespace Ixq.UI
 
             return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Editor", model);
         }
+
+        public static MvcHtmlString PropertyValidationMessage(this HtmlHelper helper, string modelName,
+            object htmlAttributes)
+        {
+            modelName = helper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(modelName);
+            if (!helper.ViewData.ModelState.ContainsKey(modelName))
+            {
+                return null;
+            }
+
+            ModelState modelState = helper.ViewData.ModelState[modelName];
+            ModelErrorCollection modelErrors = (modelState == null) ? null : modelState.Errors;
+            ModelError modelError = (((modelErrors == null) || (modelErrors.Count == 0)) ? null : modelErrors.FirstOrDefault(m => !String.IsNullOrEmpty(m.ErrorMessage)) ?? modelErrors[0]);
+            if (modelError == null)
+            {
+                return null;
+            }
+
+
+
+            return MvcHtmlString.Empty;
+        }
+
         /// <summary>
         ///     
         /// </summary>
