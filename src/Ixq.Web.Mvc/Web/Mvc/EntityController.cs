@@ -181,7 +181,7 @@ namespace Ixq.Web.Mvc
         {
             //添加测试错误状态
             ModelState.AddModelError("Id", "adsf");
-            ModelState.AddModelError("Name", "adsf");
+            ModelState.AddModelError("Name", "name error");
 
             if (ModelState.IsValid)
             {

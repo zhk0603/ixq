@@ -101,7 +101,7 @@
     <Compile Include="Controls\Pagination.cs" />
     <Compile Include="HtmlTemplate.cs" />
     <Compile Include="IPageConfig.cs" />
-    <Compile Include="PageExtensions.cs" />
+    <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptTemplate.cs" />
     <Compile Include="StyleTemplate.cs" />
