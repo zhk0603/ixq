@@ -159,6 +159,11 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public delegate ClaimsPrincipal ClaimsUserDelegate();
 
+        /// <summary>
+        ///     应用属性元数据感知属性。
+        /// </summary>
+        /// <param name="attributes"></param>
+        /// <param name="metadata"></param>
         protected virtual void ApplyPropertyMetadataAwareAttributes(IEnumerable<Attribute> attributes,
             IEntityPropertyMetadata metadata)
         {
@@ -168,6 +173,11 @@ namespace Ixq.Web.Mvc
             }
         }
 
+        /// <summary>
+        ///     获取实体属性的元数据，根据数据注释属性以及属性元数据感知属性初始化一个<see cref="IEntityMetadataProvider"/>实例。
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
         protected virtual IEntityPropertyMetadata GetEntityPropertyMetadata(PropertyInfo property)
         {
             var attributes = property.GetCustomAttributes();
@@ -176,6 +186,12 @@ namespace Ixq.Web.Mvc
             return propertyMtadata;
         }
 
+        /// <summary>
+        ///     创建实体属性元数据。
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="attributes"></param>
+        /// <returns></returns>
         protected virtual IEntityPropertyMetadata CreateEntityPropertyMetadata(PropertyInfo property,
             IEnumerable<Attribute> attributes)
         {

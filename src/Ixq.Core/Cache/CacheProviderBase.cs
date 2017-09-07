@@ -9,6 +9,9 @@ namespace Ixq.Core.Cache
     public abstract class CacheProviderBase : ICacheProvider
     {
         private static readonly string GlobalCacheKey = "__globalCacheKey"; // + typeof (CacheProviderBase).FullName;
+        /// <summary>
+        ///     <see cref="ICache"/> 实例字典集合。
+        /// </summary>
         protected static readonly ConcurrentDictionary<string, ICache> Caches;
 
         static CacheProviderBase()
