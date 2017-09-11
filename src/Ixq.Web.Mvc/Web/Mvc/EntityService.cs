@@ -32,7 +32,7 @@ namespace Ixq.Web.Mvc
         /// <param name="requestContxt"></param>
         /// <param name="entityControllerData"></param>
         public EntityService(IRepositoryBase<TEntity, TKey> repository, RequestContext requestContxt,
-            IEntityControllerData entityControllerData)
+            IEntityControllerDescriptor entityControllerData)
         {
             if (entityControllerData == null)
                 throw new ArgumentNullException(nameof(entityControllerData));
@@ -53,7 +53,7 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取控制器基本数据。
         /// </summary>
-        public IEntityControllerData EntityControllerData { get; }
+        public IEntityControllerDescriptor EntityControllerData { get; }
 
         /// <summary>
         ///     获取HTTP上下文。

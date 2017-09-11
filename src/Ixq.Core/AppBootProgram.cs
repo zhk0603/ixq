@@ -26,7 +26,7 @@ namespace Ixq.Core
         }
 
         /// <summary>
-        ///     实现单例。
+        ///     引导程序实例。
         /// </summary>
         public static AppBootProgram Instance => LazyBootprogram.Value;
 

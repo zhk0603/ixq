@@ -27,7 +27,7 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取控制器基本数据。
         /// </summary>
-         IEntityControllerData EntityControllerData { get; }
+         IEntityControllerDescriptor EntityControllerData { get; }
         /// <summary>
         ///     从仓储中提取默认的数据，默认直接提取 <see cref="Repository"/> 中所有数据。
         /// </summary>

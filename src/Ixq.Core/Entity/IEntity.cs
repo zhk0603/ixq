@@ -6,7 +6,7 @@
     public interface IEntity<TKey>
     {
         /// <summary>
-        ///     主键。
+        ///     获取或设置主键。
         /// </summary>
         TKey Id { get; set; }
     }

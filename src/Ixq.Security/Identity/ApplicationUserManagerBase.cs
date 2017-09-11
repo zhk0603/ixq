@@ -151,7 +151,7 @@ namespace Ixq.Security.Identity
 
         public bool IsInRole(string userId, string role)
         {
-            throw new NotImplementedException();
+            return _userManager.IsInRole(userId, role);
         }
 
         public ReturnModel Update(IUser user)

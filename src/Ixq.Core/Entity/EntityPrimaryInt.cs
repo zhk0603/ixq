@@ -8,6 +8,9 @@ namespace Ixq.Core.Entity
     /// </summary>
     public abstract class EntityPrimaryInt : IEntity<int>
     {
+        /// <summary>
+        ///     获取或设置主键。
+        /// </summary>
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

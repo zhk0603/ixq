@@ -11,9 +11,9 @@ using Ixq.Core.Repository;
 namespace Ixq.Web.Mvc
 {
     /// <summary>
-    ///     实体控制器数据接口，包含有实体控制的基本信息。
+    ///     实体控制器数据接口，包含有实体控制器的基本信息。
     /// </summary>
-    public interface IEntityControllerData
+    public interface IEntityControllerDescriptor
     {
         /// <summary>
         ///     获取或设置页面大小集合。

@@ -3,7 +3,7 @@
 namespace Ixq.Core.Entity
 {
     /// <summary>
-    ///     创建规范
+    ///     创建规范。
     /// </summary>
     public interface ICreateSpecification
     {

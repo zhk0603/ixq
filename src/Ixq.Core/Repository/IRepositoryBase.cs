@@ -13,8 +13,8 @@ namespace Ixq.Core.Repository
     /// <summary>
     ///     仓储接口，如果要查询被软删除的数据可通过 SqlQuery 开头的Api 查询，其他api 不能查询到这些数据。
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TEntity">实体对象。</typeparam>
+    /// <typeparam name="TKey">实体主键类型。</typeparam>
     public interface IRepositoryBase<TEntity, TKey> : IScopeDependency
         where TEntity : class, IEntity<TKey>, new()
     {

@@ -20,7 +20,7 @@ namespace Ixq.Web.Mvc
     /// <typeparam name="TEntity">实体。</typeparam>
     /// <typeparam name="TDto">数据传输对象。</typeparam>
     /// <typeparam name="TKey">实体主键类型。</typeparam>
-    public abstract class EntityController<TEntity, TDto, TKey> : BaseController, IEntityControllerData
+    public abstract class EntityController<TEntity, TDto, TKey> : BaseController, IEntityControllerDescriptor
         where TEntity : class, IEntity<TKey>, new()
         where TDto : class, IDto<TEntity, TKey>, new()
     {
