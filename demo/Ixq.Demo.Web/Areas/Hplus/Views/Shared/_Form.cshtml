@@ -1,0 +1,33 @@
+﻿@using Ixq.Core.Entity
+@model IPageEditViewModel
+@{
+    Layout = null;
+    var entityName = Model.EntityDto.GetType().Name;
+}
+@using (Ajax.BeginForm(Ajax.RouteCollection.GetRouteData(this.Context).GetRequiredString("Action"), null,
+                                                    new AjaxOptions
+                                                    {
+                                                        HttpMethod = "POST",
+                                                        AllowCache = false,
+                                                        UpdateTargetId = "from-container",
+                                                        OnSuccess = "onSuccess",
+                                                        OnFailure = "onFailure"
+                                                    },
+                                                    new
+                                                    {
+                                                        @class = "form-horizontal m-t",
+                                                        @id = entityName + "_from",
+                                                        enctype = "multipart/form-data"
+                                                    }))
+{
+    @Html.AntiForgeryToken()
+    foreach (IEntityPropertyMetadata item in Model.PropertyMenberInfo)
+    {
+        @Html.PropertyEditor(item, Model.EntityDto)
+    }
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-3">
+            <button class="btn btn-primary" type="submit">提交</button>
+        </div>
+    </div>
+}

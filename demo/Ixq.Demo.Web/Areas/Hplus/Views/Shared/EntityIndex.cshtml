@@ -151,6 +151,9 @@
                 return;
             });
         }
+        function reloadData() {
+            $("#@tableId").trigger("reloadGrid");
+        }
     </script>
     @RenderSection("pageScripts", false)
     <script>

@@ -232,9 +232,9 @@ namespace Ixq.Data.Repository
                 var count = UnitOfWork.Save();
                 return count > 0;
             }
-            catch
+            catch (Exception exp)
             {
-                return false;
+                throw exp;
             }
         }
 
@@ -245,9 +245,9 @@ namespace Ixq.Data.Repository
                 var count = await UnitOfWork.SaveAsync();
                 return count > 0;
             }
-            catch
+            catch (Exception exp)
             {
-                return false;
+                throw exp;
             }
         }
 

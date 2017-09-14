@@ -180,14 +180,15 @@ namespace Ixq.Web.Mvc
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Edit(TDto model)
         {
+            var viewModel = await EntityServicer.CreateEditModelAsync(model);
             if (ModelState.IsValid)
             {
-                var res = await EntityServicer.UpdateEntity(model.MapTo());
-                return Json("");
+                await EntityServicer.UpdateEntity(model.MapTo());
+                return PartialView("_Form", viewModel);
             }
             else
             {
-                return ModelError(ModelState);
+                return PartialView("_Form", viewModel);
             }
         }
 

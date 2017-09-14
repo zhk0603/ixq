@@ -775,6 +775,7 @@
     <Content Include="Areas\Hplus\Views\Test\Vue.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\Detail.cshtml" />
     <Content Include="Areas\Hplus\Views\Shared\DateViewer.cshtml" />
+    <Content Include="Areas\Hplus\Views\Shared\_Form.cshtml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
