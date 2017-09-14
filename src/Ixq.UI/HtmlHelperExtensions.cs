@@ -67,6 +67,13 @@ namespace Ixq.UI
             return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Editor", model);
         }
 
+        /// <summary>
+        ///     根据指定的属性名或模型对象的名称，从模型错误中显示一个错误信息对应的HTML标记。
+        /// </summary>
+        /// <param name="helper">HTML帮助器实例。</param>
+        /// <param name="modelName">所验证的属性或模型对象的名称。</param>
+        /// <param name="htmlAttributes">包含元素 HTML 特性的对象。</param>
+        /// <returns></returns>
         public static MvcHtmlString PropertyValidationMessage(this HtmlHelper helper, string modelName,
             object htmlAttributes)
         {
@@ -96,6 +103,12 @@ namespace Ixq.UI
             builder.InnerHtml = iTag.ToString(TagRenderMode.Normal) + GetUserErrorMessageOrDefault(helper.ViewContext.HttpContext, modelError, modelState);
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }
+        /// <summary>
+        ///     根据指定的属性名或模型对象的名称，从模型错误中显示一个错误信息对应的HTML标记。
+        /// </summary>
+        /// <param name="helper">HTML帮助器实例。</param>
+        /// <param name="modelName">所验证的属性或模型对象的名称。</param>
+        /// <returns></returns>
         public static MvcHtmlString PropertyValidationMessage(this HtmlHelper helper, string modelName)
         {
             return PropertyValidationMessage(helper, modelName, null);
