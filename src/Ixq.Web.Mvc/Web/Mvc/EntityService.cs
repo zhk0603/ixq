@@ -42,8 +42,8 @@ namespace Ixq.Web.Mvc
                 throw new ArgumentNullException(nameof(repository));
 
             Repository = repository;
-            EntityControllerData = entityControllerData;
-            HttpContext = requestContxt.HttpContext;
+            EntityControllerDescriptor = entityControllerData;
+            RequestContext = requestContxt;
         }
 
         /// <summary>
@@ -51,44 +51,44 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IRepositoryBase<TEntity, TKey> Repository { get; }
         /// <summary>
-        ///     获取控制器基本数据。
+        ///     获取控制器基本信息。
         /// </summary>
-        public IEntityControllerDescriptor EntityControllerData { get; }
+        public IEntityControllerDescriptor EntityControllerDescriptor { get; }
 
         /// <summary>
-        ///     获取HTTP上下文。
+        ///     获取HTTP请求上下文。
         /// </summary>
-        public HttpContextBase HttpContext { get; }
+        public RequestContext RequestContext { get; }
 
         /// <summary>
         ///     从仓储中提取默认的数据，默认直接提取 <see cref="Repository"/> 中所有数据。
         /// </summary>
         /// <returns></returns>
-        public virtual IQueryable<TEntity> EntityDefaultData()
+        public virtual IQueryable<TEntity> GetEntityData()
         {
             return Repository.GetAll();
         }
 
         /// <summary>
-        ///     从仓储中提取控制器 List Action 的数据，默认以 <see cref="EntityDefaultData"/>  作为数据源。
+        ///     从仓储中提取控制器 List Action 的数据，默认以 <see cref="GetEntityData"/>  作为数据源。
         /// </summary>
         /// <param name="orderField">排序字段。</param>
         /// <param name="orderDirection">排序方向，desc：降序排序。asc：升序排序。</param>
         /// <returns></returns>
-        public virtual IQueryable<TEntity> EntityListData(string orderField, string orderDirection)
+        public virtual IQueryable<TEntity> GetEntityListData(string orderField, string orderDirection)
         {
             return orderDirection.Equals("asc")
-                ? EntityDefaultData().OrderBy(orderField)
-                : EntityDefaultData().OrderBy(orderField, ListSortDirection.Descending);
+                ? GetEntityData().OrderBy(orderField)
+                : GetEntityData().OrderBy(orderField, ListSortDirection.Descending);
         }
 
         /// <summary>
-        ///     从仓储中提取控制器 Selector Action 的数据，默认以 <see cref="EntityDefaultData"/>  作为数据源。
+        ///     从仓储中提取控制器 Selector Action 的数据，默认以 <see cref="GetEntityData"/>  作为数据源。
         /// </summary>
         /// <returns></returns>
-        public virtual IQueryable<TEntity> EntitySelectorData()
+        public virtual IQueryable<TEntity> GetEntitySelectorData()
         {
-            return EntityDefaultData();
+            return GetEntityData();
         }
 
         /// <summary>
@@ -100,10 +100,10 @@ namespace Ixq.Web.Mvc
         {
             var viewModel = new PageViewModel
             {
-                EntityMetadata = EntityControllerData.EntityMetadata,
+                EntityMetadata = EntityControllerDescriptor.EntityMetadata,
                 EntityType = typeof(TEntity),
                 DtoType = typeof(TDto),
-                PageConfig = EntityControllerData.PageConfig,
+                PageConfig = EntityControllerDescriptor.PageConfig,
                 Pagination = pagination
             };
             return viewModel;
@@ -139,11 +139,11 @@ namespace Ixq.Web.Mvc
         public virtual async Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TDto model)
         {
             var editModel = new PageEditViewModel<TDto, TKey>(model,
-                            EntityControllerData.EntityMetadata.EditPropertyMetadatas)
+                            EntityControllerDescriptor.EntityMetadata.EditPropertyMetadatas)
             {
                 Title =
                     ((await Repository.SingleByIdAsync(model.Id)) == null ? "新增" : "编辑") +
-                    (EntityControllerData.PageConfig.Title ?? typeof(TEntity).Name)
+                    (EntityControllerDescriptor.PageConfig.Title ?? typeof(TEntity).Name)
             };
 
             return editModel;
@@ -161,7 +161,7 @@ namespace Ixq.Web.Mvc
                 throw new HttpException(404, null);
 
             var detailModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
-                EntityControllerData.EntityMetadata.DetailPropertyMetadatas)
+                EntityControllerDescriptor.EntityMetadata.DetailPropertyMetadatas)
             {
                 Title = ""
             };
@@ -179,7 +179,7 @@ namespace Ixq.Web.Mvc
         public virtual async Task<PageDataViewModel<TKey>> CreateListModelAsync(int pageSize, int pageCurrent,
             string orderField, string orderDirection)
         {
-            var queryable = EntityListData(orderField, orderDirection);
+            var queryable = GetEntityListData(orderField, orderDirection);
             var pageListViewModel = new PageDataViewModel<TKey>(queryable.Count(), pageCurrent, pageSize)
             {
                 Items = await queryable
@@ -205,7 +205,7 @@ namespace Ixq.Web.Mvc
                 addAction = true;
             }
 
-            var editPropertyMetadata = EntityControllerData.EntityMetadata.EditPropertyMetadatas;
+            var editPropertyMetadata = EntityControllerDescriptor.EntityMetadata.EditPropertyMetadatas;
             foreach (var metadata in editPropertyMetadata)
             {
                 await UpdateProperty(targetEntity, sourceEntity, metadata);

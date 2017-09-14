@@ -11,6 +11,7 @@ using Ixq.UI;
 using Ixq.UI.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Ixq.Web.Mvc
 {
@@ -179,10 +180,6 @@ namespace Ixq.Web.Mvc
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Edit(TDto model)
         {
-            //添加测试错误状态
-            ModelState.AddModelError("Id", "adsf");
-            ModelState.AddModelError("Name", "name error");
-
             if (ModelState.IsValid)
             {
                 var res = await EntityServicer.UpdateEntity(model.MapTo());
@@ -190,8 +187,7 @@ namespace Ixq.Web.Mvc
             }
             else
             {
-                var editModel = await EntityServicer.CreateEditModelAsync(model);
-                return View(editModel);
+                return ModelError(ModelState);
             }
         }
 
@@ -228,11 +224,17 @@ namespace Ixq.Web.Mvc
             return View();
         }
 
+        /// <summary>
+        ///     对调用构造函数时可能不可用的数据进行初始化。
+        /// </summary>
+        /// <param name="requestContext">HTTP 上下文和路由数据。</param>
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
             EntityServicer = new EntityService<TEntity, TDto, TKey>(Repository, requestContext, this);
         }
+
+        #region JsonResult
 
         /// <summary>
         ///     创建一个<see cref="JsonReader" />对象，将指定的对象序列化为JavaScript Object Notation（JSON）。
@@ -293,6 +295,23 @@ namespace Ixq.Web.Mvc
                 SerializerSettings = serializerSettings
             };
         }
+
+        #endregion
+
+        #region ModelErrorResult
+
+        /// <summary>
+        ///     创建一个 <see cref="ModelErrorResult"/> 对象，将模型错误信息序列化成Json对象。
+        /// </summary>
+        /// <param name="modelState"></param>
+        /// <returns></returns>
+        protected virtual ModelErrorResult ModelError(ModelStateDictionary modelState)
+        {
+            return new ModelErrorResult(modelState);
+        }
+
+        #endregion
+
 
         /// <summary>
         ///     创建实体元数据提供者，默认提供<see cref="Ixq.Web.Mvc.EntityMetadataProvider" />。可在派生类中重写。

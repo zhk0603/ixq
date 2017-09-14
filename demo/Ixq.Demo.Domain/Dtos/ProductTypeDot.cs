@@ -20,6 +20,7 @@ namespace Ixq.Demo.Domain.Dtos
         [Display(Name = "产品类型名称", Order = 2)]
         [ColModel(Align = Core.TextAlign.Center, Sortable = true)]
         [PropertyAuthorization(Users = new[] {"zhaokun"})]
+        [StringLength(maximumLength: 10, ErrorMessage = "产品类型名称最大长度为：10。")]
         public string Name { get; set; }
 
         public ProductType ParentType { get; set; }

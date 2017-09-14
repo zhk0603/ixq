@@ -7,8 +7,7 @@ namespace Ixq.Demo.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //filters.Add(new HandleErrorAttribute());
-            filters.Add(new RuntimeLogHandleErrorAttribute());
+            filters.Add(new RuntimeLogHandleErrorAttribute { View= "~/Areas/Hplus/Views/Shared/Error.cshtml" });
         }
     }
 }

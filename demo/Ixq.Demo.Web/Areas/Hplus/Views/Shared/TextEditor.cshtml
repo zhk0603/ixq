@@ -4,12 +4,12 @@
 @{
     var minLen = 0;
     var maxLen = 0;
-    StringLengthAttribute attribute;
-    if (Model.EntityProperty.PropertyInfo.TryGetAttribute(out attribute))
-    {
-        minLen = attribute.MinimumLength;
-        maxLen = attribute.MaximumLength;
-    }
+    //StringLengthAttribute attribute;
+    //if (Model.EntityProperty.PropertyInfo.TryGetAttribute(out attribute))
+    //{
+    //    minLen = attribute.MinimumLength;
+    //    maxLen = attribute.MaximumLength;
+    //}
 }
 <div class="form-group">
     <label class="col-sm-3 control-label">@Model.EntityProperty.Name：</label>

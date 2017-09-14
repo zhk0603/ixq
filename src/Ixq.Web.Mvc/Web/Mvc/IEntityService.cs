@@ -6,6 +6,7 @@ using Ixq.Core.Entity;
 using Ixq.Core.Repository;
 using Ixq.UI.ComponentModel;
 using Ixq.UI.Controls;
+using System.Web.Routing;
 
 namespace Ixq.Web.Mvc
 {
@@ -17,34 +18,34 @@ namespace Ixq.Web.Mvc
         where TDto : class, IDto<TEntity, TKey>, new()
     {
         /// <summary>
-        ///     获取HTTP上下文。
+        ///     获取HTTP请求上下文。
         /// </summary>
-        HttpContextBase HttpContext { get; }
+        RequestContext RequestContext { get; }
         /// <summary>
         ///     获取仓储。
         /// </summary>
         IRepositoryBase<TEntity, TKey> Repository { get; }
         /// <summary>
-        ///     获取控制器基本数据。
+        ///     获取控制器基本信息。
         /// </summary>
-         IEntityControllerDescriptor EntityControllerData { get; }
+         IEntityControllerDescriptor EntityControllerDescriptor { get; }
         /// <summary>
         ///     从仓储中提取默认的数据，默认直接提取 <see cref="Repository"/> 中所有数据。
         /// </summary>
         /// <returns></returns>
-        IQueryable<TEntity> EntityDefaultData();
+        IQueryable<TEntity> GetEntityData();
         /// <summary>
-        ///     从仓储中提取控制器 List Action 的数据，默认以 <see cref="EntityDefaultData"/>  作为数据源。
+        ///     从仓储中提取控制器 List Action 的数据，默认以 <see cref="GetEntityData"/>  作为数据源。
         /// </summary>
         /// <param name="orderField">排序字段。</param>
         /// <param name="orderDirection">排序方向，desc：降序排序。asc：升序排序。</param>
         /// <returns></returns>
-        IQueryable<TEntity> EntityListData(string orderField, string orderDirection);
+        IQueryable<TEntity> GetEntityListData(string orderField, string orderDirection);
         /// <summary>
-        ///     从仓储中提取控制器 Selector Action 的数据，默认以 <see cref="EntityDefaultData"/>  作为数据源。
+        ///     从仓储中提取控制器 Selector Action 的数据，默认以 <see cref="GetEntityData"/>  作为数据源。
         /// </summary>
         /// <returns></returns>
-        IQueryable<TEntity> EntitySelectorData();
+        IQueryable<TEntity> GetEntitySelectorData();
         /// <summary>
         ///     创建一个<see cref="PageViewModel"/>实例。一般用于 Index Action。
         /// </summary>

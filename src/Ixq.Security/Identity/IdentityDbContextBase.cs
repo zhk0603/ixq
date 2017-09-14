@@ -17,6 +17,11 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Ixq.Security.Identity
 {
+    /// <summary>
+    ///     基于使用AspNet.Identity的上下文基类。
+    /// </summary>
+    /// <typeparam name="TUser">用户类。</typeparam>
+    /// <typeparam name="TRole">角色类。</typeparam>
     public abstract class IdentityDbContextBase<TUser, TRole> :
         IdentityDbContext<TUser, TRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>, IUnitOfWork
         where TUser : IdentityUser
@@ -276,8 +281,6 @@ namespace Ixq.Security.Identity
 
             // 禁用 级联删除
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            // 移除 表名复数
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             // 软删除过滤器，通过仓储接口将不能查询到，但直接执行SQL查询语句，仍可查询。
             modelBuilder.Filter("SoftDelete", (ISoftDeleteSpecification d) => d.IsDeleted, false);
         }

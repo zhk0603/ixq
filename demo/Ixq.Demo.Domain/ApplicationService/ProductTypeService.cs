@@ -18,7 +18,7 @@ namespace Ixq.Demo.Domain.ApplicationService
         {
         }
 
-        public override IQueryable<ProductType> EntityDefaultData()
+        public override IQueryable<ProductType> GetEntityData()
         {
             return Repository.GetAllInclude(x => x.ParentType);
         }

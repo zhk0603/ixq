@@ -10,7 +10,8 @@ using Ixq.Core.Logging;
 namespace Ixq.Web.Mvc
 {
     /// <summary>
-    /// 日志记录器。
+    ///     表示一个特性，该特性用于处理由操作方法引发的异常。
+    ///     并使用日志记录器记录错误信息。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class RuntimeLogHandleErrorAttribute : HandleErrorAttribute
@@ -70,7 +71,7 @@ namespace Ixq.Web.Mvc
             }
 
             // 记录异常。
-            LogManager.GetLogger(GetType())?.Error(exception.Message, exception);
+            LogManager.GetLogger(GetType())?.Error($"\r\n请求地址：{filterContext.HttpContext.Request.Url.ToString()}\r\n" + exception.Message, exception);
 
             filterContext.ExceptionHandled = true;
             filterContext.HttpContext.Response.Clear();
