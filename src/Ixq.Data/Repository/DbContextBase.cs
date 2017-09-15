@@ -52,6 +52,10 @@ namespace Ixq.Data.Repository
 
         }
 
+        protected virtual void Initialize()
+        {
+            Database.Initialize(false);
+        }
 
         /// <summary>
         ///     异步提交当前单元操作的更改。

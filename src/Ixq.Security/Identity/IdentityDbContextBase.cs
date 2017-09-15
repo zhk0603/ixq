@@ -59,6 +59,11 @@ namespace Ixq.Security.Identity
 
         }
 
+        protected virtual void Initialize()
+        {
+            Database.Initialize(false);
+        }
+
         #endregion
         public void Rollback()
         {
