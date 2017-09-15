@@ -178,7 +178,7 @@ namespace Ixq.Web.Mvc
         [HttpPost]
         [ValidateInput(true)]
         [ValidateAntiForgeryToken]
-        public virtual async Task<ActionResult> Edit(TDto model)
+        public virtual async Task<ActionResult> Edit([ModelBinder(typeof(EntityModelBinder))]TDto model)
         {
             var viewModel = await EntityServicer.CreateEditModelAsync(model);
             if (ModelState.IsValid)
@@ -189,6 +189,7 @@ namespace Ixq.Web.Mvc
             else
             {
                 Response.StatusCode = 500;
+                Response.TrySkipIisCustomErrors = true;
                 return PartialView("_Form", viewModel);
             }
         }
