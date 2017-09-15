@@ -58,7 +58,7 @@ namespace Ixq.Web.Mvc
         /// <param name="modelStateDic">模型状态键值对。在模型绑定时发生错误的模型状态。</param>
         protected virtual void UpdateModelStateWithEntityMetadata(IEntityMetadata entityMetadata, ModelBindingContext bindingContext, KeyValuePair<string, ModelState> modelStateDic)
         {
-            // 当前授权用户没有此属性的编辑权限时，清楚模型错误信息。
+            // 当前授权用户没有此属性的编辑权限时，清除模型错误信息。
             if (!HasEditProperty(entityMetadata.EditPropertyMetadatas, modelStateDic.Key))
             {
                 modelStateDic.Value.Errors.Clear();
@@ -67,6 +67,7 @@ namespace Ixq.Web.Mvc
 
         private bool HasEditProperty(IEntityPropertyMetadata[] metadata, string name)
         {
+            // TODO 关联属性错误处理。
             return metadata.Any(x => x.PropertyName == name);
         }
     }
