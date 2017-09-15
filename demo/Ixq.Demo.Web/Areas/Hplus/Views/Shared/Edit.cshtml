@@ -44,10 +44,15 @@
             });
         }
         function onFailure(xhr, state) {
-            layer.open({
-                type: 0,
-                content: xhr.responseJSON.message
-            });
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                layer.open({
+                    type: 0,
+                    content: xhr.responseJSON.message
+                });
+            }
+            else {
+                $('#from-container').html(xhr.responseText);
+            }
         }
     </script>
 }

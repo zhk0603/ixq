@@ -188,6 +188,7 @@ namespace Ixq.Web.Mvc
             }
             else
             {
+                Response.StatusCode = 500;
                 return PartialView("_Form", viewModel);
             }
         }
