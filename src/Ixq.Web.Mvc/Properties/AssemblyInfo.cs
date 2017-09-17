@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 与程序集关联的信息。
 
 [assembly: AssemblyTitle("Ixq.Web.Mvc")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Ixq.Web.Mvc是基于Mvc模式的Web应用程序展示层的组件，有助于快速构建Web应用程序。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.Web.Mvc")]

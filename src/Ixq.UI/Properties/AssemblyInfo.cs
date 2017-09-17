@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("Ixq.UI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("定义了Ixq.Web.Mvc组件的视图模型。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Ixq.UI")]
