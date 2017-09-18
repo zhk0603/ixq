@@ -19,7 +19,7 @@ Ixq framework是一个快速开发框架， 基于Entity Framework的Repository�
 |  10 | Ixq.Owin                        |  对IAppBuilder启动方式的支持。                                                                        | [![10.1]][10.2]|
 |  11 | Ixq.Extensions                  |  封装了一些常用的扩展方法。                                                                            | [![11.1]][11.2]|
 
-[1.1]: https://img.shields.io/nuget/v/Ixq.Core.png
+[1.1]: https://img.shields.io/nuget/v/Ixq.Core.svg?style=flat
 [1.2]: https://www.nuget.org/packages/Ixq.Core
 [2.1]: https://img.shields.io/nuget/v/Ixq.Logging.svg?style=flat
 [2.2]: https://www.nuget.org/packages/Ixq.Logging
@@ -41,6 +41,49 @@ Ixq framework是一个快速开发框架， 基于Entity Framework的Repository�
 [10.2]: https://www.nuget.org/packages/Ixq.Owin
 [11.1]: https://img.shields.io/nuget/v/Ixq.Extensions.svg?style=flat
 [11.2]: https://www.nuget.org/packages/Ixq.Extensions
+
+什么是Ixq Framework
+----------------
+在 Ixq 中以接口的形式定义了各各组件的规范，并基于您熟悉的组件，如：Autofac、log4net、AutoMapper、Entity Framework等等，提供了默认实现，
+如果您觉得默认的组件不符合您的需求，
+您可以以您的方式去定制符合您需求的组件。 <br>
+所以 Ixq 极具扩展性，降低了层与层之间的耦合。
+
+如何使用
+----------------
+
+### 日志
+
+```C#
+static void Main()
+{
+    // 设置日志工厂。
+    Ixq.Core.Logging.LogManager.SetLoggerFactory(new Ixq.Logging.Log4Net.Log4NetLoggerFactory());
+    
+    // 输出日志。
+    var logger = Ixq.Core.Logging.LogManager.GetLogger(GetType());
+    logger.Info("Hello Ixq Framework.");
+}
+
+```
+
+### 缓存
+
+```C#
+static void Main()
+{
+    // 设置缓存提供者。
+    Ixq.Core.Cache.CacheManager.SetCacheProvider(new Ixq.Core.Cache.MemoryCacheProvider());
+    var globalCache = Ixq.Core.Cache.CacheManager.GetGlobalCache();
+    // 写入。
+    globalCache.Set("Ixq", "Hello Ixq Framework.");
+    // 读取。
+    var res = globalCache.Get<string>("Ixq");
+}
+
+```
+
+### 
 
 License
 ----------------
