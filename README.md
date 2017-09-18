@@ -19,7 +19,7 @@ Ixq framework是一个快速开发框架， 基于Entity Framework的Repository�
 |  10 | Ixq.Owin                        |  对IAppBuilder启动方式的支持。                                                                        | [![10.1]][10.2]|
 |  11 | Ixq.Extensions                  |  封装了一些常用的扩展方法。                                                                            | [![11.1]][11.2]|
 
-[1.1]: https://img.shields.io/nuget/v/Ixq.Core.svg?style=flat
+[1.1]: https://img.shields.io/nuget/v/Ixq.Core.png
 [1.2]: https://www.nuget.org/packages/Ixq.Core
 [2.1]: https://img.shields.io/nuget/v/Ixq.Logging.svg?style=flat
 [2.2]: https://www.nuget.org/packages/Ixq.Logging
