@@ -27,5 +27,6 @@ namespace Ixq.Core.Logging
         /// <param name="name"></param>
         /// <returns></returns>
         ILogger Create(string name);
+
     }
 }

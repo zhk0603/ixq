@@ -41,6 +41,12 @@ namespace Ixq.Core.Logging
         /// <summary>
         ///     记录日志。
         /// </summary>
+        /// <param name="exception"></param>
+        void Debug(Exception exception);
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
         /// <param name="func"></param>
         void Debug(Func<string> func);
 
@@ -56,6 +62,12 @@ namespace Ixq.Core.Logging
         /// </summary>
         /// <param name="message"></param>
         void Error(string message);
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
+        /// <param name="exception"></param>
+        void Error(Exception exception);
 
         /// <summary>
         ///     记录日志。
@@ -79,6 +91,13 @@ namespace Ixq.Core.Logging
         /// <summary>
         ///     记录日志。
         /// </summary>
+        /// <param name="exception"></param>
+        void Fatal(Exception exception);
+
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
         /// <param name="func"></param>
         void Fatal(Func<string> func);
 
@@ -98,6 +117,12 @@ namespace Ixq.Core.Logging
         /// <summary>
         ///     记录日志。
         /// </summary>
+        /// <param name="exception"></param>
+        void Info(Exception exception);
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
         /// <param name="func"></param>
         void Info(Func<string> func);
 
@@ -113,6 +138,12 @@ namespace Ixq.Core.Logging
         /// </summary>
         /// <param name="message"></param>
         void Warn(string message);
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
+        /// <param name="exception"></param>
+        void Warn(Exception exception);
 
         /// <summary>
         ///     记录日志。

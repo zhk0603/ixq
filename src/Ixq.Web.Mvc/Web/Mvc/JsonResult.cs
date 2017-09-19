@@ -29,7 +29,7 @@ namespace Ixq.Web.Mvc
         public JsonSerializerSettings SerializerSettings { get; set; }
 
         /// <summary>
-        ///     通过从 System.Web.Mvc.ActionResult 类继承的自定义类型，启用对操作方法结果的处理。
+        ///     通过从 <see cref="ActionResult"/> 类继承的自定义类型，启用对操作方法结果的处理。
         /// </summary>
         /// <param name="context">执行结果时所处的上下文。</param>
         public override void ExecuteResult(ControllerContext context)

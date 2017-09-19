@@ -88,6 +88,15 @@ namespace Ixq.Logging.Log4Net
         /// <summary>
         ///     记录日志。
         /// </summary>
+        /// <param name="exception"></param>
+        public void Debug(Exception exception)
+        {
+            Write(null, exception, LogLevel.Debug);
+        }
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
         /// <param name="func"></param>
         public void Error(Func<string> func)
         {
@@ -112,6 +121,15 @@ namespace Ixq.Logging.Log4Net
         public void Error(string message, Exception exception)
         {
             Write(message, exception, LogLevel.Error);
+        }
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
+        /// <param name="exception"></param>
+        public void Error(Exception exception)
+        {
+            Write(null, exception, LogLevel.Error);
         }
 
         /// <summary>
@@ -146,6 +164,15 @@ namespace Ixq.Logging.Log4Net
         /// <summary>
         ///     记录日志。
         /// </summary>
+        /// <param name="exception"></param>
+        public void Fatal(Exception exception)
+        {
+            Write(null, exception, LogLevel.Fatal);
+        }
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
         /// <param name="func"></param>
         public void Info(Func<string> func)
         {
@@ -175,6 +202,15 @@ namespace Ixq.Logging.Log4Net
         /// <summary>
         ///     记录日志。
         /// </summary>
+        /// <param name="exception"></param>
+        public void Info(Exception exception)
+        {
+            Write(null, exception, LogLevel.Info);
+        }
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
         /// <param name="func"></param>
         public void Warn(Func<string> func)
         {
@@ -199,6 +235,15 @@ namespace Ixq.Logging.Log4Net
         public void Warn(string message, Exception exception)
         {
             Write(message, exception, LogLevel.Warn);
+        }
+
+        /// <summary>
+        ///     记录日志。
+        /// </summary>
+        /// <param name="exception"></param>
+        public void Warn(Exception exception)
+        {
+            Write(null, exception, LogLevel.Warn);
         }
 
         /// <summary>

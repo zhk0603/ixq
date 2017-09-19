@@ -26,6 +26,15 @@ namespace Ixq.Core.Logging
         }
 
         /// <summary>
+        ///     设置日志工厂。
+        /// </summary>
+        /// <param name="func"></param>
+        public static void SetLoggerFactory(Func<ILoggerFactory> func)
+        {
+            _loggerFactory = func();
+        }
+
+        /// <summary>
         ///     获取<see cref="ILogger" />。
         /// </summary>
         /// <param name="name">日志记录器名称。</param>

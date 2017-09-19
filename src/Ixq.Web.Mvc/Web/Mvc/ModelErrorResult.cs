@@ -14,16 +14,30 @@ namespace Ixq.Web.Mvc
     public class ModelErrorResult : JsonResult
     {
         private ModelStateDictionary _dic;
+
+        /// <summary>
+        ///     初始化一个 <see cref="ModelErrorResult"/> 实例。
+        /// </summary>
+        /// <param name="modelState"></param>
         public ModelErrorResult(ModelStateDictionary modelState)
         {
             _dic = modelState ?? throw new ArgumentNullException(nameof(modelState));
         }
 
+        /// <summary>
+        ///     通过从 <see cref="ActionResult"/> 类继承的自定义类型，启用对操作方法结果的处理。
+        /// </summary>
+        /// <param name="context"></param>
         public override void ExecuteResult(ControllerContext context)
         {
             ExecuteResultCore(_dic);
             base.ExecuteResult(context);
         }
+
+        /// <summary>
+        ///     通过从 <see cref="ActionResult"/> 类继承的自定义类型，启用对操作方法结果的处理核心。
+        /// </summary>
+        /// <param name="modelState"></param>
         public virtual void ExecuteResultCore(ModelStateDictionary modelState)
         {
             base.Data = modelState.Where(x => x.Value.Errors.Count > 0).ToList();

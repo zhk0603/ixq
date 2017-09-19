@@ -20,18 +20,6 @@ namespace Ixq.Demo.Console
     {
         static void Main(string[] args)
         {
-
-
-            var tc = new CustomTest();
-            ITest tc1 = tc;
-
-
-
-            ITestBase<CustomTest> tb = new TestBase<CustomTest>();
-            var tb1 = (ITestBase<Test>)tb;
-
-
-
             var s1 = "Admin";
             var s2 = "Employee";
             var c1 = s1.GetHashCode();
@@ -42,7 +30,7 @@ namespace Ixq.Demo.Console
 
             //ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun");
             ICacheProvider cacheProvider = new MemoryCacheProvider();
-            CacheManager.SetCacheProvider(cacheProvider);
+            CacheManager.SetCacheProvider(() => cacheProvider);
 
             CacheManager.GetGlobalCache().Set("test", "test");
             CacheManager.GetCache<Program>().Set("test", "test");
@@ -100,7 +88,7 @@ namespace Ixq.Demo.Console
         static void TestLog()
         {
             ILoggerFactory factory = new Log4NetLoggerFactory();
-            LogManager.SetLoggerFactory(factory);
+            LogManager.SetLoggerFactory(() => factory);
 
             var log = LogManager.GetLogger<Program>();
             log.Debug("debug log.");
@@ -108,7 +96,7 @@ namespace Ixq.Demo.Console
             log.Error("Error log.");
             log.Fatal("Fatal log.");
             log.Warn("Warn log.");
-
+            log.Error(new Exception("Hello Ixq framework"));
         }
 
         static async void TestMethod1()

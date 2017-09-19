@@ -24,6 +24,15 @@ namespace Ixq.Core.Cache
         }
 
         /// <summary>
+        ///     设置 <see cref="ICacheProvider" />
+        /// </summary>
+        /// <param name="func"></param>
+        public static void SetCacheProvider(Func<ICacheProvider> func)
+        {
+            _cacheProvider = func();
+        }
+
+        /// <summary>
         ///     获取<see cref="ICacheProvider" />
         /// </summary>
         /// <returns></returns>

@@ -17,38 +17,33 @@ namespace Ixq.Core.Logging
         All = 0,
 
         /// <summary>
-        /// 表示跟踪的日志级别
-        /// </summary>
-        Trace = 1,
-
-        /// <summary>
         /// 表示调试的日志级别
         /// </summary>
-        Debug = 2,
+        Debug = 1,
 
         /// <summary>
         /// 表示消息的日志级别
         /// </summary>
-        Info = 3,
+        Info = 2,
 
         /// <summary>
         /// 表示警告的日志级别
         /// </summary>
-        Warn = 4,
+        Warn = 3,
 
         /// <summary>
         /// 表示错误的日志级别
         /// </summary>
-        Error = 5,
+        Error = 4,
 
         /// <summary>
         /// 表示严重错误的日志级别
         /// </summary>
-        Fatal = 6,
+        Fatal = 5,
 
         /// <summary>
         /// 关闭所有日志，不输出日志
         /// </summary>
-        Off = 7
+        Off = 6
     }
 }
