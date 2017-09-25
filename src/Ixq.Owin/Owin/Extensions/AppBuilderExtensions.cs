@@ -5,6 +5,7 @@ using Ixq.DependencyInjection.Autofac;
 using Ixq.Mapper.AutoMapper;
 using Ixq.Security.Identity;
 using Owin;
+using System.Reflection;
 
 namespace Ixq.Owin.Extensions
 {
@@ -19,6 +20,12 @@ namespace Ixq.Owin.Extensions
         public static IAppBuilder RegisterAutofac(this IAppBuilder app, Type httpApplicationType)
         {
             AppBootProgram.Instance.RegisterAutofac(httpApplicationType);
+            return app;
+        }
+
+        public static IAppBuilder RegisterAutofac(this IAppBuilder app, params Assembly[] controllerAssemblies)
+        {
+            AppBootProgram.Instance.RegisterAutofac(controllerAssemblies);
             return app;
         }
 

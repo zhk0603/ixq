@@ -18,7 +18,7 @@ namespace Ixq.Demo.Console
     [Serializable]
     class Program
     {
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             var s1 = "Admin";
             var s2 = "Employee";
@@ -50,34 +50,7 @@ namespace Ixq.Demo.Console
             System.Console.ReadKey();
         }
 
-        public interface ITest
-        {
-
-        }
-
-        public abstract class Test : ITest
-        {
-
-        }
-
-        public class CustomTest : Test
-        {
-
-        }
-
-        public interface ITestBase<in T>
-            where T : class
-        {
-
-        }
-
-        public class TestBase<T> : ITestBase<T>
-            where T : class
-        {
-        }
-
-
-        static void Main1(string[] args)
+        static void Main(string[] args)
         {
             TestLog();
 

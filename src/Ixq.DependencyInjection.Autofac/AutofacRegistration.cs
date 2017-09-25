@@ -14,15 +14,27 @@ namespace Ixq.DependencyInjection.Autofac
     {
         public static AppBootProgram RegisterAutofac(this AppBootProgram app, Type httpApplicationType)
         {
+            RegisterAutofacInternal(app.ServiceCollection, httpApplicationType.Assembly);
+            return app;
+        }
+
+        public static AppBootProgram RegisterAutofac(this AppBootProgram app, params Assembly[] controllerAssemblies)
+        {
+            RegisterAutofacInternal(app.ServiceCollection, controllerAssemblies);
+            return app;
+        }
+
+        internal static void RegisterAutofacInternal(IServiceCollection serviceCollection, params Assembly[] controllerAssemblies)
+        {
             var builder = new ContainerBuilder();
             builder.RegisterFilterProvider();
-            builder.Populate(app.ServiceCollection);
-            builder.RegisterControllers(httpApplicationType.Assembly)
+            builder.Populate(serviceCollection);
+            var a = Assembly.GetExecutingAssembly();
+            builder.RegisterControllers(controllerAssemblies)
                 .PropertiesAutowired();
             var container = builder.Build();
             var resolver = new AutofacDependencyResolver(container);
             DependencyResolver.SetResolver(resolver);
-            return app;
         }
 
         private static void Populate(
