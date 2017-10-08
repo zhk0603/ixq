@@ -19,7 +19,7 @@ namespace Ixq.Core.Repository
         where TEntity : class, IEntity<TKey>, new()
     {
         /// <summary>
-        ///     工作单元
+        ///     工作单元。
         /// </summary>
         IUnitOfWork UnitOfWork { get; }
 
@@ -64,71 +64,76 @@ namespace Ixq.Core.Repository
         Task<TEntity> SingleByIdAsync(params object[] index);
 
         /// <summary>
-        ///     返回符合条件的第一个对象
+        ///     返回符合条件的第一个对象。
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
         TEntity SingleBy(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     异步的返回符合条件的第一个对象
+        ///     异步的返回符合条件的第一个对象。
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<TEntity> SingleByAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     添加一个对象
+        ///     添加一个对象。
         /// </summary>
         /// <param name="entity"></param>
         bool Add(TEntity entity);
 
         /// <summary>
-        ///     异步添加一个对象
+        ///     异步添加一个对象。
         /// </summary>
         /// <param name="entity"></param>
         Task<bool> AddAsync(TEntity entity);
 
         /// <summary>
-        ///     添加一个集合中的数据
+        ///     添加一个集合中的数据。
         /// </summary>
         /// <param name="entities"></param>
         bool AddRange(IEnumerable<TEntity> entities);
 
         /// <summary>
-        ///     异步添加一个集合中的数据
+        ///     异步添加一个集合中的数据。
         /// </summary>
         /// <param name="entities"></param>
         Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);
 
         /// <summary>
-        ///     编辑一个对象
+        ///     编辑一个对象。
         /// </summary>
         /// <param name="entity"></param>
         bool Edit(TEntity entity);
 
         /// <summary>
-        ///     异步编辑一个对象
+        ///     异步编辑一个对象。
         /// </summary>
         /// <param name="entity"></param>
         Task<bool> EditAsync(TEntity entity);
 
         /// <summary>
-        ///     删除一个对象
+        ///     删除一个对象。
         /// </summary>
         /// <param name="entity"></param>
         bool Remove(TEntity entity);
 
+        /// <summary>
+        ///     异步删除一个对象。
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         Task<bool> RemoveAsync(TEntity entity);
 
         /// <summary>
-        ///     删除一个对象
+        ///     删除一个对象。
         /// </summary>
         /// <param name="index"></param>
         bool Remove(TKey index);
 
         /// <summary>
-        ///     删除一个对象
+        ///     删除一个对象。
         /// </summary>
         /// <param name="index"></param>
         Task<bool> RemoveAsync(TKey index);
@@ -162,13 +167,13 @@ namespace Ixq.Core.Repository
         Task<bool> RemoveRangeAsync(IEnumerable<TKey> range);
 
         /// <summary>
-        ///     提取所有元素
+        ///     提取所有元素。
         /// </summary>
         /// <returns></returns>
         IQueryable<TEntity> GetAll();
 
         /// <summary>
-        ///     异步提取所有元素
+        ///     异步提取所有元素。
         /// </summary>
         /// <returns></returns>
         Task<IQueryable<TEntity>> GetAllAsync();
@@ -186,11 +191,9 @@ namespace Ixq.Core.Repository
         /// <param name="includeProperties"></param>
         /// <returns></returns>
         Task<IQueryable<TEntity>> GetAllIncludeAsync(params Expression<Func<TEntity, object>>[] includeProperties);
-        IQueryable<TEntity> GetAllBy(IEnumerable<IEntityPropertyMetadata> metadata);
-        Task<IQueryable<TEntity>> GetAllByAsync(IEnumerable<IEntityPropertyMetadata> metadata);
 
         /// <summary>
-        ///     升序排序
+        ///     升序排序。
         /// </summary>
         /// <param name="propertyName">排序属性名</param>
         /// <param name="sortDirection">排序方向</param>
@@ -198,7 +201,7 @@ namespace Ixq.Core.Repository
         IQueryable<TEntity> OrderBy(string propertyName, ListSortDirection sortDirection = ListSortDirection.Ascending);
 
         /// <summary>
-        ///     异步升序排序
+        ///     异步升序排序。
         /// </summary>
         /// <param name="propertyName">排序属性名</param>
         /// <param name="sortDirection">排序方向</param>
@@ -207,45 +210,51 @@ namespace Ixq.Core.Repository
             ListSortDirection sortDirection = ListSortDirection.Ascending);
 
         /// <summary>
-        ///     降序排序
+        ///     降序排序。
         /// </summary>
         /// <param name="propertyName">排序属性名</param>
         /// <returns></returns>
         IQueryable<TEntity> OrderByDesc(string propertyName);
 
         /// <summary>
-        ///     异步降序排序
+        ///     异步降序排序。
         /// </summary>
         /// <param name="propertyName">排序属性名</param>
         /// <returns></returns>
         Task<IQueryable<TEntity>> OrderByDescAsync(string propertyName);
 
         /// <summary>
-        ///     根据谓词查询数据；
+        ///     根据谓词查询数据。
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     异步根据谓词查询数据；
+        ///     异步根据谓词查询数据。
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<IQueryable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     数据持久化到数据库
+        ///     数据持久化到数据库。
         /// </summary>
         /// <returns></returns>
         bool Save();
 
         /// <summary>
-        ///     采用异步的方式将数据持久化到数据库
+        ///     采用异步的方式将数据持久化到数据库。
         /// </summary>
         /// <returns></returns>
         Task<bool> SaveAsync();
 
+        /// <summary>
+        ///     将序列中的每个元素投影到新表单。
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="selector"></param>
+        /// <returns></returns>
         IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector);
 
         #region Sql查询
@@ -391,18 +400,18 @@ namespace Ixq.Core.Repository
         #region Dto
 
         /// <summary>
-        ///     根据Id获取Dto对象
+        ///     根据Id获取Dto对象。
         /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="index"></param>
+        /// <typeparam name="TDto">数据传输对象类型。</typeparam>
+        /// <param name="index">主键</param>
         /// <returns></returns>
         TDto GetSingleDtoById<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>;
 
         /// <summary>
-        ///     异步根据Id获取Dto对象
+        ///     异步根据Id获取Dto对象。
         /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="index"></param>
+        /// <typeparam name="TDto">数据传输对象类型。</typeparam>
+        /// <param name="index">主键</param>
         /// <returns></returns>
         Task<TDto> GetSingleDtoByIdAsync<TDto>(TKey index) where TDto : class, IDto<TEntity, TKey>;
 
