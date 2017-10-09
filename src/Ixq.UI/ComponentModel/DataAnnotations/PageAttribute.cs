@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.UI.Controls;
 
 namespace Ixq.UI.ComponentModel.DataAnnotations
@@ -10,7 +6,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
     /// <summary>
     ///     页面配置属性。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class PageAttribute : Attribute, IPageConfig
     {
         /// <summary>
@@ -59,7 +55,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         public bool MultiSelect { get; set; } = true;
 
         /// <summary>
-        ///     只有当 <see cref="MultiSelect"/>= true.起作用，当<see cref="MultiBoxOnly"/> 为ture时只有选择checkbox才会起作用，默认是true。
+        ///     只有当 <see cref="MultiSelect" />= true.起作用，当<see cref="MultiBoxOnly" /> 为ture时只有选择checkbox才会起作用，默认是true。
         /// </summary>
         public bool MultiBoxOnly { get; set; } = true;
 
@@ -67,11 +63,11 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         ///     获取或设置是否显示行号。
         /// </summary>
         public bool ShowRowNumber { get; set; }
+
         /// <summary>
         ///     获取或设置加载完后执行的脚本方法。
         /// </summary>
 
         public string OnLoadCompleteScript { get; set; }
-
     }
 }

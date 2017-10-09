@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Newtonsoft.Json;
@@ -16,16 +13,16 @@ namespace Ixq.UI.ComponentModel
     public class PageDataViewModel<TKey>
     {
         /// <summary>
-        ///     初始化一个<see cref="PageDataViewModel{TKey}"/>对象。
+        ///     初始化一个<see cref="PageDataViewModel{TKey}" />对象。
         /// </summary>
         /// <param name="total">数据总记录数。</param>
         /// <param name="pageCurrent">当前页。</param>
         /// <param name="pageSize">页面大小。</param>
-        public PageDataViewModel(int total, int pageCurrent,int pageSize)
+        public PageDataViewModel(int total, int pageCurrent, int pageSize)
         {
-            this.Total = total;
-            this.PageCurrent = pageCurrent;
-            this.TotalPage = (int)Math.Ceiling(total / (double)pageSize);
+            Total = total;
+            PageCurrent = pageCurrent;
+            TotalPage = (int) Math.Ceiling(total / (double) pageSize);
         }
 
         /// <summary>
@@ -39,11 +36,13 @@ namespace Ixq.UI.ComponentModel
         /// </summary>
         [JsonProperty("total")]
         public int TotalPage { get; private set; }
+
         /// <summary>
         ///     获取或设置数据总记录数。
         /// </summary>
         [JsonProperty("records")]
-        public int Total { get; set;}
+        public int Total { get; set; }
+
         /// <summary>
         ///     获取设置当前页。
         /// </summary>

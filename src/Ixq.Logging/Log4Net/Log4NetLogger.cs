@@ -11,7 +11,7 @@ namespace Ixq.Logging.Log4Net
     /// </summary>
     public class Log4NetLogger : ILogger
     {
-        private static readonly Type DeclaringType = typeof (Log4NetLogger);
+        private static readonly Type DeclaringType = typeof(Log4NetLogger);
         private readonly log4net.Core.ILogger _logger;
 
         /// <summary>
@@ -255,7 +255,9 @@ namespace Ixq.Logging.Log4Net
         protected virtual void Write(string message, Exception exception, LogLevel logLevel)
         {
             if (_logger == null)
+            {
                 throw new ArgumentException("Logger");
+            }
 
             switch (logLevel)
             {

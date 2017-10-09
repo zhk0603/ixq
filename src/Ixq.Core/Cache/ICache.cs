@@ -14,6 +14,7 @@ namespace Ixq.Core.Cache
         /// </summary>
         /// <returns></returns>
         string GetRegion();
+
         /// <summary>
         ///     获取全部的缓存项。
         /// </summary>

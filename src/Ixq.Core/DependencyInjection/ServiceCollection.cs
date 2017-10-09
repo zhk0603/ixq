@@ -24,8 +24,8 @@ namespace Ixq.Core.DependencyInjection
 
         public ServiceDescriptor this[int index]
         {
-            get { return _descriptors[index]; }
-            set { _descriptors[index] = value; }
+            get => _descriptors[index];
+            set => _descriptors[index] = value;
         }
 
         public void Init(Assembly[] assembly)
@@ -98,25 +98,25 @@ namespace Ixq.Core.DependencyInjection
 
         private static Type[] SelectManyForEnumLifetimeStyle(Assembly[] assemblies, ServiceLifetime lifetime)
         {
-            Type[] type = {};
+            Type[] type = { };
             switch (lifetime)
             {
                 case ServiceLifetime.Scoped:
                     type = assemblies.SelectMany(assembly =>
-                        assembly.GetTypes().Where(t =>
-                            typeof (IScopeDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            assembly.GetTypes().Where(t =>
+                                typeof(IScopeDependency).IsAssignableFrom(t) && !t.IsAbstract))
                         .Distinct().ToArray();
                     break;
                 case ServiceLifetime.Singleton:
                     type = assemblies.SelectMany(assembly =>
-                        assembly.GetTypes().Where(t =>
-                            typeof (ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            assembly.GetTypes().Where(t =>
+                                typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract))
                         .Distinct().ToArray();
                     break;
                 case ServiceLifetime.Transient:
                     type = assemblies.SelectMany(assembly =>
-                        assembly.GetTypes().Where(t =>
-                            typeof (ITransientDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            assembly.GetTypes().Where(t =>
+                                typeof(ITransientDependency).IsAssignableFrom(t) && !t.IsAbstract))
                         .Distinct().ToArray();
                     break;
             }
@@ -182,11 +182,11 @@ namespace Ixq.Core.DependencyInjection
         {
             Type[] exceptInterfaces =
             {
-                typeof (IDisposable),
-                typeof (IDependency),
-                typeof (ITransientDependency),
-                typeof (IScopeDependency),
-                typeof (ISingletonDependency)
+                typeof(IDisposable),
+                typeof(IDependency),
+                typeof(ITransientDependency),
+                typeof(IScopeDependency),
+                typeof(ISingletonDependency)
             };
             var interfaceTypes = type.GetInterfaces().Where(m => !exceptInterfaces.Contains(m)).ToArray();
             for (var index = 0; index < interfaceTypes.Length; index++)

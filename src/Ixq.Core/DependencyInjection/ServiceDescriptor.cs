@@ -160,7 +160,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof (TService), implementationFactory, ServiceLifetime.Transient);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Transient);
         }
 
         public static ServiceDescriptor Transient<TService>(Func<IServiceProvider, TService> implementationFactory)
@@ -171,7 +171,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof (TService), implementationFactory, ServiceLifetime.Transient);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Transient);
         }
 
         public static ServiceDescriptor Transient(Type service,
@@ -212,7 +212,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof (TService), implementationFactory, ServiceLifetime.Scoped);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Scoped);
         }
 
         public static ServiceDescriptor Scoped<TService>(Func<IServiceProvider, TService> implementationFactory)
@@ -223,12 +223,12 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof (TService), implementationFactory, ServiceLifetime.Scoped);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Scoped);
         }
 
         public static ServiceDescriptor Scoped
-            (Type service,
-                Func<IServiceProvider, object> implementationFactory)
+        (Type service,
+            Func<IServiceProvider, object> implementationFactory)
         {
             if (service == null)
             {
@@ -275,7 +275,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof (TService), implementationFactory, ServiceLifetime.Singleton);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Singleton);
         }
 
         public static ServiceDescriptor Singleton<TService>(Func<IServiceProvider, TService> implementationFactory)
@@ -286,7 +286,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof (TService), implementationFactory, ServiceLifetime.Singleton);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Singleton);
         }
 
         public static ServiceDescriptor Singleton(
@@ -314,7 +314,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationInstance));
             }
 
-            return Singleton(typeof (TService), implementationInstance);
+            return Singleton(typeof(TService), implementationInstance);
         }
 
         public static ServiceDescriptor Singleton(
@@ -339,8 +339,8 @@ namespace Ixq.Core.DependencyInjection
             where TImplementation : class, TService
         {
             return Describe(
-                typeof (TService),
-                typeof (TImplementation), lifetime);
+                typeof(TService),
+                typeof(TImplementation), lifetime);
         }
 
         public static ServiceDescriptor Describe(Type serviceType, Type implementationType, ServiceLifetime lifetime)

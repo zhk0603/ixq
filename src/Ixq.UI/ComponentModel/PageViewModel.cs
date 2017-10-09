@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core.Entity;
-using Ixq.Extensions;
-using System.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
 
 namespace Ixq.UI.ComponentModel
@@ -19,14 +14,17 @@ namespace Ixq.UI.ComponentModel
         ///     获取或设置实体元数据。
         /// </summary>
         public IEntityMetadata EntityMetadata { get; set; }
+
         /// <summary>
         ///     获取或设置实体类型。
         /// </summary>
         public Type EntityType { get; set; }
+
         /// <summary>
         ///     获取或设置数据传输对象类型。
         /// </summary>
         public Type DtoType { get; set; }
+
         /// <summary>
         ///     获取或设置页面分页组件。
         /// </summary>

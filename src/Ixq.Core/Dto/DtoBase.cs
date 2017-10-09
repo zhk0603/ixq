@@ -18,6 +18,7 @@ namespace Ixq.Core.Dto
         protected DtoBase() : this(MapperExtensions.Instance)
         {
         }
+
         /// <summary>
         ///     初始化一个数据传输对象。
         /// </summary>
@@ -45,7 +46,9 @@ namespace Ixq.Core.Dto
         public virtual TEntity MapTo()
         {
             if (Mapper == null)
+            {
                 throw new ArgumentNullException(nameof(Mapper), "尚未初始化Mapper组件。");
+            }
             return Mapper.MapTo<TEntity>(this);
         }
     }

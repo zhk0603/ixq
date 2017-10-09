@@ -9,8 +9,9 @@ namespace Ixq.Core.Cache
     public abstract class CacheProviderBase : ICacheProvider
     {
         private static readonly string GlobalCacheKey = "__globalCacheKey"; // + typeof (CacheProviderBase).FullName;
+
         /// <summary>
-        ///     <see cref="ICache"/> 实例字典集合。
+        ///     <see cref="ICache" /> 实例字典集合。
         /// </summary>
         protected static readonly ConcurrentDictionary<string, ICache> Caches;
 
@@ -54,7 +55,10 @@ namespace Ixq.Core.Cache
         void ICacheProvider.RemoveCache(string regionName)
         {
             ICache cache;
-            if (!Caches.TryRemove(regionName, out cache)) return;
+            if (!Caches.TryRemove(regionName, out cache))
+            {
+                return;
+            }
             cache = null;
         }
 

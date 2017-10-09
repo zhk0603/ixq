@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
-using Ixq.Core.Security;
 using Ixq.Extensions;
-using Microsoft.AspNet.Identity;
-using Ixq.Security.Identity;
 
 namespace Ixq.Web.Mvc
 {
@@ -58,7 +49,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual IEntityMetadata GetEntityMetadata<T>()
         {
-            var type = typeof (T);
+            var type = typeof(T);
             return GetEntityMetadata(type);
         }
     }

@@ -10,7 +10,7 @@ namespace Ixq.Core.Cache
         private static ICacheProvider _cacheProvider;
 
         /// <summary>
-        /// 是否启用缓存。
+        ///     是否启用缓存。
         /// </summary>
         public static bool IsEnable => _cacheProvider != null;
 
@@ -49,9 +49,13 @@ namespace Ixq.Core.Cache
         public static ICache GetCache(string region)
         {
             if (_cacheProvider == null)
+            {
                 throw new ArgumentNullException(nameof(_cacheProvider));
+            }
             if (string.IsNullOrEmpty(region))
+            {
                 throw new ArgumentNullException(nameof(region));
+            }
 
             return _cacheProvider.GetCache(region);
         }
@@ -64,8 +68,10 @@ namespace Ixq.Core.Cache
         public static ICache GetCache<T>()
         {
             if (_cacheProvider == null)
+            {
                 throw new ArgumentNullException(nameof(_cacheProvider));
-            return GetCache(typeof (T).FullName);
+            }
+            return GetCache(typeof(T).FullName);
         }
 
         /// <summary>
@@ -75,7 +81,9 @@ namespace Ixq.Core.Cache
         public static ICache GetGlobalCache()
         {
             if (_cacheProvider == null)
+            {
                 throw new ArgumentNullException(nameof(_cacheProvider));
+            }
             return _cacheProvider.GetGlobalCache();
         }
     }

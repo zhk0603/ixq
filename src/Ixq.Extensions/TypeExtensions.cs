@@ -32,9 +32,9 @@ namespace Ixq.Extensions
         /// <returns> </returns>
         public static Type GetNonNummableType(this Type type)
         {
-            if (IsNullableType(type))
-            {
+            if (IsNullableType(typ            {
                 return type.GetGenericArguments()[0];
+            }nericArguments()[0];
             }
             return type;
         }
@@ -74,17 +74,20 @@ namespace Ixq.Extensions
         /// <returns>返回Description特性描述信息，如不存在则返回成员的名称</returns>
         public static string ToDescription(this MemberInfo member, bool inherit = false)
         {
-            var desc = member.GetAttribute<DescriptionAttribute>(inherit);
-            if (desc != null)
-            {
+            var desc = member.GetAttribute<DescriptionAttribute>(inherit            {
+                return desc.Description;
+            }       {
                 return desc.Description;
             }
-            var displayName = member.GetAttribute<DisplayNameAttribute>(inherit);
-            if (displayName != null)
+            var displayName = member.GetAttribute<Displa            {
+                return displayName.DisplayName;
+            }layName != null)
             {
                 return displayName.DisplayName;
             }
-            var display = member.GetAttribute<DisplayAttribute>(inherit);
+            va            {
+                return display.Name;
+            }layAttribute>(inherit);
             if (display != null)
             {
                 return display.Name;
@@ -149,8 +152,9 @@ namespace Ixq.Extensions
         ///     判断类型是否为集合类型
         /// </summary>
         /// <param name="type">要处理的类型</param>
-        /// <returns>是返回True，不是返回False</returns>
-        public static bool IsEnumerable(this Type type)
+        /// <returns>是返回True，不是返回False</retur            {
+                return false;
+            }ol IsEnumerable(this Type type)
         {
             if (type == typeof (string))
             {
@@ -164,26 +168,27 @@ namespace Ixq.Extensions
         /// </summary>
         /// <param name="genericType">泛型类型</param>
         /// <param name="type">指定类型</param>
-        /// <returns></returns>
-        public static bool IsGenericAssignableFrom(this Type genericType, Type type)
-        {
+        /// <returns></return            {
+                throw new ArgumentException("该功能只支持泛型类型的调用，非泛型类型可使用 IsAssignableFrom 方法。");
+            }       {
             if (!genericType.IsGenericType)
             {
-                throw new ArgumentException("该功能只支持泛型类型的调用，非泛型类型可使用 IsAssignableFrom 方法。");
+                throw new Ar            {
+                allOthers.AddRange(type.GetInterfaces());
+            }方法。");
             }
 
             var allOthers = new List<Type> {type};
             if (genericType.IsInterface)
             {
                 allOthers.AddRange(type.GetInterfaces());
-            }
-
-            foreach (var other in allOthers)
-            {
+                          {
+                        cur = cur.GetGenericTypeDefinition();
+                    }        {
                 var cur = other;
-                while (cur != null)
-                {
-                    if (cur.IsGenericType)
+                while (cur != null)                    {
+                        return true;
+                    }     if (cur.IsGenericType)
                     {
                         cur = cur.GetGenericTypeDefinition();
                     }
@@ -207,9 +212,9 @@ namespace Ixq.Extensions
         }
 
         /// <summary>
-        ///     返回当前类型是否是指定基类的派生类
-        /// </summary>
-        /// <param name="type">当前类型</param>
+        ///                {
+                return baseType.IsGenericAssignableFrom(type);
+            } name="type">当前类型</param>
         /// <param name="baseType">要判断的基类型</param>
         /// <returns></returns>
         public static bool IsBaseOn(this Type type, Type baseType)
@@ -229,10 +234,9 @@ namespace Ixq.Extensions
         /// <returns></returns>
         public static bool IsBaseOn<TBaseType>(this Type type)
         {
-            var baseType = typeof (TBaseType);
-            return type.IsBaseOn(baseType);
-        }
-
+            var baseType = t            {
+                throw new ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
+            }
         /// <summary>
         ///     获取枚举项
         /// </summary>
@@ -248,7 +252,8 @@ namespace Ixq.Extensions
             {
                 var tmp = new EnumItem();
                 tmp.Value = (int)item;
-                tmp.Name = Enum.GetName(type, item);
+            
+    p.Name = Enum.GetName(type, item);
 
                 result.Add(tmp);
             }

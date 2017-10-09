@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
-using Ixq.Extensions;
 
 namespace Ixq.Core.Mapper
 {
@@ -71,14 +70,14 @@ namespace Ixq.Core.Mapper
 
         public MapperDescriptor this[int index]
         {
-            get { return _descriptors[index]; }
-            set { _descriptors[index] = value; }
+            get => _descriptors[index];
+            set => _descriptors[index] = value;
         }
 
         public void Init(Assembly[] assembly)
         {
-            var sourceTypes = SelectMany(typeof (IDto<,>), assembly);
-            var targetTypes = SelectMany(typeof (IEntity<>), assembly);
+            var sourceTypes = SelectMany(typeof(IDto<,>), assembly);
+            var targetTypes = SelectMany(typeof(IEntity<>), assembly);
             if (sourceTypes.Length == 0 || targetTypes.Length == 0)
             {
                 return;
@@ -99,8 +98,8 @@ namespace Ixq.Core.Mapper
         private Type[] SelectMany(Type t, Assembly[] assemblies)
         {
             return assemblies.SelectMany(assembly =>
-                assembly.GetTypes().Where(type =>
-                    t.IsGenericAssignableFrom(type) && !type.IsAbstract))
+                    assembly.GetTypes().Where(type =>
+                        t.IsGenericAssignableFrom(type) && !type.IsAbstract))
                 .Distinct().ToArray();
         }
 
@@ -115,7 +114,10 @@ namespace Ixq.Core.Mapper
             Type targetType = null;
             foreach (var iType in interfaceTypes)
             {
-                if (targetType != null) break;
+                if (targetType != null)
+                {
+                    break;
+                }
                 targetType = iType.GenericTypeArguments.FirstOrDefault(x => targetTypes.Contains(x));
             }
             return targetType;

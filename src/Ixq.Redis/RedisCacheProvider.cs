@@ -34,7 +34,6 @@ namespace Ixq.Redis
 
         public RedisCacheProvider() : this("localhost:6379")
         {
-            
         }
 
         /// <summary>
@@ -56,7 +55,9 @@ namespace Ixq.Redis
         {
             var connStr = _options?.ToString() ?? _connStr;
             if (string.IsNullOrWhiteSpace(connStr))
+            {
                 throw new ArgumentNullException(nameof(connStr));
+            }
             return StackExchange.Redis.ConnectionMultiplexer.Connect(connStr);
         }
 

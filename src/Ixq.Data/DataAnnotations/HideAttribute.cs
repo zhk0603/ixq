@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core.DataAnnotations;
 using Ixq.Core.Entity;
 
 namespace Ixq.Data.DataAnnotations
 {
-
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class HideAttribute : Attribute, IPropertyMetadataAware
     {
         public HideAttribute()
@@ -28,12 +23,13 @@ namespace Ixq.Data.DataAnnotations
         public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
+            {
                 throw new ArgumentNullException(nameof(runtimeProperty));
+            }
             runtimeProperty.IsHiddenOnCreate = IsHiddenOnCreate;
             runtimeProperty.IsHiddenOnDetail = IsHiddenOnDetail;
             runtimeProperty.IsHiddenOnView = IsHiddenOnView;
             runtimeProperty.IsHiddenOnEdit = IsHiddenOnEdit;
-
         }
     }
 }

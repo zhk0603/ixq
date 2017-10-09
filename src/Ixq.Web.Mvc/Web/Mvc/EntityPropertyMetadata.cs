@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core;
 using Ixq.Core.Entity;
-using Ixq.Data.DataAnnotations;
-using Ixq.Extensions;
-using Ixq.UI.ComponentModel.DataAnnotations;
-using DataType = Ixq.Core.DataType;
 
 namespace Ixq.Web.Mvc
 {
@@ -21,13 +13,15 @@ namespace Ixq.Web.Mvc
     public class EntityPropertyMetadata : IEntityPropertyMetadata
     {
         /// <summary>
-        ///     初始化一个<see cref="EntityPropertyMetadata"/>对象。
+        ///     初始化一个<see cref="EntityPropertyMetadata" />对象。
         /// </summary>
         /// <param name="dtoPropertyInfo"></param>
         public EntityPropertyMetadata(PropertyInfo dtoPropertyInfo)
         {
             if (dtoPropertyInfo == null)
+            {
                 throw new ArgumentNullException(nameof(dtoPropertyInfo));
+            }
 
             PropertyInfo = dtoPropertyInfo;
             PropertyType = dtoPropertyInfo.PropertyType;
@@ -49,111 +43,62 @@ namespace Ixq.Web.Mvc
         ///     获取Dto属性类型。
         /// </summary>
         public Type PropertyType { get; }
+
         /// <summary>
         ///     获取或设置实体属性授权角色。
         /// </summary>
         public string[] Roles { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性授权用户。
         /// </summary>
         public string[] Users { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性是否为主键。
         /// </summary>
         public bool IsKey { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性是否隐藏在列表。
         /// </summary>
         public bool IsHiddenOnView { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性是否隐藏在编辑时。
         /// </summary>
         public bool IsHiddenOnEdit { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性是否隐藏在新增时。
         /// </summary>
         public bool IsHiddenOnCreate { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性是否隐藏在查看详情时。
         /// </summary>
         public bool IsHiddenOnDetail { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性是否能搜索。
         /// </summary>
         public bool IsSearcher { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性在新增或编辑是否为必须。
         /// </summary>
         public bool IsRequired { get; set; }
 
-        #region DisplayAttribute
-        /// <summary>
-        ///     获取或设置实体属性的显示名称。
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        ///     获取或设置实体属性的排序顺序。
-        /// </summary>
-        public int? Order { get; set; }
-        /// <summary>
-        ///     获取或设置实体属性的描述信息。
-        /// </summary>
-        public string Description { get; set; }
-        /// <summary>
-        ///     获取或设置实体属性的组名。
-        /// </summary>
-        public string GroupName { get; set; }
-
-        #endregion
-
-        #region ColModelAttribute
-        /// <summary>
-        ///     获取或设置引索，与后台交互的参数。
-        /// </summary>
-        public string ColModelIndex { get; set; }
-        /// <summary>
-        ///     获取或设置表格列的名称。
-        /// </summary>
-        public string ColModelName { get; set; }
-        /// <summary>
-        ///     获取或设置实体属性的css类。
-        /// </summary>
-        public string CssClass { get; set; }
-        /// <summary>
-        ///     获取或设置实体属性的列宽。
-        /// </summary>
-        public int Width { get; set; } = 150;
-
-        /// <summary>
-        ///     获取或设置实体属性在列表时的文字对齐格式。
-        /// </summary>
-        public TextAlign Align { get; set; } = TextAlign.Center;
-        /// <summary>
-        ///     获取或设置实体属性是否能排序。
-        /// </summary>
-        public bool Sortable { get; set; }
-        /// <summary>
-        ///     获取或设置格式化脚本方法。
-        /// </summary>
-        public string FormatterScript { get; set; }
-        /// <summary>
-        ///     获取或设置反格式化脚本方法。
-        /// </summary>
-        public string UnFormatterScript { get; set; }
-        /// <summary>
-        ///     获取或设置在初始化表格时是否要隐藏此列。
-        /// </summary>
-        public bool Hidden { get; set; }
-
-        #endregion
         /// <summary>
         ///     获取或设置实体属性的数据类型。
         /// </summary>
         public DataType DataType { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性的自定义数据类型。
         /// </summary>
         public string CustomDataType { get; set; }
+
         /// <summary>
         ///     获取或设置实体属性局部视图路径。
         /// </summary>
@@ -196,5 +141,78 @@ namespace Ixq.Web.Mvc
             }
             return true;
         }
+
+        #region DisplayAttribute
+
+        /// <summary>
+        ///     获取或设置实体属性的显示名称。
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的排序顺序。
+        /// </summary>
+        public int? Order { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的描述信息。
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的组名。
+        /// </summary>
+        public string GroupName { get; set; }
+
+        #endregion
+
+        #region ColModelAttribute
+
+        /// <summary>
+        ///     获取或设置引索，与后台交互的参数。
+        /// </summary>
+        public string ColModelIndex { get; set; }
+
+        /// <summary>
+        ///     获取或设置表格列的名称。
+        /// </summary>
+        public string ColModelName { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的css类。
+        /// </summary>
+        public string CssClass { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的列宽。
+        /// </summary>
+        public int Width { get; set; } = 150;
+
+        /// <summary>
+        ///     获取或设置实体属性在列表时的文字对齐格式。
+        /// </summary>
+        public TextAlign Align { get; set; } = TextAlign.Center;
+
+        /// <summary>
+        ///     获取或设置实体属性是否能排序。
+        /// </summary>
+        public bool Sortable { get; set; }
+
+        /// <summary>
+        ///     获取或设置格式化脚本方法。
+        /// </summary>
+        public string FormatterScript { get; set; }
+
+        /// <summary>
+        ///     获取或设置反格式化脚本方法。
+        /// </summary>
+        public string UnFormatterScript { get; set; }
+
+        /// <summary>
+        ///     获取或设置在初始化表格时是否要隐藏此列。
+        /// </summary>
+        public bool Hidden { get; set; }
+
+        #endregion
     }
 }

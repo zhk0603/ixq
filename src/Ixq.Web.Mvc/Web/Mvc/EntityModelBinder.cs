@@ -1,12 +1,7 @@
-﻿using Ixq.Core.Entity;
-using Ixq.Core.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using Ixq.Core.Entity;
 
 namespace Ixq.Web.Mvc
 {
@@ -38,14 +33,22 @@ namespace Ixq.Web.Mvc
                 OnModelStateUpdate(controllerContext, bindingContext, modelStateDic);
             }
         }
-        protected virtual void OnModelStateUpdate(ControllerContext controllerContext, ModelBindingContext bindingContext, KeyValuePair<string, ModelState> modelStateDic)
+
+        /// <summary>
+        ///     更新模型状态时执行。
+        /// </summary>
+        /// <param name="controllerContext"></param>
+        /// <param name="bindingContext"></param>
+        /// <param name="modelStateDic"></param>
+        protected virtual void OnModelStateUpdate(ControllerContext controllerContext,
+            ModelBindingContext bindingContext, KeyValuePair<string, ModelState> modelStateDic)
         {
             if (modelStateDic.Value.Errors.Count > 0)
             {
-                var entityControllerDescriptor = controllerContext.Controller as IEntityControllerDescriptor;
-                if (entityControllerDescriptor != null)
+                if (controllerContext.Controller is IEntityControllerDescriptor entityControllerDescriptor)
                 {
-                    UpdateModelStateWithEntityMetadata(entityControllerDescriptor.EntityMetadata, bindingContext, modelStateDic);
+                    UpdateModelStateWithEntityMetadata(entityControllerDescriptor.EntityMetadata, bindingContext,
+                        modelStateDic);
                 }
             }
         }
@@ -53,10 +56,11 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     使用实体元数据更新模型状态。
         /// </summary>
-        /// <param name="metadata">实体元数据。</param>
+        /// <param name="entityMetadata">实体元数据。</param>
         /// <param name="bindingContext">绑定模型的上下文。上下文包含模型对象、模型名称、模型类型、属性筛选器和值提供程序等信息。</param>
         /// <param name="modelStateDic">模型状态键值对。在模型绑定时发生错误的模型状态。</param>
-        protected virtual void UpdateModelStateWithEntityMetadata(IEntityMetadata entityMetadata, ModelBindingContext bindingContext, KeyValuePair<string, ModelState> modelStateDic)
+        protected virtual void UpdateModelStateWithEntityMetadata(IEntityMetadata entityMetadata,
+            ModelBindingContext bindingContext, KeyValuePair<string, ModelState> modelStateDic)
         {
             // 当前授权用户没有此属性的编辑权限时，清除模型错误信息。
             if (!HasEditProperty(entityMetadata.EditPropertyMetadatas, modelStateDic.Key))

@@ -24,7 +24,8 @@ namespace Ixq.DependencyInjection.Autofac
             return app;
         }
 
-        internal static void RegisterAutofacInternal(IServiceCollection serviceCollection, params Assembly[] controllerAssemblies)
+        internal static void RegisterAutofacInternal(IServiceCollection serviceCollection,
+            params Assembly[] controllerAssemblies)
         {
             var builder = new ContainerBuilder();
             builder.RegisterFilterProvider();
@@ -95,11 +96,11 @@ namespace Ixq.DependencyInjection.Autofac
                 else if (descriptor.ImplementationFactory != null)
                 {
                     var registration = RegistrationBuilder.ForDelegate(descriptor.ServiceType,
-                        (context, paramters) =>
-                        {
-                            var provider = context.Resolve<IServiceProvider>();
-                            return descriptor.ImplementationFactory(provider);
-                        })
+                            (context, paramters) =>
+                            {
+                                var provider = context.Resolve<IServiceProvider>();
+                                return descriptor.ImplementationFactory(provider);
+                            })
                         .ConfigureLifecycle(descriptor.Lifetime)
                         .CreateRegistration();
                     builder.RegisterComponent(registration);

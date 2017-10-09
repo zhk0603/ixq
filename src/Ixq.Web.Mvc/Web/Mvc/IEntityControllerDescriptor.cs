@@ -1,12 +1,5 @@
-﻿using Ixq.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using Ixq.Core.Entity;
-using Ixq.Core.Repository;
+﻿using Ixq.Core.Entity;
+using Ixq.UI;
 
 namespace Ixq.Web.Mvc
 {
@@ -19,10 +12,12 @@ namespace Ixq.Web.Mvc
         ///     获取或设置页面大小集合。
         /// </summary>
         int[] PageSizeList { get; set; }
+
         /// <summary>
         ///     获取或设置页面配置信息。
         /// </summary>
         IPageConfig PageConfig { get; set; }
+
         /// <summary>
         ///     获取或设置实体元数据。
         /// </summary>

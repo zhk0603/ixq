@@ -11,7 +11,8 @@ using Ixq.UI;
 using Ixq.UI.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
 using Newtonsoft.Json;
-using System.Linq;
+
+ing System.Linq;
 
 namespace Ixq.Web.Mvc
 {
@@ -38,8 +39,9 @@ namespace Ixq.Web.Mvc
         /// <param name="repository">实体仓储。</param>
         protected EntityController(IRepositoryBase<TEntity, TKey> repository)
         {
-            if (repository == null)
+            if (r            {
                 throw new ArgumentNullException(nameof(repository));
+            }nameof(repository));
 
             PageSizeList = new[] {15, 30, 60, 120};
             PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
@@ -58,8 +60,8 @@ namespace Ixq.Web.Mvc
         /// </summary>
         public IEntityMetadataProvider EntityMetadataProvider
         {
-            get { return _entityMetadataProvider ?? (_entityMetadataProvider = CreateEntityMetadataProvider()); }
-            set { _entityMetadataProvider = value; }
+            get => _entityMetadataProvider ?? (_entityMetadataProvider = CreateEntityMetadataProvider());
+            set => _entityMetadataProvider = value;
         }
 
         /// <summary>
@@ -88,11 +90,12 @@ namespace Ixq.Web.Mvc
         public virtual ActionResult Index(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
         {
-            if (pageCurrent < 1)
-            {
+                        {
                 pageCurrent = 1;
-            }
-            if (pageSize < 1)
+            }  {
+                pageCurrent             {
+                pageSize = PageSizeList[0];
+            }ze < 1)
             {
                 pageSize = PageSizeList[0];
             }
@@ -127,12 +130,13 @@ namespace Ixq.Web.Mvc
         [HttpPost]
         public virtual async Task<ActionResult> List(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
-        {
-            if (pageCurrent < 1)
-            {
+                 {
                 pageCurrent = 1;
-            }
-            if (pageSize < 1)
+            }t < 1)
+            {
+                      {
+                pageSize = PageSizeList[0];
+            }        if (pageSize < 1)
             {
                 pageSize = PageSizeList[0];
             }
@@ -271,7 +275,7 @@ namespace Ixq.Web.Mvc
         /// <param name="behavior">JSON请求行为。</param>
         /// <returns></returns>
         protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding,
-            JsonRequestBehavior behavior)
+          System.Web.Mvc.JsonResultavior)
         {
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet, null);
         }
@@ -285,7 +289,7 @@ namespace Ixq.Web.Mvc
         /// <param name="behavior">JSON请求行为。</param>
         /// <param name="serializerSettings">设置。</param>
         /// <returns></returns>
-        protected virtual JsonResult Json(object data, string contentType, Encoding contentEncoding,
+        protected virSystem.Web.Mvc.JsonResultct data, string contentType, Encoding contentEncoding,
             JsonRequestBehavior behavior,
             JsonSerializerSettings serializerSettings)
         {
@@ -322,7 +326,8 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         protected virtual IEntityMetadataProvider CreateEntityMetadataProvider()
         {
-            return DependencyResolver.Current.GetService<IEntityMetadataProvider>() ??
+            return DependencyRe
+    .Current.GetService<IEntityMetadataProvider>() ??
                    new EntityMetadataProvider();
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ixq.Core
+﻿namespace Ixq.Core
 {
     /// <summary>
     ///     文字对齐方向。

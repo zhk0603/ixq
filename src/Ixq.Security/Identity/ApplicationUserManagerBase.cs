@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
-using Ixq.Core.Entity;
 using Ixq.Core.Security;
 using Ixq.Extensions.ObjectModel;
 using Microsoft.AspNet.Identity;
@@ -39,7 +38,7 @@ namespace Ixq.Security.Identity
 
         public bool CheckPassword(IUser user, string password)
         {
-            _userManager.CheckPassword((TUser)user, password);
+            _userManager.CheckPassword((TUser) user, password);
             throw new NotImplementedException();
         }
 

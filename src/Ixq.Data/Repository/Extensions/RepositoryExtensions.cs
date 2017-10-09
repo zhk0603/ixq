@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Ixq.Core.Dto;
 using Ixq.Core.Entity;
-using Ixq.Core.Repository;
 using Ixq.Core.Mapper;
+using Ixq.Core.Repository;
 
 namespace Ixq.Data.Repository.Extensions
 {
@@ -16,7 +15,6 @@ namespace Ixq.Data.Repository.Extensions
     /// </summary>
     public static class RepositoryExtensions
     {
-
         /// <summary>
         ///     获取上下文。
         /// </summary>
@@ -28,7 +26,9 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
         {
             if (repository.UnitOfWork == null)
+            {
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            }
             return (DbContext) repository.UnitOfWork;
         }
 
@@ -45,12 +45,14 @@ namespace Ixq.Data.Repository.Extensions
             where TDbContext : DbContext
         {
             if (repository.UnitOfWork == null)
+            {
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            }
             return (TDbContext) repository.UnitOfWork;
         }
 
         /// <summary>
-        ///     针对对上下文和基础存储中给定类型的实体的访问返回一个 <see cref="DbSet{TEntity}"/> 实例。
+        ///     针对对上下文和基础存储中给定类型的实体的访问返回一个 <see cref="DbSet{TEntity}" /> 实例。
         /// </summary>
         /// <typeparam name="TEntity">应为其返回一个集的类型实体。</typeparam>
         /// <typeparam name="TKey">实体主键类型。</typeparam>
@@ -60,14 +62,16 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
         {
             if (repository.UnitOfWork == null)
+            {
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
+            }
 
             return ((DbContext) repository.UnitOfWork).Set<TEntity>();
         }
 
 
         /// <summary>
-        /// 将指定的 <see cref="IQueryable{TEntity}"/> 转为 <see cref="IDto"/>
+        ///     将指定的 <see cref="IQueryable{TEntity}" /> 转为 <see cref="IDto" />
         /// </summary>
         /// <typeparam name="TDto"></typeparam>
         /// <typeparam name="TEntity"></typeparam>
@@ -83,7 +87,7 @@ namespace Ixq.Data.Repository.Extensions
         }
 
         /// <summary>
-        /// 将指定的 <see cref="IQueryable{TEntity}"/> 转为 <see cref="IDto"/>
+        ///     将指定的 <see cref="IQueryable{TEntity}" /> 转为 <see cref="IDto" />
         /// </summary>
         /// <typeparam name="TDto"></typeparam>
         /// <typeparam name="TEntity"></typeparam>
@@ -98,7 +102,7 @@ namespace Ixq.Data.Repository.Extensions
         }
 
         /// <summary>
-        /// 将 <see cref="IQueryable{TEntity}"/> 转为 <see cref="List{TDto}"/>
+        ///     将 <see cref="IQueryable{TEntity}" /> 转为 <see cref="List{TDto}" />
         /// </summary>
         /// <typeparam name="TDto"></typeparam>
         /// <typeparam name="TEntity"></typeparam>
@@ -114,7 +118,7 @@ namespace Ixq.Data.Repository.Extensions
         }
 
         /// <summary>
-        /// 将 <see cref="IQueryable{TEntity}"/> 转为 <see cref="List{TDto}"/>
+        ///     将 <see cref="IQueryable{TEntity}" /> 转为 <see cref="List{TDto}" />
         /// </summary>
         /// <typeparam name="TDto"></typeparam>
         /// <typeparam name="TEntity"></typeparam>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,8 +14,6 @@ using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
-using Ixq.Extensions;
-using System.Data.Entity.Infrastructure;
 
 namespace Ixq.Data.Repository
 {
@@ -27,7 +26,7 @@ namespace Ixq.Data.Repository
         where TEntity : class, IEntity<TKey>, new()
     {
         /// <summary>
-        ///     初始化一个<see cref="RepositoryBase{TEntity, TKey}"/>实例。
+        ///     初始化一个<see cref="RepositoryBase{TEntity, TKey}" />实例。
         /// </summary>
         /// <param name="unitOfWork"></param>
         public RepositoryBase(IUnitOfWork unitOfWork)
@@ -35,7 +34,8 @@ namespace Ixq.Data.Repository
             UnitOfWork = unitOfWork;
         }
 
-        private DbSet<TEntity> Table => ((DbContext)UnitOfWork).Set<TEntity>();
+        private DbSet<TEntity> Table => ((DbContext) UnitOfWork).Set<TEntity>();
+
         /// <summary>
         ///     工作单元。
         /// </summary>
@@ -98,7 +98,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual bool Edit(TEntity entity)
         {
-            var entry = ((DbContext)UnitOfWork).Entry(entity);
+            var entry = ((DbContext) UnitOfWork).Entry(entity);
             entry.State = EntityState.Modified;
             return Save();
         }
@@ -109,7 +109,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual Task<bool> EditAsync(TEntity entity)
         {
-            var entry = ((DbContext)UnitOfWork).Entry(entity);
+            var entry = ((DbContext) UnitOfWork).Entry(entity);
             entry.State = EntityState.Modified;
             return SaveAsync();
         }
@@ -152,7 +152,8 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <param name="includeProperties"></param>
         /// <returns></returns>
-        public virtual Task<IQueryable<TEntity>> GetAllIncludeAsync(params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual Task<IQueryable<TEntity>> GetAllIncludeAsync(
+            params Expression<Func<TEntity, object>>[] includeProperties)
         {
             return Task.FromResult(GetAllInclude(includeProperties));
         }
@@ -297,7 +298,9 @@ namespace Ixq.Data.Repository
             {
                 var entity = SingleById(index);
                 if (entity != null)
+                {
                     Table.Remove(entity);
+                }
             }
             return Save();
         }
@@ -564,7 +567,7 @@ namespace Ixq.Data.Repository
             params object[] parameters)
             where T2 : class, IEntity<TKey2>, new()
         {
-            var table = ((DbContext)UnitOfWork).Set<T2>();
+            var table = ((DbContext) UnitOfWork).Set<T2>();
             return trackEnabled
                 ? table.SqlQuery(sql, parameters)
                 : table.SqlQuery(sql, parameters).AsNoTracking();
@@ -609,7 +612,7 @@ namespace Ixq.Data.Repository
         public virtual T2 SqlQuerySingle<T2, TKey2>(TKey index, bool trackEnabled)
             where T2 : class, IEntity<TKey2>, new()
         {
-            var table = ((DbContext)UnitOfWork).Set<T2>();
+            var table = ((DbContext) UnitOfWork).Set<T2>();
 
             var tableName = GetTableName<T2>();
             var sql = "select * from " + tableName + " where [Index] = @index";
@@ -647,7 +650,7 @@ namespace Ixq.Data.Repository
         protected virtual string GetTableName<TType>()
         {
             var type = typeof(TType);
-            var tableName = GetEntityDataBaseTableName<TType>((DbContext)UnitOfWork) ?? type.Name;
+            var tableName = GetEntityDataBaseTableName<TType>((DbContext) UnitOfWork) ?? type.Name;
             var tableAttribute = type.GetAttribute<TableAttribute>();
             if (tableAttribute != null)
             {
@@ -672,12 +675,14 @@ namespace Ixq.Data.Repository
             var ojbectContext = contextAdapter.ObjectContext;
             var className = typeof(T).Name;
 
-            var container = ojbectContext.MetadataWorkspace.GetItemCollection(DataSpace.SSpace).GetItems<EntityContainer>().Single();
+            var container = ojbectContext.MetadataWorkspace.GetItemCollection(DataSpace.SSpace)
+                .GetItems<EntityContainer>().Single();
             var entityTableName = (from meta in container.BaseEntitySets.OfType<EntitySet>()
-                                   where
-                                       (!meta.MetadataProperties.Contains("Type") || meta.MetadataProperties["Type"].ToString() == "Tables") &&
-                                       meta.ElementType.Name == className
-                                   select meta.Table).FirstOrDefault();
+                where
+                    (!meta.MetadataProperties.Contains("Type") ||
+                     meta.MetadataProperties["Type"].ToString() == "Tables") &&
+                    meta.ElementType.Name == className
+                select meta.Table).FirstOrDefault();
 
             return entityTableName;
         }

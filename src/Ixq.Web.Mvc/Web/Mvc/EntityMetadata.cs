@@ -19,22 +19,29 @@ namespace Ixq.Web.Mvc
     [Serializable]
     public class EntityMetadata : IEntityMetadata
     {
+        /// <summary>
+        ///     授权用户委托。
+        /// </summary>
+        /// <returns></returns>
+        public delegate ClaimsPrincipal ClaimsUserDelegate();
+
         private static readonly object LockObj = new object();
-        private readonly Type _dtoType;
         private readonly Type _entityType;
         private PropertyInfo[] _entityPropertys;
         private IEntityPropertyMetadata[] _propertyMetadatas;
 
         /// <summary>
-        ///     初始化一个<see cref="EntityMetadata"/>。
+        ///     初始化一个<see cref="EntityMetadata" />。
         /// </summary>
         /// <param name="dtoType">数据传输对象类型。</param>
         public EntityMetadata(Type dtoType)
         {
             if (dtoType == null)
+            {
                 throw new ArgumentNullException(nameof(dtoType));
+            }
 
-            _dtoType = dtoType;
+            DtoType = dtoType;
         }
 
         /// <summary>
@@ -106,10 +113,7 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取数据传输对象类型。
         /// </summary>
-        public Type DtoType
-        {
-            get { return _dtoType; }
-        }
+        public Type DtoType { get; }
 
         /// <summary>
         ///     获取实体所有公共的属性元数据。
@@ -123,7 +127,9 @@ namespace Ixq.Web.Mvc
                     lock (LockObj)
                     {
                         if (_propertyMetadatas == null)
+                        {
                             _propertyMetadatas = GetPropertyMetadatas();
+                        }
                     }
                 }
                 return _propertyMetadatas;
@@ -134,7 +140,7 @@ namespace Ixq.Web.Mvc
         ///     获取实体所有的公共属性。
         /// </summary>
         public PropertyInfo[] EntityPropertyInfos
-            => _entityPropertys ?? (_entityPropertys = _dtoType.GetProperties());
+            => _entityPropertys ?? (_entityPropertys = DtoType.GetProperties());
 
         /// <summary>
         ///     获取属性元数据。
@@ -145,19 +151,16 @@ namespace Ixq.Web.Mvc
             var propertyMetadatas = new List<IEntityPropertyMetadata>();
             foreach (var property in EntityPropertyInfos)
             {
-                if (!property.HasAttribute<DisplayAttribute>()) continue;
+                if (!property.HasAttribute<DisplayAttribute>())
+                {
+                    continue;
+                }
                 var runtimeProperty = GetEntityPropertyMetadata(property);
                 propertyMetadatas.Add(runtimeProperty);
             }
 
             return propertyMetadatas.OrderBy(x => x.Order).ToArray();
         }
-
-        /// <summary>
-        ///     授权用户委托。
-        /// </summary>
-        /// <returns></returns>
-        public delegate ClaimsPrincipal ClaimsUserDelegate();
 
         /// <summary>
         ///     应用属性元数据感知属性。
@@ -174,7 +177,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     获取实体属性的元数据，根据数据注释属性以及属性元数据感知属性初始化一个<see cref="IEntityMetadataProvider"/>实例。
+        ///     获取实体属性的元数据，根据数据注释属性以及属性元数据感知属性初始化一个<see cref="IEntityMetadataProvider" />实例。
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
@@ -203,7 +206,7 @@ namespace Ixq.Web.Mvc
                 DataType = EntityExtensions.GetDataType(property)
             };
 
-            DisplayAttribute display = attributes.OfType<DisplayAttribute>().FirstOrDefault();
+            var display = attributes.OfType<DisplayAttribute>().FirstOrDefault();
             string name = null;
             if (display != null)
             {
@@ -219,7 +222,7 @@ namespace Ixq.Web.Mvc
             }
             else
             {
-                DisplayNameAttribute displayNameAttribute = attributes.OfType<DisplayNameAttribute>().FirstOrDefault();
+                var displayNameAttribute = attributes.OfType<DisplayNameAttribute>().FirstOrDefault();
                 if (displayNameAttribute != null)
                 {
                     result.Name = displayNameAttribute.DisplayName;

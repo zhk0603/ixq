@@ -14,7 +14,10 @@ namespace Ixq.DependencyInjection.Autofac
 
         public object GetService(Type serviceType)
         {
-            if (!_componentContext.IsRegistered(serviceType)) return null;
+            if (!_componentContext.IsRegistered(serviceType))
+            {
+                return null;
+            }
             return _componentContext.Resolve(serviceType);
         }
     }

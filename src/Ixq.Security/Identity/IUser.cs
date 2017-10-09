@@ -1,9 +1,5 @@
-﻿using Ixq.Core.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Ixq.Core.Entity;
 
 namespace Ixq.Security.Identity
 {

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Ixq.Core.DependencyInjection;
-using Ixq.Core.Entity;
 using Ixq.Core.Security;
 using Ixq.Extensions.ObjectModel;
 using Microsoft.AspNet.Identity;
@@ -13,6 +12,7 @@ namespace Ixq.Security.Identity
         where TRole : class, IRole
     {
         private readonly RoleManager<TRole> _roleManager;
+
         protected ApplicationRoleManagerBase(IRoleStore<TRole, string> store) : base(store)
         {
             _roleManager = this;

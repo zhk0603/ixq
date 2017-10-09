@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web.WebPages;
 
 namespace Ixq.UI
@@ -14,7 +10,7 @@ namespace Ixq.UI
     public class ScriptTemplate : HtmlTemplate
     {
         /// <summary>
-        ///     初始化一个<see cref="ScriptTemplate"/>对象。
+        ///     初始化一个<see cref="ScriptTemplate" />对象。
         /// </summary>
         /// <param name="template">模版委托方法。</param>
         public ScriptTemplate(Func<object, HelperResult> template) : base(template)
@@ -22,16 +18,21 @@ namespace Ixq.UI
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
-            if (!(obj is ScriptTemplate)) return false;
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is ScriptTemplate))
+            {
+                return false;
+            }
 
-            string pattern = @"<script.*?src=""(.*?)""";
+            var pattern = @"<script.*?src=""(.*?)""";
 
             var value1 = Template(null).ToHtmlString();
             var match1 = Regex.Match(value1, pattern);
@@ -40,40 +41,42 @@ namespace Ixq.UI
             var match2 = Regex.Match(value2, pattern);
 
             if (!match1.Success || !match2.Success)
+            {
                 return false;
+            }
 
             return match1.Groups[1].Value == match2.Groups[1].Value;
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
         public static bool operator ==(ScriptTemplate a, ScriptTemplate b)
         {
-            if (System.Object.ReferenceEquals(a, b))
+            if (ReferenceEquals(a, b))
             {
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if ((object) a == null || (object) b == null)
             {
                 return false;
             }
 
             return a.Equals(b);
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>

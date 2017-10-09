@@ -27,6 +27,7 @@ namespace Ixq.Core.Dto
         /// <returns></returns>
         TEntity MapTo();
     }
+
     /// <summary>
     ///     数据传输对象。
     /// </summary>

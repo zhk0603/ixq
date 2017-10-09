@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using Ixq.Core;
 using Ixq.Core.DependencyInjection;
 using Ixq.DependencyInjection.Autofac;
 using Ixq.Mapper.AutoMapper;
 using Ixq.Security.Identity;
 using Owin;
-using System.Reflection;
 
 namespace Ixq.Owin.Extensions
 {

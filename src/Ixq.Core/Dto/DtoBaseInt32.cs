@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Newtonsoft.Json;
@@ -19,9 +15,10 @@ namespace Ixq.Core.Dto
         /// <summary>
         ///     初始化一个数据传输对象。
         /// </summary>
-        protected DtoBaseInt32() :this (MapperExtensions.Instance)
+        protected DtoBaseInt32() : this(MapperExtensions.Instance)
         {
         }
+
         /// <summary>
         ///     初始化一个数据传输对象。
         /// </summary>
@@ -49,7 +46,9 @@ namespace Ixq.Core.Dto
         public virtual TEntity MapTo()
         {
             if (Mapper == null)
+            {
                 throw new ArgumentNullException(nameof(Mapper), "尚未初始化Mapper组件。");
+            }
             return Mapper.MapTo<TEntity>(this);
         }
     }

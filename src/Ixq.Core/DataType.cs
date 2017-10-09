@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ixq.Core
+﻿namespace Ixq.Core
 {
     /// <summary>
     ///     数据类型。
@@ -35,7 +29,7 @@ namespace Ixq.Core
         Sex,
 
         Enum,
-        
+
         DateTime,
         Date,
         Time,

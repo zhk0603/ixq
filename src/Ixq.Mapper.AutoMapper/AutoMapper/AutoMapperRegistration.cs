@@ -10,7 +10,10 @@ namespace Ixq.Mapper.AutoMapper
         public static AppBootProgram RegisterAutoMappe(this AppBootProgram app)
         {
             MapperExtensions.LazyMapper = new Lazy<IMapper>(() => new AutoMapperMapper());
-            if (!app.MapperCollection.Any()) return app;
+            if (!app.MapperCollection.Any())
+            {
+                return app;
+            }
             MapperExtensions.Instance.Initialize(app.MapperCollection);
             return app;
         }

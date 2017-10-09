@@ -95,7 +95,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddTransient(typeof (TService), typeof (TImplementation));
+            return services.AddTransient(typeof(TService), typeof(TImplementation));
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddTransient(typeof (TService));
+            return services.AddTransient(typeof(TService));
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddTransient(typeof (TService), implementationFactory);
+            return services.AddTransient(typeof(TService), implementationFactory);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddTransient(typeof (TService), implementationFactory);
+            return services.AddTransient(typeof(TService), implementationFactory);
         }
 
 
@@ -287,7 +287,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddScoped(typeof (TService), typeof (TImplementation));
+            return services.AddScoped(typeof(TService), typeof(TImplementation));
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddScoped(typeof (TService));
+            return services.AddScoped(typeof(TService));
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddScoped(typeof (TService), implementationFactory);
+            return services.AddScoped(typeof(TService), implementationFactory);
         }
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddScoped(typeof (TService), implementationFactory);
+            return services.AddScoped(typeof(TService), implementationFactory);
         }
 
 
@@ -479,7 +479,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton(typeof (TService), typeof (TImplementation));
+            return services.AddSingleton(typeof(TService), typeof(TImplementation));
         }
 
         /// <summary>
@@ -523,7 +523,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton(typeof (TService));
+            return services.AddSingleton(typeof(TService));
         }
 
         /// <summary>
@@ -551,7 +551,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddSingleton(typeof (TService), implementationFactory);
+            return services.AddSingleton(typeof(TService), implementationFactory);
         }
 
         /// <summary>
@@ -582,7 +582,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddSingleton(typeof (TService), implementationFactory);
+            return services.AddSingleton(typeof(TService), implementationFactory);
         }
 
         /// <summary>
@@ -644,7 +644,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationInstance));
             }
 
-            return services.AddSingleton(typeof (TService), implementationInstance);
+            return services.AddSingleton(typeof(TService), implementationInstance);
         }
 
         private static IServiceCollection Add(

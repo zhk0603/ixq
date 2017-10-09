@@ -25,7 +25,9 @@ namespace Ixq.Redis
         public RedisCache(IDatabase database, string region)
         {
             if (database == null)
+            {
                 throw new ArgumentNullException(nameof(database));
+            }
             _database = database;
             _region = region;
         }
@@ -66,7 +68,10 @@ namespace Ixq.Redis
         {
             var byteValue = _database.StringGet(key);
             object value;
-            if (!TryDeserialize(byteValue, out value)) value = byteValue;
+            if (!TryDeserialize(byteValue, out value))
+            {
+                value = byteValue;
+            }
             return value;
         }
 
@@ -79,7 +84,10 @@ namespace Ixq.Redis
         {
             var byteValue = await _database.StringGetAsync(key);
             object value;
-            if (!TryDeserialize(byteValue, out value)) value = byteValue;
+            if (!TryDeserialize(byteValue, out value))
+            {
+                value = byteValue;
+            }
             return value;
         }
 
@@ -94,7 +102,10 @@ namespace Ixq.Redis
             var byteValue = _database.StringGet(key);
             T value;
             TryDeserialize(byteValue, out value);
-            if (value == null) return default(T);
+            if (value == null)
+            {
+                return default(T);
+            }
             return value;
         }
 
@@ -109,7 +120,10 @@ namespace Ixq.Redis
             var byteValue = await _database.StringGetAsync(key);
             T value;
             TryDeserialize(byteValue, out value);
-            if (value == null) return default(T);
+            if (value == null)
+            {
+                return default(T);
+            }
             return value;
         }
 
@@ -307,7 +321,9 @@ namespace Ixq.Redis
         private static byte[] Serialize(object obj)
         {
             if (obj == null)
+            {
                 return null;
+            }
 
             var binaryFormatter = new BinaryFormatter();
             using (var memoryStream = new MemoryStream())
@@ -330,7 +346,9 @@ namespace Ixq.Redis
             @object = default(T);
 
             if (data == null)
+            {
                 return false;
+            }
 
             try
             {

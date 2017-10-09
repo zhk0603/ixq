@@ -26,7 +26,7 @@ namespace Ixq.Web.Mvc
 
     {
         /// <summary>
-        ///     初始化一个<see cref="EntityService{TEntity, TDto, TKey}"/>实例。
+        ///     初始化一个<see cref="EntityService{TEntity, TDto, TKey}" />实例。
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="requestContxt"></param>
@@ -35,11 +35,17 @@ namespace Ixq.Web.Mvc
             IEntityControllerDescriptor entityControllerData)
         {
             if (entityControllerData == null)
+            {
                 throw new ArgumentNullException(nameof(entityControllerData));
+            }
             if (requestContxt == null)
+            {
                 throw new ArgumentNullException(nameof(requestContxt));
+            }
             if (repository == null)
+            {
                 throw new ArgumentNullException(nameof(repository));
+            }
 
             Repository = repository;
             EntityControllerDescriptor = entityControllerData;
@@ -50,6 +56,7 @@ namespace Ixq.Web.Mvc
         ///     获取仓储。
         /// </summary>
         public IRepositoryBase<TEntity, TKey> Repository { get; }
+
         /// <summary>
         ///     获取控制器基本信息。
         /// </summary>
@@ -61,7 +68,7 @@ namespace Ixq.Web.Mvc
         public RequestContext RequestContext { get; }
 
         /// <summary>
-        ///     从仓储中提取默认的数据，默认直接提取 <see cref="Repository"/> 中所有数据。
+        ///     从仓储中提取默认的数据，默认直接提取 <see cref="Repository" /> 中所有数据。
         /// </summary>
         /// <returns></returns>
         public virtual IQueryable<TEntity> GetEntityData()
@@ -70,7 +77,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     从仓储中提取控制器 List Action 的数据，默认以 <see cref="GetEntityData"/>  作为数据源。
+        ///     从仓储中提取控制器 List Action 的数据，默认以 <see cref="GetEntityData" />  作为数据源。
         /// </summary>
         /// <param name="orderField">排序字段。</param>
         /// <param name="orderDirection">排序方向，desc：降序排序。asc：升序排序。</param>
@@ -83,7 +90,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     从仓储中提取控制器 Selector Action 的数据，默认以 <see cref="GetEntityData"/>  作为数据源。
+        ///     从仓储中提取控制器 Selector Action 的数据，默认以 <see cref="GetEntityData" />  作为数据源。
         /// </summary>
         /// <returns></returns>
         public virtual IQueryable<TEntity> GetEntitySelectorData()
@@ -92,7 +99,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     创建一个<see cref="PageViewModel"/>实例。一般用于 Index Action。
+        ///     创建一个<see cref="PageViewModel" />实例。一般用于 Index Action。
         /// </summary>
         /// <param name="pagination">分页信息。</param>
         /// <returns></returns>
@@ -110,7 +117,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     创一个<see cref="PageEditViewModel{TDto, TKey}"/>实例。一般用于 Edit Action。
+        ///     创一个<see cref="PageEditViewModel{TDto, TKey}" />实例。一般用于 Edit Action。
         /// </summary>
         /// <param name="id">实体主键。</param>
         /// <returns></returns>
@@ -121,8 +128,9 @@ namespace Ixq.Web.Mvc
                 : await Repository.SingleByIdAsync(ParseEntityKey(id));
             return await CreateEditModelAsync(entity);
         }
+
         /// <summary>
-        ///     创一个<see cref="PageEditViewModel{TDto, TKey}"/>实例。一般用于 Edit Action。
+        ///     创一个<see cref="PageEditViewModel{TDto, TKey}" />实例。一般用于 Edit Action。
         /// </summary>
         /// <param name="model">实体对象。</param>
         /// <returns></returns>
@@ -132,17 +140,17 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     创一个<see cref="PageEditViewModel{TDto, TKey}"/>实例。一般用于 Edit Action。
+        ///     创一个<see cref="PageEditViewModel{TDto, TKey}" />实例。一般用于 Edit Action。
         /// </summary>
         /// <param name="model">数据传输对象。</param>
         /// <returns></returns>
         public virtual async Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TDto model)
         {
             var editModel = new PageEditViewModel<TDto, TKey>(model,
-                            EntityControllerDescriptor.EntityMetadata.EditPropertyMetadatas)
+                EntityControllerDescriptor.EntityMetadata.EditPropertyMetadatas)
             {
                 Title =
-                    ((await Repository.SingleByIdAsync(model.Id)) == null ? "新增" : "编辑") +
+                    (await Repository.SingleByIdAsync(model.Id) == null ? "新增" : "编辑") +
                     (EntityControllerDescriptor.PageConfig.Title ?? typeof(TEntity).Name)
             };
 
@@ -150,7 +158,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     创建一个<see cref="PageEditViewModel{TDto, TKey}"/>实例。一般用于 Detail Action。
+        ///     创建一个<see cref="PageEditViewModel{TDto, TKey}" />实例。一般用于 Detail Action。
         /// </summary>
         /// <param name="id">实体主键。</param>
         /// <returns></returns>
@@ -158,7 +166,9 @@ namespace Ixq.Web.Mvc
         {
             var entity = await Repository.SingleByIdAsync(ParseEntityKey(id));
             if (entity == null)
+            {
                 throw new HttpException(404, null);
+            }
 
             var detailModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
                 EntityControllerDescriptor.EntityMetadata.DetailPropertyMetadatas)
@@ -169,7 +179,7 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     创建一个<see cref="PageDataViewModel{TKey}"/>实例。一般用于 List Action。
+        ///     创建一个<see cref="PageDataViewModel{TKey}" />实例。一般用于 List Action。
         /// </summary>
         /// <param name="pageSize">页面大小。</param>
         /// <param name="pageCurrent">当前页。</param>

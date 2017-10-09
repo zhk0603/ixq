@@ -1,20 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using Ixq.Core.DataAnnotations;
 using Ixq.Core.Entity;
 
 namespace Ixq.Data.DataAnnotations
 {
-
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class PropertyAuthorizationAttribute : Attribute, IPropertyMetadataAware
     {
         public string[] Roles { get; set; }
         public string[] Users { get; set; }
+
+        public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
+        {
+            if (runtimeProperty == null)
+            {
+                throw new ArgumentNullException(nameof(runtimeProperty));
+            }
+
+            runtimeProperty.Roles = Roles;
+            runtimeProperty.Users = Users;
+        }
 
         public virtual bool IsAuthorization(IPrincipal user)
         {
@@ -32,15 +39,6 @@ namespace Ixq.Data.DataAnnotations
                 return false;
             }
             return true;
-        }
-
-        public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
-        {
-            if (runtimeProperty == null)
-                throw new ArgumentNullException(nameof(runtimeProperty));
-
-            runtimeProperty.Roles = Roles;
-            runtimeProperty.Users = Users;
         }
     }
 }

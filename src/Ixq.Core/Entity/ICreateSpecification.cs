@@ -11,6 +11,7 @@ namespace Ixq.Core.Entity
         ///     创建时间。
         /// </summary>
         DateTime CreateDate { get; set; }
+
         /// <summary>
         ///     在创建时发生，由上下文自动执行。
         /// </summary>

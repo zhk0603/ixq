@@ -32,6 +32,7 @@ namespace Ixq.Core.Cache
         {
             return _region;
         }
+
         /// <summary>
         ///     获取缓存项。
         /// </summary>

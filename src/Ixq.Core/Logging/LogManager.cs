@@ -42,9 +42,13 @@ namespace Ixq.Core.Logging
         public static ILogger GetLogger(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
+            {
                 throw new ArgumentException(nameof(name));
+            }
             if (_loggerFactory == null)
+            {
                 return null;
+            }
 
             ILogger logger;
             if (Loggers.TryGetValue(name, out logger))
@@ -64,9 +68,11 @@ namespace Ixq.Core.Logging
         public static ILogger GetLogger<T>()
         {
             if (_loggerFactory == null)
+            {
                 return null;
+            }
             ILogger logger;
-            var name = typeof (T).FullName;
+            var name = typeof(T).FullName;
             if (Loggers.TryGetValue(name, out logger))
             {
                 return logger;
@@ -84,9 +90,13 @@ namespace Ixq.Core.Logging
         public static ILogger GetLogger(Type type)
         {
             if (type == null)
+            {
                 throw new ArgumentException(nameof(type));
+            }
             if (_loggerFactory == null)
+            {
                 return null;
+            }
 
             var name = type.FullName;
             ILogger logger;

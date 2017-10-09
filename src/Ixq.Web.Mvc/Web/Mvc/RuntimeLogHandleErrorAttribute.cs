@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Ixq.Core.Logging;
@@ -13,7 +9,7 @@ namespace Ixq.Web.Mvc
     ///     表示一个特性，该特性用于处理由操作方法引发的异常。
     ///     并使用日志记录器记录错误信息。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class RuntimeLogHandleErrorAttribute : HandleErrorAttribute
     {
         /// <summary>
@@ -34,7 +30,7 @@ namespace Ixq.Web.Mvc
             {
                 return;
             }
-            Exception exception = filterContext.Exception;
+            var exception = filterContext.Exception;
             if (new HttpException(null, exception).GetHttpCode() != 500)
             {
                 return;
@@ -46,7 +42,7 @@ namespace Ixq.Web.Mvc
 
             if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
-                filterContext.Result = new JsonResult()
+                filterContext.Result = new JsonResult
                 {
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet,
                     Data = new
@@ -58,9 +54,9 @@ namespace Ixq.Web.Mvc
             }
             else
             {
-                string controllerName = (string)filterContext.RouteData.Values["controller"];
-                string actionName = (string)filterContext.RouteData.Values["action"];
-                HandleErrorInfo model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
+                var controllerName = (string) filterContext.RouteData.Values["controller"];
+                var actionName = (string) filterContext.RouteData.Values["action"];
+                var model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
                 filterContext.Result = new ViewResult
                 {
                     ViewName = View,
@@ -71,7 +67,8 @@ namespace Ixq.Web.Mvc
             }
 
             // 记录异常。
-            LogManager.GetLogger(GetType())?.Error($"\r\n请求地址：{filterContext.HttpContext.Request.Url.ToString()}\r\n" + exception.Message, exception);
+            LogManager.GetLogger(GetType())
+                ?.Error($"\r\n请求地址：{filterContext.HttpContext.Request.Url}\r\n" + exception.Message, exception);
 
             filterContext.ExceptionHandled = true;
             filterContext.HttpContext.Response.Clear();

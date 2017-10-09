@@ -24,7 +24,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(provider));
             }
 
-            return (T) provider.GetService(typeof (T));
+            return (T) provider.GetService(typeof(T));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(provider));
             }
 
-            return (T) provider.GetRequiredService(typeof (T));
+            return (T) provider.GetRequiredService(typeof(T));
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            var genericEnumerable = typeof (IEnumerable<>).MakeGenericType(serviceType);
+            var genericEnumerable = typeof(IEnumerable<>).MakeGenericType(serviceType);
             return (IEnumerable<object>) provider.GetRequiredService(genericEnumerable);
         }
     }

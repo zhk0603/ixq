@@ -187,7 +187,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddTransient(collection, typeof (TService), typeof (TService));
+            TryAddTransient(collection, typeof(TService), typeof(TService));
         }
 
         public static void TryAddTransient<TService, TImplementation>(this IServiceCollection collection)
@@ -199,7 +199,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddTransient(collection, typeof (TService), typeof (TImplementation));
+            TryAddTransient(collection, typeof(TService), typeof(TImplementation));
         }
 
         public static void TryAddTransient<TService>(
@@ -284,7 +284,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddScoped(collection, typeof (TService), typeof (TService));
+            TryAddScoped(collection, typeof(TService), typeof(TService));
         }
 
         public static void TryAddScoped<TService, TImplementation>(this IServiceCollection collection)
@@ -296,7 +296,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddScoped(collection, typeof (TService), typeof (TImplementation));
+            TryAddScoped(collection, typeof(TService), typeof(TImplementation));
         }
 
         public static void TryAddScoped<TService>(
@@ -381,7 +381,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddSingleton(collection, typeof (TService), typeof (TService));
+            TryAddSingleton(collection, typeof(TService), typeof(TService));
         }
 
         public static void TryAddSingleton<TService, TImplementation>(this IServiceCollection collection)
@@ -393,7 +393,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            TryAddSingleton(collection, typeof (TService), typeof (TImplementation));
+            TryAddSingleton(collection, typeof(TService), typeof(TImplementation));
         }
 
         public static void TryAddSingleton<TService>(this IServiceCollection collection, TService instance)
@@ -409,7 +409,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var descriptor = ServiceDescriptor.Singleton(typeof (TService), instance);
+            var descriptor = ServiceDescriptor.Singleton(typeof(TService), instance);
             TryAdd(collection, descriptor);
         }
 
@@ -455,7 +455,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
 
             var implementationType = descriptor.GetImplementationType();
 
-            if (implementationType == typeof (object) ||
+            if (implementationType == typeof(object) ||
                 implementationType == descriptor.ServiceType)
             {
                 throw new ArgumentException(

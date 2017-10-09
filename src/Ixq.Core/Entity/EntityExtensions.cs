@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Core.Entity
 {
@@ -20,30 +16,50 @@ namespace Ixq.Core.Entity
         public static DataType GetDataType(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)
+            {
                 throw new ArgumentNullException(nameof(propertyInfo));
+            }
 
-            Type propertyType = propertyInfo.PropertyType;
-            if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof (Nullable<>))
+            var propertyType = propertyInfo.PropertyType;
+            if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
                 propertyType = propertyType.GetGenericArguments()[0];
+            }
 
-            DataType type = DataType.Default;
-            if (propertyType == typeof (string))
+            var type = DataType.Default;
+            if (propertyType == typeof(string))
+            {
                 type = DataType.Text;
-            else if (propertyType == typeof (DateTime))
+            }
+            else if (propertyType == typeof(DateTime))
+            {
                 type = DataType.Date;
-            else if (propertyType == typeof (TimeSpan))
+            }
+            else if (propertyType == typeof(TimeSpan))
+            {
                 type = DataType.Time;
-            else if (propertyType == typeof (bool))
+            }
+            else if (propertyType == typeof(bool))
+            {
                 type = DataType.Boolean;
-            else if (propertyType == typeof (decimal))
+            }
+            else if (propertyType == typeof(decimal))
+            {
                 type = DataType.Currency;
-            else if (propertyType == typeof (short) || propertyType == typeof (int) || propertyType == typeof (long) ||
-                     propertyType == typeof (ushort) || propertyType == typeof (uint) || propertyType == typeof (ulong))
+            }
+            else if (propertyType == typeof(short) || propertyType == typeof(int) || propertyType == typeof(long) ||
+                     propertyType == typeof(ushort) || propertyType == typeof(uint) || propertyType == typeof(ulong))
+            {
                 type = DataType.Integer;
-            else if (propertyType == typeof (float) || propertyType == typeof (double))
+            }
+            else if (propertyType == typeof(float) || propertyType == typeof(double))
+            {
                 type = DataType.Number;
+            }
             else if (propertyType.IsEnum)
+            {
                 type = DataType.Enum;
+            }
 
             return type;
         }
