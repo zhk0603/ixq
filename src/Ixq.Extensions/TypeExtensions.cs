@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Ixq.Extensions.ObjectModel;
+using Ixq.Extensions.ObjectM;
 
 namespace Ixq.Extensions
 {
@@ -22,7 +22,7 @@ namespace Ixq.Extensions
         /// <returns> 是返回True，不是返回False </returns>
         public static bool IsNullableType(this Type type)
         {
-            return (type != null) && type.IsGenericType && (type.GetGenericTypeDefinition() == typeof (Nullable<>));
+            return type != null && type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace Ixq.Extensions
         /// <returns> </returns>
         public static Type GetNonNummableType(this Type type)
         {
-            if (IsNullableType(typ            {
+            if (IsNullableType(type))
+            {
                 return type.GetGenericArguments()[0];
-            }nericArguments()[0];
             }
             return type;
         }
@@ -74,20 +74,17 @@ namespace Ixq.Extensions
         /// <returns>返回Description特性描述信息，如不存在则返回成员的名称</returns>
         public static string ToDescription(this MemberInfo member, bool inherit = false)
         {
-            var desc = member.GetAttribute<DescriptionAttribute>(inherit            {
-                return desc.Description;
-            }       {
+            var desc = member.GetAttribute<DescriptionAttribute>(inherit);
+            if (desc != null)
+            {
                 return desc.Description;
             }
-            var displayName = member.GetAttribute<Displa            {
-                return displayName.DisplayName;
-            }layName != null)
+            var displayName = member.GetAttribute<DisplayNameAttribute>(inherit);
+            if (displayName != null)
             {
                 return displayName.DisplayName;
             }
-            va            {
-                return display.Name;
-            }layAttribute>(inherit);
+            var display = member.GetAttribute<DisplayAttribute>(inherit);
             if (display != null)
             {
                 return display.Name;
@@ -104,7 +101,7 @@ namespace Ixq.Extensions
         /// <returns>是否存在</returns>
         public static bool HasAttribute<T>(this MemberInfo memberInfo, bool inherit = false) where T : Attribute
         {
-            return memberInfo.IsDefined(typeof (T), inherit);
+            return memberInfo.IsDefined(typeof(T), inherit);
             //return memberInfo.GetCustomAttributes(typeof(T), inherit).Any(m => (m as T) != null);
         }
 
@@ -117,7 +114,7 @@ namespace Ixq.Extensions
         /// <returns>存在返回第一个，不存在返回null</returns>
         public static T GetAttribute<T>(this MemberInfo memberInfo, bool inherit = false) where T : Attribute
         {
-            var descripts = memberInfo.GetCustomAttributes(typeof (T), inherit);
+            var descripts = memberInfo.GetCustomAttributes(typeof(T), inherit);
             return descripts.FirstOrDefault() as T;
         }
 
@@ -129,7 +126,8 @@ namespace Ixq.Extensions
         /// <param name="attribute"></param>
         /// <param name="inherit"></param>
         /// <returns></returns>
-        public static bool TryGetAttribute<T>(this MemberInfo memberInfo,out T attribute, bool inherit = false) where T : Attribute
+        public static bool TryGetAttribute<T>(this MemberInfo memberInfo, out T attribute, bool inherit = false)
+            where T : Attribute
         {
             var descripts = memberInfo.GetCustomAttributes(typeof(T), inherit);
             attribute = descripts.FirstOrDefault() as T;
@@ -145,22 +143,21 @@ namespace Ixq.Extensions
         /// <returns>返回所有指定Attribute特性的数组</returns>
         public static T[] GetAttributes<T>(this MemberInfo memberInfo, bool inherit = false) where T : Attribute
         {
-            return memberInfo.GetCustomAttributes(typeof (T), inherit).Cast<T>().ToArray();
+            return memberInfo.GetCustomAttributes(typeof(T), inherit).Cast<T>().ToArray();
         }
 
         /// <summary>
         ///     判断类型是否为集合类型
         /// </summary>
         /// <param name="type">要处理的类型</param>
-        /// <returns>是返回True，不是返回False</retur            {
-                return false;
-            }ol IsEnumerable(this Type type)
+        /// <returns>是返回True，不是返回False</returns>
+        public static bool IsEnumerable(this Type type)
         {
-            if (type == typeof (string))
+            if (type == typeof(string))
             {
                 return false;
             }
-            return typeof (IEnumerable).IsAssignableFrom(type);
+            return typeof(IEnumerable).IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -168,27 +165,26 @@ namespace Ixq.Extensions
         /// </summary>
         /// <param name="genericType">泛型类型</param>
         /// <param name="type">指定类型</param>
-        /// <returns></return            {
-                throw new ArgumentException("该功能只支持泛型类型的调用，非泛型类型可使用 IsAssignableFrom 方法。");
-            }       {
+        /// <returns></returns>
+        public static bool IsGenericAssignableFrom(this Type genericType, Type type)
+        {
             if (!genericType.IsGenericType)
             {
-                throw new Ar            {
-                allOthers.AddRange(type.GetInterfaces());
-            }方法。");
+                throw new ArgumentException("该功能只支持泛型类型的调用，非泛型类型可使用 IsAssignableFrom 方法。");
             }
 
             var allOthers = new List<Type> {type};
             if (genericType.IsInterface)
             {
                 allOthers.AddRange(type.GetInterfaces());
-                          {
-                        cur = cur.GetGenericTypeDefinition();
-                    }        {
+            }
+
+            foreach (var other in allOthers)
+            {
                 var cur = other;
-                while (cur != null)                    {
-                        return true;
-                    }     if (cur.IsGenericType)
+                while (cur != null)
+                {
+                    if (cur.IsGenericType)
                     {
                         cur = cur.GetGenericTypeDefinition();
                     }
@@ -207,14 +203,14 @@ namespace Ixq.Extensions
         /// </summary>
         public static bool IsAsync(this MethodInfo method)
         {
-            return method.ReturnType == typeof (Task)
-                   || method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof (Task<>);
+            return method.ReturnType == typeof(Task)
+                   || method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>);
         }
 
         /// <summary>
-        ///                {
-                return baseType.IsGenericAssignableFrom(type);
-            } name="type">当前类型</param>
+        ///     返回当前类型是否是指定基类的派生类
+        /// </summary>
+        /// <param name="type">当前类型</param>
         /// <param name="baseType">要判断的基类型</param>
         /// <returns></returns>
         public static bool IsBaseOn(this Type type, Type baseType)
@@ -234,9 +230,10 @@ namespace Ixq.Extensions
         /// <returns></returns>
         public static bool IsBaseOn<TBaseType>(this Type type)
         {
-            var baseType = t            {
-                throw new ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
-            }
+            var baseType = typeof(TBaseType);
+            return type.IsBaseOn(baseType);
+        }
+
         /// <summary>
         ///     获取枚举项
         /// </summary>
@@ -245,20 +242,22 @@ namespace Ixq.Extensions
         public static List<EnumItem> GetEnumItems(this Type type)
         {
             if (!type.IsEnum)
+            {
                 throw new ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
+            }
 
             var result = new List<EnumItem>();
-            foreach(var item in Enum.GetValues(type))
+            foreach (var item in Enum.GetValues(type))
             {
                 var tmp = new EnumItem();
-                tmp.Value = (int)item;
-            
-    p.Name = Enum.GetName(type, item);
+                tmp.Value = (int) item;
+                tmp.Name = Enum.GetName(type, item);
 
                 result.Add(tmp);
             }
             return result;
         }
+
         public static ICustomTypeDescriptor GetTypeDescriptor(Type type)
         {
             return new AssociatedMetadataTypeTypeDescriptionProvider(type).GetTypeDescriptor(type);

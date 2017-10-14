@@ -12,8 +12,6 @@ using Ixq.UI.ComponentModel.DataAnnotations;
 using Ixq.UI.Controls;
 using Newtonsoft.Json;
 
-ing System.Linq;
-
 namespace Ixq.Web.Mvc
 {
     /// <summary>
@@ -39,15 +37,16 @@ namespace Ixq.Web.Mvc
         /// <param name="repository">实体仓储。</param>
         protected EntityController(IRepositoryBase<TEntity, TKey> repository)
         {
-            if (r            {
+            if (repository == null)
+            {
                 throw new ArgumentNullException(nameof(repository));
-            }nameof(repository));
+            }
 
             PageSizeList = new[] {15, 30, 60, 120};
-            PageConfig = typeof (TDto).GetAttribute<PageAttribute>() ??
+            PageConfig = typeof(TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
             Repository = repository;
-            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof (TDto));
+            EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof(TDto));
         }
 
         /// <summary>
@@ -90,19 +89,20 @@ namespace Ixq.Web.Mvc
         public virtual ActionResult Index(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
         {
-                        {
+            if (pageCurrent < 1)
+            {
                 pageCurrent = 1;
-            }  {
-                pageCurrent             {
-                pageSize = PageSizeList[0];
-            }ze < 1)
+            }
+            if (pageSize < 1)
             {
                 pageSize = PageSizeList[0];
             }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)
-                ? PageConfig.IsDescending ? "desc" : "asc"
+                ? PageConfig.IsDescending
+                    ? "desc"
+                    : "asc"
                 : orderDirection;
 
             var pagination = new Pagination
@@ -130,20 +130,21 @@ namespace Ixq.Web.Mvc
         [HttpPost]
         public virtual async Task<ActionResult> List(string orderField, string orderDirection,
             int pageSize = 30, int pageCurrent = 1)
-                 {
-                pageCurrent = 1;
-            }t < 1)
+        {
+            if (pageCurrent < 1)
             {
-                      {
-                pageSize = PageSizeList[0];
-            }        if (pageSize < 1)
+                pageCurrent = 1;
+            }
+            if (pageSize < 1)
             {
                 pageSize = PageSizeList[0];
             }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)
-                ? PageConfig.IsDescending ? "desc" : "asc"
+                ? PageConfig.IsDescending
+                    ? "desc"
+                    : "asc"
                 : orderDirection;
 
             var pageListViewModel = await EntityServicer.CreateListModelAsync(pageSize, pageCurrent, orderField,
@@ -182,7 +183,7 @@ namespace Ixq.Web.Mvc
         [HttpPost]
         [ValidateInput(true)]
         [ValidateAntiForgeryToken]
-        public virtual async Task<ActionResult> Edit([ModelBinder(typeof(EntityModelBinder))]TDto model)
+        public virtual async Task<ActionResult> Edit([ModelBinder(typeof(EntityModelBinder))] TDto model)
         {
             var viewModel = await EntityServicer.CreateEditModelAsync(model);
             if (ModelState.IsValid)
@@ -190,12 +191,9 @@ namespace Ixq.Web.Mvc
                 await EntityServicer.UpdateEntity(model.MapTo());
                 return PartialView("_Form", viewModel);
             }
-            else
-            {
-                Response.StatusCode = 500;
-                Response.TrySkipIisCustomErrors = true;
-                return PartialView("_Form", viewModel);
-            }
+            Response.StatusCode = 500;
+            Response.TrySkipIisCustomErrors = true;
+            return PartialView("_Form", viewModel);
         }
 
         /// <summary>
@@ -241,6 +239,31 @@ namespace Ixq.Web.Mvc
             EntityServicer = new EntityService<TEntity, TDto, TKey>(Repository, requestContext, this);
         }
 
+        #region ModelErrorResult
+
+        /// <summary>
+        ///     创建一个 <see cref="ModelErrorResult" /> 对象，将模型错误信息序列化成Json对象。
+        /// </summary>
+        /// <param name="modelState"></param>
+        /// <returns></returns>
+        protected virtual ModelErrorResult ModelError(ModelStateDictionary modelState)
+        {
+            return new ModelErrorResult(modelState);
+        }
+
+        #endregion
+
+
+        /// <summary>
+        ///     创建实体元数据提供者，默认提供<see cref="Ixq.Web.Mvc.EntityMetadataProvider" />。可在派生类中重写。
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IEntityMetadataProvider CreateEntityMetadataProvider()
+        {
+            return DependencyResolver.Current.GetService<IEntityMetadataProvider>() ??
+                   new EntityMetadataProvider();
+        }
+
         #region JsonResult
 
         /// <summary>
@@ -275,7 +298,7 @@ namespace Ixq.Web.Mvc
         /// <param name="behavior">JSON请求行为。</param>
         /// <returns></returns>
         protected override System.Web.Mvc.JsonResult Json(object data, string contentType, Encoding contentEncoding,
-          System.Web.Mvc.JsonResultavior)
+            JsonRequestBehavior behavior)
         {
             return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet, null);
         }
@@ -289,7 +312,7 @@ namespace Ixq.Web.Mvc
         /// <param name="behavior">JSON请求行为。</param>
         /// <param name="serializerSettings">设置。</param>
         /// <returns></returns>
-        protected virSystem.Web.Mvc.JsonResultct data, string contentType, Encoding contentEncoding,
+        protected virtual JsonResult Json(object data, string contentType, Encoding contentEncoding,
             JsonRequestBehavior behavior,
             JsonSerializerSettings serializerSettings)
         {
@@ -304,31 +327,5 @@ namespace Ixq.Web.Mvc
         }
 
         #endregion
-
-        #region ModelErrorResult
-
-        /// <summary>
-        ///     创建一个 <see cref="ModelErrorResult"/> 对象，将模型错误信息序列化成Json对象。
-        /// </summary>
-        /// <param name="modelState"></param>
-        /// <returns></returns>
-        protected virtual ModelErrorResult ModelError(ModelStateDictionary modelState)
-        {
-            return new ModelErrorResult(modelState);
-        }
-
-        #endregion
-
-
-        /// <summary>
-        ///     创建实体元数据提供者，默认提供<see cref="Ixq.Web.Mvc.EntityMetadataProvider" />。可在派生类中重写。
-        /// </summary>
-        /// <returns></returns>
-        protected virtual IEntityMetadataProvider CreateEntityMetadataProvider()
-        {
-            return DependencyRe
-    .Current.GetService<IEntityMetadataProvider>() ??
-                   new EntityMetadataProvider();
-        }
     }
 }

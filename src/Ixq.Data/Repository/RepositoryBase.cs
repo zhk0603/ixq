@@ -14,6 +14,7 @@ using Ixq.Core.Dto;
 using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
+using Ixq.Extensions;
 
 namespace Ixq.Data.Repository
 {

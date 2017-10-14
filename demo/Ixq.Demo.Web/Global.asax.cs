@@ -11,7 +11,7 @@ using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
 using Ixq.DependencyInjection.Autofac;
 using Ixq.Extensions;
-using Ixq.Mapper.AutoMapper;
+using Ixq.Mapper;
 using Ixq.Security.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;

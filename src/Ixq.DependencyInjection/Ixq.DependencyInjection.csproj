@@ -7,8 +7,8 @@
     <ProjectGuid>{99337276-4A1A-439C-A323-AC86CA2929C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ixq.DependencyInjection.Autofac</RootNamespace>
-    <AssemblyName>Ixq.DependencyInjection.Autofac</AssemblyName>
+    <RootNamespace>Ixq.DependencyInjection</RootNamespace>
+    <AssemblyName>Ixq.DependencyInjection</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Ixq.DependencyInjection.Autofac.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Ixq.DependencyInjection.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -85,10 +85,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacRegistration.cs" />
-    <Compile Include="AutofacServiceProvider.cs" />
-    <Compile Include="AutofacServiceScope.cs" />
-    <Compile Include="AutofacServiceScopeFactory.cs" />
+    <Compile Include="Autofac\AutofacRegistration.cs" />
+    <Compile Include="Autofac\AutofacServiceProvider.cs" />
+    <Compile Include="Autofac\AutofacServiceScope.cs" />
+    <Compile Include="Autofac\AutofacServiceScopeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

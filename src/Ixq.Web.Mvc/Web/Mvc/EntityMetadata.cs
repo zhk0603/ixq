@@ -26,7 +26,6 @@ namespace Ixq.Web.Mvc
         public delegate ClaimsPrincipal ClaimsUserDelegate();
 
         private static readonly object LockObj = new object();
-        private readonly Type _entityType;
         private PropertyInfo[] _entityPropertys;
         private IEntityPropertyMetadata[] _propertyMetadatas;
 

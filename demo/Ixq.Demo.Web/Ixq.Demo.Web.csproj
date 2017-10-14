@@ -825,9 +825,9 @@
       <Project>{7685a3b6-3b22-46f8-8b73-e49d02812961}</Project>
       <Name>Ixq.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Ixq.DependencyInjection.Autofac\Ixq.DependencyInjection.Autofac.csproj">
+    <ProjectReference Include="..\..\src\Ixq.DependencyInjection\Ixq.DependencyInjection.csproj">
       <Project>{99337276-4a1a-439c-a323-ac86ca2929c3}</Project>
-      <Name>Ixq.DependencyInjection.Autofac</Name>
+      <Name>Ixq.DependencyInjection</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.Extensions\Ixq.Extensions.csproj">
       <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
@@ -837,9 +837,9 @@
       <Project>{33acfea3-be13-4c15-9003-0d44fad30f9e}</Project>
       <Name>Ixq.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
+    <ProjectReference Include="..\..\src\Ixq.Mapper\Ixq.Mapper.csproj">
       <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
-      <Name>Ixq.Mapper.AutoMapper</Name>
+      <Name>Ixq.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.Owin\Ixq.Owin.csproj">
       <Project>{89a24ced-36d8-4ce6-b4a5-c4dc50f00295}</Project>

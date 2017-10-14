@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 
-[assembly: AssemblyTitle("Ixq.Mapper.AutoMapper")]
-[assembly: AssemblyDescription("Ixq.Mapper.AutoMapper，基于AutoMapper实现的自动映射组件。")]
+[assembly: AssemblyTitle("Ixq.Mapper")]
+[assembly: AssemblyDescription("Ixq.Mapper，基于AutoMapper实现的自动映射组件。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ixq.Mapper.AutoMapper")]
+[assembly: AssemblyProduct("Ixq.Mapper")]
 [assembly: AssemblyCopyright("Copyright ©  2017 kun.zhao")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

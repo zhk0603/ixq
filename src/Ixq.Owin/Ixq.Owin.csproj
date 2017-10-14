@@ -58,13 +58,13 @@
       <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
       <Name>Ixq.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ixq.DependencyInjection.Autofac\Ixq.DependencyInjection.Autofac.csproj">
+    <ProjectReference Include="..\Ixq.DependencyInjection\Ixq.DependencyInjection.csproj">
       <Project>{99337276-4a1a-439c-a323-ac86ca2929c3}</Project>
-      <Name>Ixq.DependencyInjection.Autofac</Name>
+      <Name>Ixq.DependencyInjection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj">
+    <ProjectReference Include="..\Ixq.Mapper\Ixq.Mapper.csproj">
       <Project>{3ccc94eb-2579-41b9-a9e4-2fa03a114275}</Project>
-      <Name>Ixq.Mapper.AutoMapper</Name>
+      <Name>Ixq.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ixq.Security\Ixq.Security.csproj">
       <Project>{a104cd13-ac10-4f74-80bc-61b6f9449dae}</Project>

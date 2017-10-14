@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 
-[assembly: AssemblyTitle("Ixq.DependencyInjection.Autofac")]
-[assembly: AssemblyDescription("Ixq.DependencyInjection.Autofac，基于Autofac实现的依赖注入组件。")]
+[assembly: AssemblyTitle("Ixq.DependencyInjection")]
+[assembly: AssemblyDescription("Ixq.DependencyInjection，基于Autofac实现的依赖注入组件。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ixq.DependencyInjection.Autofac")]
+[assembly: AssemblyProduct("Ixq.DependencyInjection")]
 [assembly: AssemblyCopyright("Copyright ©  2017 kun.zhao")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.1.1.0")]
-[assembly: AssemblyFileVersion("1.1.1.0")]
+[assembly: AssemblyVersion("1.1.2.0")]
+[assembly: AssemblyFileVersion("1.1.2.0")]

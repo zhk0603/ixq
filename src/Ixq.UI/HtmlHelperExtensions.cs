@@ -11,9 +11,6 @@ using Ixq.Core.Entity;
 using Ixq.UI.ComponentModel;
 using Ixq.UI.Controls;
 
-;
-using System.Globalization;
-
 namespace Ixq.UI
 {
     /// <summary>
@@ -30,25 +27,30 @@ namespace Ixq.UI
         /// <returns></returns>
         public static MvcHtmlString PropertyViewer(this HtmlHelper helper, IEntityPropertyMetadata propertyMetadata,
             object entityDto)
-        {            {
+        {
+            if (helper == null)
+            {
                 throw new ArgumentNullException(nameof(helper));
-            }mentNullException(nameof(helper));
-                     {
+            }
+            if (propertyMetadata == null)
+            {
                 throw new ArgumentNullException(nameof(propertyMetadata));
-            }ception(nameof(propertyMetadata));
-              {
+            }
+            if (entityDto == null)
+            {
                 throw new ArgumentNullException(nameof(entityDto));
-            }tNullException(nameof(entityDto));
+            }
 
             var model = new PropertyViewModel(propertyMetadata, entityDto);
-            if (propertyMetadata.Data            {
+            if (propertyMetadata.DataType == DataType.CustomDataType)
+            {
                 return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.CustomDataType + "Viewer",
                     model);
-            } "Viewer", model);
+            }
 
             return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Viewer", model);
-
         }
+
         /// <summary>
         ///     属性编辑器。
         /// </summary>
@@ -59,21 +61,25 @@ namespace Ixq.UI
         public static MvcHtmlString PropertyEditor(this HtmlHelper helper, IEntityPropertyMetadata propertyMetadata,
             object entityDto)
         {
-            if             {
+            if (helper == null)
+            {
                 throw new ArgumentNullException(nameof(helper));
-            }n(nameof(helper));
-            if (propertyM            {
+            }
+            if (propertyMetadata == null)
+            {
                 throw new ArgumentNullException(nameof(propertyMetadata));
-            }ropertyMetadata));
-            if (en            {
+            }
+            if (entityDto == null)
+            {
                 throw new ArgumentNullException(nameof(entityDto));
-            }ameof(entityDto));
+            }
 
             var model = new PropertyEditModel(propertyMetadata, entityDto);
-            if (propertyMetadata.DataType == Core.Dat            {
+            if (propertyMetadata.DataType == DataType.CustomDataType)
+            {
                 return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.CustomDataType + "Editor",
                     model);
-            });
+            }
 
             return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Editor", model);
         }
@@ -89,21 +95,22 @@ namespace Ixq.UI
             object htmlAttributes)
         {
             modelName = helper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(modelName);
-            if (!helper.ViewData.ModelState.ContainsKey(modelName))            {
-                return null;
-            }     return null;
-            }
-
-            ModelState modelState = helper.ViewData.ModelState[modelName];
-            ModelErrorCollection modelErrors = (modelState == null) ? null : modelState.Errors;
-            ModelError modelError = (((modelErrors == null) || (modelErrors.Count == 0)) ? null : modelErrors.FirstOrDefault(m => !String.IsNullOrEmpty(m.ErrorMessage)) ?? modelErrors[0]);            {
-                return null;
-            } == null)
+            if (!helper.ViewData.ModelState.ContainsKey(modelName))
             {
                 return null;
             }
 
-            TagBuilder builder = new TagBuilder("label");
+            var modelState = helper.ViewData.ModelState[modelName];
+            var modelErrors = modelState == null ? null : modelState.Errors;
+            var modelError = modelErrors == null || modelErrors.Count == 0
+                ? null
+                : modelErrors.FirstOrDefault(m => !string.IsNullOrEmpty(m.ErrorMessage)) ?? modelErrors[0];
+            if (modelError == null)
+            {
+                return null;
+            }
+
+            var builder = new TagBuilder("label");
             builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
             builder.AddCssClass("error");
             builder.MergeAttribute("id", $"{modelName}-error");
@@ -112,9 +119,11 @@ namespace Ixq.UI
             var iTag = new TagBuilder("i");
             iTag.AddCssClass("fa fa-times-circle");
 
-            builder.InnerHtml = iTag.ToString(TagRenderMode.Normal) + GetUserErrorMessageOrDefault(helper.ViewContext.HttpContext, modelError, modelState);
+            builder.InnerHtml = iTag.ToString(TagRenderMode.Normal) +
+                                GetUserErrorMessageOrDefault(helper.ViewContext.HttpContext, modelError, modelState);
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }
+
         /// <summary>
         ///     根据指定的属性名或模型对象的名称，从模型错误中显示一个错误信息对应的HTML标记。
         /// </summary>
@@ -128,7 +137,6 @@ namespace Ixq.UI
 
 
         /// <summary>
-        ///     
         /// </summary>
         /// <param name="helper"></param>
         /// <param name="customButton"></param>
@@ -148,12 +156,13 @@ namespace Ixq.UI
         public static MvcHtmlString Resource(this HtmlHelper helper, string type, Func<object, HelperResult> template)
         {
             var htmlTemplate = new HtmlTemplate(template);
-                      {
+            if (helper.ViewContext.HttpContext.Items[type] != null)
+            {
                 ((List<HtmlTemplate>) helper.ViewContext.HttpContext.Items[type]).Add(htmlTemplate);
-            }lTemplate>)helper.Vi            {
+            }
+            else
+            {
                 helper.ViewContext.HttpContext.Items[type] = new List<HtmlTemplate> {htmlTemplate};
-            } {
-                helper.ViewContext.HttpContext.Items[type] = new List<HtmlTemplate> { htmlTemplate };
             }
             return MvcHtmlString.Empty;
         }
@@ -167,14 +176,14 @@ namespace Ixq.UI
         {
             if (helper.ViewContext.HttpContext.Items[type] != null)
             {
-                var resources = (                {
+                var resources = (List<HtmlTemplate>) helper.ViewContext.HttpContext.Items[type];
+
+                foreach (var resource in resources)
+                {
                     if (resource != null)
                     {
                         helper.ViewContext.Writer.Write(resource.Template(null));
                     }
-                }urce in resources)
-                {
-                    if (resource != null) helper.ViewContext.Writer.Write(resource.Template(null));
                 }
             }
 
@@ -187,15 +196,16 @@ namespace Ixq.UI
         /// <param name="helper"></param>
         /// <param name="template"></param>
         /// <returns></returns>
-        public static MvcHtmlString Script(this HtmlHelper helper, Func<object, HelperResult> tem            {
+        public static MvcHtmlString Script(this HtmlHelper helper, Func<object, HelperResult> template)
+        {
+            var htmlTemplate = new ScriptTemplate(template);
+            if (helper.ViewContext.HttpContext.Items["_scripts_"] != null)
+            {
                 ((List<ScriptTemplate>) helper.ViewContext.HttpContext.Items["_scripts_"]).Add(htmlTemplate);
-            }ontext.HttpContext.I            {
-                helper.ViewContext.HttpContext.Items["_scripts_"] = new List<ScriptTemplate> {htmlTemplate};
-            }text.Items["_scripts_"]).Add(htmlTemplate);
             }
             else
             {
-                helper.ViewContext.HttpContext.Items["_scripts_"] = new List<ScriptTemplate> { htmlTemplate };
+                helper.ViewContext.HttpContext.Items["_scripts_"] = new List<ScriptTemplate> {htmlTemplate};
             }
             return MvcHtmlString.Empty;
         }
@@ -206,15 +216,16 @@ namespace Ixq.UI
         /// <param name="helper"></param>
         /// <param name="template"></param>
         /// <returns></returns>
-        public static MvcHtmlStrin            {
+        public static MvcHtmlString Styles(this HtmlHelper helper, Func<object, HelperResult> template)
+        {
+            var htmlTemplate = new StyleTemplate(template);
+            if (helper.ViewContext.HttpContext.Items["_styles_"] != null)
+            {
                 ((List<StyleTemplate>) helper.ViewContext.HttpContext.Items["_styles_"]).Add(htmlTemplate);
-            }ate = new StyleTempl            {
-                helper.ViewContext.HttpContext.Items["_styles_"] = new List<StyleTemplate> {htmlTemplate};
-            }                ((List<StyleTemplate>)helper.ViewContext.HttpContext.Items["_styles_"]).Add(htmlTemplate);
             }
             else
             {
-                helper.ViewContext.HttpContext.Items["_styles_"] = new List<StyleTemplate> { htmlTemplate };
+                helper.ViewContext.HttpContext.Items["_styles_"] = new List<StyleTemplate> {htmlTemplate};
             }
             return MvcHtmlString.Empty;
         }
@@ -226,13 +237,11 @@ namespace Ixq.UI
         /// <returns></returns>
         public static IHtmlString RenderScripts(this HtmlHelper helper)
         {
-            var scripts = n                {
-                    if (!scripts.Any(x => x.Equals(resource)))
-                    {
-                        helper.ViewContext.Writer.Write(resource.Template(null));
-                        scripts.Add(resource);
-                    }
-                }  foreach (var resource in resources)
+            var scripts = new List<ScriptTemplate>();
+            if (helper.ViewContext.HttpContext.Items["_scripts_"] != null)
+            {
+                var resources = (List<ScriptTemplate>) helper.ViewContext.HttpContext.Items["_scripts_"];
+                foreach (var resource in resources)
                 {
                     if (!scripts.Any(x => x.Equals(resource)))
                     {
@@ -249,30 +258,28 @@ namespace Ixq.UI
         /// </summary>
         /// <param name="helper"></param>
         /// <returns></returns>
-        public static IHtmlString RenderStyles(this HtmlHelper helpe                {
-                    if (!styles.Any(x => x.Equals(resource)))
-                    {
-                        helper.ViewContext.Writer.Write(resource.Template(null));
-                        styles.Add(resource);
-                    }
-                }text.Items["_styles_"];
+        public static IHtmlString RenderStyles(this HtmlHelper helper)
+        {
+            var styles = new List<StyleTemplate>();
+            if (helper.ViewContext.HttpContext.Items["_styles_"] != null)
+            {
+                var resources = (List<StyleTemplate>) helper.ViewContext.HttpContext.Items["_styles_"];
                 foreach (var resource in resources)
                 {
                     if (!styles.Any(x => x.Equals(resource)))
                     {
                         helper.ViewContext.Writer.Write(resource.Template(null));
-                               {
-                return error.ErrorMessage;
-            }      }
+                        styles.Add(resource);
+                    }
                 }
-                       {
-                return null;
-            }mlString.Empty;
+            }
+            return MvcHtmlString.Empty;
         }
 
-        private static string GetUserErrorMessageOrDefault(HttpContextBase httpContext, ModelError error, ModelState modelState)
+        private static string GetUserErrorMessageOrDefault(HttpContextBase httpContext, ModelError error,
+            ModelState modelState)
         {
-            if (!String.IsNullOrEmpty(error.ErrorMessage))
+            if (!string.IsNullOrEmpty(error.ErrorMessage))
             {
                 return error.ErrorMessage;
             }
@@ -281,16 +288,18 @@ namespace Ixq.UI
                 return null;
             }
 
-            string attemptedValue = (modelState.Value != null) ? modelState.Value.AttemptedValue : null            {
+            var attemptedValue = modelState.Value != null ? modelState.Value.AttemptedValue : null;
+            return string.Format(CultureInfo.CurrentCulture, GetInvalidPropertyValueResource(httpContext),
+                attemptedValue);
+        }
+
+        private static string GetInvalidPropertyValueResource(HttpContextBase httpContext)
+        {
+            string resourceValue = null;
+            if (!string.IsNullOrEmpty(ValidationExtensions.ResourceClassKey) && httpContext != null)
+            {
                 resourceValue = httpContext.GetGlobalResourceObject(ValidationExtensions.ResourceClassKey,
                     "InvalidPropertyValue", CultureInfo.CurrentUICulture) as string;
-            }Resource(HttpContextBase httpContext)
-        {
-            string resourceVa
-    null;
-            if (!String.IsNullOrEmpty(ValidationExtensions.ResourceClassKey) && (httpContext != null))
-            {
-                resourceValue = httpContext.GetGlobalResourceObject(ValidationExtensions.ResourceClassKey, "InvalidPropertyValue", CultureInfo.CurrentUICulture) as string;
             }
             return resourceValue ?? "The value '{0}' is invalid.";
         }

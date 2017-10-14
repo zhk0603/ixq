@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Core", "src\Ixq.Core\Ixq.Core.csproj", "{864E067D-7FBB-4E33-A31D-E3006CD0809C}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Data", "src\Ixq.Data\Ix
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Extensions", "src\Ixq.Extensions\Ixq.Extensions.csproj", "{D55F3FA0-8638-49C3-8998-0425871C1420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.DependencyInjection.Autofac", "src\Ixq.DependencyInjection.Autofac\Ixq.DependencyInjection.Autofac.csproj", "{99337276-4A1A-439C-A323-AC86CA2929C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.DependencyInjection", "src\Ixq.DependencyInjection\Ixq.DependencyInjection.csproj", "{99337276-4A1A-439C-A323-AC86CA2929C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Demo.Web", "demo\Ixq.Demo.Web\Ixq.Demo.Web.csproj", "{9395BB9D-6345-4C7F-AC68-35579B32A257}"
 EndProject
@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Framework", "1.Framework"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Web.Mvc", "src\Ixq.Web.Mvc\Ixq.Web.Mvc.csproj", "{BDC5D24E-2D1B-4AF3-AB42-A9AD3F0211D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Mapper.AutoMapper", "src\Ixq.Mapper.AutoMapper\Ixq.Mapper.AutoMapper.csproj", "{3CCC94EB-2579-41B9-A9E4-2FA03A114275}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Mapper", "src\Ixq.Mapper\Ixq.Mapper.csproj", "{3CCC94EB-2579-41B9-A9E4-2FA03A114275}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ixq.Owin", "src\Ixq.Owin\Ixq.Owin.csproj", "{89A24CED-36D8-4CE6-B4A5-C4DC50F00295}"
 EndProject
@@ -130,5 +130,8 @@ Global
 		{33ACFEA3-BE13-4C15-9003-0D44FAD30F9E} = {860DC603-F0EE-4E74-8A39-1799FE162601}
 		{F1B26146-0912-46FC-ACC3-3AE4E53D3557} = {11C09600-E4C6-4EB5-8D4B-014F9AF86AD1}
 		{E51F018D-ACB2-4117-864B-7F02B9096112} = {860DC603-F0EE-4E74-8A39-1799FE162601}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BEB6D9C-E94A-429B-AC6E-F8B095D63EF6}
 	EndGlobalSection
 EndGlobal
