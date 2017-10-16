@@ -15,6 +15,7 @@ using Ixq.Logging.Log4Net;
 
 namespace Ixq.Demo.Console
 {
+    [Serializable]
     class Program
     {
         static void Main(string[] args)
@@ -23,7 +24,8 @@ namespace Ixq.Demo.Console
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
 
-            ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun");
+            ICacheProvider cacheProvider =
+                new RedisCacheProvider("localhost:6379,password=zhaokun", new BinarySerializableService());
             //ICacheProvider cacheProvider = new MemoryCacheProvider();
             CacheManager.SetCacheProvider(() => cacheProvider);
 
@@ -93,13 +95,13 @@ namespace Ixq.Demo.Console
 
         static void TestMethod3()
         {
-            //System.Console.WriteLine("TestMethod3 part1 start");
+            System.Console.WriteLine("TestMethod3 part1 start");
             var globalCache = CacheManager.GetGlobalCache();
-            //globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(10));
-            //System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
-            //Thread.Sleep(11*1000);
-            //System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
-            //System.Console.WriteLine("TestMethod3 part1 end");
+            globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(10));
+            System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
+            Thread.Sleep(11 * 1000);
+            System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
+            System.Console.WriteLine("TestMethod3 part1 end");
 
             System.Console.WriteLine("TestMethod3 part2 start");
             globalCache.Set("slidingExpiration", "slidingExpiration", new TimeSpan(0, 0, 10));

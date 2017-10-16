@@ -17,17 +17,20 @@ namespace Ixq.Redis
         private readonly IDatabase _database;
         private readonly string _region;
         private readonly string _cacheKeyPrefix;
+        private readonly ISerializableService _serializableService;
 
         /// <summary>
         ///     初始化一个<see cref="RedisCache" />实例。
         /// </summary>
         /// <param name="database"></param>
         /// <param name="region">缓存区域名称</param>
-        public RedisCache(IDatabase database, string region)
+        /// <param name="serializableService">序列化服务。</param>
+        public RedisCache(IDatabase database, string region, ISerializableService serializableService)
         {
             _database = database ?? throw new ArgumentNullException(nameof(database));
             _region = region;
             _cacheKeyPrefix = $"Ixq.Redis.RedisCache.{region}.";
+            _serializableService = serializableService ?? throw new ArgumentNullException(nameof(serializableService));
         }
 
         /// <summary>
@@ -374,64 +377,39 @@ namespace Ixq.Redis
             return true;
         }
 
-        #region 私有方法
-
-
-        private T Do<T>(Func<IDatabase, T> func)
-        {
-            return func(_database);
-        }
-
         /// <summary>
-        ///     序列化
+        ///     序列化。
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private static byte[] Serialize(object obj)
+        protected virtual byte[] Serialize(object obj)
         {
-            if (obj == null)
-            {
-                return null;
-            }
-
-            var binaryFormatter = new BinaryFormatter();
-            using (var memoryStream = new MemoryStream())
-            {
-                binaryFormatter.Serialize(memoryStream, obj);
-                var data = memoryStream.ToArray();
-                return data;
-            }
+            return _serializableService.Serialize(obj);
         }
 
         /// <summary>
-        ///     反序列化
+        ///     反序列化。
         /// </summary>
         /// <param name="data"></param>
         /// <param name="object"></param>
         /// <returns></returns>
-        private bool TryDeserialize(byte[] data, out RedisCacheValue @object)
+        protected virtual bool TryDeserialize(byte[] data, out RedisCacheValue @object)
         {
             @object = default(RedisCacheValue);
-
             if (data == null)
             {
                 return false;
             }
-
             try
             {
-                var binaryFormatter = new BinaryFormatter();
-                using (var memoryStream = new MemoryStream(data))
+                var result = _serializableService.Deserialize(data);
+                @object = (RedisCacheValue) result;
+                if (!CheckCacheValue(@object))
                 {
-                    var result = (RedisCacheValue) binaryFormatter.Deserialize(memoryStream);
-                    @object = result;
-                    if (!CheckCacheValue(@object))
-                    {
-                        @object = null;
-                        return false;
-                    }
-                    return true;
+                    @object = null;
+                    return false;
                 }
+                return true;
             }
             catch
             {
@@ -439,6 +417,11 @@ namespace Ixq.Redis
             }
         }
 
+        #region 私有方法
+        private T Do<T>(Func<IDatabase, T> func)
+        {
+            return func(_database);
+        }
         #endregion
     }
 }

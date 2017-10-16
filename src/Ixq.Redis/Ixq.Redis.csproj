@@ -58,7 +58,8 @@
     <Compile Include="RedisCache.cs" />
     <Compile Include="RedisCacheValue.cs" />
     <Compile Include="RedisCacheProvider.cs" />
-    <Compile Include="SerializableService.cs" />
+    <Compile Include="BinarySerializableService.cs" />
+    <Compile Include="XmlSerializableService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ixq.Core\Ixq.Core.csproj">

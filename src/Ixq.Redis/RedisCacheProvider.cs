@@ -15,6 +15,7 @@ namespace Ixq.Redis
         private static string _connStr;
         private static ConfigurationOptions _options;
 
+
         static RedisCacheProvider()
         {
             ConnectionMultiplexer = new Lazy<ConnectionMultiplexer>(GetConnectionMultiplexer);
@@ -24,12 +25,14 @@ namespace Ixq.Redis
         ///     初始化一个<see cref="RedisCacheProvider" />实例。
         /// </summary>
         /// <param name="connectionString">Redis 连接串。</param>
-        public RedisCacheProvider(string connectionString)
+        /// <param name="serializableService">序列化服务。</param>
+        public RedisCacheProvider(string connectionString, ISerializableService serializableService)
         {
             _connStr = connectionString;
+            SerializableService = serializableService;
         }
 
-        public RedisCacheProvider() : this("localhost:6379")
+        public RedisCacheProvider() : this("localhost:6379", new XmlSerializableService())
         {
         }
 
@@ -37,9 +40,11 @@ namespace Ixq.Redis
         ///     初始化一个<see cref="RedisCacheProvider" />实例。
         /// </summary>
         /// <param name="options">配置选项。</param>
-        public RedisCacheProvider(ConfigurationOptions options)
+        /// <param name="serializableService">序列化服务。</param>
+        public RedisCacheProvider(ConfigurationOptions options, ISerializableService serializableService)
         {
             _options = options;
+            SerializableService = serializableService;
         }
 
         public static ConnectionMultiplexer ConnectionMultiplexerInstance => ConnectionMultiplexer.Value;
@@ -59,6 +64,11 @@ namespace Ixq.Redis
         }
 
         /// <summary>
+        ///     获取序列化服务。
+        /// </summary>
+        public virtual ISerializableService SerializableService { get; private set; }
+
+        /// <summary>
         ///     获取 <see cref="ICache" />
         /// </summary>
         /// <param name="regionName">缓存区域。</param>
@@ -70,7 +80,7 @@ namespace Ixq.Redis
             {
                 return cache;
             }
-            cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(), regionName);
+            cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(), regionName, SerializableService);
             Caches[regionName] = cache;
             return cache;
         }
