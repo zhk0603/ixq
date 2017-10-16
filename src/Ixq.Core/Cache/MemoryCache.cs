@@ -9,7 +9,7 @@ namespace Ixq.Core.Cache
     /// <summary>
     ///     内存缓存。
     /// </summary>
-    public class MemoryCache : ICache
+    public class MemoryCache : ICache, IDisposable
     {
         private readonly System.Runtime.Caching.MemoryCache _cache;
         private readonly string _region;
@@ -239,6 +239,11 @@ namespace Ixq.Core.Cache
         public virtual Task<IEnumerable<KeyValuePair<string, object>>> GetAllAsync()
         {
             return Task.FromResult(GetAll());
+        }
+
+        public void Dispose()
+        {
+            _cache?.Dispose();
         }
     }
 }
