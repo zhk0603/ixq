@@ -15,29 +15,24 @@ using Ixq.Logging.Log4Net;
 
 namespace Ixq.Demo.Console
 {
-    [Serializable]
     class Program
     {
-        static void Main1(string[] args)
+        static void Main(string[] args)
         {
-            var s1 = "Admin";
-            var s2 = "Employee";
-            var c1 = s1.GetHashCode();
-            var c2 = s2.GetHashCode();
 
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
 
-            //ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun");
-            ICacheProvider cacheProvider = new MemoryCacheProvider();
+            ICacheProvider cacheProvider = new RedisCacheProvider("localhost:6379,password=zhaokun");
+            //ICacheProvider cacheProvider = new MemoryCacheProvider();
             CacheManager.SetCacheProvider(() => cacheProvider);
 
             CacheManager.GetGlobalCache().Set("test", "test");
             CacheManager.GetCache<Program>().Set("test", "test");
-            CacheManager.GetCache<Program>().Set("test1", "test");
-            CacheManager.GetCache<Program>().Set("test2", "test");
-            CacheManager.GetCache<Program>().Set("test3", "test");
-            CacheManager.GetCache(nameof(Program)).Set("test", "test1");
+            CacheManager.GetCache<Program>().Set("test1", "test1");
+            CacheManager.GetCache<Program>().Set("test2", "test2");
+            CacheManager.GetCache<Program>().Set("test3", "test3");
+            CacheManager.GetCache(nameof(Program)).Set("test", "test");
             System.Console.WriteLine(CacheManager.GetGlobalCache().Get<string>("test"));
             System.Console.WriteLine(CacheManager.GetCache(nameof(Program)).Get<string>("test"));
 
@@ -45,12 +40,11 @@ namespace Ixq.Demo.Console
             TestMethod2();
             TestMethod3();
             TestMethod4();
-            //TestMethod5();
-
+            TestMethod5();
             System.Console.ReadKey();
         }
 
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             TestLog();
 
@@ -89,23 +83,32 @@ namespace Ixq.Demo.Console
             var globalCache = CacheManager.GetGlobalCache();
             foreach (var cache in CacheManager.GetCacheProvider().GetAllRegionCaches())
             {
+                var allColl = cache.Value.GetAll().ToList();
                 foreach (var item in await cache.Value.GetAllAsync())
                 {
                     System.Console.WriteLine($"region:{cache.Key}\tkey:{item.Key}\tvalue:{item.Value}");
-
                 }
             }
         }
 
         static void TestMethod3()
         {
-            System.Console.WriteLine("TestMethod3 start");
+            //System.Console.WriteLine("TestMethod3 part1 start");
             var globalCache = CacheManager.GetGlobalCache();
-            globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(10));
-            System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
-            Thread.Sleep(9*1000);
-            System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
-            System.Console.WriteLine("TestMethod3 end");
+            //globalCache.Set("absoluteExpirationTest", "zhaokun", DateTime.Now.AddSeconds(10));
+            //System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
+            //Thread.Sleep(11*1000);
+            //System.Console.WriteLine(globalCache.Get("absoluteExpirationTest"));
+            //System.Console.WriteLine("TestMethod3 part1 end");
+
+            System.Console.WriteLine("TestMethod3 part2 start");
+            globalCache.Set("slidingExpiration", "slidingExpiration", new TimeSpan(0, 0, 10));
+            System.Console.WriteLine(globalCache.Get("slidingExpiration"));
+            Thread.Sleep(10*1000-50);
+            System.Console.WriteLine(globalCache.Get("slidingExpiration"));
+            Thread.Sleep(10*1000+1);
+            System.Console.WriteLine(globalCache.Get("slidingExpiration"));
+            System.Console.WriteLine("TestMethod3 part2 end");
         }
 
         static void TestMethod4()

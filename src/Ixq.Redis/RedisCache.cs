@@ -46,7 +46,10 @@ namespace Ixq.Redis
         public virtual IEnumerable<KeyValuePair<string, object>> GetAll()
         {
             return GetAllKeys().Select(key =>
-                new KeyValuePair<string, object>(key.ToString().Replace(_cacheKeyPrefix, ""), Get(key)));
+            {
+                var originalName = key.ToString().Replace(_cacheKeyPrefix, "");
+                return new KeyValuePair<string, object>(originalName, Get(originalName));
+            });
         }
 
         /// <summary>
@@ -66,11 +69,11 @@ namespace Ixq.Redis
         public virtual object Get(string key)
         {
             var byteValue = _database.StringGet(ParseKey(key));
-            if (!TryDeserialize(byteValue, out RedisCacheValue value))
+            if (TryDeserialize(byteValue, out RedisCacheValue value))
             {
-                return byteValue;
+                return value.Value;
             }
-            return value.Value;
+            return null;
         }
 
         /// <summary>
@@ -81,11 +84,11 @@ namespace Ixq.Redis
         public virtual async Task<object> GetAsync(string key)
         {
             var byteValue = await _database.StringGetAsync(ParseKey(key));
-            if (!TryDeserialize(byteValue, out RedisCacheValue value))
+            if (TryDeserialize(byteValue, out RedisCacheValue value))
             {
-                return byteValue;
+                return value.Value;
             }
-            return value.Value;
+            return null;
         }
 
         /// <summary>
@@ -131,7 +134,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual void Set<T>(string key, T value)
         {
-            _database.StringSet(ParseKey(key), ParseValue(value));
+            _database.StringSet(ParseKey(key), ParseValue(key, value));
         }
 
         /// <summary>
@@ -143,7 +146,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value)
         {
-            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(value)));
+            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(key, value)));
         }
 
         /// <summary>
@@ -160,7 +163,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            _database.StringSet(ParseKey(key), ParseValue(value), new TimeSpan(0, 0, 0, second));
+            _database.StringSet(ParseKey(key), ParseValue(key, value), new TimeSpan(0, 0, 0, second));
         }
 
         /// <summary>
@@ -177,7 +180,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(value), new TimeSpan(0, 0, 0, second)));
+            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(key, value), new TimeSpan(0, 0, 0, second)));
         }
 
         /// <summary>
@@ -195,7 +198,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            _database.StringSet(ParseKey(key), ParseValue(value), expiry);
+            _database.StringSet(ParseKey(key), ParseValue(key, value), expiry);
         }
 
         /// <summary>
@@ -213,7 +216,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(value), expiry));
+            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(key, value), expiry));
         }
 
         /// <summary>
@@ -230,7 +233,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            _database.StringSet(ParseKey(key), ParseValue(value, slidingExpiration));
+            _database.StringSet(ParseKey(key), ParseValue(key, value, slidingExpiration), slidingExpiration);
         }
 
         /// <summary>
@@ -243,7 +246,14 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            return Do(db => db.StringSetAsync(ParseKey(key), ParseValue(value, slidingExpiration)));
+            return Do(db =>
+            {
+                if (slidingExpiration.TotalSeconds <= 0)
+                {
+                    throw new Exception("无效的到期时间");
+                }
+                return db.StringSetAsync(ParseKey(key), ParseValue(key, value, slidingExpiration), slidingExpiration);
+            });
         }
 
         /// <summary>
@@ -310,30 +320,32 @@ namespace Ixq.Redis
             return _cacheKeyPrefix + key;
         }
 
-        protected virtual byte[] ParseValue(object value)
+        protected virtual byte[] ParseValue(string key, object value)
         {
-            return ParseValue(value, null, null);
+            return ParseValue(key, value, null, null);
         }
-        protected virtual byte[] ParseValue(object value, DateTime? absoluteExpiration)
+        protected virtual byte[] ParseValue(string key, object value, DateTime? absoluteExpiration)
         {
-            return ParseValue(value, absoluteExpiration, null);
+            return ParseValue(key, value, absoluteExpiration, null);
         }
-        protected virtual byte[] ParseValue(object value, TimeSpan? slidingExpiration)
+        protected virtual byte[] ParseValue(string key, object value, TimeSpan? slidingExpiration)
         {
-            return ParseValue(value, null, slidingExpiration);
+            return ParseValue(key, value, null, slidingExpiration);
         }
 
         /// <summary>
         ///     使用 <see cref="RedisCacheValue"/> 包装 缓存值，并返回序列化后的结果。
         /// </summary>
+        /// <param name="key"></param>
         /// <param name="value"></param>
         /// <param name="absoluteExpiration"></param>
         /// <param name="slidingExpiration"></param>
         /// <returns></returns>
-        protected virtual byte[] ParseValue(object value, DateTime? absoluteExpiration, TimeSpan? slidingExpiration)
+        protected virtual byte[] ParseValue(string key, object value, DateTime? absoluteExpiration, TimeSpan? slidingExpiration)
         {
             var cacheValue = new RedisCacheValue
             {
+                Key = key,
                 AbsoluteExpiration = absoluteExpiration,
                 SlidingExpiration = slidingExpiration,
                 Value = value
@@ -351,7 +363,8 @@ namespace Ixq.Redis
         {
             if (value.SlidingExpiration.HasValue)
             {
-                if (value.SlidingExpiration.Value > (DateTime.Now - value.InsertTime))
+                // 通常情况下在 滑动时间到期时 RedisCache 会自动移除缓存项。
+                if (value.SlidingExpiration.Value < DateTime.Now - value.InsertTime)
                 {
                     Remove(value.Key);
                     return false;

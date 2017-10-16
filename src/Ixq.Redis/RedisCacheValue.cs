@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ixq.Redis
 {
+    [Serializable]
     public class RedisCacheValue
     {
         public RedisCacheValue()
