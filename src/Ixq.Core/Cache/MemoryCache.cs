@@ -28,7 +28,7 @@ namespace Ixq.Core.Cache
         ///     获取缓存区域名称。
         /// </summary>
         /// <returns></returns>
-        public virtual string GetRegion()
+        public virtual string GetRegionName()
         {
             return _region;
         }

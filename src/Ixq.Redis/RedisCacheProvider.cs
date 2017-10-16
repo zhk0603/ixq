@@ -15,12 +15,10 @@ namespace Ixq.Redis
         private static readonly Lazy<ConnectionMultiplexer> ConnectionMultiplexer;
         private static string _connStr;
         private static ConfigurationOptions _options;
-        private static readonly ConcurrentDictionary<string, int> DbNumDic;
 
         static RedisCacheProvider()
         {
             ConnectionMultiplexer = new Lazy<ConnectionMultiplexer>(GetConnectionMultiplexer);
-            DbNumDic = new ConcurrentDictionary<string, int>();
         }
 
         /// <summary>
@@ -73,36 +71,9 @@ namespace Ixq.Redis
             {
                 return cache;
             }
-            var dbNum = GetDbNum(regionName);
-            cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(dbNum), regionName);
+            cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(), regionName);
             Caches[regionName] = cache;
             return cache;
         }
-
-        #region private method
-
-        private int GetDbNum(string regionName)
-        {
-            var dbNum = 0;
-            lock (Lock)
-            {
-                if (DbNumDic.TryGetValue(regionName, out dbNum))
-                {
-                    return dbNum;
-                }
-                if (!DbNumDic.Any())
-                {
-                    dbNum = 0;
-                }
-                else
-                {
-                    dbNum = DbNumDic.Max(x => x.Value) + 1;
-                }
-                DbNumDic[regionName] = dbNum;
-            }
-            return dbNum;
-        }
-
-        #endregion
     }
 }

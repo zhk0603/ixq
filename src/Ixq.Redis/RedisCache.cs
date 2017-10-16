@@ -16,6 +16,7 @@ namespace Ixq.Redis
     {
         private readonly IDatabase _database;
         private readonly string _region;
+        private readonly string _cacheKeyPrefix;
 
         /// <summary>
         ///     初始化一个<see cref="RedisCache" />实例。
@@ -30,13 +31,14 @@ namespace Ixq.Redis
             }
             _database = database;
             _region = region;
+            _cacheKeyPrefix = $"Ixq.Redis.RedisCache.{region}.";
         }
 
         /// <summary>
         ///     获取缓存区域名称。
         /// </summary>
         /// <returns></returns>
-        public virtual string GetRegion()
+        public virtual string GetRegionName()
         {
             return _region;
         }
@@ -47,7 +49,8 @@ namespace Ixq.Redis
         /// <returns>全部的缓存项。</returns>
         public virtual IEnumerable<KeyValuePair<string, object>> GetAll()
         {
-            return GetAllKeys().Select(key => new KeyValuePair<string, object>(key, Get(key))); //.ToList();
+            return GetAllKeys().Select(key =>
+                new KeyValuePair<string, object>(key.ToString().Replace(_cacheKeyPrefix, ""), Get(key)));
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace Ixq.Redis
         /// <returns>缓存项。</returns>
         public virtual object Get(string key)
         {
-            var byteValue = _database.StringGet(key);
+            var byteValue = _database.StringGet(ParseKey(key));
             object value;
             if (!TryDeserialize(byteValue, out value))
             {
@@ -82,7 +85,7 @@ namespace Ixq.Redis
         /// <returns>缓存项。</returns>
         public virtual async Task<object> GetAsync(string key)
         {
-            var byteValue = await _database.StringGetAsync(key);
+            var byteValue = await _database.StringGetAsync(ParseKey(key));
             object value;
             if (!TryDeserialize(byteValue, out value))
             {
@@ -99,7 +102,7 @@ namespace Ixq.Redis
         /// <returns>缓存项。</returns>
         public virtual T Get<T>(string key)
         {
-            var byteValue = _database.StringGet(key);
+            var byteValue = _database.StringGet(ParseKey(key));
             T value;
             TryDeserialize(byteValue, out value);
             if (value == null)
@@ -117,7 +120,7 @@ namespace Ixq.Redis
         /// <returns>缓存项。</returns>
         public virtual async Task<T> GetAsync<T>(string key)
         {
-            var byteValue = await _database.StringGetAsync(key);
+            var byteValue = await _database.StringGetAsync(ParseKey(key));
             T value;
             TryDeserialize(byteValue, out value);
             if (value == null)
@@ -136,7 +139,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual void Set<T>(string key, T value)
         {
-            _database.StringSet(key, Serialize(value));
+            _database.StringSet(ParseKey(key), Serialize(value));
         }
 
         /// <summary>
@@ -148,7 +151,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value)
         {
-            return Do(db => db.StringSetAsync(key, Serialize(value)));
+            return Do(db => db.StringSetAsync(ParseKey(key), Serialize(value)));
         }
 
         /// <summary>
@@ -165,7 +168,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            _database.StringSet(key, Serialize(value), new TimeSpan(0, 0, 0, second));
+            _database.StringSet(ParseKey(key), Serialize(value), new TimeSpan(0, 0, 0, second));
         }
 
         /// <summary>
@@ -182,7 +185,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            return Do(db => db.StringSetAsync(key, Serialize(value), new TimeSpan(0, 0, 0, second)));
+            return Do(db => db.StringSetAsync(ParseKey(key), Serialize(value), new TimeSpan(0, 0, 0, second)));
         }
 
         /// <summary>
@@ -200,7 +203,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            _database.StringSet(key, Serialize(value), expiry);
+            _database.StringSet(ParseKey(key), Serialize(value), expiry);
         }
 
         /// <summary>
@@ -218,7 +221,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            return Do(db => db.StringSetAsync(key, Serialize(value), expiry));
+            return Do(db => db.StringSetAsync(ParseKey(key), Serialize(value), expiry));
         }
 
         /// <summary>
@@ -235,7 +238,7 @@ namespace Ixq.Redis
             {
                 throw new Exception("无效的到期时间");
             }
-            _database.StringSet(key, Serialize(value), slidingExpiration);
+            _database.StringSet(ParseKey(key), Serialize(value), slidingExpiration);
         }
 
         /// <summary>
@@ -248,7 +251,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            return Do(db => db.StringSetAsync(key, Serialize(value), slidingExpiration));
+            return Do(db => db.StringSetAsync(ParseKey(key), Serialize(value), slidingExpiration));
         }
 
         /// <summary>
@@ -258,7 +261,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual void Remove(string key)
         {
-            _database.KeyDelete(key);
+            _database.KeyDelete(ParseKey(key));
         }
 
         /// <summary>
@@ -268,7 +271,7 @@ namespace Ixq.Redis
         /// <returns></returns>
         public virtual Task RemoveAsync(string key)
         {
-            return Do(db => db.KeyDeleteAsync(key));
+            return Do(db => db.KeyDeleteAsync(ParseKey(key)));
         }
 
         /// <summary>
@@ -294,19 +297,29 @@ namespace Ixq.Redis
             }
         }
 
-        #region 私有方法
-
         /// <summary>
         ///     获取 <see cref="IDatabase" /> 所有的Key。
         /// </summary>
         /// <returns></returns>
-        private IEnumerable<RedisKey> GetAllKeys()
+        protected virtual IEnumerable<RedisKey> GetAllKeys()
         {
             var option = ConfigurationOptions.Parse(RedisCacheProvider.ConnectionMultiplexerInstance.Configuration);
             var server = RedisCacheProvider.ConnectionMultiplexerInstance.GetServer(option.EndPoints.First());
-            var keys = server.Keys(_database.Database).ToList();
-            return keys;
+            foreach (var key in server.Keys(_database.Database))
+            {
+                if (key.ToString().StartsWith(_cacheKeyPrefix))
+                {
+                    yield return key;
+                }
+            }
         }
+        protected virtual string ParseKey(string key)
+        {
+            return _cacheKeyPrefix + key;
+        }
+
+        #region 私有方法
+
 
         private T Do<T>(Func<IDatabase, T> func)
         {
