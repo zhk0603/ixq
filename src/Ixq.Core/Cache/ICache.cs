@@ -13,7 +13,7 @@ namespace Ixq.Core.Cache
         ///     获取缓存名称。
         /// </summary>
         /// <returns></returns>
-        string GetRegion();
+        string GetRegionName();
 
         /// <summary>
         ///     获取全部的缓存项。

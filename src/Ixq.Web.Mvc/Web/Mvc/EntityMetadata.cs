@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Web.Mvc;
+using Ixq.Core;
 using Ixq.Core.DataAnnotations;
 using Ixq.Core.Entity;
 using Ixq.Data.DataAnnotations;
@@ -19,12 +20,6 @@ namespace Ixq.Web.Mvc
     [Serializable]
     public class EntityMetadata : IEntityMetadata
     {
-        /// <summary>
-        ///     授权用户委托。
-        /// </summary>
-        /// <returns></returns>
-        public delegate ClaimsPrincipal ClaimsUserDelegate();
-
         private static readonly object LockObj = new object();
         private PropertyInfo[] _entityPropertys;
         private IEntityPropertyMetadata[] _propertyMetadatas;
@@ -44,11 +39,6 @@ namespace Ixq.Web.Mvc
         }
 
         /// <summary>
-        ///     获取或设置授权用户委托方法。
-        /// </summary>
-        public static ClaimsUserDelegate CurrentClaimsUser { get; set; }
-
-        /// <summary>
         ///     获取实体在列表中的属性元数据。
         /// </summary>
         public IEntityPropertyMetadata[] ViewPropertyMetadatas
@@ -56,7 +46,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnView && x.IsAuthorization(CurrentClaimsUser())).ToArray();
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnView && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal)).ToArray();
             }
         }
 
@@ -68,7 +58,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(CurrentClaimsUser()))
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal))
                         .ToArray();
             }
         }
@@ -81,7 +71,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentClaimsUser())).ToArray();
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal)).ToArray();
             }
         }
 
@@ -93,7 +83,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(CurrentClaimsUser()))
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal))
                         .ToArray();
             }
         }
@@ -105,7 +95,7 @@ namespace Ixq.Web.Mvc
         {
             get
             {
-                return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(CurrentClaimsUser())).ToArray();
+                return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal)).ToArray();
             }
         }
 

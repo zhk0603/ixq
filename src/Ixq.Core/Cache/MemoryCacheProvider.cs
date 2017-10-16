@@ -12,8 +12,7 @@
         /// <returns></returns>
         public override ICache GetCache(string regionName)
         {
-            ICache cache;
-            if (Caches.TryGetValue(regionName, out cache))
+            if (Caches.TryGetValue(regionName, out var cache))
             {
                 return cache;
             }

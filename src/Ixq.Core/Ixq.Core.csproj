@@ -57,6 +57,7 @@
     <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\MemoryCacheProvider.cs" />
+    <Compile Include="AppClaimsUser.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionServiceExtensions.cs" />

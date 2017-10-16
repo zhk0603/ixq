@@ -78,6 +78,8 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
+            Ixq.Core.Cache.CacheManager.GetCache("LoginUser")
+                .Remove(Ixq.Core.AppClaimsUser.Current().UserId);
             ApplicationSignInManager<ApplicationUser>.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Security.Claims;
 using ixq.Demo.DbContext;
+using Ixq.Core;
 using Ixq.Core.Security;
 using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
+using Ixq.Extensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -27,7 +29,7 @@ namespace Ixq.Demo.Web
             app.CreatePerOwinContext<SignInManager<ApplicationUser, string>>(
                 ApplicationSignInManager<ApplicationUser>.Create<ApplicationUserManager>);
 
-            EntityMetadata.CurrentClaimsUser = CurrentClaimsUser;
+            AppClaimsUser.Current = GetCurrentUser;
 
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
             // 并使用 Cookie 来临时存储有关使用第三方登录提供程序登录的用户的信息
@@ -41,17 +43,38 @@ namespace Ixq.Demo.Web
                 {
                     // 当用户登录时使应用程序可以验证安全戳。
                     // 这是一项安全功能，当你更改密码或者向帐户添加外部登录名时，将使用此功能。
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity =
+                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                            validateInterval: TimeSpan.FromMinutes(30),
+                            regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
         }
-        private static ClaimsPrincipal CurrentClaimsUser()
+
+        private CurrentUserWrap GetCurrentUser()
         {
-            return ApplicationSignInManager<ApplicationUser>.CurrentClaimsUser;
+            var cache = Ixq.Core.Cache.CacheManager.GetCache("LoginUser");
+            var user = ApplicationSignInManager<ApplicationUser>.CurrentSystemUser;
+            var userWrap = cache.Get<CurrentUserWrap>(user.Id);
+            if (userWrap == null)
+            {
+                // TODO user login count.
+                userWrap = new CurrentUserWrap
+                {
+                    ClaimsPrincipal = ApplicationSignInManager<ApplicationUser>.CurrentClaimsUser,
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    LoginTime = DateTime.Now,
+                    LoginIp = NetHelper.Ip,
+                    LoginCount = 0
+                };
+                cache.Set(userWrap.UserId, userWrap);
+            }
+            return userWrap;
         }
     }
 }

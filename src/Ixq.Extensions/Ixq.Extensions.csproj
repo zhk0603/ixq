@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CheckParameter.cs" />
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="NetHelper.cs" />
     <Compile Include="ObjectModel\EnumItem.cs" />
     <Compile Include="LambdaExpression.cs" />
     <Compile Include="ObjectModel\ReturnModel.cs" />
