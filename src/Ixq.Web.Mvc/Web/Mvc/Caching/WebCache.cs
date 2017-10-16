@@ -30,7 +30,8 @@ namespace Ixq.Web.Mvc.Caching
             while (cacheEnum.MoveNext())
                 if (cacheEnum.Key != null && cacheEnum.Key.ToString().StartsWith(_cacheKeyPrefix))
                 {
-                    yield return new KeyValuePair<string, object>(cacheEnum.Key.ToString(), cacheEnum.Value);
+                    yield return new KeyValuePair<string, object>(cacheEnum.Key.ToString().Replace(_cacheKeyPrefix, ""),
+                        cacheEnum.Value);
                 }
         }
 

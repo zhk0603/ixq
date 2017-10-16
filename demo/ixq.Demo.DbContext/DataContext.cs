@@ -13,7 +13,7 @@ namespace ixq.Demo.DbContext
     {
         public DataContext() : base("DataContext")
         {
-            this.Initialize();
+            Initialize();
             Configuration.ValidateOnSaveEnabled = false;
             Configuration.LazyLoadingEnabled = false;
         }

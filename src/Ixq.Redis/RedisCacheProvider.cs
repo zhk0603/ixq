@@ -11,7 +11,6 @@ namespace Ixq.Redis
     /// </summary>
     public class RedisCacheProvider : CacheProviderBase
     {
-        private static readonly object Lock = new object();
         private static readonly Lazy<ConnectionMultiplexer> ConnectionMultiplexer;
         private static string _connStr;
         private static ConfigurationOptions _options;
