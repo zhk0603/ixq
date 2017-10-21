@@ -100,8 +100,6 @@
     <Compile Include="Repository\IRepositoryBase.cs" />
     <Compile Include="Repository\IRepositoryInt32.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
-    <Compile Include="Security\IUserManager.cs" />
-    <Compile Include="Security\IRoleManager.cs" />
     <Compile Include="TextAlign.cs" />
   </ItemGroup>
   <ItemGroup>

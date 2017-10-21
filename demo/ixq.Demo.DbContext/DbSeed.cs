@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Ixq.Demo.Entities;
-using Ixq.Security.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -78,14 +77,6 @@ namespace ixq.Demo.DbContext
             userManager.AddToRole(zk01User.Id, supervisorRole.Name);
 
             context.SaveChanges();
-        }
-    }
-
-    public class UserStore<TUser> : UserStoreBase<TUser, ApplicationRole>
-    where TUser : IdentityUser
-    {
-        public UserStore(System.Data.Entity.DbContext context) : base(context)
-        {
         }
     }
 }

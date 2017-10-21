@@ -32,7 +32,7 @@ namespace Ixq.Redis
             SerializableService = serializableService;
         }
 
-        public RedisCacheProvider() : this("localhost:6379", new XmlSerializableService())
+        public RedisCacheProvider() : this("localhost:6379", new BinarySerializableService())
         {
         }
 

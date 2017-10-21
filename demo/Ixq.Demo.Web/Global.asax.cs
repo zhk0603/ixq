@@ -6,13 +6,11 @@ using System.Web.Routing;
 using ixq.Demo.DbContext;
 using Ixq.Core;
 using Ixq.Core.DependencyInjection.Extensions;
-using Ixq.Core.Security;
 using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
 using Ixq.DependencyInjection.Autofac;
 using Ixq.Extensions;
 using Ixq.Mapper;
-using Ixq.Security.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 

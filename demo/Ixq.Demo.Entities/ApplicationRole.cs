@@ -1,15 +1,14 @@
-﻿using Ixq.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Entity;
-using Ixq.Security.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Demo.Entities
 {
-    public class ApplicationRole : IdentityRoleBase, ICreateSpecification, IUpdataSpecification,
+    public class ApplicationRole : IdentityRole, ICreateSpecification, IUpdataSpecification,
         ISoftDeleteSpecification
     {
         public ApplicationRole() : base() { }

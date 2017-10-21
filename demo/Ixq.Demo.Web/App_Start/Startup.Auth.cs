@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using ixq.Demo.DbContext;
 using Ixq.Core;
-using Ixq.Core.Security;
 using Ixq.Demo.Domain;
 using Ixq.Demo.Entities;
 using Ixq.Extensions;
@@ -11,7 +10,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Ixq.Security.Identity;
 using Ixq.Web.Mvc;
 
 namespace Ixq.Demo.Web
@@ -25,9 +23,7 @@ namespace Ixq.Demo.Web
             app.CreatePerOwinContext(DataContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-
-            app.CreatePerOwinContext<SignInManager<ApplicationUser, string>>(
-                ApplicationSignInManager<ApplicationUser>.Create<ApplicationUserManager>);
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
             AppClaimsUser.Current = GetCurrentUser;
 
@@ -49,32 +45,11 @@ namespace Ixq.Demo.Web
                             regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
             });
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
         }
 
         private CurrentUserWrap GetCurrentUser()
         {
-            var cache = Ixq.Core.Cache.CacheManager.GetCache("LoginUser");
-            var user = ApplicationSignInManager<ApplicationUser>.CurrentSystemUser;
-            var userWrap = cache.Get<CurrentUserWrap>(user.Id);
-            if (userWrap == null)
-            {
-                // TODO user login count.
-                userWrap = new CurrentUserWrap
-                {
-                    ClaimsPrincipal = ApplicationSignInManager<ApplicationUser>.CurrentClaimsUser,
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    PhoneNumber = user.PhoneNumber,
-                    Email = user.Email,
-                    LoginTime = DateTime.Now,
-                    LoginIp = NetHelper.Ip,
-                    LoginCount = 0
-                };
-                cache.Set(userWrap.UserId, userWrap);
-            }
-            return userWrap;
+             throw new System.NotImplementedException();
         }
     }
 }

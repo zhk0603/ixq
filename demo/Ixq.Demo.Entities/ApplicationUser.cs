@@ -5,14 +5,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Entity;
-using Ixq.Security;
-using Ixq.Security.Identity;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Demo.Entities
 {
-    public class ApplicationUser : IdentityUserBase, ICreateSpecification, IUpdataSpecification,
-        ISoftDeleteSpecification, Security.Identity.IUser
+    public class ApplicationUser : IdentityUser, ICreateSpecification, IUpdataSpecification,
+        ISoftDeleteSpecification
     {
         public virtual int Age { get; set; }
         public virtual DateTime CreateDate { get; set; }

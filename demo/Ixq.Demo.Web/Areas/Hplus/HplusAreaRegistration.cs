@@ -17,9 +17,6 @@ namespace Ixq.Demo.Web.Areas.Hplus
                 new {controller = "Home", action = "Index", id = UrlParameter.Optional},
                 new[] {"Ixq.Demo.Web.Areas.Hplus.Controllers"}
                 );
-
-            //route.DataTokens["authorizeRole"] = "";
-            //route.DataTokens["loginUrl"] = "/Hplus/Account/Login";
         }
     }
 }

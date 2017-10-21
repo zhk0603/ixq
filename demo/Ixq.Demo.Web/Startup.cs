@@ -11,7 +11,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
-using Ixq.Core.Security;
 using Ixq.Demo.Domain;
 
 [assembly: OwinStartup(typeof (Startup))]
@@ -35,9 +34,6 @@ namespace Ixq.Demo.Web
                 .RegisterIdentity(serverCollection =>
                 {
                     serverCollection.TryAddSingleton<DbContext, DataContext>();
-                    serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
-                    serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
-                    serverCollection.TryAddScoped<IUserManager<Security.Identity.IUser>, ApplicationUserManager>();
                     ConfigureAuth(app);
                 })
                 .RegisterAutofac(typeof (MvcApplication));
