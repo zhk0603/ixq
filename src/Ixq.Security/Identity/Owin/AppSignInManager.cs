@@ -7,6 +7,7 @@ using Ixq.Core.Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Ixq.Core.Logging;
 
 namespace Ixq.Security.Identity.Owin
 {
@@ -14,15 +15,19 @@ namespace Ixq.Security.Identity.Owin
         where TUser : class, IUser<TKey>, Ixq.Core.Security.IUser<TKey>
         where TKey : IEquatable<TKey>
     {
+        private readonly ILogger _logger;
         public AppSignInManager(UserManager<TUser, TKey> userManager, IAuthenticationManager authenticationManager) :
             base(userManager, authenticationManager)
         {
+            _logger = Ixq.Core.Logging.LogManager.GetLogger(GetType());
         }
+
+        protected virtual ILogger Logger => _logger;
 
         public override async Task SignInAsync(TUser user, bool isPersistent, bool rememberBrowser)
         {
             await base.SignInAsync(user, isPersistent, rememberBrowser);
-            OnSignInComplete(null);
+            OnSignInComplete(user);
         }
 
         public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
@@ -31,9 +36,9 @@ namespace Ixq.Security.Identity.Owin
 
             if (signInStatus == SignInStatus.Success)
             {
-                OnSignInComplete(null);
+                var user = await UserManager.FindByNameAsync(userName);
+                OnSignInComplete(user);
             }
-
             return signInStatus;
         }
 
@@ -42,7 +47,8 @@ namespace Ixq.Security.Identity.Owin
             var signInStatus = await base.ExternalSignInAsync(loginInfo, isPersistent);
             if (signInStatus == SignInStatus.Success)
             {
-                OnSignInComplete(null);
+                var user = await UserManager.FindByNameAsync(loginInfo.DefaultUserName);
+                OnSignInComplete(user);
             }
 
             return signInStatus;
@@ -56,7 +62,11 @@ namespace Ixq.Security.Identity.Owin
                 signInUser.LastSignInDate = DateTime.Now;
                 signInUser.OnSignInComplete();
             }
-            UserManager.Update(user);
+            var result = UserManager.Update(user);
+            if (!result.Succeeded)
+            {
+                Logger?.Error("更新用户出错：" + string.Join("\r\n", result.Errors));
+            }
         }
 
         protected virtual void OnSignOutComplete(TUser user)
@@ -66,7 +76,11 @@ namespace Ixq.Security.Identity.Owin
                 signOutUser.LastSignOutDate = DateTime.Now;
                 signOutUser.OnSignOutComplete();
             }
-            UserManager.Update(user);
+            var result = UserManager.Update(user);
+            if (!result.Succeeded)
+            {
+                Logger?.Error("更新用户出错：" + string.Join("\r\n", result.Errors));
+            }
         }
     }
 }

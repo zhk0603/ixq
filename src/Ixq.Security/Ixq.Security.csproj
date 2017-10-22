@@ -101,7 +101,7 @@
     <Compile Include="AppAuthorizationModule.cs" />
     <Compile Include="Identity\IdentityDbContextBase.cs" />
     <Compile Include="Identity\AppIdentityUser.cs" />
-    <Compile Include="Identity\Owin\SignInManager.cs" />
+    <Compile Include="Identity\Owin\AppSignInManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

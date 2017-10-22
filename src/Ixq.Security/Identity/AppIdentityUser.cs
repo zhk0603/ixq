@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Ixq.Core.Security;
 using Ixq.Core.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Security.Identity
 {
-    public class AppIdentityUser : Microsoft.AspNet.Identity.EntityFramework.IdentityUser, IUser<string>, IUserSpecification
+    public class AppIdentityUser : IdentityUser, IUser<string>, IUserSpecification
     {
         public AppIdentityUser()
         {
