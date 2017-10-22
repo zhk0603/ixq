@@ -8,6 +8,7 @@ using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
 using System.Data.Entity;
 using ixq.Demo.DbContext;
+using Ixq.Core.DependencyInjection;
 using Ixq.Core.Entity;
 using Ixq.Demo.Domain.Dtos;
 using Ixq.Demo.Domain.IApplicationService;
@@ -47,7 +48,14 @@ namespace Ixq.Demo.Web.Controllers
             var c1 = ServiceProvider.GetService<IRepository<ProductType>>().GetHashCode();
             var c2 = ServiceProvider.GetService<IRepository<Product>>().GetHashCode();
 
+            var provider = Ixq.Core.DependencyInjection.ServiceProvider.Current;
+            var c3 = provider.GetService<IRepository<ProductType>>().GetHashCode();
+            var c4 = provider.GetService<IRepository<Product>>().GetHashCode();
+
             var aa2 = ServiceProvider.GetService<IRepositoryBase<ProductType, Guid>>().GetHashCode();
+
+
+            var scopeFactory = Ixq.Core.DependencyInjection.ServiceProvider.Current.GetServices<IServiceScopeFactory>();
 
             return View();
         }

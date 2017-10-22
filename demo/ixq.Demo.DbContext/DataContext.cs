@@ -3,11 +3,12 @@ using System.Data.Entity;
 using Ixq.Data.Repository;
 using Ixq.Demo.Entities;
 using Ixq.Demo.Entities.System;
+using Ixq.Security.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ixq.Demo.DbContext
 {
-    public class DataContext : IdentityDbContext<ApplicationUser>
+    public class DataContext : IdentityDbContextBase<ApplicationUser>
     {
         public DataContext() : base("DataContext")
         {

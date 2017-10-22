@@ -15,7 +15,7 @@ namespace Ixq.Core.Dto
         /// <summary>
         ///     初始化一个数据传输对象。
         /// </summary>
-        protected DtoBaseInt32() : this(MapperExtensions.Instance)
+        protected DtoBaseInt32() : this(MapperProvider.Current)
         {
         }
 

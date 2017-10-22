@@ -6,7 +6,7 @@ namespace Ixq.Extensions
 {
     public class NetHelper
     {
-        public static string Ip
+        public static string CurrentIp
         {
             get
             {

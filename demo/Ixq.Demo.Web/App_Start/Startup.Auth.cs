@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using ixq.Demo.DbContext;
 using Ixq.Core;
 using Ixq.Demo.Domain;
@@ -11,6 +14,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Ixq.Web.Mvc;
+using Ixq.Core.DependencyInjection.Extensions;
+using Ixq.Core.Security;
 
 namespace Ixq.Demo.Web
 {
@@ -25,7 +30,7 @@ namespace Ixq.Demo.Web
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
-            AppClaimsUser.Current = GetCurrentUser;
+            CurrentUser.SetUserDelegate(GetCurrentUser);
 
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
             // 并使用 Cookie 来临时存储有关使用第三方登录提供程序登录的用户的信息
@@ -49,7 +54,18 @@ namespace Ixq.Demo.Web
 
         private CurrentUserWrap GetCurrentUser()
         {
-             throw new System.NotImplementedException();
+            var context = (DataContext) Core.DependencyInjection.ServiceProvider.Current.GetService<DbContext>();
+            var userId = Thread.CurrentPrincipal.Identity.GetUserId();
+            var user = context.Users.SingleOrDefault(x => x.Id == userId);
+            var warpUser = new CurrentUserWrap();
+            warpUser.UserId = user.Id;
+            warpUser.UserName = user.UserName;
+            warpUser.PhoneNumber = user.PhoneNumber;
+            warpUser.Email = user.Email;
+            warpUser.LoginTime = DateTime.Now;
+            warpUser.LoginIp = NetHelper.CurrentIp;
+            warpUser.ClaimsPrincipal = Thread.CurrentPrincipal as AppPrincipal;
+            return warpUser;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnView && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal)).ToArray();
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnView && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
             }
         }
 
@@ -58,7 +58,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal))
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
                         .ToArray();
             }
         }
@@ -71,7 +71,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal)).ToArray();
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
             }
         }
 
@@ -83,7 +83,7 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal))
+                    PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
                         .ToArray();
             }
         }
@@ -95,7 +95,7 @@ namespace Ixq.Web.Mvc
         {
             get
             {
-                return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(AppClaimsUser.Current().ClaimsPrincipal)).ToArray();
+                return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
             }
         }
 

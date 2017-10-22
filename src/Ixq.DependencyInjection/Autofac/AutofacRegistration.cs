@@ -30,12 +30,12 @@ namespace Ixq.DependencyInjection.Autofac
             var builder = new ContainerBuilder();
             builder.RegisterFilterProvider();
             builder.Populate(serviceCollection);
-            var a = Assembly.GetExecutingAssembly();
             builder.RegisterControllers(controllerAssemblies)
                 .PropertiesAutowired();
             var container = builder.Build();
             var resolver = new AutofacDependencyResolver(container);
             DependencyResolver.SetResolver(resolver);
+            ServiceProvider.SetProvider(() => resolver.GetService<IServiceProvider>());
         }
 
         private static void Populate(
@@ -43,7 +43,6 @@ namespace Ixq.DependencyInjection.Autofac
         {
             builder.RegisterType<AutofacServiceProvider>().As<IServiceProvider>();
             builder.RegisterType<AutofacServiceScopeFactory>().As<IServiceScopeFactory>();
-
             Register(builder, descriptors);
         }
 

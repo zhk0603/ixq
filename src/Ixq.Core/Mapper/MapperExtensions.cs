@@ -9,9 +9,6 @@ namespace Ixq.Core.Mapper
     /// </summary>
     public static class MapperExtensions
     {
-        public static Lazy<IMapper> LazyMapper;
-        public static IMapper Instance => LazyMapper.Value;
-
         /// <summary>
         ///     将 数据对象 转换为 数据传输对象。
         /// </summary>
@@ -24,7 +21,7 @@ namespace Ixq.Core.Mapper
             where TEntity : class, IEntity<TKey>, new()
             where TDto : class, IDto<TEntity, TKey>
         {
-            return Instance.MapTo<TDto>(entity);
+            return MapperProvider.Current.MapTo<TDto>(entity);
         }
 
         /// <summary>
@@ -36,7 +33,7 @@ namespace Ixq.Core.Mapper
         public static TDto MapToDto<TDto>(this IEntity<Guid> entity)
             where TDto : class, IDto<IEntity<Guid>, Guid>
         {
-            return Instance.MapTo<TDto>(entity);
+            return MapperProvider.Current.MapTo<TDto>(entity);
         }
 
         /// <summary>
@@ -49,7 +46,7 @@ namespace Ixq.Core.Mapper
         public static TDto MapToDto<TDto, TKey>(this IEntity<TKey> entity)
             where TDto : class, IDto<IEntity<TKey>, TKey>
         {
-            return Instance.MapTo<TDto>(entity);
+            return MapperProvider.Current.MapTo<TDto>(entity);
         }
     }
 }

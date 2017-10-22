@@ -4,15 +4,23 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core.Security;
 
 namespace Ixq.Core
 {
-    public class AppClaimsUser
+    public class CurrentUser
     {
+        private static Func<CurrentUserWrap> _getUser;
+
         /// <summary>
-        ///     获取或设置当前用户的委托方法。
+        ///     获取当前用户。
         /// </summary>
-        public static Func<CurrentUserWrap> Current { get; set; }
+        public static CurrentUserWrap Current => _getUser?.Invoke();
+
+        public static void SetUserDelegate(Func<CurrentUserWrap> getUser)
+        {
+            _getUser = getUser;
+        }
     }
 
     /// <summary>
@@ -53,8 +61,8 @@ namespace Ixq.Core
         /// </summary>
         public string LoginIp { get; set; }
         /// <summary>
-        ///     获取或设置ClaimsPrincipal。
+        ///     获取或设置 AppPrincipal。
         /// </summary>
-        public ClaimsPrincipal ClaimsPrincipal { get; set; }
+        public AppPrincipal ClaimsPrincipal { get; set; }
     }
 }

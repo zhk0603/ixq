@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Reflection;
+using Autofac.Integration.Mvc;
 using ixq.Demo.DbContext;
 using Ixq.Demo.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Ixq.Core.DependencyInjection;
+using Ixq.Core.DependencyInjection.Extensions;
+using Ixq.DependencyInjection.Autofac;
 
 namespace Ixq.Demo.Domain
 {
@@ -13,7 +18,9 @@ namespace Ixq.Demo.Domain
         public ApplicationUserManager(IUserStore<ApplicationUser> store) : base(store)
         {
         }
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
+
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
+            IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<DataContext>()));
             // 配置用户名的验证逻辑
@@ -37,6 +44,7 @@ namespace Ixq.Demo.Domain
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
+
             return manager;
         }
 

@@ -9,12 +9,12 @@ namespace Ixq.Mapper.AutoMapper
     {
         public static AppBootProgram RegisterAutoMappe(this AppBootProgram app)
         {
-            MapperExtensions.LazyMapper = new Lazy<IMapper>(() => new AutoMapperMapper());
+            MapperProvider.SetMapper(new AutoMapperMapper());
             if (!app.MapperCollection.Any())
             {
                 return app;
             }
-            MapperExtensions.Instance.Initialize(app.MapperCollection);
+            MapperProvider.Current.Initialize(app.MapperCollection);
             return app;
         }
     }

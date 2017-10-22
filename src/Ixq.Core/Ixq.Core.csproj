@@ -57,7 +57,7 @@
     <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Cache\MemoryCacheProvider.cs" />
-    <Compile Include="AppClaimsUser.cs" />
+    <Compile Include="CurrentUser.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionServiceExtensions.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="DependencyInjection\ISupportRequiredService.cs" />
     <Compile Include="DependencyInjection\ServiceCollection.cs" />
     <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
+    <Compile Include="DependencyInjection\ServiceProvider.cs" />
     <Compile Include="Dto\DtoBase.cs" />
     <Compile Include="Dto\DtoBaseInt32.cs" />
     <Compile Include="Dto\IDto.cs" />
@@ -95,11 +96,14 @@
     <Compile Include="Mapper\MapperCollection.cs" />
     <Compile Include="Mapper\MapperDescriptor.cs" />
     <Compile Include="Mapper\MapperExtensions.cs" />
+    <Compile Include="Mapper\MapperProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IRepositoryBase.cs" />
     <Compile Include="Repository\IRepositoryInt32.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
+    <Compile Include="Security\AppIdentity.cs" />
+    <Compile Include="Security\AppPrincipal.cs" />
     <Compile Include="TextAlign.cs" />
   </ItemGroup>
   <ItemGroup>

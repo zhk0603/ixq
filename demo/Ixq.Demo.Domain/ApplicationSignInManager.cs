@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Ixq.Demo.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -26,5 +27,16 @@ namespace Ixq.Demo.Domain
         {
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
+
+        //public static ApplicationUser Current
+        //{
+        //    get
+        //    {
+        //        var signInManager = HttpContext.Current.Request.RequestContext.HttpContext.GetOwinContext()
+        //            .Get<ApplicationSignInManager>();
+        //
+        //    }
+        //}
+
     }
 }
