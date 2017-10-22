@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Ixq.Demo.Entities;
+using Ixq.Security.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -13,30 +14,23 @@ using Microsoft.Owin.Security;
 
 namespace Ixq.Demo.Domain
 {
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    public class ApplicationSignInManager : AppSignInManager<ApplicationUser, string>
     {
-        public ApplicationSignInManager(UserManager<ApplicationUser, string> userManager, IAuthenticationManager authenticationManager) : base(userManager, authenticationManager)
+        public ApplicationSignInManager(UserManager<ApplicationUser, string> userManager,
+            IAuthenticationManager authenticationManager) : base(userManager, authenticationManager)
         {
         }
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+
+        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options,
+            IOwinContext context)
         {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(),
+                context.Authentication);
         }
 
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
         {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+            return user.GenerateUserIdentityAsync((ApplicationUserManager) UserManager);
         }
-
-        //public static ApplicationUser Current
-        //{
-        //    get
-        //    {
-        //        var signInManager = HttpContext.Current.Request.RequestContext.HttpContext.GetOwinContext()
-        //            .Get<ApplicationSignInManager>();
-        //
-        //    }
-        //}
-
     }
 }

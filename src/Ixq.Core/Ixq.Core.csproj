@@ -87,6 +87,7 @@
     <Compile Include="DependencyInjection\Interface\IScopeDependency.cs" />
     <Compile Include="DependencyInjection\Interface\ISingletonDependency.cs" />
     <Compile Include="DependencyInjection\Interface\ITransientDependency.cs" />
+    <Compile Include="Entity\IUserSpecification.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LogLevel.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Repository\IUnitOfWork.cs" />
     <Compile Include="Security\AppIdentity.cs" />
     <Compile Include="Security\AppPrincipal.cs" />
+    <Compile Include="Security\IUser.cs" />
     <Compile Include="TextAlign.cs" />
   </ItemGroup>
   <ItemGroup>

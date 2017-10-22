@@ -126,6 +126,7 @@
     <Compile Include="Web\Mvc\RuntimeLogHandleErrorAttribute.cs" />
     <Compile Include="Web\Mvc\EntityMetadata.cs" />
     <Compile Include="Web\Mvc\EntityPropertyMetadata.cs" />
+    <Compile Include="Web\Mvc\WebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
