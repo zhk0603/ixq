@@ -19,7 +19,7 @@ namespace Ixq.Security.Identity.Owin
         public AppSignInManager(UserManager<TUser, TKey> userManager, IAuthenticationManager authenticationManager) :
             base(userManager, authenticationManager)
         {
-            _logger = Ixq.Core.Logging.LogManager.GetLogger(GetType());
+            _logger = LogManager.GetLogger("AppSignInManager");
         }
 
         protected virtual ILogger Logger => _logger;
