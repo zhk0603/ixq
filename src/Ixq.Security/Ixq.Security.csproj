@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppAuthorizationModule.cs" />
+    <Compile Include="Identity\CookieAuthenticationProvider.cs" />
     <Compile Include="Identity\IdentityDbContextBase.cs" />
     <Compile Include="Identity\AppIdentityUser.cs" />
     <Compile Include="Identity\Owin\AppSignInManager.cs" />

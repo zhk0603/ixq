@@ -134,27 +134,7 @@ namespace Ixq.Data.Repository.Extensions
 
         public static object ParseEntityKey<TKey>(string value)
         {
-            var type = typeof(TKey);
-
-            dynamic resultValue = value;
-            if (type == typeof(Guid))
-            {
-                resultValue = Guid.Parse(value);
-            }
-            else if (type == typeof(int))
-            {
-                resultValue = Convert.ToInt32(value);
-            }
-            else if (type == typeof(short))
-            {
-                resultValue = Convert.ToInt16(value);
-            }
-            else if (type == typeof(long))
-            {
-                resultValue = Convert.ToInt64(value);
-            }
-
-            return resultValue;
+            return Convert.ChangeType(value, typeof(TKey));
         }
     }
 }

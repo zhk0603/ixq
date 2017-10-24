@@ -52,6 +52,9 @@ namespace Ixq.Demo.Web.Controllers
             var c3 = provider.GetService<IRepository<ProductType>>().GetHashCode();
             var c4 = provider.GetService<IRepository<Product>>().GetHashCode();
 
+
+            var set = _productTypeRepository.GetDbSet();
+
             var aa2 = ServiceProvider.GetService<IRepositoryBase<ProductType, Guid>>().GetHashCode();
 
 
@@ -85,7 +88,6 @@ namespace Ixq.Demo.Web.Controllers
 
         public ActionResult TestAction1()
         {
-
             var allType =
                 _productTypeRepository.GetAll()
                     .Include(x => x.ParentType)
