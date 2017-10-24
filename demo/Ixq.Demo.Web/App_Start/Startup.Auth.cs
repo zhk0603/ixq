@@ -40,14 +40,24 @@ namespace Ixq.Demo.Web
                 CookieName = "IxqApplicationCookie",
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Hplus/Account/Login"),
-                Provider = new CookieAuthenticationProvider
+                Provider = new Ixq.Security.Identity.CookieAuthenticationProvider
                 {
                     // 当用户登录时使应用程序可以验证安全戳。
                     // 这是一项安全功能，当你更改密码或者向帐户添加外部登录名时，将使用此功能。
                     OnValidateIdentity =
                         SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                             validateInterval: TimeSpan.FromMinutes(30),
-                            regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                            regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
+                    OnResponseSignIn = context =>
+                    {
+                        context.Options.CookieManager.AppendResponseCookie(context.OwinContext, "ixq", "value",
+                            context.CookieOptions);
+                    },
+                    OnResponseSignOut = context =>
+                    {
+                        context.Options.CookieManager.DeleteCookie(context.OwinContext, "ixq", context.CookieOptions);
+                    }
+                    
                 }
             });
         }

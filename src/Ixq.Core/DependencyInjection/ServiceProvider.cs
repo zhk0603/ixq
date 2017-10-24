@@ -14,7 +14,7 @@ namespace Ixq.Core.DependencyInjection
         /// <summary>
         ///     获取依赖解析实例。
         /// </summary>
-        public static IServiceProvider Current => _serviceProvider ?? _getProvider();
+        public static IServiceProvider Current => _serviceProvider ?? _getProvider?.Invoke();
 
         /// <summary>
         ///     设置依赖解析接口。

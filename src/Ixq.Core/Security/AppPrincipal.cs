@@ -21,5 +21,12 @@ namespace Ixq.Core.Security
                 return identity as AppIdentity;
             }
         }
+
+        public virtual string FindFirstValue(string type)
+        {
+            var claim = FindFirst(type);
+            return claim?.Value;
+        }
+        public virtual CurrentUserWrap UserInfo { get; }
     }
 }
