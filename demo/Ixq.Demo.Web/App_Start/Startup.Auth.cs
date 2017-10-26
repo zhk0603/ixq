@@ -16,6 +16,7 @@ using Owin;
 using Ixq.Web.Mvc;
 using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.Core.Security;
+using Ixq.Security.Cookies;
 
 namespace Ixq.Demo.Web
 {
@@ -30,8 +31,6 @@ namespace Ixq.Demo.Web
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
-            CurrentUser.SetUserDelegate(GetCurrentUser);
-
             // 使应用程序可以使用 Cookie 来存储已登录用户的信息
             // 并使用 Cookie 来临时存储有关使用第三方登录提供程序登录的用户的信息
             // 配置登录 Cookie
@@ -40,35 +39,30 @@ namespace Ixq.Demo.Web
                 CookieName = "IxqApplicationCookie",
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Hplus/Account/Login"),
-                Provider = new Ixq.Security.Identity.CookieAuthenticationProvider
+                Provider = new Ixq.Security.Cookies.CookieAuthenticationProvider
                 {
                     // 当用户登录时使应用程序可以验证安全戳。
                     // 这是一项安全功能，当你更改密码或者向帐户添加外部登录名时，将使用此功能。
                     OnValidateIdentity =
-                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                            validateInterval: TimeSpan.FromMinutes(30),
-                            regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
-                    OnResponseSignIn = context =>
-                    {
-                        context.Options.CookieManager.AppendResponseCookie(context.OwinContext, "ixq", "value",
-                            context.CookieOptions);
-                    },
-                    OnResponseSignOut = context =>
-                    {
-                        context.Options.CookieManager.DeleteCookie(context.OwinContext, "ixq", context.CookieOptions);
-                    }
-                    
+                        Ixq.Security.Owin.SecurityStampValidator
+                            .OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                                validateInterval: TimeSpan.FromMinutes(30),
+                                regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
             });
+
+            app.UseAppCookieAuthentication<ApplicationUserManager, ApplicationUser>(
+                new AppAuthenticationOptions<ApplicationUser>());
+
         }
 
         private CurrentUserWrap GetCurrentUser()
         {
             var context = (DataContext) Core.DependencyInjection.ServiceProvider.Current.GetService<DbContext>();
-            var userId = Thread.CurrentPrincipal.Identity.GetUserId();
+            var userId = Thread.CurrentPrincipal.Identity.GetUserId<long>();
             var user = context.Users.SingleOrDefault(x => x.Id == userId);
             var warpUser = new CurrentUserWrap();
-            warpUser.UserId = user.Id;
+            warpUser.UserId = user.Id.ToString();
             warpUser.UserName = user.UserName;
             warpUser.PhoneNumber = user.PhoneNumber;
             warpUser.Email = user.Email;

@@ -20,11 +20,15 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
     {
         public ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
 
+        public ApplicationRoleManager RoleManager =>
+            HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+
         // GET: Hplus/Account
         public ActionResult Index()
         {
             var b1 = HttpContext.GetOwinContext().Get<ApplicationRoleManager>().GetHashCode();
             var b5 = HttpContext.GetOwinContext().Get<ApplicationRoleManager>().GetHashCode();
+            var b2 = RoleManager.GetHashCode();
 
             return View();
         }
@@ -54,8 +58,8 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
-            Ixq.Core.Cache.CacheManager.GetCache("LoginUser")
-                .Remove(Ixq.Core.CurrentUser.Current.UserId);
+            //Ixq.Core.Cache.CacheManager.GetCache("LoginUser")
+            //    ?.Remove(Ixq.Core.CurrentUser.Current.UserId);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }

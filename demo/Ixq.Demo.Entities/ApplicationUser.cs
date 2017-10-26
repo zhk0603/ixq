@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 namespace Ixq.Demo.Entities
 {
     public class ApplicationUser : AppIdentityUser, ICreateSpecification, IUpdataSpecification,
-        ISoftDeleteSpecification
+        ISoftDeleteSpecification, IUser<long>
     {
         public virtual int Age { get; set; }
         public virtual DateTime CreateDate { get; set; }
@@ -28,7 +28,7 @@ namespace Ixq.Demo.Entities
         {
         }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(AppUserManager<ApplicationUser> manager)
         {
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             return userIdentity;

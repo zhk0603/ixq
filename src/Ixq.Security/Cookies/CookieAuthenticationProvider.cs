@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace Ixq.Security.Identity
+namespace Ixq.Security.Cookies
 {
     public class CookieAuthenticationProvider : Microsoft.Owin.Security.Cookies.CookieAuthenticationProvider
     {

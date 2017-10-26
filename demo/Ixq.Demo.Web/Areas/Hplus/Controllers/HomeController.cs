@@ -21,8 +21,6 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         }
         public ActionResult Welcome()
         {
-            var userStory = new UserStore<ApplicationUser>();
-            var user = userStory.Users;
             return View();
         }
     }

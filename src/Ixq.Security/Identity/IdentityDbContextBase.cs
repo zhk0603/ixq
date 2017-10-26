@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Data.SqlClient;
@@ -20,7 +22,8 @@ namespace Ixq.Security.Identity
     ///     基于使用AspNet.Identity的上下文基类。
     /// </summary>
     /// <typeparam name="TUser"></typeparam>
-    public abstract class IdentityDbContextBase<TUser> : IdentityDbContext<TUser>, IUnitOfWork where TUser : IdentityUser
+    public abstract class IdentityDbContextBase<TUser> : IdentityDbContext<TUser,AppIdentityRole,long,AppIdentityUserLogin,AppIdentityUserRole,AppIdentityUserClaim>, IUnitOfWork
+        where TUser : AppIdentityUser
     {
         protected IdentityDbContextBase()
         {
@@ -34,11 +37,6 @@ namespace Ixq.Security.Identity
         {
         }
 
-        protected IdentityDbContextBase(string nameOrConnectionString, bool throwIfV1Schema) : base(nameOrConnectionString,
-            throwIfV1Schema)
-        {
-        }
-
         protected IdentityDbContextBase(DbConnection existingConnection, bool contextOwnsConnection) : base(
             existingConnection, contextOwnsConnection)
         {
@@ -49,7 +47,8 @@ namespace Ixq.Security.Identity
         {
         }
 
-        protected IdentityDbContextBase(DbConnection existingConnection, DbCompiledModel model, bool contextOwnsConnection)
+        protected IdentityDbContextBase(DbConnection existingConnection, DbCompiledModel model,
+            bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
         }
@@ -294,6 +293,7 @@ namespace Ixq.Security.Identity
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             // 禁用 级联删除
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             // 软删除过滤器，通过仓储接口将不能查询到，但直接执行SQL查询语句，仍可查询。

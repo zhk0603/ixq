@@ -98,11 +98,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppAuthorizationModule.cs" />
-    <Compile Include="Identity\CookieAuthenticationProvider.cs" />
+    <Compile Include="Cookies\AppAuthenticationHandler.cs" />
+    <Compile Include="Cookies\AppAuthenticationMiddleware.cs" />
+    <Compile Include="Cookies\AppAuthenticationOptions.cs" />
+    <Compile Include="Cookies\CookieAuthenticationExtensions.cs" />
+    <Compile Include="Cookies\CookieAuthenticationProvider.cs" />
+    <Compile Include="Cookies\UserSignInContext.cs" />
+    <Compile Include="Identity\AppIdentityRole.cs" />
+    <Compile Include="Identity\AppIdentityUserClaim.cs" />
+    <Compile Include="Identity\AppIdentityUserLogin.cs" />
+    <Compile Include="Identity\AppIdentityUserRole.cs" />
+    <Compile Include="Identity\Roles\AppRoleManager.cs" />
+    <Compile Include="Identity\Roles\AppRoleStore.cs" />
+    <Compile Include="Identity\Roles\IAppRoleStore.cs" />
+    <Compile Include="Identity\Users\AppUserValidator.cs" />
+    <Compile Include="Identity\Users\AppUserManager.cs" />
+    <Compile Include="Identity\Users\AppUserStore.cs" />
+    <Compile Include="Identity\Users\IAppUserStore.cs" />
     <Compile Include="Identity\IdentityDbContextBase.cs" />
-    <Compile Include="Identity\AppIdentityUser.cs" />
-    <Compile Include="Identity\Owin\AppSignInManager.cs" />
+    <Compile Include="Identity\Users\AppIdentityUser.cs" />
+    <Compile Include="Owin\AppSignInManager.cs" />
+    <Compile Include="Owin\SecurityStampValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
