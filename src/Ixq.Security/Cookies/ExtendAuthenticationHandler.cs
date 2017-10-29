@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Ixq.Core;
 using Ixq.Core.Entity;
 using Ixq.Core.Security;
+using Ixq.Extensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
@@ -13,22 +16,47 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Ixq.Security.Cookies
 {
-    public class AppAuthenticationHandler<TManager, TUser> : AuthenticationHandler<AppAuthticationOptions<TUser>>
+    public class ExtendAuthenticationHandler<TManager, TUser> : AuthenticationHandler<ExtendAuthenticationOptions<TUser>>
         where TManager : UserManager<TUser, long>
         where TUser : class, Microsoft.AspNet.Identity.IUser<long>, Ixq.Core.Security.IUser<long>
     {
-        protected override Task InitializeCoreAsync()
-        {
-            if (Request.User != null && Request.User.Identity != null)
-            {
-                var appIdentity = new AppIdentity(Request.User.Identity);
-                Request.User = new Ixq.Core.Security.AppPrincipal(new List<AppIdentity>
-                {
-                    appIdentity
-                });
-            }
+        private const string LoginIp = "LoginIp";
+        private const string LoginTime = "LoginTime";
 
-            return base.InitializeCoreAsync();
+        protected override async Task InitializeCoreAsync()
+        {
+            if (Request.User?.Identity is ClaimsIdentity)
+            {
+                var appPrincipal = new AppPrincipal(Request.User.Identity);
+                var ticket = GetAuthenticationTicket();
+                if (ticket?.Identity != null)
+                {
+                    var userWrap = new CurrentUserWrap
+                    {
+                        LoginIp = ticket.Properties.Dictionary[LoginIp],
+                        LoginTime = Convert.ToDateTime(ticket.Properties.Dictionary[LoginTime]),
+                        ClaimsPrincipal = appPrincipal
+                    };
+                    appPrincipal.Identity.UserInfo = userWrap;
+                }
+                Request.User = appPrincipal;
+                System.Threading.Thread.CurrentPrincipal = appPrincipal;
+            }
+        }
+
+        protected virtual AuthenticationTicket GetAuthenticationTicket()
+        {
+            string cookie = Options.CookieManager.GetRequestCookie(Context, Options.CookieName);
+            if (string.IsNullOrWhiteSpace(cookie))
+            {
+                return null;
+            }
+            var ticket = Options.TicketDataFormat.Unprotect(cookie);
+            if (ticket == null)
+            {
+                return null;
+            }
+            return new AuthenticationTicket(ticket.Identity, ticket.Properties);
         }
 
         protected override Task<AuthenticationTicket> AuthenticateCoreAsync()
@@ -53,10 +81,12 @@ namespace Ixq.Security.Cookies
                     Options,
                     Options.AuthenticationType,
                     user);
-
                 Options.UserSignIn(signInContext);
-
                 await manager.UpdateAsync(user);
+
+                signin.Properties.Dictionary[LoginTime] = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                signin.Properties.Dictionary[LoginIp] = NetHelper.CurrentIp;
+
             }
             else if (shouldSignout)
             {

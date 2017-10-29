@@ -10,16 +10,16 @@ namespace Ixq.Core
 {
     public class CurrentUser
     {
-        private static Func<CurrentUserWrap> _getUser;
-
         /// <summary>
         ///     获取当前用户。
         /// </summary>
-        public static CurrentUserWrap Current => _getUser?.Invoke();
-
-        public static void SetUserDelegate(Func<CurrentUserWrap> getUser)
+        public static CurrentUserWrap Current
         {
-            _getUser = getUser;
+            get
+            {
+                var principal = System.Threading.Thread.CurrentPrincipal as AppPrincipal;
+                return principal?.Identity.UserInfo;
+            }
         }
     }
 
@@ -28,30 +28,6 @@ namespace Ixq.Core
     /// </summary>
     public class CurrentUserWrap
     {
-        /// <summary>
-        ///     获取或设置用户Id。
-        /// </summary>
-        public string UserId { get; set; }
-        /// <summary>
-        ///     获取或设置用户名称。
-        /// </summary>
-        public string UserName { get; set; }
-        /// <summary>
-        ///     获取或设置用户昵称。
-        /// </summary>
-        public string NickName { get; set; }
-        /// <summary>
-        ///     获取或设置手机号码。
-        /// </summary>
-        public string PhoneNumber { get; set; }
-        /// <summary>
-        ///     获取或设置邮箱地址。
-        /// </summary>
-        public string Email { get; set; }
-        /// <summary>
-        ///     获取或设置登录次数。
-        /// </summary>
-        public int LoginCount { get; set; }
         /// <summary>
         ///     获取或设置登录时间。
         /// </summary>

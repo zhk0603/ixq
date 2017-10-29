@@ -11,16 +11,16 @@ namespace Ixq.Security.Cookies
 {
     public static class CookieAuthenticationExtensions
     {
-        public static IAppBuilder UseAppCookieAuthentication<TManager, TUser>(this IAppBuilder app,
-            AppAuthenticationOptions<TUser> options)
+        public static IAppBuilder UseExtendCookieAuthentication<TManager, TUser>(this IAppBuilder app,
+            ExtendAuthenticationOptions<TUser> options)
             where TManager : UserManager<TUser, long>
             where TUser : class, IUser<long>, Ixq.Core.Security.IUser<long>
         {
-            return app.UseAppCookieAuthentication<TManager, TUser>(options, PipelineStage.Authenticate);
+            return app.UseExtendCookieAuthentication<TManager, TUser>(options, PipelineStage.Authenticate);
         }
 
-        public static IAppBuilder UseAppCookieAuthentication<TManager, TUser>(this IAppBuilder app,
-            AppAuthenticationOptions<TUser> options,
+        public static IAppBuilder UseExtendCookieAuthentication<TManager, TUser>(this IAppBuilder app,
+            ExtendAuthenticationOptions<TUser> options,
             PipelineStage stage)
             where TManager : UserManager<TUser, long>
             where TUser : class, IUser<long>, Ixq.Core.Security.IUser<long>
@@ -30,7 +30,7 @@ namespace Ixq.Security.Cookies
                 throw new ArgumentNullException("app");
             }
 
-            app.Use(typeof(AppAuthenticationMiddleware<TManager, TUser>), app, options);
+            app.Use(typeof(ExtendAuthenticationMiddleware<TManager, TUser>), app, options);
             app.UseStageMarker(stage);
             return app;
         }

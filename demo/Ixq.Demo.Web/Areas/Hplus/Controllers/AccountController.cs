@@ -19,9 +19,13 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
     public class AccountController : BaseController
     {
         public ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         public ApplicationRoleManager RoleManager =>
             HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+
+        public ApplicationUserManager UserManager =>
+            HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
         // GET: Hplus/Account
         public ActionResult Index()
@@ -43,17 +47,21 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string userName, string password, string code, string returnUrl)
         {
-            var result = await SignInManager.PasswordSignInAsync(userName, password, false, true);
-            switch (result)
+            var user = UserManager.Find(userName, password);
+            if (user != null)
             {
-                case SignInStatus.Success:
-                    if (string.IsNullOrWhiteSpace(returnUrl))
-                        return RedirectToAction("Index", "Home");
-                    return Redirect(returnUrl);
-                default:
-                    ViewBag.ErrorMessage = "登录失败";
-                    return View();
+                var properties = new AuthenticationProperties();
+                properties.Dictionary["Ixq framework"] = "Ixq framework";
+                var identity = SignInManager.CreateUserIdentity(user);
+                AuthenticationManager.SignIn(properties, identity);
+                if (string.IsNullOrWhiteSpace(returnUrl))
+                    return RedirectToAction("Index", "Home");
+                return Redirect(returnUrl);
             }
+
+            ViewBag.ErrorMessage = "登录失败";
+            return View();
+
         }
 
         public ActionResult Logout()
@@ -64,6 +72,5 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
             return RedirectToAction("Login");
         }
 
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
     }
 }

@@ -14,18 +14,18 @@ using Microsoft.Owin.Security.DataProtection;
 
 namespace Ixq.Security.Cookies
 {
-    public class AppAuthenticationMiddleware<TManager, TUser> : AuthenticationMiddleware<AppAuthenticationOptions<TUser>>
+    public class ExtendAuthenticationMiddleware<TManager, TUser> : AuthenticationMiddleware<ExtendAuthenticationOptions<TUser>>
         where TManager : UserManager<TUser, long>
         where TUser : class, IUser<long>, Ixq.Core.Security.IUser<long>
     {
-        public AppAuthenticationMiddleware(OwinMiddleware next, IAppBuilder app,
-            AppAuthenticationOptions<TUser> options) :
+        public ExtendAuthenticationMiddleware(OwinMiddleware next, IAppBuilder app,
+            ExtendAuthenticationOptions<TUser> options) :
             base(next, options)
         {
             if (Options.TicketDataFormat == null)
             {
                 IDataProtector dataProtector = app.CreateDataProtector(
-                    typeof(AppAuthenticationMiddleware<TManager, TUser>).FullName,
+                    typeof(CookieAuthenticationMiddleware).FullName,
                     Options.AuthenticationType, "v1");
 
                 Options.TicketDataFormat = new TicketDataFormat(dataProtector);
@@ -36,9 +36,9 @@ namespace Ixq.Security.Cookies
             }
         }
 
-        protected override AuthenticationHandler<AppAuthenticationOptions<TUser>> CreateHandler()
+        protected override AuthenticationHandler<ExtendAuthenticationOptions<TUser>> CreateHandler()
         {
-            return new AppAuthenticationHandler<TManager, TUser>();
+            return new ExtendAuthenticationHandler<TManager, TUser>();
         }
     }
 }

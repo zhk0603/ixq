@@ -11,6 +11,7 @@ namespace Ixq.Core.Security
     public class AppIdentity : ClaimsIdentity
     {
         public AppIdentity(IIdentity identity) : base(identity) { }
+        public AppIdentity(IEnumerable<Claim> claims) : base(claims) { }
 
         public string IdClaimType => ClaimTypes.NameIdentifier;
         public virtual string Id
@@ -21,5 +22,6 @@ namespace Ixq.Core.Security
                 return claim?.Value;
             }
         }
+        public virtual CurrentUserWrap UserInfo { get; set; }
     }
 }

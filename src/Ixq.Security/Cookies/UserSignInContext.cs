@@ -9,14 +9,25 @@ using Microsoft.Owin.Security.Provider;
 
 namespace Ixq.Security.Cookies
 {
-    public class UserSignInContext<TUser> : BaseContext<AppAuthenticationOptions<TUser>>
-        where TUser : class, IUser<long>, Ixq.Core.Security.IUser<long>
+    public class UserSignInContext<TUser> : UserSignInContext<TUser, long>
+        where TUser : class, IUser<long>, Core.Security.IUser<long>
     {
         public UserSignInContext(IOwinContext context,
-            AppAuthenticationOptions<TUser> options,
+            ExtendAuthenticationOptions<TUser> options,
             string authenticationType,
             TUser user)
-            : base(context, options)
+            : base(context, options, authenticationType, user)
+        {
+        }
+    }
+
+    public class UserSignInContext<TUser, TKey> : BaseContext<ExtendAuthenticationOptions<TUser, TKey>>
+        where TUser : class, IUser<TKey>, Core.Security.IUser<TKey>
+    {
+        public UserSignInContext(IOwinContext context,
+            ExtendAuthenticationOptions<TUser, TKey> options,
+            string authenticationType,
+            TUser user) : base(context, options)
         {
             AuthenticationType = authenticationType;
             User = user;
@@ -24,5 +35,6 @@ namespace Ixq.Security.Cookies
 
         public string AuthenticationType { get; private set; }
         public TUser User { get; set; }
+
     }
 }

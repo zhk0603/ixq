@@ -39,7 +39,7 @@ namespace Ixq.Demo.Web
                 CookieName = "IxqApplicationCookie",
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Hplus/Account/Login"),
-                Provider = new Ixq.Security.Cookies.CookieAuthenticationProvider
+                Provider = new CookieAuthenticationProvider
                 {
                     // 当用户登录时使应用程序可以验证安全戳。
                     // 这是一项安全功能，当你更改密码或者向帐户添加外部登录名时，将使用此功能。
@@ -51,9 +51,11 @@ namespace Ixq.Demo.Web
                 }
             });
 
-            app.UseAppCookieAuthentication<ApplicationUserManager, ApplicationUser>(
-                new AppAuthenticationOptions<ApplicationUser>());
-
+            app.UseExtendCookieAuthentication<ApplicationUserManager, ApplicationUser>(
+                new ExtendAuthenticationOptions<ApplicationUser>()
+                {
+                    CookieName = "IxqApplicationCookie"
+                });
         }
 
         private CurrentUserWrap GetCurrentUser()
@@ -62,10 +64,6 @@ namespace Ixq.Demo.Web
             var userId = Thread.CurrentPrincipal.Identity.GetUserId<long>();
             var user = context.Users.SingleOrDefault(x => x.Id == userId);
             var warpUser = new CurrentUserWrap();
-            warpUser.UserId = user.Id.ToString();
-            warpUser.UserName = user.UserName;
-            warpUser.PhoneNumber = user.PhoneNumber;
-            warpUser.Email = user.Email;
             warpUser.LoginTime = DateTime.Now;
             warpUser.LoginIp = NetHelper.CurrentIp;
             warpUser.ClaimsPrincipal = Thread.CurrentPrincipal as AppPrincipal;
