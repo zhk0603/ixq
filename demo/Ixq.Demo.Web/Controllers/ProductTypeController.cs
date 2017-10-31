@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Ixq.Core.DependencyInjection.Extensions;
@@ -7,6 +8,7 @@ using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
 using Ixq.Demo.Entities;
 using System.Data.Entity;
+using System.Threading.Tasks;
 using ixq.Demo.DbContext;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.Entity;

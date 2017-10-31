@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Ixq.Demo.Entities;
-using Ixq.Security.Identity.Owin;
+using Ixq.Security.Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -14,9 +14,9 @@ using Microsoft.Owin.Security;
 
 namespace Ixq.Demo.Domain
 {
-    public class ApplicationSignInManager : AppSignInManager<ApplicationUser, string>
+    public class ApplicationSignInManager : AppSignInManager<ApplicationUser>
     {
-        public ApplicationSignInManager(UserManager<ApplicationUser, string> userManager,
+        public ApplicationSignInManager(UserManager<ApplicationUser, long> userManager,
             IAuthenticationManager authenticationManager) : base(userManager, authenticationManager)
         {
         }

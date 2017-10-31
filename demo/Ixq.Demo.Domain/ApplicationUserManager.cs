@@ -10,24 +10,25 @@ using Microsoft.Owin;
 using Ixq.Core.DependencyInjection;
 using Ixq.Core.DependencyInjection.Extensions;
 using Ixq.DependencyInjection.Autofac;
+using Ixq.Security.Identity;
 
 namespace Ixq.Demo.Domain
 {
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class ApplicationUserManager : AppUserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store) : base(store)
+        public ApplicationUserManager(IAppUserStore<ApplicationUser> store) : base(store)
         {
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
             IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<DataContext>()));
+            var manager = new ApplicationUserManager(new AppUserStore<ApplicationUser>(context.Get<DataContext>()));
             // 配置用户名的验证逻辑
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new AppUserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                RequireUniqueEmail = false
             };
 
             // 配置密码的验证逻辑
@@ -47,6 +48,5 @@ namespace Ixq.Demo.Domain
 
             return manager;
         }
-
     }
 }

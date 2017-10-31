@@ -5,19 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using ixq.Demo.DbContext;
 using Ixq.Demo.Entities;
+using Ixq.Demo.Web.Controllers;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         // GET: Hplus/Home
         public ActionResult Index()
         {
-            var user = User.Identity.IsAuthenticated;
-            var a = User.IsInRole("Supervisor");
-
             return View();
         }
         public ActionResult Welcome()

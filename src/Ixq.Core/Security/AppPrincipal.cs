@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,12 @@ namespace Ixq.Core.Security
     {
         public AppPrincipal(IEnumerable<AppIdentity> identities) : base(identities)
         {
+        }
+
+        public AppPrincipal(IIdentity identity)
+        {
+            var appIdentity = new AppIdentity(identity);
+            this.AddIdentity(appIdentity);
         }
 
         public new AppIdentity Identity
@@ -27,6 +34,5 @@ namespace Ixq.Core.Security
             var claim = FindFirst(type);
             return claim?.Value;
         }
-        public virtual CurrentUserWrap UserInfo { get; }
     }
 }

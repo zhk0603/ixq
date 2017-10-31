@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncHelper.cs" />
     <Compile Include="CheckParameter.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="NetHelper.cs" />
