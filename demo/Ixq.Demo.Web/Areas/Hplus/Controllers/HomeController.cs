@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ixq.Demo.DbContext;
 using Ixq.Demo.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -21,8 +22,6 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         }
         public ActionResult Welcome()
         {
-            var userStory = new UserStore<ApplicationUser>();
-            var user = userStory.Users;
             return View();
         }
     }

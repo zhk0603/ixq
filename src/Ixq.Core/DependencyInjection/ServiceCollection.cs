@@ -98,30 +98,40 @@ namespace Ixq.Core.DependencyInjection
 
         private static Type[] SelectManyForEnumLifetimeStyle(Assembly[] assemblies, ServiceLifetime lifetime)
         {
-            Type[] type = { };
-            switch (lifetime)
+            try
             {
-                case ServiceLifetime.Scoped:
-                    type = assemblies.SelectMany(assembly =>
-                            assembly.GetTypes().Where(t =>
-                                typeof(IScopeDependency).IsAssignableFrom(t) && !t.IsAbstract))
-                        .Distinct().ToArray();
-                    break;
-                case ServiceLifetime.Singleton:
-                    type = assemblies.SelectMany(assembly =>
-                            assembly.GetTypes().Where(t =>
-                                typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract))
-                        .Distinct().ToArray();
-                    break;
-                case ServiceLifetime.Transient:
-                    type = assemblies.SelectMany(assembly =>
-                            assembly.GetTypes().Where(t =>
-                                typeof(ITransientDependency).IsAssignableFrom(t) && !t.IsAbstract))
-                        .Distinct().ToArray();
-                    break;
-            }
+                Type[] type = { };
+                switch (lifetime)
+                {
+                    case ServiceLifetime.Scoped:
+                        type = assemblies.SelectMany(assembly =>
+                                assembly.GetTypes().Where(t =>
+                                    typeof(IScopeDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            .Distinct().ToArray();
+                        break;
+                    case ServiceLifetime.Singleton:
+                        type = assemblies.SelectMany(assembly =>
+                                assembly.GetTypes().Where(t =>
+                                    typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            .Distinct().ToArray();
+                        break;
+                    case ServiceLifetime.Transient:
+                        type = assemblies.SelectMany(assembly =>
+                                assembly.GetTypes().Where(t =>
+                                    typeof(ITransientDependency).IsAssignableFrom(t) && !t.IsAbstract))
+                            .Distinct().ToArray();
+                        break;
+                }
 
-            return type;
+                return type;
+            }
+            catch (ReflectionTypeLoadException exception)
+            {
+                var loaderExceptions = exception.LoaderExceptions;
+                var error = loaderExceptions.Aggregate("", (current, e) => current + (e.Message + "\r\n"));
+                var systemException = new SystemException(exception.Message + error, exception);
+                throw systemException;
+            }
         }
 
         /// <summary>
