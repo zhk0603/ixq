@@ -103,6 +103,7 @@
     <Compile Include="Cookies\ExtendAuthenticationOptions.cs" />
     <Compile Include="Cookies\CookieAuthenticationExtensions.cs" />
     <Compile Include="Cookies\UserSignInContext.cs" />
+    <Compile Include="Cookies\UserSignOutContext.cs" />
     <Compile Include="Identity\Roles\AppIdentityRole.cs" />
     <Compile Include="Identity\AppIdentityUserClaim.cs" />
     <Compile Include="Identity\AppIdentityUserLogin.cs" />

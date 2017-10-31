@@ -23,7 +23,7 @@ namespace Ixq.Security.Cookies
         private const string LoginIp = "LoginIp";
         private const string LoginTime = "LoginTime";
 
-        protected override async Task InitializeCoreAsync()
+        protected override Task InitializeCoreAsync()
         {
             if (Request.User?.Identity is ClaimsIdentity)
             {
@@ -42,6 +42,7 @@ namespace Ixq.Security.Cookies
                 Request.User = appPrincipal;
                 System.Threading.Thread.CurrentPrincipal = appPrincipal;
             }
+            return Task.FromResult<object>(null);
         }
 
         protected virtual AuthenticationTicket GetAuthenticationTicket()

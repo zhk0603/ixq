@@ -50,10 +50,16 @@ namespace Ixq.Security.Cookies
         public ICookieManager CookieManager { get; set; }
 
         public Action<UserSignInContext<TUser, TKey>> OnUserSignIn { private get; set; }
+        public Action<UserSignOutContext<TUser,TKey>> OnUserSignOut { private set; get; }
 
         public virtual void UserSignIn(UserSignInContext<TUser, TKey> context)
         {
             OnUserSignIn?.Invoke(context);
+        }
+
+        public virtual void UserSignOut(UserSignOutContext<TUser, TKey> context)
+        {
+            OnUserSignOut?.Invoke(context);
         }
     }
 }
