@@ -57,17 +57,5 @@ namespace Ixq.Demo.Web
                     CookieName = "IxqApplicationCookie"
                 });
         }
-
-        private CurrentUserWrap GetCurrentUser()
-        {
-            var context = (DataContext) Core.DependencyInjection.ServiceProvider.Current.GetService<DbContext>();
-            var userId = Thread.CurrentPrincipal.Identity.GetUserId<long>();
-            var user = context.Users.SingleOrDefault(x => x.Id == userId);
-            var warpUser = new CurrentUserWrap();
-            warpUser.LoginTime = DateTime.Now;
-            warpUser.LoginIp = NetHelper.CurrentIp;
-            warpUser.ClaimsPrincipal = Thread.CurrentPrincipal as AppPrincipal;
-            return warpUser;
-        }
     }
 }

@@ -20,7 +20,6 @@ namespace Ixq.Demo.Console
     {
         static void Main(string[] args)
         {
-
             var config = new ConfigurationOptions();
             config.Password = "zhaokun123";
 
@@ -67,6 +66,8 @@ namespace Ixq.Demo.Console
             log.Warn("Warn log.");
             log.Error(new Exception("Hello Ixq framework"));
         }
+
+
 
         static async void TestMethod1()
         {

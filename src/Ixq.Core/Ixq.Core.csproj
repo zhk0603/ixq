@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Ixq.Core.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Ixq.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBootProgram.cs" />
+    <Compile Include="AppBootProgramExtensions.cs" />
     <Compile Include="Cache\CacheManager.cs" />
     <Compile Include="Cache\CacheProviderBase.cs" />
     <Compile Include="Cache\ICache.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="DependencyInjection\IServiceScope.cs" />
     <Compile Include="DependencyInjection\IServiceScopeFactory.cs" />
     <Compile Include="DependencyInjection\ISupportRequiredService.cs" />
+    <Compile Include="DependencyInjection\ServiceAliasAttribute.cs" />
     <Compile Include="DependencyInjection\ServiceCollection.cs" />
     <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
     <Compile Include="DependencyInjection\ServiceProvider.cs" />

@@ -11,6 +11,11 @@ using System.Linq;
 using System.IO;
 using System.Threading;
 using System.Web;
+using Autofac.Features.Indexed;
+using Autofac.Integration.Mvc;
+using Ixq.Demo.Web.Models;
+using Ixq.DependencyInjection.Autofac.Extensions;
+using Ixq.Core.DependencyInjection.Extensions;
 
 namespace Ixq.Demo.Web.Controllers
 {
@@ -18,14 +23,23 @@ namespace Ixq.Demo.Web.Controllers
     {
         private readonly IRepository<ProductType> _productTypeRepository;
 
-        public TestController(IRepository<ProductType> productTypeRepository)
+        public TestController(IRepository<ProductType> productTypeRepository,
+            IIndex<string,Models.IAnimal> index)
         {
             _productTypeRepository = productTypeRepository;
-        } 
+        }
 
         // GET: Test
         public ActionResult Index()
         {
+            var bird = base.ServiceProvider.GetService<IAnimal>();
+            var bird1 = base.ServiceProvider.GetService<IAnimal>("bird");
+            var bird2 = Ixq.Core.DependencyInjection.ServiceProvider.Current.GetService<IAnimal>("bird");
+
+            var tiger = ServiceProvider.GetService<IAnimal>("Tiger");
+            var tiberObj = ServiceProvider.GetService(typeof(IAnimal), "Tiger");
+            var tigerObj1 = Ixq.Core.DependencyInjection.ServiceProvider.Current.GetService(typeof(IAnimal), "Tiger");
+
             var pt = _productTypeRepository.SqlQuerySingle(Guid.Parse("2FE82B0D-C421-484B-A9CC-8D6E4520EBBC"));
             return View();
         }

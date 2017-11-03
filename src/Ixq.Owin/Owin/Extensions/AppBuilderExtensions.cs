@@ -34,9 +34,9 @@ namespace Ixq.Owin.Extensions
             return app;
         }
 
-        public static IAppBuilder RegisterIdentity(this IAppBuilder app, Action<IServiceCollection> action)
+        public static IAppBuilder RegisterService(this IAppBuilder app, Action<IServiceCollection> action)
         {
-            action(AppBootProgram.Instance.ServiceCollection);
+            AppBootProgram.Instance.RegisterService(action);
             return app;
         }
     }

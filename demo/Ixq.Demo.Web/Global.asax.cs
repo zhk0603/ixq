@@ -11,6 +11,7 @@ using Ixq.Demo.Entities;
 using Ixq.DependencyInjection.Autofac;
 using Ixq.Extensions;
 using Ixq.Mapper;
+using Ixq.Mapper.AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -25,19 +26,10 @@ namespace Ixq.Demo.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //var app = AppBootProgram.Instance;
-            //app.Initialization()
-            //    .RegisterAutoMappe()
-            //    .RegisterIdentity(serverCollection =>
-            //    {
-            //        serverCollection.TryAddSingleton<DbContext, DataContext>();
-            //        serverCollection.TryAddScoped<IUserStore<ApplicationUser>, Domain.UserStore<ApplicationUser>>();
-            //        serverCollection.TryAddScoped<IRoleStore<ApplicationRole, string>, RoleStore<ApplicationRole>>();
-            //        serverCollection.TryAddScoped<IUserManager<Security.Identity.IUser>, ApplicationUserManager>();
-            //        ConfigureAuth(app);
-            //
-            //    })
-            //    .RegisterAutofac(typeof (MvcApplication));
+            var app = AppBootProgram.Instance;
+            app.Initialization()
+                .RegisterAutoMappe()
+                .RegisterAutofac(typeof (MvcApplication));
         }
     }
 }

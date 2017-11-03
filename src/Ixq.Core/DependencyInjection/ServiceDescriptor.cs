@@ -16,23 +16,20 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="serviceType">The <see cref="Type" /> of the service.</param>
         /// <param name="implementationType">The <see cref="Type" /> implementing the service.</param>
         /// <param name="lifetime">The <see cref="ServiceLifetime" /> of the service.</param>
+        /// <param name="alias"></param>
         public ServiceDescriptor(
             Type serviceType,
             Type implementationType,
-            ServiceLifetime lifetime)
+            ServiceLifetime lifetime,
+            string alias = null)
             : this(serviceType, lifetime)
         {
             if (serviceType == null)
             {
                 throw new ArgumentNullException(nameof(serviceType));
             }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException(nameof(implementationType));
-            }
-
-            ImplementationType = implementationType;
+            Alias = alias;
+            ImplementationType = implementationType ?? throw new ArgumentNullException(nameof(implementationType));
         }
 
         /// <summary>
@@ -41,9 +38,11 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <param name="serviceType">The <see cref="Type" /> of the service.</param>
         /// <param name="instance">The instance implementing the service.</param>
+        /// <param name="alias"></param>
         public ServiceDescriptor(
             Type serviceType,
-            object instance)
+            object instance,
+            string alias = null)
             : this(serviceType, ServiceLifetime.Singleton)
         {
             if (serviceType == null)
@@ -51,12 +50,8 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            ImplementationInstance = instance;
+            Alias = alias;
+            ImplementationInstance = instance ?? throw new ArgumentNullException(nameof(instance));
         }
 
         /// <summary>
@@ -68,7 +63,8 @@ namespace Ixq.Core.DependencyInjection
         public ServiceDescriptor(
             Type serviceType,
             Func<IServiceProvider, object> factory,
-            ServiceLifetime lifetime)
+            ServiceLifetime lifetime,
+            string alias = null)
             : this(serviceType, lifetime)
         {
             if (serviceType == null)
@@ -76,12 +72,8 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            ImplementationFactory = factory;
+            Alias = alias;
+            ImplementationFactory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
         private ServiceDescriptor(Type serviceType, ServiceLifetime lifetime)
@@ -89,6 +81,9 @@ namespace Ixq.Core.DependencyInjection
             Lifetime = lifetime;
             ServiceType = serviceType;
         }
+
+        /// <inheritdoc />
+        public string Alias { get; set; }
 
         /// <inheritdoc />
         public ServiceLifetime Lifetime { get; }
@@ -128,14 +123,14 @@ namespace Ixq.Core.DependencyInjection
             return null;
         }
 
-        public static ServiceDescriptor Transient<TService, TImplementation>()
+        public static ServiceDescriptor Transient<TService, TImplementation>(string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
-            return Describe<TService, TImplementation>(ServiceLifetime.Transient);
+            return Describe<TService, TImplementation>(ServiceLifetime.Transient, alias);
         }
 
-        public static ServiceDescriptor Transient(Type service, Type implementationType)
+        public static ServiceDescriptor Transient(Type service, Type implementationType, string alias = null)
         {
             if (service == null)
             {
@@ -147,11 +142,11 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
-            return Describe(service, implementationType, ServiceLifetime.Transient);
+            return Describe(service, implementationType, ServiceLifetime.Transient, alias);
         }
 
         public static ServiceDescriptor Transient<TService, TImplementation>(
-            Func<IServiceProvider, TImplementation> implementationFactory)
+            Func<IServiceProvider, TImplementation> implementationFactory, string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -160,10 +155,11 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Transient);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Transient, alias);
         }
 
-        public static ServiceDescriptor Transient<TService>(Func<IServiceProvider, TService> implementationFactory)
+        public static ServiceDescriptor Transient<TService>(Func<IServiceProvider, TService> implementationFactory,
+            string alias = null)
             where TService : class
         {
             if (implementationFactory == null)
@@ -171,11 +167,11 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Transient);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Transient, alias);
         }
 
         public static ServiceDescriptor Transient(Type service,
-            Func<IServiceProvider, object> implementationFactory)
+            Func<IServiceProvider, object> implementationFactory, string alias = null)
         {
             if (service == null)
             {
@@ -187,23 +183,23 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(service, implementationFactory, ServiceLifetime.Transient);
+            return Describe(service, implementationFactory, ServiceLifetime.Transient, alias);
         }
 
-        public static ServiceDescriptor Scoped<TService, TImplementation>()
+        public static ServiceDescriptor Scoped<TService, TImplementation>(string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
-            return Describe<TService, TImplementation>(ServiceLifetime.Scoped);
+            return Describe<TService, TImplementation>(ServiceLifetime.Scoped, alias);
         }
 
-        public static ServiceDescriptor Scoped(Type service, Type implementationType)
+        public static ServiceDescriptor Scoped(Type service, Type implementationType, string alias = null)
         {
-            return Describe(service, implementationType, ServiceLifetime.Scoped);
+            return Describe(service, implementationType, ServiceLifetime.Scoped, alias);
         }
 
         public static ServiceDescriptor Scoped<TService, TImplementation>(
-            Func<IServiceProvider, TImplementation> implementationFactory)
+            Func<IServiceProvider, TImplementation> implementationFactory, string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -212,10 +208,11 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Scoped);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Scoped, alias);
         }
 
-        public static ServiceDescriptor Scoped<TService>(Func<IServiceProvider, TService> implementationFactory)
+        public static ServiceDescriptor Scoped<TService>(Func<IServiceProvider, TService> implementationFactory,
+            string alias = null)
             where TService : class
         {
             if (implementationFactory == null)
@@ -223,12 +220,12 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Scoped);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Scoped, alias);
         }
 
         public static ServiceDescriptor Scoped
         (Type service,
-            Func<IServiceProvider, object> implementationFactory)
+            Func<IServiceProvider, object> implementationFactory, string alias = null)
         {
             if (service == null)
             {
@@ -240,17 +237,17 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(service, implementationFactory, ServiceLifetime.Scoped);
+            return Describe(service, implementationFactory, ServiceLifetime.Scoped, alias);
         }
 
-        public static ServiceDescriptor Singleton<TService, TImplementation>()
+        public static ServiceDescriptor Singleton<TService, TImplementation>(string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
-            return Describe<TService, TImplementation>(ServiceLifetime.Singleton);
+            return Describe<TService, TImplementation>(ServiceLifetime.Singleton, alias);
         }
 
-        public static ServiceDescriptor Singleton(Type service, Type implementationType)
+        public static ServiceDescriptor Singleton(Type service, Type implementationType, string alias = null)
         {
             if (service == null)
             {
@@ -262,11 +259,11 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
-            return Describe(service, implementationType, ServiceLifetime.Singleton);
+            return Describe(service, implementationType, ServiceLifetime.Singleton, alias);
         }
 
         public static ServiceDescriptor Singleton<TService, TImplementation>(
-            Func<IServiceProvider, TImplementation> implementationFactory)
+            Func<IServiceProvider, TImplementation> implementationFactory, string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -275,10 +272,11 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Singleton);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Singleton, alias);
         }
 
-        public static ServiceDescriptor Singleton<TService>(Func<IServiceProvider, TService> implementationFactory)
+        public static ServiceDescriptor Singleton<TService>(Func<IServiceProvider, TService> implementationFactory,
+            string alias = null)
             where TService : class
         {
             if (implementationFactory == null)
@@ -286,12 +284,13 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Singleton);
+            return Describe(typeof(TService), implementationFactory, ServiceLifetime.Singleton, alias);
         }
 
         public static ServiceDescriptor Singleton(
             Type serviceType,
-            Func<IServiceProvider, object> implementationFactory)
+            Func<IServiceProvider, object> implementationFactory,
+            string alias = null)
         {
             if (serviceType == null)
             {
@@ -303,10 +302,10 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Describe(serviceType, implementationFactory, ServiceLifetime.Singleton);
+            return Describe(serviceType, implementationFactory, ServiceLifetime.Singleton, alias);
         }
 
-        public static ServiceDescriptor Singleton<TService>(TService implementationInstance)
+        public static ServiceDescriptor Singleton<TService>(TService implementationInstance, string alias = null)
             where TService : class
         {
             if (implementationInstance == null)
@@ -314,12 +313,13 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationInstance));
             }
 
-            return Singleton(typeof(TService), implementationInstance);
+            return Singleton(typeof(TService), implementationInstance, alias);
         }
 
         public static ServiceDescriptor Singleton(
             Type serviceType,
-            object implementationInstance)
+            object implementationInstance,
+            string alias = null)
         {
             if (serviceType == null)
             {
@@ -331,27 +331,29 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationInstance));
             }
 
-            return new ServiceDescriptor(serviceType, implementationInstance);
+            return new ServiceDescriptor(serviceType, implementationInstance, alias);
         }
 
-        private static ServiceDescriptor Describe<TService, TImplementation>(ServiceLifetime lifetime)
+        private static ServiceDescriptor Describe<TService, TImplementation>(ServiceLifetime lifetime,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
             return Describe(
                 typeof(TService),
-                typeof(TImplementation), lifetime);
+                typeof(TImplementation), lifetime, alias);
         }
 
-        public static ServiceDescriptor Describe(Type serviceType, Type implementationType, ServiceLifetime lifetime)
+        public static ServiceDescriptor Describe(Type serviceType, Type implementationType, ServiceLifetime lifetime,
+            string alias = null)
         {
-            return new ServiceDescriptor(serviceType, implementationType, lifetime);
+            return new ServiceDescriptor(serviceType, implementationType, lifetime, alias);
         }
 
         public static ServiceDescriptor Describe(Type serviceType, Func<IServiceProvider, object> implementationFactory,
-            ServiceLifetime lifetime)
+            ServiceLifetime lifetime, string alias = null)
         {
-            return new ServiceDescriptor(serviceType, implementationFactory, lifetime);
+            return new ServiceDescriptor(serviceType, implementationFactory, lifetime, alias);
         }
     }
 }

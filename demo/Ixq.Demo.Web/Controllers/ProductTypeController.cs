@@ -59,6 +59,8 @@ namespace Ixq.Demo.Web.Controllers
 
             var aa2 = ServiceProvider.GetService<IRepositoryBase<ProductType, Guid>>().GetHashCode();
 
+            var code1 = provider.GetHashCode();
+            var code2 = ServiceProvider.GetHashCode();
 
             var scopeFactory = Ixq.Core.DependencyInjection.ServiceProvider.Current.GetServices<IServiceScopeFactory>();
 

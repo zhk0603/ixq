@@ -31,7 +31,7 @@ namespace Ixq.Demo.Web
 
             app.Initialization()
                 .RegisterAutoMappe()
-                .RegisterIdentity(serverCollection =>
+                .RegisterService(serverCollection =>
                 {
                     serverCollection.TryAddSingleton<DbContext, DataContext>();
                     ConfigureAuth(app);

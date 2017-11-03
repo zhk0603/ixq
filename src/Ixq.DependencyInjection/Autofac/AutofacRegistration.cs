@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Builder;
+using Autofac.Core;
 using Autofac.Integration.Mvc;
 using Ixq.Core;
 using Ixq.Core.DependencyInjection;
@@ -65,6 +66,18 @@ namespace Ixq.DependencyInjection.Autofac
             return registrationBuilder;
         }
 
+        private static IRegistrationBuilder<object, T, U> ConfigureName<T, U>(
+            this IRegistrationBuilder<object, T, U> registrationBuilder,
+            ServiceDescriptor serviceDescriptor)
+        {
+            if (!string.IsNullOrWhiteSpace(serviceDescriptor.Alias))
+            {
+                registrationBuilder.Named(serviceDescriptor.Alias, serviceDescriptor.ServiceType);
+            }
+
+            return registrationBuilder;
+        }
+
 
         private static void Register(
             ContainerBuilder builder,
@@ -81,7 +94,8 @@ namespace Ixq.DependencyInjection.Autofac
                             .As(descriptor.ServiceType)
                             .AsSelf()
                             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
-                            .ConfigureLifecycle(descriptor.Lifetime);
+                            .ConfigureLifecycle(descriptor.Lifetime)
+                            .ConfigureName(descriptor);
                     }
                     else
                     {
@@ -89,7 +103,8 @@ namespace Ixq.DependencyInjection.Autofac
                             .As(descriptor.ServiceType)
                             .AsSelf()
                             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
-                            .ConfigureLifecycle(descriptor.Lifetime);
+                            .ConfigureLifecycle(descriptor.Lifetime)
+                            .ConfigureName(descriptor);
                     }
                 }
                 else if (descriptor.ImplementationFactory != null)
@@ -101,6 +116,7 @@ namespace Ixq.DependencyInjection.Autofac
                                 return descriptor.ImplementationFactory(provider);
                             })
                         .ConfigureLifecycle(descriptor.Lifetime)
+                        .ConfigureName(descriptor)
                         .CreateRegistration();
                     builder.RegisterComponent(registration);
                 }
@@ -110,7 +126,8 @@ namespace Ixq.DependencyInjection.Autofac
                         .As(descriptor.ServiceType)
                         .AsSelf()
                         .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
-                        .ConfigureLifecycle(descriptor.Lifetime);
+                        .ConfigureLifecycle(descriptor.Lifetime)
+                        .ConfigureName(descriptor);
                 }
             }
         }

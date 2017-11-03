@@ -25,6 +25,11 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual IEntityMetadata GetEntityMetadata(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             var dtoInterfaceType = typeof(IDto<,>);
             if (!dtoInterfaceType.IsGenericAssignableFrom(type))
             {
@@ -32,8 +37,7 @@ namespace Ixq.Web.Mvc
             }
 
             var key = type.FullName;
-            IEntityMetadata metadata;
-            if (EntityMetadatas.TryGetValue(type.FullName, out metadata))
+            if (EntityMetadatas.TryGetValue(type.FullName, out var metadata))
             {
                 return metadata;
             }

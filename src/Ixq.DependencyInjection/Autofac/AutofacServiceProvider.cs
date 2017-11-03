@@ -20,5 +20,23 @@ namespace Ixq.DependencyInjection.Autofac
             }
             return _componentContext.Resolve(serviceType);
         }
+
+        public object GetService(Type serviceType, string alias)
+        {
+            if (!_componentContext.IsRegisteredWithName(alias,serviceType))
+            {
+                return null;
+            }
+            return _componentContext.ResolveNamed(alias, serviceType);
+        }
+
+        public T GetService<T>(string alias)
+        {
+            if (!_componentContext.IsRegisteredWithName<T>(alias))
+            {
+                return default(T);
+            }
+            return _componentContext.ResolveNamed<T>(alias);
+        }
     }
 }

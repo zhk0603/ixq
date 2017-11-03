@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ixq.Core.DependencyInjection.Extensions;
 
 namespace Ixq.Core.DependencyInjection
 {
@@ -156,35 +157,31 @@ namespace Ixq.Core.DependencyInjection
                 var interfaceTypes = GetImplementedInterfaces(implementationType);
                 if (interfaceTypes.Length == 0)
                 {
-                    switch (lifetime)
-                    {
-                        case ServiceLifetime.Transient:
-                            this.AddTransient(implementationType, implementationType);
-                            break;
-                        case ServiceLifetime.Scoped:
-                            this.AddScoped(implementationType, implementationType);
-                            break;
-                        case ServiceLifetime.Singleton:
-                            this.AddSingleton(implementationType, implementationType);
-                            break;
-                    }
+                    AddServiceToCollection(implementationType, implementationType, lifetime);
                     continue;
                 }
                 foreach (var interfaceType in interfaceTypes)
                 {
-                    switch (lifetime)
-                    {
-                        case ServiceLifetime.Transient:
-                            this.AddTransient(interfaceType, implementationType);
-                            break;
-                        case ServiceLifetime.Scoped:
-                            this.AddScoped(interfaceType, implementationType);
-                            break;
-                        case ServiceLifetime.Singleton:
-                            this.AddSingleton(interfaceType, implementationType);
-                            break;
-                    }
+                    AddServiceToCollection(interfaceType, implementationType, lifetime);
                 }
+            }
+        }
+
+        internal void AddServiceToCollection(Type serviceType, Type implementationType, ServiceLifetime lifetime)
+        {
+            var aliasAttribute = implementationType.GetCustomAttribute<ServiceAliasAttribute>(false);
+
+            switch (lifetime)
+            {
+                case ServiceLifetime.Transient:
+                    this.AddTransient(serviceType, implementationType, aliasAttribute?.Alias);
+                    break;
+                case ServiceLifetime.Scoped:
+                    this.AddScoped(serviceType, implementationType, aliasAttribute?.Alias);
+                    break;
+                case ServiceLifetime.Singleton:
+                    this.AddSingleton(serviceType, implementationType, aliasAttribute?.Alias);
+                    break;
             }
         }
 

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Ixq.Core.DependencyInjection
+namespace Ixq.Core.DependencyInjection.Extensions
 {
     /// <summary>
     ///     Extension methods for adding services to an <see cref="IServiceCollection" />.
@@ -18,12 +18,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationType">The implementation type of the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
         public static IServiceCollection AddTransient(
             this IServiceCollection services,
             Type serviceType,
-            Type implementationType)
+            Type implementationType,
+            string alias = null)
         {
             if (services == null)
             {
@@ -40,7 +42,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
-            return Add(services, serviceType, implementationType, ServiceLifetime.Transient);
+            return Add(services, serviceType, implementationType, ServiceLifetime.Transient, alias);
         }
 
         /// <summary>
@@ -51,12 +53,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
         public static IServiceCollection AddTransient(
             this IServiceCollection services,
             Type serviceType,
-            Func<IServiceProvider, object> implementationFactory)
+            Func<IServiceProvider, object> implementationFactory,
+            string alias = null)
         {
             if (services == null)
             {
@@ -73,7 +77,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Add(services, serviceType, implementationFactory, ServiceLifetime.Transient);
+            return Add(services, serviceType, implementationFactory, ServiceLifetime.Transient, alias);
         }
 
         /// <summary>
@@ -84,9 +88,11 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
-        public static IServiceCollection AddTransient<TService, TImplementation>(this IServiceCollection services)
+        public static IServiceCollection AddTransient<TService, TImplementation>(this IServiceCollection services,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -95,7 +101,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddTransient(typeof(TService), typeof(TImplementation));
+            return services.AddTransient(typeof(TService), typeof(TImplementation), alias);
         }
 
         /// <summary>
@@ -104,11 +110,13 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
         public static IServiceCollection AddTransient(
             this IServiceCollection services,
-            Type serviceType)
+            Type serviceType,
+            string alias = null)
         {
             if (services == null)
             {
@@ -120,7 +128,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            return services.AddTransient(serviceType, serviceType);
+            return services.AddTransient(serviceType, serviceType, alias);
         }
 
         /// <summary>
@@ -129,9 +137,10 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
-        public static IServiceCollection AddTransient<TService>(this IServiceCollection services)
+        public static IServiceCollection AddTransient<TService>(this IServiceCollection services, string alias = null)
             where TService : class
         {
             if (services == null)
@@ -139,7 +148,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddTransient(typeof(TService));
+            return services.AddTransient(typeof(TService), alias);
         }
 
         /// <summary>
@@ -150,11 +159,13 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
         public static IServiceCollection AddTransient<TService>(
             this IServiceCollection services,
-            Func<IServiceProvider, TService> implementationFactory)
+            Func<IServiceProvider, TService> implementationFactory,
+            string alias = null)
             where TService : class
         {
             if (services == null)
@@ -167,7 +178,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddTransient(typeof(TService), implementationFactory);
+            return services.AddTransient(typeof(TService), implementationFactory, alias);
         }
 
         /// <summary>
@@ -180,11 +191,13 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient" />
         public static IServiceCollection AddTransient<TService, TImplementation>(
             this IServiceCollection services,
-            Func<IServiceProvider, TImplementation> implementationFactory)
+            Func<IServiceProvider, TImplementation> implementationFactory,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -198,9 +211,8 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddTransient(typeof(TService), implementationFactory);
+            return services.AddTransient(typeof(TService), implementationFactory, alias);
         }
-
 
         /// <summary>
         ///     Adds a scoped service of the type specified in <paramref name="serviceType" /> with an
@@ -210,12 +222,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationType">The implementation type of the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
         public static IServiceCollection AddScoped(
             this IServiceCollection services,
             Type serviceType,
-            Type implementationType)
+            Type implementationType,
+            string alias = null)
         {
             if (services == null)
             {
@@ -232,7 +246,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
-            return Add(services, serviceType, implementationType, ServiceLifetime.Scoped);
+            return Add(services, serviceType, implementationType, ServiceLifetime.Scoped, alias);
         }
 
         /// <summary>
@@ -243,12 +257,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
         public static IServiceCollection AddScoped(
             this IServiceCollection services,
             Type serviceType,
-            Func<IServiceProvider, object> implementationFactory)
+            Func<IServiceProvider, object> implementationFactory,
+            string alias = null)
         {
             if (services == null)
             {
@@ -265,7 +281,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Add(services, serviceType, implementationFactory, ServiceLifetime.Scoped);
+            return Add(services, serviceType, implementationFactory, ServiceLifetime.Scoped, alias);
         }
 
         /// <summary>
@@ -276,9 +292,11 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
-        public static IServiceCollection AddScoped<TService, TImplementation>(this IServiceCollection services)
+        public static IServiceCollection AddScoped<TService, TImplementation>(this IServiceCollection services,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -287,7 +305,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddScoped(typeof(TService), typeof(TImplementation));
+            return services.AddScoped(typeof(TService), typeof(TImplementation), alias);
         }
 
         /// <summary>
@@ -296,11 +314,13 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
         public static IServiceCollection AddScoped(
             this IServiceCollection services,
-            Type serviceType)
+            Type serviceType,
+            string alias = null)
         {
             if (services == null)
             {
@@ -312,7 +332,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            return services.AddScoped(serviceType, serviceType);
+            return services.AddScoped(serviceType, serviceType, alias);
         }
 
         /// <summary>
@@ -321,9 +341,10 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
-        public static IServiceCollection AddScoped<TService>(this IServiceCollection services)
+        public static IServiceCollection AddScoped<TService>(this IServiceCollection services, string alias = null)
             where TService : class
         {
             if (services == null)
@@ -331,7 +352,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddScoped(typeof(TService));
+            return services.AddScoped(typeof(TService), alias);
         }
 
         /// <summary>
@@ -342,11 +363,13 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
         public static IServiceCollection AddScoped<TService>(
             this IServiceCollection services,
-            Func<IServiceProvider, TService> implementationFactory)
+            Func<IServiceProvider, TService> implementationFactory,
+            string alias = null)
             where TService : class
         {
             if (services == null)
@@ -359,7 +382,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddScoped(typeof(TService), implementationFactory);
+            return services.AddScoped(typeof(TService), implementationFactory, alias);
         }
 
         /// <summary>
@@ -372,11 +395,13 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Scoped" />
         public static IServiceCollection AddScoped<TService, TImplementation>(
             this IServiceCollection services,
-            Func<IServiceProvider, TImplementation> implementationFactory)
+            Func<IServiceProvider, TImplementation> implementationFactory,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -390,7 +415,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddScoped(typeof(TService), implementationFactory);
+            return services.AddScoped(typeof(TService), implementationFactory, alias);
         }
 
 
@@ -402,12 +427,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationType">The implementation type of the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton(
             this IServiceCollection services,
             Type serviceType,
-            Type implementationType)
+            Type implementationType,
+            string alias = null)
         {
             if (services == null)
             {
@@ -424,7 +451,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
-            return Add(services, serviceType, implementationType, ServiceLifetime.Singleton);
+            return Add(services, serviceType, implementationType, ServiceLifetime.Singleton, alias);
         }
 
         /// <summary>
@@ -435,12 +462,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton(
             this IServiceCollection services,
             Type serviceType,
-            Func<IServiceProvider, object> implementationFactory)
+            Func<IServiceProvider, object> implementationFactory,
+            string alias = null)
         {
             if (services == null)
             {
@@ -457,7 +486,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return Add(services, serviceType, implementationFactory, ServiceLifetime.Singleton);
+            return Add(services, serviceType, implementationFactory, ServiceLifetime.Singleton, alias);
         }
 
         /// <summary>
@@ -468,9 +497,11 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
-        public static IServiceCollection AddSingleton<TService, TImplementation>(this IServiceCollection services)
+        public static IServiceCollection AddSingleton<TService, TImplementation>(this IServiceCollection services,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -479,7 +510,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton(typeof(TService), typeof(TImplementation));
+            return services.AddSingleton(typeof(TService), typeof(TImplementation), alias);
         }
 
         /// <summary>
@@ -488,11 +519,13 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton(
             this IServiceCollection services,
-            Type serviceType)
+            Type serviceType,
+            string alias = null)
         {
             if (services == null)
             {
@@ -504,7 +537,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            return services.AddSingleton(serviceType, serviceType);
+            return services.AddSingleton(serviceType, serviceType, alias);
         }
 
         /// <summary>
@@ -513,9 +546,10 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
-        public static IServiceCollection AddSingleton<TService>(this IServiceCollection services)
+        public static IServiceCollection AddSingleton<TService>(this IServiceCollection services, string alias = null)
             where TService : class
         {
             if (services == null)
@@ -523,7 +557,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            return services.AddSingleton(typeof(TService));
+            return services.AddSingleton(typeof(TService), alias);
         }
 
         /// <summary>
@@ -534,11 +568,13 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TService">The type of the service to add.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton<TService>(
             this IServiceCollection services,
-            Func<IServiceProvider, TService> implementationFactory)
+            Func<IServiceProvider, TService> implementationFactory,
+            string alias = null)
             where TService : class
         {
             if (services == null)
@@ -551,7 +587,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddSingleton(typeof(TService), implementationFactory);
+            return services.AddSingleton(typeof(TService), implementationFactory, alias);
         }
 
         /// <summary>
@@ -564,11 +600,13 @@ namespace Ixq.Core.DependencyInjection
         /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationFactory">The factory that creates the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton<TService, TImplementation>(
             this IServiceCollection services,
-            Func<IServiceProvider, TImplementation> implementationFactory)
+            Func<IServiceProvider, TImplementation> implementationFactory,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
@@ -582,7 +620,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationFactory));
             }
 
-            return services.AddSingleton(typeof(TService), implementationFactory);
+            return services.AddSingleton(typeof(TService), implementationFactory, alias);
         }
 
         /// <summary>
@@ -593,12 +631,14 @@ namespace Ixq.Core.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="serviceType">The type of the service to register.</param>
         /// <param name="implementationInstance">The instance of the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton(
             this IServiceCollection services,
             Type serviceType,
-            object implementationInstance)
+            object implementationInstance,
+            string alias = null)
         {
             if (services == null)
             {
@@ -615,7 +655,7 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationInstance));
             }
 
-            var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance);
+            var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance, alias);
             services.Add(serviceDescriptor);
             return services;
         }
@@ -627,11 +667,13 @@ namespace Ixq.Core.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add the service to.</param>
         /// <param name="implementationInstance">The instance of the service.</param>
+        /// <param name="alias"></param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton" />
         public static IServiceCollection AddSingleton<TService>(
             this IServiceCollection services,
-            TService implementationInstance)
+            TService implementationInstance,
+            string alias = null)
             where TService : class
         {
             if (services == null)
@@ -644,16 +686,17 @@ namespace Ixq.Core.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationInstance));
             }
 
-            return services.AddSingleton(typeof(TService), implementationInstance);
+            return services.AddSingleton(typeof(TService), implementationInstance, alias);
         }
 
         private static IServiceCollection Add(
             IServiceCollection collection,
             Type serviceType,
             Type implementationType,
-            ServiceLifetime lifetime)
+            ServiceLifetime lifetime,
+            string alias = null)
         {
-            var descriptor = new ServiceDescriptor(serviceType, implementationType, lifetime);
+            var descriptor = new ServiceDescriptor(serviceType, implementationType, lifetime, alias);
             collection.Add(descriptor);
             return collection;
         }
@@ -662,9 +705,10 @@ namespace Ixq.Core.DependencyInjection
             IServiceCollection collection,
             Type serviceType,
             Func<IServiceProvider, object> implementationFactory,
-            ServiceLifetime lifetime)
+            ServiceLifetime lifetime,
+            string alias = null)
         {
-            var descriptor = new ServiceDescriptor(serviceType, implementationFactory, lifetime);
+            var descriptor = new ServiceDescriptor(serviceType, implementationFactory, lifetime, alias);
             collection.Add(descriptor);
             return collection;
         }
