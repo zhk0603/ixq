@@ -254,7 +254,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         protected virtual object ParseEntityKey(string value)
         {
-            return RepositoryExtensions.ParseEntityKey<TKey>(value);
+            return Ixq.Extensions.TypeExtensions.ChangeType(value, typeof(TKey));
         }
     }
 }

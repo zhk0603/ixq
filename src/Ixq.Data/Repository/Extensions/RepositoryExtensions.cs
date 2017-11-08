@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -82,8 +83,7 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
             where TDto : class, IDto<TEntity, TKey>, new()
         {
-            var entityColl = queryable.ToList();
-            return entityColl.Select(item => item.MapToDto<TDto, TKey>()).ToArray();
+            return queryable.ToList().Select(item => item.MapToDto<TDto, TKey>()).ToArray();
         }
 
         /// <summary>
@@ -113,8 +113,7 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
             where TDto : class, IDto<TEntity, TKey>, new()
         {
-            var entityColl = queryable.ToList();
-            return entityColl.Select(item => item.MapToDto<TDto, TKey>()).ToList();
+            return queryable.ToList().Select(item => item.MapToDto<TDto, TKey>()).ToList();
         }
 
         /// <summary>
@@ -130,11 +129,6 @@ namespace Ixq.Data.Repository.Extensions
             where TDto : class, IDto<TEntity, TKey>, new()
         {
             return Task.FromResult(ToDtoList<TDto, TEntity, TKey>(queryable));
-        }
-
-        public static object ParseEntityKey<TKey>(string value)
-        {
-            return Convert.ChangeType(value, typeof(TKey));
         }
     }
 }
