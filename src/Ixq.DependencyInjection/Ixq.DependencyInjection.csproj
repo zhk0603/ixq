@@ -89,7 +89,6 @@
     <Compile Include="Autofac\AutofacServiceProvider.cs" />
     <Compile Include="Autofac\AutofacServiceScope.cs" />
     <Compile Include="Autofac\AutofacServiceScopeFactory.cs" />
-    <Compile Include="Autofac\Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

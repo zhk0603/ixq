@@ -64,6 +64,7 @@
     <Compile Include="DependencyInjection\Extensions\ServiceCollectionServiceExtensions.cs" />
     <Compile Include="DependencyInjection\Extensions\ServiceProviderServiceExtensions.cs" />
     <Compile Include="DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="DependencyInjection\ISupportAliasServiceProvider.cs" />
     <Compile Include="DependencyInjection\IServiceScope.cs" />
     <Compile Include="DependencyInjection\IServiceScopeFactory.cs" />
     <Compile Include="DependencyInjection\ISupportRequiredService.cs" />

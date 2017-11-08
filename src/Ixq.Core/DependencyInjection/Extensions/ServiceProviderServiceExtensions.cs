@@ -11,6 +11,42 @@ namespace Ixq.Core.DependencyInjection.Extensions
     /// </summary>
     public static class ServiceProviderServiceExtensions
     {
+
+        public static object GetService(this IServiceProvider provider, Type serviceType, string alias)
+        {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            if (provider is ISupportAliasServiceProvider sp)
+            {
+                return sp.GetService(serviceType, alias);
+            }
+
+            return null;
+        }
+
+        public static T GetService<T>(this IServiceProvider provider, string alias)
+        {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
+            if (provider is ISupportAliasServiceProvider sp)
+            {
+                return (T)sp.GetService(typeof(T), alias);
+            }
+
+            return default(T);
+        }
+
         /// <summary>
         ///     Get service of type <typeparamref name="T" /> from the <see cref="IServiceProvider" />.
         /// </summary>
