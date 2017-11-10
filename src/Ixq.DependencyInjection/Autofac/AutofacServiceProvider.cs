@@ -1,9 +1,10 @@
 ﻿using System;
 using Autofac;
+using Ixq.Core.DependencyInjection;
 
 namespace Ixq.DependencyInjection.Autofac
 {
-    public class AutofacServiceProvider : IServiceProvider
+    public class AutofacServiceProvider : IServiceProvider, ISupportAliasServiceProvider
     {
         private readonly IComponentContext _componentContext;
 
@@ -28,15 +29,6 @@ namespace Ixq.DependencyInjection.Autofac
                 return null;
             }
             return _componentContext.ResolveNamed(alias, serviceType);
-        }
-
-        public T GetService<T>(string alias)
-        {
-            if (!_componentContext.IsRegisteredWithName<T>(alias))
-            {
-                return default(T);
-            }
-            return _componentContext.ResolveNamed<T>(alias);
         }
     }
 }

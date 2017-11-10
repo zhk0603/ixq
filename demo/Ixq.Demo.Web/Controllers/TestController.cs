@@ -14,7 +14,6 @@ using System.Web;
 using Autofac.Features.Indexed;
 using Autofac.Integration.Mvc;
 using Ixq.Demo.Web.Models;
-using Ixq.DependencyInjection.Autofac.Extensions;
 using Ixq.Core.DependencyInjection.Extensions;
 
 namespace Ixq.Demo.Web.Controllers
@@ -26,6 +25,7 @@ namespace Ixq.Demo.Web.Controllers
         public TestController(IRepository<ProductType> productTypeRepository,
             IIndex<string,Models.IAnimal> index)
         {
+            var b = index["bird"];
             _productTypeRepository = productTypeRepository;
         }
 
@@ -33,6 +33,7 @@ namespace Ixq.Demo.Web.Controllers
         public ActionResult Index()
         {
             var bird = base.ServiceProvider.GetService<IAnimal>();
+            var oldbird = base.ServiceProvider.GetService<IAnimal>("OldBird");
             var bird1 = base.ServiceProvider.GetService<IAnimal>("bird");
             var bird2 = Ixq.Core.DependencyInjection.ServiceProvider.Current.GetService<IAnimal>("bird");
 

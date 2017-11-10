@@ -22,9 +22,18 @@ namespace Ixq.Demo.Web.Models
     [Ixq.Core.DependencyInjection.ServiceAlias("bird")]
     public class Bird : IAnimal
     {
-        public void Say()
+        public virtual void Say()
         {
             System.Console.WriteLine("I'm bird");
+        }
+    }
+
+    [Ixq.Core.DependencyInjection.ServiceAlias("bird")]
+    public class OldBird : Bird
+    {
+        public override void Say()
+        {
+            Console.WriteLine("I'm OldBird");
         }
     }
 }

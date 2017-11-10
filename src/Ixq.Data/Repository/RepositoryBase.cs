@@ -26,6 +26,9 @@ namespace Ixq.Data.Repository
     public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
         where TEntity : class, IEntity<TKey>, new()
     {
+        private readonly DbSet<TEntity> _table;
+        private readonly DbContext _dbContext;
+
         /// <summary>
         ///     初始化一个<see cref="RepositoryBase{TEntity, TKey}" />实例。
         /// </summary>
@@ -33,15 +36,16 @@ namespace Ixq.Data.Repository
         public RepositoryBase(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
+            _dbContext = (DbContext) unitOfWork ??
+                         throw new ArgumentNullException(
+                             $"无法将类型：{typeof(IUnitOfWork).FullName} 转换为：{typeof(DbContext).FullName}。");
+            _table = _dbContext.Set<TEntity>();
         }
-
-        private DbSet<TEntity> Table => ((DbContext) UnitOfWork).Set<TEntity>();
 
         /// <summary>
         ///     工作单元。
         /// </summary>
         public IUnitOfWork UnitOfWork { get; }
-
 
         /// <summary>
         ///     添加一个对象。
@@ -49,7 +53,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual bool Add(TEntity entity)
         {
-            Table.Add(entity);
+            _table.Add(entity);
             return Save();
         }
 
@@ -59,7 +63,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual Task<bool> AddAsync(TEntity entity)
         {
-            Table.Add(entity);
+            _table.Add(entity);
             return SaveAsync();
         }
 
@@ -69,7 +73,7 @@ namespace Ixq.Data.Repository
         /// <param name="entities"></param>
         public virtual bool AddRange(IEnumerable<TEntity> entities)
         {
-            Table.AddRange(entities);
+            _table.AddRange(entities);
             return Save();
         }
 
@@ -79,7 +83,7 @@ namespace Ixq.Data.Repository
         /// <param name="entities"></param>
         public virtual Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            Table.AddRange(entities);
+            _table.AddRange(entities);
             return SaveAsync();
         }
 
@@ -89,7 +93,7 @@ namespace Ixq.Data.Repository
         /// <returns>创建好的对象</returns>
         public virtual TEntity Create()
         {
-            var entity = Table.Create();
+            var entity = _table.Create();
             return entity;
         }
 
@@ -99,7 +103,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual bool Edit(TEntity entity)
         {
-            var entry = ((DbContext) UnitOfWork).Entry(entity);
+            var entry = _dbContext.Entry(entity);
             entry.State = EntityState.Modified;
             return Save();
         }
@@ -110,7 +114,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual Task<bool> EditAsync(TEntity entity)
         {
-            var entry = ((DbContext) UnitOfWork).Entry(entity);
+            var entry = _dbContext.Entry(entity);
             entry.State = EntityState.Modified;
             return SaveAsync();
         }
@@ -121,7 +125,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual IQueryable<TEntity> GetAll()
         {
-            return Table.AsNoTracking();
+            return _table.AsNoTracking();
         }
 
         /// <summary>
@@ -263,7 +267,7 @@ namespace Ixq.Data.Repository
         /// <param name="entity"></param>
         public virtual bool Remove(TEntity entity)
         {
-            Table.Remove(entity);
+            _table.Remove(entity);
             return Save();
         }
 
@@ -284,7 +288,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual Task<bool> RemoveAsync(TEntity entity)
         {
-            Table.Remove(entity);
+            _table.Remove(entity);
             return SaveAsync();
         }
 
@@ -300,7 +304,7 @@ namespace Ixq.Data.Repository
                 var entity = SingleById(index);
                 if (entity != null)
                 {
-                    Table.Remove(entity);
+                    _table.Remove(entity);
                 }
             }
             return Save();
@@ -313,7 +317,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual bool RemoveRange(IEnumerable<TEntity> range)
         {
-            Table.RemoveRange(range);
+            _table.RemoveRange(range);
             return Save();
         }
 
@@ -327,7 +331,7 @@ namespace Ixq.Data.Repository
             foreach (var index in range)
             {
                 var entity = SingleById(index);
-                Table.Remove(entity);
+                _table.Remove(entity);
             }
             return SaveAsync();
         }
@@ -339,7 +343,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual Task<bool> RemoveRangeAsync(IEnumerable<TEntity> range)
         {
-            Table.RemoveRange(range);
+            _table.RemoveRange(range);
             return SaveAsync();
         }
 
@@ -418,7 +422,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual TEntity SingleById(TKey index)
         {
-            return Table.Find(index);
+            return _table.Find(index);
         }
 
         /// <summary>
@@ -431,7 +435,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual Task<TEntity> SingleByIdAsync(TKey index)
         {
-            return Table.FindAsync(index);
+            return _table.FindAsync(index);
         }
 
         /// <summary>
@@ -441,7 +445,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual TEntity SingleById(params object[] index)
         {
-            return Table.Find(index);
+            return _table.Find(index);
         }
 
         /// <summary>
@@ -451,7 +455,7 @@ namespace Ixq.Data.Repository
         /// <returns></returns>
         public virtual Task<TEntity> SingleByIdAsync(params object[] index)
         {
-            return Table.FindAsync(index);
+            return _table.FindAsync(index);
         }
 
 
@@ -478,8 +482,8 @@ namespace Ixq.Data.Repository
         public virtual IEnumerable<TEntity> SqlQuery(string sql, bool trackEnabled = true, params object[] parameters)
         {
             return trackEnabled
-                ? Table.SqlQuery(sql, parameters)
-                : Table.SqlQuery(sql, parameters).AsNoTracking();
+                ? _table.SqlQuery(sql, parameters)
+                : _table.SqlQuery(sql, parameters).AsNoTracking();
         }
 
         /// <summary>
@@ -520,14 +524,13 @@ namespace Ixq.Data.Repository
         public virtual TEntity SqlQuerySingle(TKey index, bool trackEnabled = true)
         {
             var tableName = GetTableName<TEntity>();
-
             var sql = "select * from " + tableName + " where [Id] = @index";
-            return trackEnabled
-                ? Table.SqlQuery(sql, new SqlParameter("@index", index))
-                    .FirstOrDefault()
-                : Table.SqlQuery(sql, new SqlParameter("@index", index))
-                    .AsNoTracking()
-                    .FirstOrDefault();
+            var dbSqlQuery = _table.SqlQuery(sql, new SqlParameter("@index", index));
+            if (trackEnabled)
+            {
+                dbSqlQuery = dbSqlQuery.AsNoTracking();
+            }
+            return dbSqlQuery.FirstOrDefault();
         }
 
         /// <summary>
@@ -568,7 +571,7 @@ namespace Ixq.Data.Repository
             params object[] parameters)
             where T2 : class, IEntity<TKey2>, new()
         {
-            var table = ((DbContext) UnitOfWork).Set<T2>();
+            var table = _dbContext.Set<T2>();
             return trackEnabled
                 ? table.SqlQuery(sql, parameters)
                 : table.SqlQuery(sql, parameters).AsNoTracking();
@@ -613,17 +616,18 @@ namespace Ixq.Data.Repository
         public virtual T2 SqlQuerySingle<T2, TKey2>(TKey index, bool trackEnabled)
             where T2 : class, IEntity<TKey2>, new()
         {
-            var table = ((DbContext) UnitOfWork).Set<T2>();
+            var table = _dbContext.Set<T2>();
 
             var tableName = GetTableName<T2>();
             var sql = "select * from " + tableName + " where [Index] = @index";
 
-            return trackEnabled
-                ? table.SqlQuery(sql, new SqlParameter("@index", index))
-                    .FirstOrDefault()
-                : table.SqlQuery(sql, new SqlParameter("@index", index))
-                    .AsNoTracking()
-                    .FirstOrDefault();
+            var dbSqlQuery = table.SqlQuery(sql, new SqlParameter("@index", index));
+            if (trackEnabled)
+            {
+                dbSqlQuery = dbSqlQuery.AsNoTracking();
+            }
+
+            return dbSqlQuery.FirstOrDefault();
         }
 
         /// <summary>
@@ -651,11 +655,15 @@ namespace Ixq.Data.Repository
         protected virtual string GetTableName<TType>()
         {
             var type = typeof(TType);
-            var tableName = GetEntityDataBaseTableName<TType>((DbContext) UnitOfWork) ?? type.Name;
             var tableAttribute = type.GetAttribute<TableAttribute>();
-            if (tableAttribute != null)
+
+            var tableName = tableAttribute != null
+                ? tableAttribute.Name
+                : GetEntityDataBaseTableName<TType>(_dbContext);
+
+            if (string.IsNullOrWhiteSpace(tableName))
             {
-                tableName = tableAttribute.Name;
+                throw new InvalidOperationException($"无法获取类型：{type.FullName} 的数据库表名称。");
             }
             return tableName;
         }

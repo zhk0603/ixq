@@ -45,15 +45,13 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(string userName, string password, string code, string returnUrl)
+        public ActionResult Login(string userName, string password, string code, string returnUrl)
         {
             var user = UserManager.Find(userName, password);
             if (user != null)
             {
-                var properties = new AuthenticationProperties();
-                properties.Dictionary["Ixq framework"] = "Ixq framework";
                 var identity = SignInManager.CreateUserIdentity(user);
-                AuthenticationManager.SignIn(properties, identity);
+                AuthenticationManager.SignIn(identity);
                 if (string.IsNullOrWhiteSpace(returnUrl))
                     return RedirectToAction("Index", "Home");
                 return Redirect(returnUrl);
@@ -66,8 +64,6 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
 
         public ActionResult Logout()
         {
-            //Ixq.Core.Cache.CacheManager.GetCache("LoginUser")
-            //    ?.Remove(Ixq.Core.CurrentUser.Current.UserId);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }
