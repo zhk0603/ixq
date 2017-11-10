@@ -36,6 +36,5 @@ namespace Ixq.Extensions
                 return func();
             }).Unwrap().GetAwaiter().GetResult();
         }
-
     }
 }

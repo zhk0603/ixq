@@ -65,6 +65,10 @@
       <Project>{864e067d-7fbb-4e33-a31d-e3006cd0809c}</Project>
       <Name>Ixq.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ixq.Extensions\Ixq.Extensions.csproj">
+      <Project>{d55f3fa0-8638-49c3-8998-0425871c1420}</Project>
+      <Name>Ixq.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ixq.Logging\Ixq.Logging.csproj">
       <Project>{33ACFEA3-BE13-4C15-9003-0D44FAD30F9E}</Project>
       <Name>Ixq.Logging</Name>
