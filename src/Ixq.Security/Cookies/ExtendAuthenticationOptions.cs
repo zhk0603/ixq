@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
 
 namespace Ixq.Security.Cookies
 {
@@ -22,6 +15,7 @@ namespace Ixq.Security.Cookies
         where TUser : class, IUser<TKey>, Core.Security.IUser<TKey>
     {
         private string _cookieName;
+
         public ExtendAuthenticationOptions() : this(DefaultAuthenticationTypes.ApplicationCookie)
         {
         }
@@ -33,13 +27,11 @@ namespace Ixq.Security.Cookies
 
         public string CookieName
         {
-            get { return _cookieName; }
+            get => _cookieName;
             set
             {
                 if (value == null)
-                {
                     throw new ArgumentNullException("value");
-                }
                 _cookieName = value;
             }
         }
@@ -50,7 +42,7 @@ namespace Ixq.Security.Cookies
         public ICookieManager CookieManager { get; set; }
 
         public Action<UserSignInContext<TUser, TKey>> OnUserSignIn { private get; set; }
-        public Action<UserSignOutContext<TUser,TKey>> OnUserSignOut { private set; get; }
+        public Action<UserSignOutContext<TUser, TKey>> OnUserSignOut { private set; get; }
 
         public virtual void UserSignIn(UserSignInContext<TUser, TKey> context)
         {

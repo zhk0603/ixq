@@ -19,9 +19,7 @@ namespace Ixq.Web.Mvc
         public EntityPropertyMetadata(PropertyInfo dtoPropertyInfo)
         {
             if (dtoPropertyInfo == null)
-            {
                 throw new ArgumentNullException(nameof(dtoPropertyInfo));
-            }
 
             PropertyInfo = dtoPropertyInfo;
             PropertyType = dtoPropertyInfo.PropertyType;
@@ -127,18 +125,12 @@ namespace Ixq.Web.Mvc
         public bool IsAuthorization(IPrincipal user)
         {
             if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
-            {
                 return false;
-            }
 
             if (Users != null && Users.Any() && !Users.Contains(user.Identity.Name, StringComparer.OrdinalIgnoreCase))
-            {
                 return false;
-            }
             if (Roles != null && !Roles.Any(user.IsInRole))
-            {
                 return false;
-            }
             return true;
         }
 

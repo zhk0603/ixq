@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,9 +26,7 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
         {
             if (repository.UnitOfWork == null)
-            {
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            }
             return (DbContext) repository.UnitOfWork;
         }
 
@@ -46,9 +43,7 @@ namespace Ixq.Data.Repository.Extensions
             where TDbContext : DbContext
         {
             if (repository.UnitOfWork == null)
-            {
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            }
             return (TDbContext) repository.UnitOfWork;
         }
 
@@ -63,9 +58,7 @@ namespace Ixq.Data.Repository.Extensions
             where TEntity : class, IEntity<TKey>, new()
         {
             if (repository.UnitOfWork == null)
-            {
                 throw new ArgumentNullException(nameof(repository.UnitOfWork), "未初始化工作单元");
-            }
 
             return ((DbContext) repository.UnitOfWork).Set<TEntity>();
         }

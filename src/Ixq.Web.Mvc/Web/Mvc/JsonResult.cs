@@ -29,30 +29,20 @@ namespace Ixq.Web.Mvc
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException(nameof(context));
-            }
             if (JsonRequestBehavior == JsonRequestBehavior.DenyGet &&
                 string.Equals(context.HttpContext.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
-            {
                 throw new InvalidOperationException(
                     "此请求已被阻止，因为敏感信息可以在GET请求中使用时向第三方网站披露。 要允许GET请求，请将JsonRequestBehavior设置为AllowGet。");
-            }
 
             var response = context.HttpContext.Response;
 
             if (!string.IsNullOrEmpty(ContentType))
-            {
                 response.ContentType = ContentType;
-            }
             else
-            {
                 response.ContentType = "application/json";
-            }
             if (ContentEncoding != null)
-            {
                 response.ContentEncoding = ContentEncoding;
-            }
             if (Data != null)
             {
                 var writer = new JsonTextWriter(response.Output) {Formatting = Formatting.Indented};

@@ -13,6 +13,7 @@ namespace Ixq.Core.Entity
         ///     获取Dto属性名称。
         /// </summary>
         string PropertyName { get; }
+
         /// <summary>
         ///     获取Dto属性信息。
         /// </summary>
@@ -49,7 +50,45 @@ namespace Ixq.Core.Entity
         /// </summary>
         bool IsRequired { get; set; }
 
+        /// <summary>
+        ///     获取或设置实体属性的数据类型。
+        /// </summary>
+        DataType DataType { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的自定义数据类型。
+        /// </summary>
+        string CustomDataType { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性局部视图路径。
+        /// </summary>
+        string PartialViewPath { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的步长。
+        /// </summary>
+        double? Step { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的最大值。
+        /// </summary>
+        long? Max { get; set; }
+
+        /// <summary>
+        ///     获取或设置实体属性的最小值。
+        /// </summary>
+        long? Min { get; set; }
+
+        /// <summary>
+        ///     确认用户是否有有访问此实体属性的权限。
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        bool IsAuthorization(IPrincipal user);
+
         #region HideAttribute
+
         /// <summary>
         ///     获取或设置实体属性是否隐藏在列表。
         /// </summary>
@@ -73,6 +112,7 @@ namespace Ixq.Core.Entity
         #endregion
 
         #region DisplayAttribute
+
         /// <summary>
         ///     获取或设置实体属性的显示名称。
         /// </summary>
@@ -143,42 +183,5 @@ namespace Ixq.Core.Entity
         bool Hidden { get; set; }
 
         #endregion
-
-        /// <summary>
-        ///     获取或设置实体属性的数据类型。
-        /// </summary>
-        DataType DataType { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体属性的自定义数据类型。
-        /// </summary>
-        string CustomDataType { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体属性局部视图路径。
-        /// </summary>
-        string PartialViewPath { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体属性的步长。
-        /// </summary>
-        double? Step { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体属性的最大值。
-        /// </summary>
-        long? Max { get; set; }
-
-        /// <summary>
-        ///     获取或设置实体属性的最小值。
-        /// </summary>
-        long? Min { get; set; }
-
-        /// <summary>
-        ///     确认用户是否有有访问此实体属性的权限。
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        bool IsAuthorization(IPrincipal user);
     }
 }

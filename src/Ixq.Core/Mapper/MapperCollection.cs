@@ -80,17 +80,13 @@ namespace Ixq.Core.Mapper
             var sourceTypes = SelectMany(typeof(IDto<,>), assembly);
             var targetTypes = SelectMany(typeof(IEntity<>), assembly);
             if (sourceTypes.Length == 0 || targetTypes.Length == 0)
-            {
                 return;
-            }
             foreach (var sType in sourceTypes)
             {
                 var iType = sType.GetInterfaces();
                 var targetType = _getTargetType(iType, targetTypes);
                 if (targetType != null)
-                {
                     Add(new MapperDescriptor(sType, targetType));
-                }
             }
         }
 
@@ -116,9 +112,7 @@ namespace Ixq.Core.Mapper
             foreach (var iType in interfaceTypes)
             {
                 if (targetType != null)
-                {
                     break;
-                }
                 targetType = iType.GenericTypeArguments.FirstOrDefault(x => targetTypes.Contains(x));
             }
             return targetType;

@@ -50,10 +50,8 @@ namespace Ixq.UI.ComponentModel
             {
                 var entity = value as TDto;
                 if (entity == null)
-                {
                     throw new InvalidCastException(
                         $"无法将类型为“{value.GetType().FullName}”的对象强制转换为类型“{typeof(TDto).FullName}”。");
-                }
                 _entityDto = entity;
             }
         }

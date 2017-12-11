@@ -29,24 +29,16 @@ namespace Ixq.UI
             object entityDto)
         {
             if (helper == null)
-            {
                 throw new ArgumentNullException(nameof(helper));
-            }
             if (propertyMetadata == null)
-            {
                 throw new ArgumentNullException(nameof(propertyMetadata));
-            }
             if (entityDto == null)
-            {
                 throw new ArgumentNullException(nameof(entityDto));
-            }
 
             var model = new PropertyViewModel(propertyMetadata, entityDto);
             if (propertyMetadata.DataType == DataType.CustomDataType)
-            {
                 return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.CustomDataType + "Viewer",
                     model);
-            }
 
             return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Viewer", model);
         }
@@ -62,24 +54,16 @@ namespace Ixq.UI
             object entityDto)
         {
             if (helper == null)
-            {
                 throw new ArgumentNullException(nameof(helper));
-            }
             if (propertyMetadata == null)
-            {
                 throw new ArgumentNullException(nameof(propertyMetadata));
-            }
             if (entityDto == null)
-            {
                 throw new ArgumentNullException(nameof(entityDto));
-            }
 
             var model = new PropertyEditModel(propertyMetadata, entityDto);
             if (propertyMetadata.DataType == DataType.CustomDataType)
-            {
                 return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.CustomDataType + "Editor",
                     model);
-            }
 
             return helper.Partial(propertyMetadata.PartialViewPath + propertyMetadata.DataType + "Editor", model);
         }
@@ -96,9 +80,7 @@ namespace Ixq.UI
         {
             modelName = helper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(modelName);
             if (!helper.ViewData.ModelState.ContainsKey(modelName))
-            {
                 return null;
-            }
 
             var modelState = helper.ViewData.ModelState[modelName];
             var modelErrors = modelState == null ? null : modelState.Errors;
@@ -106,9 +88,7 @@ namespace Ixq.UI
                 ? null
                 : modelErrors.FirstOrDefault(m => !string.IsNullOrEmpty(m.ErrorMessage)) ?? modelErrors[0];
             if (modelError == null)
-            {
                 return null;
-            }
 
             var builder = new TagBuilder("label");
             builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
@@ -157,13 +137,9 @@ namespace Ixq.UI
         {
             var htmlTemplate = new HtmlTemplate(template);
             if (helper.ViewContext.HttpContext.Items[type] != null)
-            {
                 ((List<HtmlTemplate>) helper.ViewContext.HttpContext.Items[type]).Add(htmlTemplate);
-            }
             else
-            {
                 helper.ViewContext.HttpContext.Items[type] = new List<HtmlTemplate> {htmlTemplate};
-            }
             return MvcHtmlString.Empty;
         }
 
@@ -179,12 +155,8 @@ namespace Ixq.UI
                 var resources = (List<HtmlTemplate>) helper.ViewContext.HttpContext.Items[type];
 
                 foreach (var resource in resources)
-                {
                     if (resource != null)
-                    {
                         helper.ViewContext.Writer.Write(resource.Template(null));
-                    }
-                }
             }
 
             return MvcHtmlString.Empty;
@@ -200,13 +172,9 @@ namespace Ixq.UI
         {
             var htmlTemplate = new ScriptTemplate(template);
             if (helper.ViewContext.HttpContext.Items["_scripts_"] != null)
-            {
                 ((List<ScriptTemplate>) helper.ViewContext.HttpContext.Items["_scripts_"]).Add(htmlTemplate);
-            }
             else
-            {
                 helper.ViewContext.HttpContext.Items["_scripts_"] = new List<ScriptTemplate> {htmlTemplate};
-            }
             return MvcHtmlString.Empty;
         }
 
@@ -220,13 +188,9 @@ namespace Ixq.UI
         {
             var htmlTemplate = new StyleTemplate(template);
             if (helper.ViewContext.HttpContext.Items["_styles_"] != null)
-            {
                 ((List<StyleTemplate>) helper.ViewContext.HttpContext.Items["_styles_"]).Add(htmlTemplate);
-            }
             else
-            {
                 helper.ViewContext.HttpContext.Items["_styles_"] = new List<StyleTemplate> {htmlTemplate};
-            }
             return MvcHtmlString.Empty;
         }
 
@@ -242,13 +206,11 @@ namespace Ixq.UI
             {
                 var resources = (List<ScriptTemplate>) helper.ViewContext.HttpContext.Items["_scripts_"];
                 foreach (var resource in resources)
-                {
                     if (!scripts.Any(x => x.Equals(resource)))
                     {
                         helper.ViewContext.Writer.Write(resource.Template(null));
                         scripts.Add(resource);
                     }
-                }
             }
             return MvcHtmlString.Empty;
         }
@@ -265,13 +227,11 @@ namespace Ixq.UI
             {
                 var resources = (List<StyleTemplate>) helper.ViewContext.HttpContext.Items["_styles_"];
                 foreach (var resource in resources)
-                {
                     if (!styles.Any(x => x.Equals(resource)))
                     {
                         helper.ViewContext.Writer.Write(resource.Template(null));
                         styles.Add(resource);
                     }
-                }
             }
             return MvcHtmlString.Empty;
         }
@@ -280,13 +240,9 @@ namespace Ixq.UI
             ModelState modelState)
         {
             if (!string.IsNullOrEmpty(error.ErrorMessage))
-            {
                 return error.ErrorMessage;
-            }
             if (modelState == null)
-            {
                 return null;
-            }
 
             var attemptedValue = modelState.Value != null ? modelState.Value.AttemptedValue : null;
             return string.Format(CultureInfo.CurrentCulture, GetInvalidPropertyValueResource(httpContext),
@@ -297,10 +253,8 @@ namespace Ixq.UI
         {
             string resourceValue = null;
             if (!string.IsNullOrEmpty(ValidationExtensions.ResourceClassKey) && httpContext != null)
-            {
                 resourceValue = httpContext.GetGlobalResourceObject(ValidationExtensions.ResourceClassKey,
                     "InvalidPropertyValue", CultureInfo.CurrentUICulture) as string;
-            }
             return resourceValue ?? "The value '{0}' is invalid.";
         }
     }

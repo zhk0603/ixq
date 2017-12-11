@@ -163,9 +163,7 @@ namespace Ixq.Data.Repository
             finally
             {
                 if (isReturn)
-                {
                     Configuration.ValidateOnSaveEnabled = !validateOnSaveEnabled;
-                }
             }
         }
 
@@ -222,9 +220,7 @@ namespace Ixq.Data.Repository
             finally
             {
                 if (isReturn)
-                {
                     Configuration.ValidateOnSaveEnabled = !validateOnSaveEnabled;
-                }
             }
         }
 
@@ -236,7 +232,6 @@ namespace Ixq.Data.Repository
             var entries = ChangeTracker.Entries().ToList();
 
             foreach (var entry in entries)
-            {
                 switch (entry.State)
                 {
                     case EntityState.Added:
@@ -253,7 +248,6 @@ namespace Ixq.Data.Repository
 
                         break;
                 }
-            }
         }
 
 
@@ -264,14 +258,10 @@ namespace Ixq.Data.Repository
         protected virtual void AutofillGuid(DbEntityEntry entry)
         {
             if (!(entry.Entity is IEntity<Guid>))
-            {
                 return;
-            }
             var entityEntry = entry.Cast<IEntity<Guid>>();
             if (entityEntry.Entity.Id == Guid.Empty)
-            {
                 entityEntry.Entity.Id = Guid.NewGuid();
-            }
         }
 
         /// <summary>
@@ -281,9 +271,7 @@ namespace Ixq.Data.Repository
         protected virtual void ApplyISoftDeleteSpecification(DbEntityEntry entry)
         {
             if (!(entry.Entity is ISoftDeleteSpecification))
-            {
                 return;
-            }
             var softDeleteEntry = entry.Cast<ISoftDeleteSpecification>();
             softDeleteEntry.State = EntityState.Modified;
             softDeleteEntry.Entity.DeleteDate = DateTime.Now;
@@ -298,9 +286,7 @@ namespace Ixq.Data.Repository
         protected virtual void ApplyIUpdataSpecification(DbEntityEntry entry)
         {
             if (!(entry.Entity is IUpdataSpecification))
-            {
                 return;
-            }
             var upDataEntry = entry.Cast<IUpdataSpecification>();
             upDataEntry.Entity.UpdataDate = DateTime.Now;
             upDataEntry.Entity.OnUpdataComplete();
@@ -313,9 +299,7 @@ namespace Ixq.Data.Repository
         protected virtual void ApplyICreateSpecification(DbEntityEntry entry)
         {
             if (!(entry.Entity is ICreateSpecification))
-            {
                 return;
-            }
             var createEntry = entry.Cast<ICreateSpecification>();
             createEntry.Entity.CreateDate = DateTime.Now;
             createEntry.Entity.OnCreateComplete();

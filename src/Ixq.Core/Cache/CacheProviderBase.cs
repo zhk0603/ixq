@@ -56,9 +56,7 @@ namespace Ixq.Core.Cache
         {
             ICache cache;
             if (!Caches.TryRemove(regionName, out cache))
-            {
                 return;
-            }
             cache = null;
         }
 

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
 using System.Web.Mvc;
 using Ixq.Core;
 using Ixq.Core.DataAnnotations;
@@ -31,9 +30,7 @@ namespace Ixq.Web.Mvc
         public EntityMetadata(Type dtoType)
         {
             if (dtoType == null)
-            {
                 throw new ArgumentNullException(nameof(dtoType));
-            }
 
             DtoType = dtoType;
         }
@@ -46,7 +43,9 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnView && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
+                    PropertyMetadatas
+                        .Where(x => !x.IsHiddenOnView && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
+                        .ToArray();
             }
         }
 
@@ -58,7 +57,8 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnCreate && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
+                    PropertyMetadatas.Where(x =>
+                            !x.IsHiddenOnCreate && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
                         .ToArray();
             }
         }
@@ -71,7 +71,9 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
+                    PropertyMetadatas
+                        .Where(x => !x.IsHiddenOnEdit && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
+                        .ToArray();
             }
         }
 
@@ -83,7 +85,8 @@ namespace Ixq.Web.Mvc
             get
             {
                 return
-                    PropertyMetadatas.Where(x => !x.IsHiddenOnDetail && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
+                    PropertyMetadatas.Where(x =>
+                            !x.IsHiddenOnDetail && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal))
                         .ToArray();
             }
         }
@@ -95,7 +98,8 @@ namespace Ixq.Web.Mvc
         {
             get
             {
-                return PropertyMetadatas.Where(x => x.IsSearcher && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
+                return PropertyMetadatas
+                    .Where(x => x.IsSearcher && x.IsAuthorization(CurrentUser.Current.ClaimsPrincipal)).ToArray();
             }
         }
 
@@ -112,15 +116,11 @@ namespace Ixq.Web.Mvc
             get
             {
                 if (_propertyMetadatas == null)
-                {
                     lock (LockObj)
                     {
                         if (_propertyMetadatas == null)
-                        {
                             _propertyMetadatas = GetPropertyMetadatas();
-                        }
                     }
-                }
                 return _propertyMetadatas;
             }
         }
@@ -141,9 +141,7 @@ namespace Ixq.Web.Mvc
             foreach (var property in EntityPropertyInfos)
             {
                 if (!property.HasAttribute<DisplayAttribute>())
-                {
                     continue;
-                }
                 var runtimeProperty = GetEntityPropertyMetadata(property);
                 propertyMetadatas.Add(runtimeProperty);
             }
@@ -160,9 +158,7 @@ namespace Ixq.Web.Mvc
             IEntityPropertyMetadata metadata)
         {
             foreach (var attribute in attributes.OfType<IPropertyMetadataAware>())
-            {
                 attribute.OnPropertyMetadataCreating(metadata);
-            }
         }
 
         /// <summary>
@@ -213,14 +209,10 @@ namespace Ixq.Web.Mvc
             {
                 var displayNameAttribute = attributes.OfType<DisplayNameAttribute>().FirstOrDefault();
                 if (displayNameAttribute != null)
-                {
                     result.Name = displayNameAttribute.DisplayName;
-                }
             }
             if (string.IsNullOrEmpty(result.Name))
-            {
                 result.Name = property.Name;
-            }
 
             return result;
         }

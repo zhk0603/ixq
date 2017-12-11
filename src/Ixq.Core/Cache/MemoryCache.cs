@@ -63,9 +63,7 @@ namespace Ixq.Core.Cache
         {
             var value = _cache.Get(key);
             if (value == null)
-            {
                 return default(T);
-            }
             return (T) value;
         }
 
@@ -208,9 +206,7 @@ namespace Ixq.Core.Cache
         {
             var cacheKeys = _cache.Select(m => m.Key).ToList();
             foreach (var cacheKey in cacheKeys)
-            {
                 _cache.Remove(cacheKey);
-            }
         }
 
         /// <summary>

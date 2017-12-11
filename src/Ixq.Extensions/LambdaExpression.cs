@@ -14,9 +14,7 @@ namespace Ixq.Extensions
             var type = typeof(T);
             var key = type.FullName + "." + keyName;
             if (cache.ContainsKey(key))
-            {
                 return cache[key];
-            }
             var param = Expression.Parameter(type);
             var propertyNames = keyName.Split('.');
             Expression propertyAccess = param;
@@ -24,9 +22,7 @@ namespace Ixq.Extensions
             {
                 var property = type.GetProperty(propertyName);
                 if (property == null)
-                {
                     throw new Exception($"指定对象中不存在名称为“{propertyName}”的属性。");
-                }
                 type = property.PropertyType;
                 propertyAccess = Expression.MakeMemberAccess(propertyAccess, property);
             }

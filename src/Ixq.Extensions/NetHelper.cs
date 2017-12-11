@@ -12,13 +12,9 @@ namespace Ixq.Extensions
             {
                 var result = string.Empty;
                 if (HttpContext.Current != null)
-                {
                     result = GetWebClientIp();
-                }
                 if (string.IsNullOrEmpty(result))
-                {
                     result = GetLanIp();
-                }
                 return result;
             }
         }
@@ -27,12 +23,8 @@ namespace Ixq.Extensions
         {
             var ip = GetWebRemoteIp();
             foreach (var hostAddress in Dns.GetHostAddresses(ip))
-            {
                 if (hostAddress.AddressFamily == AddressFamily.InterNetwork)
-                {
                     return hostAddress.ToString();
-                }
-            }
             return string.Empty;
         }
 
@@ -45,12 +37,8 @@ namespace Ixq.Extensions
         private static string GetLanIp()
         {
             foreach (var hostAddress in Dns.GetHostAddresses(Dns.GetHostName()))
-            {
                 if (hostAddress.AddressFamily == AddressFamily.InterNetwork)
-                {
                     return hostAddress.ToString();
-                }
-            }
             return string.Empty;
         }
     }

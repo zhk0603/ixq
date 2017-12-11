@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Redis
 {
@@ -13,6 +9,7 @@ namespace Ixq.Redis
         {
             InsertTime = DateTime.Now;
         }
+
         public string Key { get; set; }
         public object Value { get; set; }
         public DateTime InsertTime { get; set; }

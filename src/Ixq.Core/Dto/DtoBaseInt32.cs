@@ -46,9 +46,7 @@ namespace Ixq.Core.Dto
         public virtual TEntity MapTo()
         {
             if (Mapper == null)
-            {
                 throw new ArgumentNullException(nameof(Mapper), "尚未初始化Mapper组件。");
-            }
             return Mapper.MapTo<TEntity>(this);
         }
     }

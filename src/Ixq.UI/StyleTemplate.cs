@@ -24,13 +24,9 @@ namespace Ixq.UI
         public override bool Equals(object obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
             if (!(obj is StyleTemplate))
-            {
                 return false;
-            }
 
 
             var pattern = @"<link.*?href=""(.*?)""";
@@ -42,9 +38,7 @@ namespace Ixq.UI
             var match2 = Regex.Match(value2, pattern);
 
             if (!match1.Success || !match2.Success)
-            {
                 return false;
-            }
 
             return match1.Groups[1].Value == match2.Groups[1].Value;
         }
@@ -65,14 +59,10 @@ namespace Ixq.UI
         public static bool operator ==(StyleTemplate a, StyleTemplate b)
         {
             if (ReferenceEquals(a, b))
-            {
                 return true;
-            }
 
             if ((object) a == null || (object) b == null)
-            {
                 return false;
-            }
 
             return a.Equals(b);
         }

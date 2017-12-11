@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Provider;
 
@@ -33,8 +28,7 @@ namespace Ixq.Security.Cookies
             User = user;
         }
 
-        public string AuthenticationType { get; private set; }
+        public string AuthenticationType { get; }
         public TUser User { get; set; }
-
     }
 }

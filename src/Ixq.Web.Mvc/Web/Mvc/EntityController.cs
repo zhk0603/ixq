@@ -38,9 +38,7 @@ namespace Ixq.Web.Mvc
         protected EntityController(IRepositoryBase<TEntity, TKey> repository)
         {
             if (repository == null)
-            {
                 throw new ArgumentNullException(nameof(repository));
-            }
 
             PageSizeList = new[] {15, 30, 60, 120};
             PageConfig = typeof(TDto).GetAttribute<PageAttribute>() ??
@@ -90,13 +88,9 @@ namespace Ixq.Web.Mvc
             int pageSize = 30, int pageCurrent = 1)
         {
             if (pageCurrent < 1)
-            {
                 pageCurrent = 1;
-            }
             if (pageSize < 1)
-            {
                 pageSize = PageSizeList[0];
-            }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)
@@ -132,13 +126,9 @@ namespace Ixq.Web.Mvc
             int pageSize = 30, int pageCurrent = 1)
         {
             if (pageCurrent < 1)
-            {
                 pageCurrent = 1;
-            }
             if (pageSize < 1)
-            {
                 pageSize = PageSizeList[0];
-            }
 
             orderField = string.IsNullOrWhiteSpace(orderField) ? PageConfig.DefaultSortname ?? "Id" : orderField;
             orderDirection = string.IsNullOrWhiteSpace(orderDirection)

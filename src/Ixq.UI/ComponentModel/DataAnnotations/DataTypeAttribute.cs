@@ -21,9 +21,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
             get
             {
                 if (!string.IsNullOrWhiteSpace(CustomDataType))
-                {
                     return DataType.CustomDataType;
-                }
                 return _dataType;
             }
             set => _dataType = value;
@@ -46,9 +44,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
-            {
                 throw new ArgumentNullException(nameof(runtimeProperty));
-            }
             runtimeProperty.DataType = DataType;
             runtimeProperty.CustomDataType = CustomDataType;
             runtimeProperty.PartialViewPath = PartialViewPath;

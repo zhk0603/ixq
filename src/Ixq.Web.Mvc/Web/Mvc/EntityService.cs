@@ -9,6 +9,7 @@ using Ixq.Core.Entity;
 using Ixq.Core.Mapper;
 using Ixq.Core.Repository;
 using Ixq.Data.Repository.Extensions;
+using Ixq.Extensions;
 using Ixq.UI.ComponentModel;
 using Ixq.UI.Controls;
 
@@ -35,17 +36,11 @@ namespace Ixq.Web.Mvc
             IEntityControllerDescriptor entityControllerData)
         {
             if (entityControllerData == null)
-            {
                 throw new ArgumentNullException(nameof(entityControllerData));
-            }
             if (requestContxt == null)
-            {
                 throw new ArgumentNullException(nameof(requestContxt));
-            }
             if (repository == null)
-            {
                 throw new ArgumentNullException(nameof(repository));
-            }
 
             Repository = repository;
             EntityControllerDescriptor = entityControllerData;
@@ -166,9 +161,7 @@ namespace Ixq.Web.Mvc
         {
             var entity = await Repository.SingleByIdAsync(ParseEntityKey(id));
             if (entity == null)
-            {
                 throw new HttpException(404, null);
-            }
 
             var detailModel = new PageEditViewModel<TDto, TKey>(entity.MapToDto<TDto, TKey>(),
                 EntityControllerDescriptor.EntityMetadata.DetailPropertyMetadatas)
@@ -217,18 +210,12 @@ namespace Ixq.Web.Mvc
 
             var editPropertyMetadata = EntityControllerDescriptor.EntityMetadata.EditPropertyMetadatas;
             foreach (var metadata in editPropertyMetadata)
-            {
                 await UpdateProperty(targetEntity, sourceEntity, metadata);
-            }
 
             if (addAction)
-            {
                 await Repository.AddAsync(sourceEntity);
-            }
             else
-            {
                 await Repository.EditAsync(targetEntity);
-            }
             return true;
         }
 
@@ -254,7 +241,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         protected virtual object ParseEntityKey(string value)
         {
-            return Ixq.Extensions.TypeExtensions.ChangeType(value, typeof(TKey));
+            return TypeExtensions.ChangeType(value, typeof(TKey));
         }
     }
 }

@@ -49,13 +49,9 @@ namespace Ixq.Core.Cache
         public static ICache GetCache(string region)
         {
             if (_cacheProvider == null)
-            {
                 throw new ArgumentNullException(nameof(_cacheProvider));
-            }
             if (string.IsNullOrEmpty(region))
-            {
                 throw new ArgumentNullException(nameof(region));
-            }
 
             return _cacheProvider.GetCache(region);
         }
@@ -68,9 +64,7 @@ namespace Ixq.Core.Cache
         public static ICache GetCache<T>()
         {
             if (_cacheProvider == null)
-            {
                 throw new ArgumentNullException(nameof(_cacheProvider));
-            }
             return GetCache(typeof(T).FullName);
         }
 
@@ -81,9 +75,7 @@ namespace Ixq.Core.Cache
         public static ICache GetGlobalCache()
         {
             if (_cacheProvider == null)
-            {
                 throw new ArgumentNullException(nameof(_cacheProvider));
-            }
             return _cacheProvider.GetGlobalCache();
         }
     }

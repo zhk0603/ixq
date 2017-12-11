@@ -25,9 +25,7 @@ namespace Ixq.Data.DataAnnotations
         public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
-            {
                 throw new ArgumentNullException(nameof(runtimeProperty));
-            }
 
             runtimeProperty.Step = Step;
             runtimeProperty.Max = Max;

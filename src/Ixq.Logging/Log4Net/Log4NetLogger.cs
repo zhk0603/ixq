@@ -255,41 +255,29 @@ namespace Ixq.Logging.Log4Net
         protected virtual void Write(string message, Exception exception, LogLevel logLevel)
         {
             if (_logger == null)
-            {
                 throw new ArgumentException("Logger");
-            }
 
             switch (logLevel)
             {
                 case LogLevel.Debug:
                     if (IsDebugEnabled)
-                    {
                         _logger.Log(DeclaringType, Level.Debug, message, exception);
-                    }
                     break;
                 case LogLevel.Error:
                     if (IsErrorEnabled)
-                    {
                         _logger.Log(DeclaringType, Level.Error, message, exception);
-                    }
                     break;
                 case LogLevel.Fatal:
                     if (IsFatalEnabled)
-                    {
                         _logger.Log(DeclaringType, Level.Fatal, message, exception);
-                    }
                     break;
                 case LogLevel.Info:
                     if (IsInfoEnabled)
-                    {
                         _logger.Log(DeclaringType, Level.Info, message, exception);
-                    }
                     break;
                 case LogLevel.Warn:
                     if (IsWarnEnabled)
-                    {
                         _logger.Log(DeclaringType, Level.Warn, message, exception);
-                    }
                     break;
             }
         }

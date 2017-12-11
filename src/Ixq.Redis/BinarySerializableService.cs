@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Redis
 {
@@ -26,9 +21,7 @@ namespace Ixq.Redis
         public byte[] Serialize(object obj)
         {
             if (obj == null)
-            {
                 return null;
-            }
             var binaryFormatter = new BinaryFormatter();
             using (var memoryStream = new MemoryStream())
             {

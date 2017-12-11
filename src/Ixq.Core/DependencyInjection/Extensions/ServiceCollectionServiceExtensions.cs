@@ -28,19 +28,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationType == null)
-            {
                 throw new ArgumentNullException(nameof(implementationType));
-            }
 
             return Add(services, serviceType, implementationType, ServiceLifetime.Transient, alias);
         }
@@ -63,19 +57,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return Add(services, serviceType, implementationFactory, ServiceLifetime.Transient, alias);
         }
@@ -97,9 +85,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TImplementation : class, TService
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             return services.AddTransient(typeof(TService), typeof(TImplementation), alias);
         }
@@ -119,14 +105,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             return services.AddTransient(serviceType, serviceType, alias);
         }
@@ -144,9 +126,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             return services.AddTransient(typeof(TService), alias);
         }
@@ -169,14 +149,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return services.AddTransient(typeof(TService), implementationFactory, alias);
         }
@@ -202,14 +178,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TImplementation : class, TService
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return services.AddTransient(typeof(TService), implementationFactory, alias);
         }
@@ -232,19 +204,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationType == null)
-            {
                 throw new ArgumentNullException(nameof(implementationType));
-            }
 
             return Add(services, serviceType, implementationType, ServiceLifetime.Scoped, alias);
         }
@@ -267,19 +233,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return Add(services, serviceType, implementationFactory, ServiceLifetime.Scoped, alias);
         }
@@ -301,9 +261,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TImplementation : class, TService
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             return services.AddScoped(typeof(TService), typeof(TImplementation), alias);
         }
@@ -323,14 +281,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             return services.AddScoped(serviceType, serviceType, alias);
         }
@@ -348,9 +302,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             return services.AddScoped(typeof(TService), alias);
         }
@@ -373,14 +325,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return services.AddScoped(typeof(TService), implementationFactory, alias);
         }
@@ -406,14 +354,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TImplementation : class, TService
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return services.AddScoped(typeof(TService), implementationFactory, alias);
         }
@@ -437,19 +381,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationType == null)
-            {
                 throw new ArgumentNullException(nameof(implementationType));
-            }
 
             return Add(services, serviceType, implementationType, ServiceLifetime.Singleton, alias);
         }
@@ -472,19 +410,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return Add(services, serviceType, implementationFactory, ServiceLifetime.Singleton, alias);
         }
@@ -506,9 +438,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TImplementation : class, TService
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             return services.AddSingleton(typeof(TService), typeof(TImplementation), alias);
         }
@@ -528,14 +458,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             return services.AddSingleton(serviceType, serviceType, alias);
         }
@@ -553,9 +479,7 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             return services.AddSingleton(typeof(TService), alias);
         }
@@ -578,14 +502,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return services.AddSingleton(typeof(TService), implementationFactory, alias);
         }
@@ -611,14 +531,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TImplementation : class, TService
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             return services.AddSingleton(typeof(TService), implementationFactory, alias);
         }
@@ -641,19 +557,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (serviceType == null)
-            {
                 throw new ArgumentNullException(nameof(serviceType));
-            }
 
             if (implementationInstance == null)
-            {
                 throw new ArgumentNullException(nameof(implementationInstance));
-            }
 
             var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance, alias);
             services.Add(serviceDescriptor);
@@ -677,14 +587,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (implementationInstance == null)
-            {
                 throw new ArgumentNullException(nameof(implementationInstance));
-            }
 
             return services.AddSingleton(typeof(TService), implementationInstance, alias);
         }

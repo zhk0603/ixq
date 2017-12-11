@@ -63,9 +63,7 @@ namespace Ixq.Extensions
         public Assembly[] FindAll()
         {
             if (AssembliesesDict.ContainsKey(_path))
-            {
                 return AssembliesesDict[_path];
-            }
             var files = Directory.GetFiles(_path, "*.dll", SearchOption.TopDirectoryOnly)
                 .Concat(Directory.GetFiles(_path, "*.exe", SearchOption.TopDirectoryOnly))
                 .ToArray();

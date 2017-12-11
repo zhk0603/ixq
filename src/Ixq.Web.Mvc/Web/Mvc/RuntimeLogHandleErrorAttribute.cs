@@ -19,26 +19,16 @@ namespace Ixq.Web.Mvc
         public override void OnException(ExceptionContext filterContext)
         {
             if (filterContext == null)
-            {
                 throw new ArgumentNullException(nameof(filterContext));
-            }
             if (filterContext.IsChildAction)
-            {
                 return;
-            }
             if (filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled)
-            {
                 return;
-            }
             var exception = filterContext.Exception;
             if (new HttpException(null, exception).GetHttpCode() != 500)
-            {
                 return;
-            }
             if (!ExceptionType.IsInstanceOfType(exception))
-            {
                 return;
-            }
 
             if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {

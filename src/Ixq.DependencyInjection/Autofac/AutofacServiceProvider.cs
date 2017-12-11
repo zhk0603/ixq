@@ -16,18 +16,14 @@ namespace Ixq.DependencyInjection.Autofac
         public object GetService(Type serviceType)
         {
             if (!_componentContext.IsRegistered(serviceType))
-            {
                 return null;
-            }
             return _componentContext.Resolve(serviceType);
         }
 
         public object GetService(Type serviceType, string alias)
         {
-            if (!_componentContext.IsRegisteredWithName(alias,serviceType))
-            {
+            if (!_componentContext.IsRegisteredWithName(alias, serviceType))
                 return null;
-            }
             return _componentContext.ResolveNamed(alias, serviceType);
         }
     }

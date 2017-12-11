@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ixq.Core.Security
 {
@@ -17,7 +13,7 @@ namespace Ixq.Core.Security
         public AppPrincipal(IIdentity identity)
         {
             var appIdentity = new AppIdentity(identity);
-            this.AddIdentity(appIdentity);
+            AddIdentity(appIdentity);
         }
 
         public new AppIdentity Identity

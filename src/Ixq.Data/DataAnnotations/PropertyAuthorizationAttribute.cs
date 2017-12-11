@@ -15,9 +15,7 @@ namespace Ixq.Data.DataAnnotations
         public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
-            {
                 throw new ArgumentNullException(nameof(runtimeProperty));
-            }
 
             runtimeProperty.Roles = Roles;
             runtimeProperty.Users = Users;
@@ -26,18 +24,12 @@ namespace Ixq.Data.DataAnnotations
         public virtual bool IsAuthorization(IPrincipal user)
         {
             if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
-            {
                 return false;
-            }
 
             if (Users != null && Users.Any() && !Users.Contains(user.Identity.Name))
-            {
                 return false;
-            }
             if (Roles != null && !Roles.Any(user.IsInRole))
-            {
                 return false;
-            }
             return true;
         }
     }

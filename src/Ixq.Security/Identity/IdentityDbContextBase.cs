@@ -1,10 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Data.SqlClient;
@@ -22,7 +20,8 @@ namespace Ixq.Security.Identity
     ///     基于使用AspNet.Identity的上下文基类。
     /// </summary>
     /// <typeparam name="TUser"></typeparam>
-    public abstract class IdentityDbContextBase<TUser> : IdentityDbContext<TUser,AppIdentityRole,long,AppIdentityUserLogin,AppIdentityUserRole,AppIdentityUserClaim>, IUnitOfWork
+    public abstract class IdentityDbContextBase<TUser> : IdentityDbContext<TUser, AppIdentityRole, long,
+        AppIdentityUserLogin, AppIdentityUserRole, AppIdentityUserClaim>, IUnitOfWork
         where TUser : AppIdentityUser
     {
         protected IdentityDbContextBase()

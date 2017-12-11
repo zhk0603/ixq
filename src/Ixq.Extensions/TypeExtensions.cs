@@ -33,9 +33,7 @@ namespace Ixq.Extensions
         public static Type GetNonNummableType(this Type type)
         {
             if (IsNullableType(type))
-            {
                 return type.GetGenericArguments()[0];
-            }
             return type;
         }
 
@@ -76,19 +74,13 @@ namespace Ixq.Extensions
         {
             var desc = member.GetAttribute<DescriptionAttribute>(inherit);
             if (desc != null)
-            {
                 return desc.Description;
-            }
             var displayName = member.GetAttribute<DisplayNameAttribute>(inherit);
             if (displayName != null)
-            {
                 return displayName.DisplayName;
-            }
             var display = member.GetAttribute<DisplayAttribute>(inherit);
             if (display != null)
-            {
                 return display.Name;
-            }
             return member.Name;
         }
 
@@ -154,9 +146,7 @@ namespace Ixq.Extensions
         public static bool IsEnumerable(this Type type)
         {
             if (type == typeof(string))
-            {
                 return false;
-            }
             return typeof(IEnumerable).IsAssignableFrom(type);
         }
 
@@ -169,15 +159,11 @@ namespace Ixq.Extensions
         public static bool IsGenericAssignableFrom(this Type genericType, Type type)
         {
             if (!genericType.IsGenericType)
-            {
                 throw new ArgumentException("该功能只支持泛型类型的调用，非泛型类型可使用 IsAssignableFrom 方法。");
-            }
 
             var allOthers = new List<Type> {type};
             if (genericType.IsInterface)
-            {
                 allOthers.AddRange(type.GetInterfaces());
-            }
 
             foreach (var other in allOthers)
             {
@@ -185,13 +171,9 @@ namespace Ixq.Extensions
                 while (cur != null)
                 {
                     if (cur.IsGenericType)
-                    {
                         cur = cur.GetGenericTypeDefinition();
-                    }
                     if (cur.IsSubclassOf(genericType) || cur == genericType)
-                    {
                         return true;
-                    }
                     cur = cur.BaseType;
                 }
             }
@@ -216,9 +198,7 @@ namespace Ixq.Extensions
         public static bool IsBaseOn(this Type type, Type baseType)
         {
             if (type.IsGenericTypeDefinition)
-            {
                 return baseType.IsGenericAssignableFrom(type);
-            }
             return baseType.IsAssignableFrom(type);
         }
 
@@ -242,9 +222,7 @@ namespace Ixq.Extensions
         public static List<EnumItem> GetEnumItems(this Type type)
         {
             if (!type.IsEnum)
-            {
                 throw new ArgumentException($"类型:{type.FullName}不是有效的枚举类型。");
-            }
 
             var result = new List<EnumItem>();
             foreach (var item in Enum.GetValues(type))
@@ -268,9 +246,7 @@ namespace Ixq.Extensions
             // Note: This if block was taken from Convert.ChangeType as is, and is needed here since we're
             // checking properties on conversionType below.
             if (conversionType == null)
-            {
                 throw new ArgumentNullException(nameof(conversionType));
-            } // end if
 
             // If it's not a nullable type, just pass through the parameters to Convert.ChangeType
 
@@ -286,9 +262,7 @@ namespace Ixq.Extensions
                 // would diverge from Convert.ChangeType's behavior, which throws an InvalidCastException if
                 // value is null and conversionType is a value type.
                 if (value == null)
-                {
                     return null;
-                } // end if
 
                 // It's a nullable type, and not null, so that means it can be converted to its underlying type,
                 // so overwrite the passed-in conversion type with this underlying type
@@ -305,23 +279,15 @@ namespace Ixq.Extensions
         public static object ChangeType(object value, Type type)
         {
             if (value == null && type.IsGenericType)
-            {
                 return Activator.CreateInstance(type);
-            }
             if (value == null)
-            {
                 return null;
-            }
             if (type == value.GetType())
-            {
                 return value;
-            }
             if (type.IsEnum)
             {
                 if (value is string)
-                {
                     return Enum.Parse(type, value as string);
-                }
                 return Enum.ToObject(type, value);
             }
             if (!type.IsInterface && type.IsGenericType)
@@ -331,17 +297,11 @@ namespace Ixq.Extensions
                 return Activator.CreateInstance(type, innerValue);
             }
             if (value is string s && type == typeof(Guid))
-            {
                 return new Guid(s);
-            }
             if (value is string s1 && type == typeof(Version))
-            {
                 return new Version(s1);
-            }
             if (!(value is IConvertible))
-            {
                 return value;
-            }
             return Convert.ChangeType(value, type);
         }
     }

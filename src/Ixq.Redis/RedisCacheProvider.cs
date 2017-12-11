@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
 using Ixq.Core.Cache;
 using StackExchange.Redis;
 
@@ -50,6 +48,11 @@ namespace Ixq.Redis
         public static ConnectionMultiplexer ConnectionMultiplexerInstance => ConnectionMultiplexer.Value;
 
         /// <summary>
+        ///     获取序列化服务。
+        /// </summary>
+        public virtual ISerializableService SerializableService { get; }
+
+        /// <summary>
         ///     获取 <see cref="ConnectionMultiplexer" /> 实例。
         /// </summary>
         /// <returns></returns>
@@ -57,16 +60,9 @@ namespace Ixq.Redis
         {
             var connStr = _options?.ToString() ?? _connStr;
             if (string.IsNullOrWhiteSpace(connStr))
-            {
                 throw new ArgumentNullException(nameof(connStr));
-            }
             return StackExchange.Redis.ConnectionMultiplexer.Connect(connStr);
         }
-
-        /// <summary>
-        ///     获取序列化服务。
-        /// </summary>
-        public virtual ISerializableService SerializableService { get; private set; }
 
         /// <summary>
         ///     获取 <see cref="ICache" />
@@ -77,9 +73,7 @@ namespace Ixq.Redis
         {
             ICache cache;
             if (Caches.TryGetValue(regionName, out cache))
-            {
                 return cache;
-            }
             cache = new RedisCache(ConnectionMultiplexerInstance.GetDatabase(), regionName, SerializableService);
             Caches[regionName] = cache;
             return cache;

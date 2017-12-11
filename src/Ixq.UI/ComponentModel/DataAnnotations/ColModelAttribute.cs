@@ -63,9 +63,7 @@ namespace Ixq.UI.ComponentModel.DataAnnotations
         public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
-            {
                 throw new ArgumentNullException(nameof(runtimeProperty));
-            }
             runtimeProperty.Width = Width;
             runtimeProperty.Align = Align;
             runtimeProperty.FormatterScript = FormatterScript;

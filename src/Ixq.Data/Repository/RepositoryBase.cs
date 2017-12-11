@@ -26,8 +26,8 @@ namespace Ixq.Data.Repository
     public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IScopeDependency
         where TEntity : class, IEntity<TKey>, new()
     {
-        private readonly DbSet<TEntity> _table;
         private readonly DbContext _dbContext;
+        private readonly DbSet<TEntity> _table;
 
         /// <summary>
         ///     初始化一个<see cref="RepositoryBase{TEntity, TKey}" />实例。
@@ -146,9 +146,7 @@ namespace Ixq.Data.Repository
         {
             var res = GetAll();
             foreach (var includePropertie in includeProperties)
-            {
                 res = res.Include(includePropertie);
-            }
             return res;
         }
 
@@ -303,9 +301,7 @@ namespace Ixq.Data.Repository
             {
                 var entity = SingleById(index);
                 if (entity != null)
-                {
                     _table.Remove(entity);
-                }
             }
             return Save();
         }
@@ -527,9 +523,7 @@ namespace Ixq.Data.Repository
             var sql = "select * from " + tableName + " where [Id] = @index";
             var dbSqlQuery = _table.SqlQuery(sql, new SqlParameter("@index", index));
             if (trackEnabled)
-            {
                 dbSqlQuery = dbSqlQuery.AsNoTracking();
-            }
             return dbSqlQuery.FirstOrDefault();
         }
 
@@ -623,9 +617,7 @@ namespace Ixq.Data.Repository
 
             var dbSqlQuery = table.SqlQuery(sql, new SqlParameter("@index", index));
             if (trackEnabled)
-            {
                 dbSqlQuery = dbSqlQuery.AsNoTracking();
-            }
 
             return dbSqlQuery.FirstOrDefault();
         }
@@ -662,9 +654,7 @@ namespace Ixq.Data.Repository
                 : GetEntityDataBaseTableName<TType>(_dbContext);
 
             if (string.IsNullOrWhiteSpace(tableName))
-            {
                 throw new InvalidOperationException($"无法获取类型：{type.FullName} 的数据库表名称。");
-            }
             return tableName;
         }
 
@@ -677,9 +667,7 @@ namespace Ixq.Data.Repository
         private string GetEntityDataBaseTableName<T>(IObjectContextAdapter contextAdapter)
         {
             if (contextAdapter == null)
-            {
                 throw new ArgumentNullException(nameof(contextAdapter));
-            }
 
             var ojbectContext = contextAdapter.ObjectContext;
             var className = typeof(T).Name;

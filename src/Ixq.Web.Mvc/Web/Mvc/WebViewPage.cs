@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ixq.Core.Security;
+﻿using Ixq.Core.Security;
 
 namespace Ixq.Web.Mvc
 {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using Ixq.Core.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ixq.Security.Identity
@@ -12,7 +8,7 @@ namespace Ixq.Security.Identity
         UserStore<TUser, AppIdentityRole, long, AppIdentityUserLogin, AppIdentityUserRole, AppIdentityUserClaim>,
         IAppUserStore<TUser>
         where TUser : IdentityUser<long, AppIdentityUserLogin, AppIdentityUserRole, AppIdentityUserClaim>,
-        Ixq.Core.Security.IUser<long>
+        IUser<long>
     {
         public AppUserStore(DbContext context) : base(context)
         {

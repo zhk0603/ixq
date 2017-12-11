@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ixq.Redis
+﻿namespace Ixq.Redis
 {
     /// <summary>
     ///     序列化服务。
@@ -17,6 +11,7 @@ namespace Ixq.Redis
         /// <param name="data"></param>
         /// <returns></returns>
         object Deserialize(byte[] data);
+
         /// <summary>
         ///     序列化。
         /// </summary>

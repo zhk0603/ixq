@@ -23,9 +23,7 @@ namespace Ixq.Data.DataAnnotations
         public void OnPropertyMetadataCreating(IEntityPropertyMetadata runtimeProperty)
         {
             if (runtimeProperty == null)
-            {
                 throw new ArgumentNullException(nameof(runtimeProperty));
-            }
             runtimeProperty.IsHiddenOnCreate = IsHiddenOnCreate;
             runtimeProperty.IsHiddenOnDetail = IsHiddenOnDetail;
             runtimeProperty.IsHiddenOnView = IsHiddenOnView;

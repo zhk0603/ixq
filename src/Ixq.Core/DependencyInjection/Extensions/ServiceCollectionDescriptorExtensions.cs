@@ -20,14 +20,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             ServiceDescriptor descriptor)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (descriptor == null)
-            {
                 throw new ArgumentNullException(nameof(descriptor));
-            }
 
             collection.Add(descriptor);
             return collection;
@@ -44,19 +40,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             IEnumerable<ServiceDescriptor> descriptors)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (descriptors == null)
-            {
                 throw new ArgumentNullException(nameof(descriptors));
-            }
 
             foreach (var descriptor in descriptors)
-            {
                 collection.Add(descriptor);
-            }
 
             return collection;
         }
@@ -72,19 +62,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             ServiceDescriptor descriptor)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (descriptor == null)
-            {
                 throw new ArgumentNullException(nameof(descriptor));
-            }
 
             if (collection.All(d => d.ServiceType != descriptor.ServiceType))
-            {
                 collection.Add(descriptor);
-            }
         }
 
         /// <summary>
@@ -98,19 +82,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             IEnumerable<ServiceDescriptor> descriptors)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (descriptors == null)
-            {
                 throw new ArgumentNullException(nameof(descriptors));
-            }
 
             foreach (var d in descriptors)
-            {
                 collection.TryAdd(d);
-            }
         }
 
         public static void TryAddTransient(
@@ -119,14 +97,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             var descriptor = ServiceDescriptor.Transient(service, service, alias);
             TryAdd(collection, descriptor);
@@ -139,19 +113,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             if (implementationType == null)
-            {
                 throw new ArgumentNullException(nameof(implementationType));
-            }
 
             var descriptor = ServiceDescriptor.Transient(service, implementationType, alias);
             TryAdd(collection, descriptor);
@@ -164,19 +132,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             var descriptor = ServiceDescriptor.Transient(service, implementationFactory, alias);
             TryAdd(collection, descriptor);
@@ -186,21 +148,18 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             TryAddTransient(collection, typeof(TService), typeof(TService), alias);
         }
 
-        public static void TryAddTransient<TService, TImplementation>(this IServiceCollection collection, string alias = null)
+        public static void TryAddTransient<TService, TImplementation>(this IServiceCollection collection,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             TryAddTransient(collection, typeof(TService), typeof(TImplementation), alias);
         }
@@ -220,14 +179,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             var descriptor = ServiceDescriptor.Scoped(service, service, alias);
             TryAdd(collection, descriptor);
@@ -240,19 +195,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             if (implementationType == null)
-            {
                 throw new ArgumentNullException(nameof(implementationType));
-            }
 
             var descriptor = ServiceDescriptor.Scoped(service, implementationType, alias);
             TryAdd(collection, descriptor);
@@ -265,19 +214,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             var descriptor = ServiceDescriptor.Scoped(service, implementationFactory, alias);
             TryAdd(collection, descriptor);
@@ -287,21 +230,18 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             TryAddScoped(collection, typeof(TService), typeof(TService), alias);
         }
 
-        public static void TryAddScoped<TService, TImplementation>(this IServiceCollection collection, string alias = null)
+        public static void TryAddScoped<TService, TImplementation>(this IServiceCollection collection,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             TryAddScoped(collection, typeof(TService), typeof(TImplementation), alias);
         }
@@ -321,14 +261,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             var descriptor = ServiceDescriptor.Singleton(service, service, alias);
             TryAdd(collection, descriptor);
@@ -341,19 +277,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             if (implementationType == null)
-            {
                 throw new ArgumentNullException(nameof(implementationType));
-            }
 
             var descriptor = ServiceDescriptor.Singleton(service, implementationType, alias);
             TryAdd(collection, descriptor);
@@ -366,19 +296,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             string alias = null)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (service == null)
-            {
                 throw new ArgumentNullException(nameof(service));
-            }
 
             if (implementationFactory == null)
-            {
                 throw new ArgumentNullException(nameof(implementationFactory));
-            }
 
             var descriptor = ServiceDescriptor.Singleton(service, implementationFactory, alias);
             TryAdd(collection, descriptor);
@@ -388,21 +312,18 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             TryAddSingleton(collection, typeof(TService), typeof(TService), alias);
         }
 
-        public static void TryAddSingleton<TService, TImplementation>(this IServiceCollection collection, string alias = null)
+        public static void TryAddSingleton<TService, TImplementation>(this IServiceCollection collection,
+            string alias = null)
             where TService : class
             where TImplementation : class, TService
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             TryAddSingleton(collection, typeof(TService), typeof(TImplementation), alias);
         }
@@ -412,14 +333,10 @@ namespace Ixq.Core.DependencyInjection.Extensions
             where TService : class
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (instance == null)
-            {
                 throw new ArgumentNullException(nameof(instance));
-            }
 
             var descriptor = ServiceDescriptor.Singleton(typeof(TService), instance, alias);
             TryAdd(collection, descriptor);
@@ -456,31 +373,23 @@ namespace Ixq.Core.DependencyInjection.Extensions
             ServiceDescriptor descriptor)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (descriptor == null)
-            {
                 throw new ArgumentNullException(nameof(descriptor));
-            }
 
             var implementationType = descriptor.GetImplementationType();
 
             if (implementationType == typeof(object) ||
                 implementationType == descriptor.ServiceType)
-            {
                 throw new ArgumentException(
                     $"Implementation type cannot be '{implementationType}' because it is indistinguishable from other services registered for '{descriptor.ServiceType}'.",
                     nameof(descriptor));
-            }
 
             if (!services.Any(d =>
                 d.ServiceType == descriptor.ServiceType &&
                 d.GetImplementationType() == implementationType))
-            {
                 services.Add(descriptor);
-            }
         }
 
         /// <summary>
@@ -505,19 +414,13 @@ namespace Ixq.Core.DependencyInjection.Extensions
             IEnumerable<ServiceDescriptor> descriptors)
         {
             if (services == null)
-            {
                 throw new ArgumentNullException(nameof(services));
-            }
 
             if (descriptors == null)
-            {
                 throw new ArgumentNullException(nameof(descriptors));
-            }
 
             foreach (var d in descriptors)
-            {
                 services.TryAddEnumerable(d);
-            }
         }
 
         /// <summary>
@@ -532,20 +435,14 @@ namespace Ixq.Core.DependencyInjection.Extensions
             ServiceDescriptor descriptor)
         {
             if (collection == null)
-            {
                 throw new ArgumentNullException(nameof(collection));
-            }
 
             if (descriptor == null)
-            {
                 throw new ArgumentNullException(nameof(descriptor));
-            }
 
             var registeredServiceDescriptor = collection.FirstOrDefault(s => s.ServiceType == descriptor.ServiceType);
             if (registeredServiceDescriptor != null)
-            {
                 collection.Remove(registeredServiceDescriptor);
-            }
 
             collection.Add(descriptor);
             return collection;

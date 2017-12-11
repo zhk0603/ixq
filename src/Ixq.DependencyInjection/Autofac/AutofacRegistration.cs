@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Builder;
-using Autofac.Core;
 using Autofac.Integration.Mvc;
 using Ixq.Core;
 using Ixq.Core.DependencyInjection;
@@ -71,9 +70,7 @@ namespace Ixq.DependencyInjection.Autofac
             ServiceDescriptor serviceDescriptor)
         {
             if (!string.IsNullOrWhiteSpace(serviceDescriptor.Alias))
-            {
                 registrationBuilder.Named(serviceDescriptor.Alias, serviceDescriptor.ServiceType);
-            }
 
             return registrationBuilder;
         }
@@ -84,28 +81,23 @@ namespace Ixq.DependencyInjection.Autofac
             IEnumerable<ServiceDescriptor> descriptors)
         {
             foreach (var descriptor in descriptors)
-            {
                 if (descriptor.ImplementationType != null)
                 {
                     var serviceTypeInfo = descriptor.ServiceType.GetTypeInfo();
                     if (serviceTypeInfo.IsGenericTypeDefinition)
-                    {
                         builder.RegisterGeneric(descriptor.ImplementationType)
                             .As(descriptor.ServiceType)
                             .AsSelf()
                             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
                             .ConfigureLifecycle(descriptor.Lifetime)
                             .ConfigureName(descriptor);
-                    }
                     else
-                    {
                         builder.RegisterType(descriptor.ImplementationType)
                             .As(descriptor.ServiceType)
                             .AsSelf()
                             .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
                             .ConfigureLifecycle(descriptor.Lifetime)
                             .ConfigureName(descriptor);
-                    }
                 }
                 else if (descriptor.ImplementationFactory != null)
                 {
@@ -129,7 +121,6 @@ namespace Ixq.DependencyInjection.Autofac
                         .ConfigureLifecycle(descriptor.Lifetime)
                         .ConfigureName(descriptor);
                 }
-            }
         }
     }
 }

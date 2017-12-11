@@ -64,9 +64,7 @@ namespace Ixq.Logging.Log4Net
 
             var fileInfo = new FileInfo(filePath);
             if (!fileInfo.Exists)
-            {
                 throw new FileNotFoundException("Log4Net配置文件不存在。", filePath);
-            }
 
             return fileInfo;
         }

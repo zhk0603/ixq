@@ -29,10 +29,8 @@ namespace Ixq.Web.Mvc.Caching
             var cacheEnum = _cache.GetEnumerator();
             while (cacheEnum.MoveNext())
                 if (cacheEnum.Key != null && cacheEnum.Key.ToString().StartsWith(_cacheKeyPrefix))
-                {
                     yield return new KeyValuePair<string, object>(cacheEnum.Key.ToString().Replace(_cacheKeyPrefix, ""),
                         cacheEnum.Value);
-                }
         }
 
         public virtual Task<IEnumerable<KeyValuePair<string, object>>> GetAllAsync()
@@ -54,9 +52,7 @@ namespace Ixq.Web.Mvc.Caching
         {
             var value = _cache[ParseKey(key)];
             if (value != null)
-            {
                 return (T) value;
-            }
             return default(T);
         }
 
@@ -126,9 +122,7 @@ namespace Ixq.Web.Mvc.Caching
             var cacheEnum = _cache.GetEnumerator();
             while (cacheEnum.MoveNext())
                 if (cacheEnum.Key != null && cacheEnum.Key.ToString().StartsWith(_cacheKeyPrefix))
-                {
                     _cache.Remove(cacheEnum.Key.ToString());
-                }
         }
 
         public virtual Task ClearAsync()

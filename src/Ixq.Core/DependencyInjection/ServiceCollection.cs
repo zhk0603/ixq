@@ -129,7 +129,7 @@ namespace Ixq.Core.DependencyInjection
             catch (ReflectionTypeLoadException exception)
             {
                 var loaderExceptions = exception.LoaderExceptions;
-                var error = loaderExceptions.Aggregate("", (current, e) => current + (e.Message + "\r\n"));
+                var error = loaderExceptions.Aggregate("", (current, e) => current + e.Message + "\r\n");
                 var systemException = new SystemException(exception.Message + error, exception);
                 throw systemException;
             }
@@ -151,9 +151,7 @@ namespace Ixq.Core.DependencyInjection
             foreach (var implementationType in implementationTypes)
             {
                 if (implementationType.IsAbstract || implementationType.IsInterface)
-                {
                     continue;
-                }
                 var interfaceTypes = GetImplementedInterfaces(implementationType);
                 if (interfaceTypes.Length == 0)
                 {
@@ -161,9 +159,7 @@ namespace Ixq.Core.DependencyInjection
                     continue;
                 }
                 foreach (var interfaceType in interfaceTypes)
-                {
                     AddServiceToCollection(interfaceType, implementationType, lifetime);
-                }
             }
         }
 
@@ -201,9 +197,7 @@ namespace Ixq.Core.DependencyInjection
                 var interfaceType = interfaceTypes[index];
                 if (interfaceType.IsGenericType && !interfaceType.IsGenericTypeDefinition &&
                     interfaceType.FullName == null)
-                {
                     interfaceTypes[index] = interfaceType.GetGenericTypeDefinition();
-                }
             }
             return interfaceTypes;
         }

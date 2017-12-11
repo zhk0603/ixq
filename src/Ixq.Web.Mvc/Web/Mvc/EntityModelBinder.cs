@@ -29,9 +29,7 @@ namespace Ixq.Web.Mvc
         protected virtual void ModelStateUpdate(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             foreach (var modelStateDic in bindingContext.ModelState)
-            {
                 OnModelStateUpdate(controllerContext, bindingContext, modelStateDic);
-            }
         }
 
         /// <summary>
@@ -44,13 +42,9 @@ namespace Ixq.Web.Mvc
             ModelBindingContext bindingContext, KeyValuePair<string, ModelState> modelStateDic)
         {
             if (modelStateDic.Value.Errors.Count > 0)
-            {
                 if (controllerContext.Controller is IEntityControllerDescriptor entityControllerDescriptor)
-                {
                     UpdateModelStateWithEntityMetadata(entityControllerDescriptor.EntityMetadata, bindingContext,
                         modelStateDic);
-                }
-            }
         }
 
         /// <summary>
@@ -64,9 +58,7 @@ namespace Ixq.Web.Mvc
         {
             // 当前授权用户没有此属性的编辑权限时，清除模型错误信息。
             if (!HasEditProperty(entityMetadata.EditPropertyMetadatas, modelStateDic.Key))
-            {
                 modelStateDic.Value.Errors.Clear();
-            }
         }
 
         private bool HasEditProperty(IEntityPropertyMetadata[] metadata, string name)

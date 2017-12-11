@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Ixq.Core.Security;
 
 namespace Ixq.Core
@@ -17,7 +13,7 @@ namespace Ixq.Core
         {
             get
             {
-                var principal = System.Threading.Thread.CurrentPrincipal as AppPrincipal;
+                var principal = Thread.CurrentPrincipal as AppPrincipal;
                 return principal?.Identity.UserInfo;
             }
         }
@@ -32,10 +28,12 @@ namespace Ixq.Core
         ///     获取或设置登录时间。
         /// </summary>
         public DateTime LoginTime { get; set; }
+
         /// <summary>
         ///     获取或设置登录Ip。
         /// </summary>
         public string LoginIp { get; set; }
+
         /// <summary>
         ///     获取或设置 AppPrincipal。
         /// </summary>

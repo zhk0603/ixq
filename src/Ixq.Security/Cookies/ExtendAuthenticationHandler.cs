@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Ixq.Core;
 using Ixq.Core.Entity;
 using Ixq.Core.Security;
 using Ixq.Extensions;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace Ixq.Security.Cookies
 {
-    public class ExtendAuthenticationHandler<TManager, TUser> : AuthenticationHandler<ExtendAuthenticationOptions<TUser>>
+    public class
+        ExtendAuthenticationHandler<TManager, TUser> : AuthenticationHandler<ExtendAuthenticationOptions<TUser>>
         where TManager : UserManager<TUser, long>
-        where TUser : class, Microsoft.AspNet.Identity.IUser<long>, Ixq.Core.Security.IUser<long>
+        where TUser : class, Microsoft.AspNet.Identity.IUser<long>, Core.Security.IUser<long>
     {
         private const string LoginIp = "LoginIp";
         private const string LoginTime = "LoginTime";
@@ -40,23 +39,19 @@ namespace Ixq.Security.Cookies
                     appPrincipal.Identity.UserInfo = userWrap;
                 }
                 Request.User = appPrincipal;
-                System.Threading.Thread.CurrentPrincipal = appPrincipal;
+                Thread.CurrentPrincipal = appPrincipal;
             }
             return Task.FromResult<object>(null);
         }
 
         protected virtual AuthenticationTicket GetAuthenticationTicket()
         {
-            string cookie = Options.CookieManager.GetRequestCookie(Context, Options.CookieName);
+            var cookie = Options.CookieManager.GetRequestCookie(Context, Options.CookieName);
             if (string.IsNullOrWhiteSpace(cookie))
-            {
                 return null;
-            }
             var ticket = Options.TicketDataFormat.Unprotect(cookie);
             if (ticket == null)
-            {
                 return null;
-            }
             return new AuthenticationTicket(ticket.Identity, ticket.Properties);
         }
 
@@ -67,11 +62,11 @@ namespace Ixq.Security.Cookies
 
         protected override async Task ApplyResponseGrantAsync()
         {
-            AuthenticationResponseGrant signin = Helper.LookupSignIn(Options.AuthenticationType);
-            bool shouldSignin = signin != null;
-            AuthenticationResponseRevoke signout =
+            var signin = Helper.LookupSignIn(Options.AuthenticationType);
+            var shouldSignin = signin != null;
+            var signout =
                 Helper.LookupSignOut(Options.AuthenticationType, Options.AuthenticationMode);
-            bool shouldSignout = signout != null;
+            var shouldSignout = signout != null;
             var manager = Context.GetUserManager<TManager>();
             if (shouldSignin)
             {
@@ -87,7 +82,6 @@ namespace Ixq.Security.Cookies
 
                 signin.Properties.Dictionary[LoginTime] = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 signin.Properties.Dictionary[LoginIp] = NetHelper.CurrentIp;
-
             }
             else if (shouldSignout)
             {

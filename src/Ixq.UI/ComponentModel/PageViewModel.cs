@@ -52,9 +52,7 @@ namespace Ixq.UI.ComponentModel
                 item = viewProMetadatas[i];
                 sb.Append($"'{item.Name}'");
                 if (i != length - 1)
-                {
                     sb.Append(",");
-                }
             }
             sb.Append("]");
             return sb.ToString();
@@ -83,27 +81,17 @@ namespace Ixq.UI.ComponentModel
                           $",align: '{item.Align.ToString().ToLower()}'" +
                           $",sortable: {item.Sortable.ToString().ToLower()}");
                 if (item.IsKey)
-                {
                     sb.Append(",hidedlg: true,key: true");
-                }
                 if (!string.IsNullOrWhiteSpace(item.CssClass))
-                {
                     sb.Append($",classes: '{item.CssClass}'");
-                }
                 if (!string.IsNullOrWhiteSpace(item.FormatterScript))
-                {
                     sb.Append($",formatter: {item.FormatterScript}");
-                }
                 if (!string.IsNullOrWhiteSpace(item.UnFormatterScript))
-                {
                     sb.Append($",unformatter: {item.UnFormatterScript}");
-                }
 
                 sb.Append("}");
                 if (i != length - 1)
-                {
                     sb.Append(",");
-                }
             }
             sb.Append("]");
             return sb.ToString();
