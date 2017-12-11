@@ -1,4 +1,4 @@
-﻿namespace Ixq.Extensions.ObjectM
+﻿namespace Ixq.Extensions.ObjectModel
 {
     public class EnumItem
     {
