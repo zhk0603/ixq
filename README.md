@@ -1,6 +1,6 @@
 Ixq Framework
 =================
-Ixq framework是一个快速开发框架， 基于Entity Framework的Repository设计模式，实现了自动注入、自动映射、日志、缓存等功能。
+Ixq framework是一个Web应用程序框架，实现了自动注入、自动映射、日志、缓存等功能，帮助开发者快速构建Web应用程序。
 
 组件介绍
 ----------------
@@ -11,8 +11,8 @@ Ixq framework是一个快速开发框架， 基于Entity Framework的Repository�
 |  2 | Ixq.Logging                      |  基于Log4Net实现的日志组件。                                                                           | [![2.1]][2.2]|
 |  3 | Ixq.Redis                        |  基于StackExchange.Redis实现的缓存组件。                                                               | [![3.1]][3.2]|
 |  4 | Ixq.Data                         |  基于Entity Framework实现的数据访问。                                                                  | [![4.1]][4.2]|
-|  5 | Ixq.DependencyInjection.Autofac  |  依赖注入组件，基于Autofac实现了框架的依赖注入功能。                                                     | [![5.1]][5.2]|
-|  6 | Ixq.Mapper.AutoMapper            |  基于AutoMapper实现的自动映射组件。                                                                    | [![6.1]][6.2]|
+|  5 | Ixq.DependencyInjection          |  依赖注入组件，基于Autofac实现了框架的依赖注入功能。                                                     | [![5.1]][5.2]|
+|  6 | Ixq.Mapper                       |  基于AutoMapper实现的自动映射组件。                                                                    | [![6.1]][6.2]|
 |  7 | Ixq.Security                     |  身份验证、权限管理组件，基于AspNet.Identity实现。                                                      | [![7.1]][7.2]|
 |  8 | Ixq.UI                           |  定义了Ixq.Web.Mvc组件的视图模型。                                                                     | [![8.1]][8.2]|
 |  9 | Ixq.Web.Mvc                      |  Ixq.Web.Mvc是基于Mvc模式的Web应用程序展示层的组件，有助于快速构建Web应用程序。                           | [![9.1]][9.2]|
@@ -27,10 +27,10 @@ Ixq framework是一个快速开发框架， 基于Entity Framework的Repository�
 [3.2]: https://www.nuget.org/packages/Ixq.Redis
 [4.1]: https://img.shields.io/nuget/v/Ixq.Data.svg?style=flat
 [4.2]: https://www.nuget.org/packages/Ixq.Data
-[5.1]: https://img.shields.io/nuget/v/Ixq.DependencyInjection.Autofac.svg?style=flat
-[5.2]: https://www.nuget.org/packages/Ixq.DependencyInjection.Autofac
-[6.1]: https://img.shields.io/nuget/v/Ixq.Mapper.AutoMapper.svg?style=flat
-[6.2]: https://www.nuget.org/packages/Ixq.Mapper.AutoMapper
+[5.1]: https://img.shields.io/nuget/v/Ixq.DependencyInjection.svg?style=flat
+[5.2]: https://www.nuget.org/packages/Ixq.DependencyInjection
+[6.1]: https://img.shields.io/nuget/v/Ixq.Mapper.svg?style=flat
+[6.2]: https://www.nuget.org/packages/Ixq.Mapper
 [7.1]: https://img.shields.io/nuget/v/Ixq.Security.svg?style=flat
 [7.2]: https://www.nuget.org/packages/Ixq.Security
 [8.1]: https://img.shields.io/nuget/v/Ixq.UI.svg?style=flat
