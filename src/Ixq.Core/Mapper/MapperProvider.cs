@@ -6,7 +6,7 @@ namespace Ixq.Core.Mapper
     {
         private static IMapper _mapper;
         private static Func<IMapper> _getMapper;
-        public static IMapper Current => _mapper ?? (_mapper = _getMapper());
+        public static IMapper Current => _mapper ?? (_mapper = _getMapper?.Invoke());
 
         public static void SetMapper(IMapper mapper)
         {

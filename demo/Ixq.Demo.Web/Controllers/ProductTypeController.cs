@@ -67,6 +67,12 @@ namespace Ixq.Demo.Web.Controllers
             return View();
         }
 
+        public class ProductTypeVm
+        {
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+        }
+
         public ActionResult Index1()
         {
             var mapper = ServiceProvider.GetService<IMapper>();

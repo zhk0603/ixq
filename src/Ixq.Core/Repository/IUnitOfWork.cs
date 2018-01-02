@@ -6,7 +6,7 @@ namespace Ixq.Core.Repository
     /// <summary>
     ///     工作单元
     /// </summary>
-    public interface IUnitOfWork : ISingletonDependency
+    public interface IUnitOfWork : ITransientDependency
     {
         /// <summary>
         ///     提交当前单元操作的更改。
