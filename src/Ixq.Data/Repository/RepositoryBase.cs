@@ -51,40 +51,38 @@ namespace Ixq.Data.Repository
         ///     添加一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        public virtual bool Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             _table.Add(entity);
-            return Save();
         }
 
         /// <summary>
         ///     异步添加一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        public virtual Task<bool> AddAsync(TEntity entity)
+        public virtual Task AddAsync(TEntity entity)
         {
             _table.Add(entity);
-            return SaveAsync();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
         ///     添加一个集合中的数据。
         /// </summary>
         /// <param name="entities"></param>
-        public virtual bool AddRange(IEnumerable<TEntity> entities)
+        public virtual void AddRange(IEnumerable<TEntity> entities)
         {
             _table.AddRange(entities);
-            return Save();
         }
 
         /// <summary>
         ///     异步添加一个集合中的数据。
         /// </summary>
         /// <param name="entities"></param>
-        public virtual Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
+        public virtual Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
             _table.AddRange(entities);
-            return SaveAsync();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -101,22 +99,21 @@ namespace Ixq.Data.Repository
         ///     编辑一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        public virtual bool Edit(TEntity entity)
+        public virtual void Edit(TEntity entity)
         {
             var entry = _dbContext.Entry(entity);
             entry.State = EntityState.Modified;
-            return Save();
         }
 
         /// <summary>
         ///     异步编辑一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        public virtual Task<bool> EditAsync(TEntity entity)
+        public virtual Task EditAsync(TEntity entity)
         {
             var entry = _dbContext.Entry(entity);
             entry.State = EntityState.Modified;
-            return SaveAsync();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -253,27 +250,26 @@ namespace Ixq.Data.Repository
         ///     删除一个对象。
         /// </summary>
         /// <param name="index"></param>
-        public virtual bool Remove(TKey index)
+        public virtual void Remove(TKey index)
         {
             var entity = SingleById(index);
-            return Remove(entity);
+            Remove(entity);
         }
 
         /// <summary>
         ///     删除一个对象
         /// </summary>
         /// <param name="entity"></param>
-        public virtual bool Remove(TEntity entity)
+        public virtual void Remove(TEntity entity)
         {
             _table.Remove(entity);
-            return Save();
         }
 
         /// <summary>
         ///     删除一个对象。
         /// </summary>
         /// <param name="index"></param>
-        public virtual Task<bool> RemoveAsync(TKey index)
+        public virtual Task RemoveAsync(TKey index)
         {
             var entity = SingleById(index);
             return RemoveAsync(entity);
@@ -284,10 +280,10 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual Task<bool> RemoveAsync(TEntity entity)
+        public virtual Task RemoveAsync(TEntity entity)
         {
             _table.Remove(entity);
-            return SaveAsync();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -295,7 +291,7 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual bool RemoveRange(IEnumerable<TKey> range)
+        public virtual void RemoveRange(IEnumerable<TKey> range)
         {
             foreach (var index in range)
             {
@@ -303,7 +299,6 @@ namespace Ixq.Data.Repository
                 if (entity != null)
                     _table.Remove(entity);
             }
-            return Save();
         }
 
         /// <summary>
@@ -311,10 +306,9 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual bool RemoveRange(IEnumerable<TEntity> range)
+        public virtual void RemoveRange(IEnumerable<TEntity> range)
         {
             _table.RemoveRange(range);
-            return Save();
         }
 
         /// <summary>
@@ -322,14 +316,14 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual Task<bool> RemoveRangeAsync(IEnumerable<TKey> range)
+        public virtual Task RemoveRangeAsync(IEnumerable<TKey> range)
         {
             foreach (var index in range)
             {
                 var entity = SingleById(index);
                 _table.Remove(entity);
             }
-            return SaveAsync();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -337,55 +331,28 @@ namespace Ixq.Data.Repository
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual Task<bool> RemoveRangeAsync(IEnumerable<TEntity> range)
+        public virtual Task RemoveRangeAsync(IEnumerable<TEntity> range)
         {
             _table.RemoveRange(range);
-            return SaveAsync();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
         ///     数据持久化到数据库。
         /// </summary>
         /// <returns></returns>
-        public virtual bool Save()
+        public virtual int Save()
         {
-            try
-            {
-                var count = UnitOfWork.Save();
-                return count > 0;
-            }
-            catch (Exception exp)
-            {
-                throw exp;
-            }
+            return UnitOfWork.Save();
         }
 
         /// <summary>
         ///     采用异步的方式将数据持久化到数据库。
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<bool> SaveAsync()
+        public virtual Task<int> SaveAsync()
         {
-            try
-            {
-                var count = await UnitOfWork.SaveAsync();
-                return count > 0;
-            }
-            catch (Exception exp)
-            {
-                throw exp;
-            }
-        }
-
-        /// <summary>
-        ///     将序列中的每个元素投影到新表单。
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="selector"></param>
-        /// <returns></returns>
-        public virtual IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector)
-        {
-            return GetAll().Select(selector);
+            return UnitOfWork.SaveAsync();
         }
 
         /// <summary>

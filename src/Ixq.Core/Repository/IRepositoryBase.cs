@@ -78,93 +78,93 @@ namespace Ixq.Core.Repository
         Task<TEntity> SingleByAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     添加一个对象。
+        ///     添加一个对象，调用 Save 时，会将该对象插入到数据库中。
         /// </summary>
         /// <param name="entity"></param>
-        bool Add(TEntity entity);
+        void Add(TEntity entity);
 
         /// <summary>
-        ///     异步添加一个对象。
+        ///     异步添加一个对象，调用 Save 时，会将该对象插入到数据库中。
         /// </summary>
         /// <param name="entity"></param>
-        Task<bool> AddAsync(TEntity entity);
+        Task AddAsync(TEntity entity);
 
         /// <summary>
-        ///     添加一个集合中的数据。
+        ///     添加一个集合中的数据，调用 Save 时，会将该对象插入到数据库中。
         /// </summary>
         /// <param name="entities"></param>
-        bool AddRange(IEnumerable<TEntity> entities);
+        void AddRange(IEnumerable<TEntity> entities);
 
         /// <summary>
-        ///     异步添加一个集合中的数据。
+        ///     异步添加一个集合中的数据，调用 Save 时，会将该对象插入到数据库中。
         /// </summary>
         /// <param name="entities"></param>
-        Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);
+        Task AddRangeAsync(IEnumerable<TEntity> entities);
 
         /// <summary>
         ///     编辑一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        bool Edit(TEntity entity);
+        void Edit(TEntity entity);
 
         /// <summary>
         ///     异步编辑一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        Task<bool> EditAsync(TEntity entity);
+        Task EditAsync(TEntity entity);
 
         /// <summary>
         ///     删除一个对象。
         /// </summary>
         /// <param name="entity"></param>
-        bool Remove(TEntity entity);
+        void Remove(TEntity entity);
 
         /// <summary>
         ///     异步删除一个对象。
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<bool> RemoveAsync(TEntity entity);
+        Task RemoveAsync(TEntity entity);
 
         /// <summary>
         ///     删除一个对象。
         /// </summary>
         /// <param name="index"></param>
-        bool Remove(TKey index);
+        void Remove(TKey index);
 
         /// <summary>
         ///     删除一个对象。
         /// </summary>
         /// <param name="index"></param>
-        Task<bool> RemoveAsync(TKey index);
+        Task RemoveAsync(TKey index);
 
         /// <summary>
         ///     移除指定的集合元素。
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        bool RemoveRange(IEnumerable<TEntity> range);
+        void RemoveRange(IEnumerable<TEntity> range);
 
         /// <summary>
         ///     异步移除指定的集合元素。
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        Task<bool> RemoveRangeAsync(IEnumerable<TEntity> range);
+        Task RemoveRangeAsync(IEnumerable<TEntity> range);
 
         /// <summary>
         ///     移除指定的集合元素。
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        bool RemoveRange(IEnumerable<TKey> range);
+        void RemoveRange(IEnumerable<TKey> range);
 
         /// <summary>
         ///     异步移除指定的集合元素。
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        Task<bool> RemoveRangeAsync(IEnumerable<TKey> range);
+        Task RemoveRangeAsync(IEnumerable<TKey> range);
 
         /// <summary>
         ///     提取所有元素。
@@ -241,21 +241,13 @@ namespace Ixq.Core.Repository
         ///     数据持久化到数据库。
         /// </summary>
         /// <returns></returns>
-        bool Save();
+        int Save();
 
         /// <summary>
         ///     采用异步的方式将数据持久化到数据库。
         /// </summary>
         /// <returns></returns>
-        Task<bool> SaveAsync();
-
-        /// <summary>
-        ///     将序列中的每个元素投影到新表单。
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="selector"></param>
-        /// <returns></returns>
-        IQueryable<TResult> FilterField<TResult>(Expression<Func<TEntity, TResult>> selector);
+        Task<int> SaveAsync();
 
         #region Sql查询
 
