@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -50,7 +51,7 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取或设置实体服务。
         /// </summary>
-        public IEntityService<TEntity, TDto, TKey> EntityServicer { get; set; }
+        public IEntityService<TEntity, TDto, TKey> EntityService { get; set; }
 
         /// <summary>
         ///     获取或设置实体元数据提供者。
@@ -109,7 +110,7 @@ namespace Ixq.Web.Mvc
                 OrderDirection = orderDirection
             };
 
-            var pageViewModel = EntityServicer.CreateIndexModel(pagination);
+            var pageViewModel = EntityService.CreateIndexModel(pagination);
             return View(pageViewModel);
         }
 
@@ -137,7 +138,7 @@ namespace Ixq.Web.Mvc
                     : "asc"
                 : orderDirection;
 
-            var pageListViewModel = await EntityServicer.CreateListModelAsync(pageSize, pageCurrent, orderField,
+            var pageListViewModel = await EntityService.CreateListModelAsync(pageSize, pageCurrent, orderField,
                 orderDirection);
 
             return Json(pageListViewModel, new JsonSerializerSettings {DateFormatString = "yyyy-MM-dd HH:mm:ss"});
@@ -150,7 +151,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual async Task<ActionResult> Detail(string id)
         {
-            var detailModel = await EntityServicer.CreateDetailModelAsync(id);
+            var detailModel = await EntityService.CreateDetailModelAsync(id);
             return View(detailModel);
         }
 
@@ -161,7 +162,7 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual async Task<ActionResult> Edit(string id)
         {
-            var editModel = await EntityServicer.CreateEditModelAsync(id);
+            var editModel = await EntityService.CreateEditModelAsync(id);
             return View(editModel);
         }
 
@@ -175,10 +176,10 @@ namespace Ixq.Web.Mvc
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Edit([ModelBinder(typeof(EntityModelBinder))] TDto model)
         {
-            var viewModel = await EntityServicer.CreateEditModelAsync(model);
+            var viewModel = await EntityService.CreateEditModelAsync(model);
             if (ModelState.IsValid)
             {
-                await EntityServicer.UpdateEntity(model.MapTo());
+                await EntityService.UpdateEntity(model.MapTo());
                 return PartialView("_Form", viewModel);
             }
             Response.StatusCode = 500;
@@ -190,8 +191,11 @@ namespace Ixq.Web.Mvc
         ///     Delete 操作。
         /// </summary>
         /// <returns></returns>
-        public virtual ActionResult Delete()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> Delete(IEnumerable<TKey> range)
         {
+            await EntityService.RemoveRange(range);
             return View();
         }
 
@@ -226,7 +230,7 @@ namespace Ixq.Web.Mvc
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            EntityServicer = new EntityService<TEntity, TDto, TKey>(Repository, requestContext, this);
+            EntityService = new EntityService<TEntity, TDto, TKey>(Repository, requestContext, this);
         }
 
         #region ModelErrorResult
