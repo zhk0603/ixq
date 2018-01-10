@@ -99,7 +99,14 @@
         var colNames = @Html.Raw(Model.GetColNames());
         var colModel = @Html.Raw(Model.GetColModel());
         colNames.push("操作");
-        colModel.push({ name: '@(Model.EntityType.Name)_options', width: 60, align: 'center', sortable: false, formatter: optionFormat});
+        colModel.push({
+            name: '@(Model.EntityType.Name)_options',
+            width: 60,
+            align: 'center',
+            sortable: false,
+            formatter: optionFormat
+        });
+
         function Insert@(Model.EntityType.Name)() {
             layer.open({
                 title: '新增 @pageTitle',
@@ -110,7 +117,8 @@
                 content: '@Url.Action(Model.PageConfig.EditAction)'
             });
         }
-        function Detail@(Model.EntityType.Name)(id){
+
+        function Detail@(Model.EntityType.Name)(id) {
 
             layer.open({
                 title: '@pageTitle 详情',
@@ -118,9 +126,10 @@
                 area: ['800px', '600px'],
                 maxmin: true,
                 resize: true,
-                content: '@Url.Action(Model.PageConfig.DetailAction)/'+id
+                content: '@Url.Action(Model.PageConfig.DetailAction)/' + id
             });
         };
+
         function Edit@(Model.EntityType.Name)(id) {
             layer.open({
                 title: '编辑 @pageTitle',
@@ -131,60 +140,73 @@
                 content: '@Url.Action(Model.PageConfig.EditAction)/' + id
             });
         };
-        function Delete@(Model.EntityType.Name)(ids){
-            layer.confirm('是否删除？', {
-                btn: ['确认','取消'] //按钮
-            }, function(){
-                //$.ajax({});提交到后台执行删除
-                layer.msg('已删除', {icon: 1});
-            }, function(){
-                return;
-            });
+
+        function Delete@(Model.EntityType.Name)(ids) {
+            layer.confirm('是否删除？',
+                {
+                    btn: ['确认', '取消'] //按钮
+                },
+                function() {
+                    //$.ajax({});提交到后台执行删除
+                    layer.msg('已删除', { icon: 1 });
+                },
+                function() {
+                    return;
+                });
         }
 
         function deleteRows() {
             var ids = $("#@tableId").jqGrid('getGridParam', 'selarrrow');
             if (ids.length > 0) {
-                layer.confirm('是否删除？', {
-                    btn: ['确认','取消'] //按钮
-                }, function () {
-
-                    $.ajax({
-                        url: '@Url.Action(Model.PageConfig.DelAction)',
-                        type: 'POST',
-                        data: {
-                            range: ids,
-                            __RequestVerificationToken: $('@Html.AntiForgeryToken()').val()
-                        },
-                        success: function(res) {
-                            layer.msg('已删除', { icon: 1 });
-                        },
-                        error: function() {
-                            layer.msg('删除失败了', { icon: 1 });
-                        }
+                layer.confirm('是否删除？',
+                    {
+                        btn: ['确认', '取消'] //按钮
+                    },
+                    function () {
+                        var tokenInput = $('@Html.AntiForgeryToken()');
+                        var postData = { range: ids };
+                        postData[tokenInput.attr('name')] = tokenInput.val();
+                        $.ajax({
+                            url: '@Url.Action(Model.PageConfig.DelAction)',
+                            type: 'POST',
+                            data: postData,
+                            success: function(res) {
+                                layer.msg('已删除', { icon: 1 });
+                            },
+                            error: function() {
+                                layer.msg('删除失败了', { icon: 1 });
+                            }
+                        });
+                    },
+                    function() {
+                        return;
                     });
-
-                }, function(){
-                    return;
-                });
             }
         }
 
         function reloadData() {
             $("#@tableId").trigger("reloadGrid");
         }
+
         function optionFormat(cellvalue, options, rowObject) {
 
-            var editHtml = "<div class=\"input-group-btn\">"+
-                "<button tabindex=\"-1\" class=\"btn btn-white\" type=\"button\" onclick=\"Edit@(Model.EntityType.Name)('" + rowObject.Id +"')\">编辑</button>";
+            var editHtml = "<div class=\"input-group-btn\">" +
+                "<button tabindex=\"-1\" class=\"btn btn-white\" type=\"button\" onclick=\"Edit@(Model.EntityType.Name)('" +
+                rowObject.Id +
+                "')\">编辑</button>";
 
-            var detailHtml = "<button data-toggle=\"dropdown\" class=\"btn btn-white dropdown-toggle\" type=\"button\" aria-expanded=\"true\"><span class=\"caret\"></span>"+
-                "</button><ul class=\"dropdown-menu pull-right\">"+
-                "<li><a href=\"javascript:void(0);\" onclick=\"Detail@(Model.EntityType.Name)('" + rowObject.Id +"')\">"+
-                "<i class=\"fa fa-file-o\"></i>详情</a></li>";
+            var detailHtml =
+                "<button data-toggle=\"dropdown\" class=\"btn btn-white dropdown-toggle\" type=\"button\" aria-expanded=\"true\"><span class=\"caret\"></span>" +
+                    "</button><ul class=\"dropdown-menu pull-right\">" +
+                    "<li><a href=\"javascript:void(0);\" onclick=\"Detail@(Model.EntityType.Name)('" +
+                    rowObject.Id +
+                    "')\">" +
+                    "<i class=\"fa fa-file-o\"></i>详情</a></li>";
 
-            var delHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Delete@(Model.EntityType.Name)('" + rowObject.Id +"')\">"+
-                "<i class=\"fa fa-remove\"></i>删除</a></li></ul></div>"+
+            var delHtml = "<li><a href=\"javascript:void(0);\" onclick=\"Delete@(Model.EntityType.Name)('" +
+                rowObject.Id +
+                "')\">" +
+                "<i class=\"fa fa-remove\"></i>删除</a></li></ul></div>" +
                 "</ul></div>";
 
             return editHtml + detailHtml + delHtml;
@@ -211,7 +233,7 @@
                 page: @Model.Pagination.PageCurrent,
                 colNames: colNames,
                 colModel: colModel,
-                loadComplete:@(Model.PageConfig.OnLoadCompleteScript ?? "false"),
+                loadComplete: @(Model.PageConfig.OnLoadCompleteScript ?? "false"),
                 pager: "#pager_@(tableId)",
                 prmNames: {
                     page: 'pageCurrent',
@@ -232,10 +254,11 @@
             });
 
             // Add responsive to jqGrid
-            $(window).bind('resize', function() {
-                var width = $('.jqGrid_wrapper').width();
-                $('#@tableId').setGridWidth(width);
-            });
+            $(window).bind('resize',
+                function() {
+                    var width = $('.jqGrid_wrapper').width();
+                    $('#@tableId').setGridWidth(width);
+                });
         });
 
     </script>
