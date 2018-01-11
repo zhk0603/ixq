@@ -213,9 +213,11 @@ namespace Ixq.Web.Mvc
                 await UpdateProperty(targetEntity, sourceEntity, metadata);
 
             if (addAction)
-                await Repository.AddAsync(sourceEntity);
+                Repository.Add(sourceEntity);
             else
-                await Repository.EditAsync(targetEntity);
+                Repository.Edit(targetEntity);
+
+            await Repository.SaveAsync();
             return true;
         }
 

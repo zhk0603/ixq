@@ -23,7 +23,7 @@ namespace Ixq.Demo.Web.Areas.Hplus.Controllers
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            this.EntityServicer = new ProductTypeService(Repository, this.Request.RequestContext, this);
+            this.EntityService = new ProductTypeService(Repository, this.Request.RequestContext, this);
         }
     }
 }
