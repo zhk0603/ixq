@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -190,8 +191,11 @@ namespace Ixq.Web.Mvc
         ///     Delete 操作。
         /// </summary>
         /// <returns></returns>
-        public virtual ActionResult Delete()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> Delete(IEnumerable<TKey> range)
         {
+            await EntityService.RemoveRange(range);
             return View();
         }
 

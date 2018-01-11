@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Routing;
 using Ixq.Core.Dto;
@@ -112,5 +113,12 @@ namespace Ixq.Web.Mvc
         /// <param name="metadata">属性元数据。</param>
         /// <returns></returns>
         Task<bool> UpdateProperty(TEntity targetEntity, TEntity sourceEntity, IEntityPropertyMetadata metadata);
+
+        /// <summary>
+        ///     移除指定的集合元素。
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        Task<bool> RemoveRange(IEnumerable<TKey> range);
     }
 }

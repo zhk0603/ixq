@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -232,8 +233,20 @@ namespace Ixq.Web.Mvc
             IEntityPropertyMetadata metadata)
         {
             var entityProperty = typeof(TEntity).GetProperty(metadata.PropertyName);
-            entityProperty.SetValue(targetEntity, entityProperty.GetValue(sourceEntity));
+            if (entityProperty != null) entityProperty.SetValue(targetEntity, entityProperty.GetValue(sourceEntity));
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        ///     移除指定的集合元素。
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public virtual async Task<bool> RemoveRange(IEnumerable<TKey> range)
+        {
+            this.Repository.RemoveRange(range);
+            var count = await Repository.SaveAsync();
+            return count > 0;
         }
 
         /// <summary>
