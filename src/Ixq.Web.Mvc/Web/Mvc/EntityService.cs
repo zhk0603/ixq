@@ -254,7 +254,7 @@ namespace Ixq.Web.Mvc
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected virtual object ParseEntityKey(string value)
+        private static object ParseEntityKey(string value)
         {
             return TypeExtensions.ChangeType(value, typeof(TKey));
         }

@@ -72,7 +72,6 @@ namespace Ixq.Security.Cookies
             {
                 var user = await manager.FindByIdAsync(signin.Identity.GetUserId<long>());
                 ApplySignInIUserSpecification(user);
-
                 var signInContext = new UserSignInContext<TUser>(Context,
                     Options,
                     Options.AuthenticationType,
@@ -88,6 +87,10 @@ namespace Ixq.Security.Cookies
                 var userId = Context.Authentication.User.Identity.GetUserId<long>();
                 var user = await manager.FindByIdAsync(userId);
                 ApplySignOutIUserSpecification(user);
+
+                var signOutContext = new UserSignOutContext<TUser>(Context, Options, user);
+                Options.UserSignOut(signOutContext);
+
                 await manager.UpdateAsync(user);
             }
         }
@@ -103,10 +106,10 @@ namespace Ixq.Security.Cookies
 
         protected virtual void ApplySignOutIUserSpecification(TUser user)
         {
-            if (user is IUserSpecification signInUser)
+            if (user is IUserSpecification signOutUser)
             {
-                signInUser.LastSignOutDate = DateTime.Now;
-                signInUser.OnSignOutComplete();
+                signOutUser.LastSignOutDate = DateTime.Now;
+                signOutUser.OnSignOutComplete();
             }
         }
     }

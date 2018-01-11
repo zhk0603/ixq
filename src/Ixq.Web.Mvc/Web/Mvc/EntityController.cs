@@ -202,23 +202,7 @@ namespace Ixq.Web.Mvc
         /// <summary>
         /// </summary>
         /// <returns></returns>
-        public virtual ActionResult Searchers()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
         public virtual ActionResult Selector()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public virtual ActionResult MultipleSelector()
         {
             return View();
         }
