@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EntityFramework.DynamicFilters;
+using Ixq.Core;
 using Ixq.Core.Entity;
 using Ixq.Core.Repository;
 
@@ -240,7 +241,7 @@ namespace Ixq.Data.Repository
 
                         break;
                     case EntityState.Modified:
-                        ApplyIUpdataSpecification(entry);
+                        ApplyIUpdateSpecification(entry);
 
                         break;
                     case EntityState.Deleted:
@@ -276,20 +277,22 @@ namespace Ixq.Data.Repository
             softDeleteEntry.State = EntityState.Modified;
             softDeleteEntry.Entity.DeleteDate = DateTime.Now;
             softDeleteEntry.Entity.IsDeleted = true;
+            softDeleteEntry.Entity.DeleteUserId = CurrentUser.Current?.ClaimsPrincipal.Identity.Id;
             softDeleteEntry.Entity.OnSoftDeleteComplete();
         }
 
         /// <summary>
-        ///     应用 <see cref="IUpdataSpecification" />。
+        ///     应用 <see cref="IUpdateSpecification" />。
         /// </summary>
         /// <param name="entry"></param>
-        protected virtual void ApplyIUpdataSpecification(DbEntityEntry entry)
+        protected virtual void ApplyIUpdateSpecification(DbEntityEntry entry)
         {
-            if (!(entry.Entity is IUpdataSpecification))
+            if (!(entry.Entity is IUpdateSpecification))
                 return;
-            var upDataEntry = entry.Cast<IUpdataSpecification>();
-            upDataEntry.Entity.UpdataDate = DateTime.Now;
-            upDataEntry.Entity.OnUpdataComplete();
+            var upDateEntry = entry.Cast<IUpdateSpecification>();
+            upDateEntry.Entity.UpdataDate = DateTime.Now;
+            upDateEntry.Entity.UpdateUserId = CurrentUser.Current?.ClaimsPrincipal.Identity.Id;
+            upDateEntry.Entity.OnUpdataComplete();
         }
 
         /// <summary>
@@ -302,6 +305,7 @@ namespace Ixq.Data.Repository
                 return;
             var createEntry = entry.Cast<ICreateSpecification>();
             createEntry.Entity.CreateDate = DateTime.Now;
+            createEntry.Entity.CreateUserId = CurrentUser.Current?.ClaimsPrincipal.Identity.Id;
             createEntry.Entity.OnCreateComplete();
         }
 

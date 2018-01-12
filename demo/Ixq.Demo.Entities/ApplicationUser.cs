@@ -10,13 +10,16 @@ using Microsoft.AspNet.Identity;
 
 namespace Ixq.Demo.Entities
 {
-    public class ApplicationUser : AppIdentityUser, ICreateSpecification, IUpdataSpecification,
+    public class ApplicationUser : AppIdentityUser, ICreateSpecification, IUpdateSpecification,
         ISoftDeleteSpecification, IUser<long>
     {
         public virtual int Age { get; set; }
         public virtual DateTime CreateDate { get; set; }
+        public string CreateUserId { get; set; }
         public virtual DateTime? UpdataDate { get; set; }
+        public string UpdateUserId { get; set; }
         public virtual DateTime? DeleteDate { get; set; }
+        public string DeleteUserId { get; set; }
         public virtual bool IsDeleted { get; set; }
         public void OnCreateComplete()
         {

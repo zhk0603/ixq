@@ -29,10 +29,7 @@ namespace Ixq.Web.Mvc
         /// <param name="dtoType">数据传输对象类型。</param>
         public EntityMetadata(Type dtoType)
         {
-            if (dtoType == null)
-                throw new ArgumentNullException(nameof(dtoType));
-
-            DtoType = dtoType;
+            DtoType = dtoType ?? throw new ArgumentNullException(nameof(dtoType));
         }
 
         /// <summary>

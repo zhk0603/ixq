@@ -13,6 +13,10 @@ namespace Ixq.Core.Entity
         DateTime CreateDate { get; set; }
 
         /// <summary>
+        ///     创建人Id。
+        /// </summary>
+        string CreateUserId { get; set; }
+        /// <summary>
         ///     在创建时发生，由上下文自动执行。
         /// </summary>
         void OnCreateComplete();

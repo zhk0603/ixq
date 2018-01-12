@@ -36,16 +36,12 @@ namespace Ixq.Web.Mvc
         public EntityService(IRepositoryBase<TEntity, TKey> repository, RequestContext requestContxt,
             IEntityControllerDescriptor entityControllerData)
         {
-            if (entityControllerData == null)
-                throw new ArgumentNullException(nameof(entityControllerData));
-            if (requestContxt == null)
-                throw new ArgumentNullException(nameof(requestContxt));
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
+            Repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            EntityControllerDescriptor = entityControllerData ?? throw new ArgumentNullException(nameof(entityControllerData));
+            RequestContext = requestContxt ?? throw new ArgumentNullException(nameof(requestContxt));
 
-            Repository = repository;
-            EntityControllerDescriptor = entityControllerData;
-            RequestContext = requestContxt;
+            var c = entityControllerData as System.Web.Mvc.IController;
+
         }
 
         /// <summary>
@@ -122,6 +118,7 @@ namespace Ixq.Web.Mvc
             var entity = string.IsNullOrWhiteSpace(id)
                 ? Repository.Create()
                 : await Repository.SingleByIdAsync(ParseEntityKey(id));
+
             return await CreateEditModelAsync(entity);
         }
 
@@ -132,6 +129,9 @@ namespace Ixq.Web.Mvc
         /// <returns></returns>
         public virtual Task<PageEditViewModel<TDto, TKey>> CreateEditModelAsync(TEntity model)
         {
+            if (model == null)
+                throw new HttpException(404, null);
+
             return CreateEditModelAsync(model.MapToDto<TDto, TKey>());
         }
 

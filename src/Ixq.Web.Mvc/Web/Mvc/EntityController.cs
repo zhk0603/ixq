@@ -38,13 +38,10 @@ namespace Ixq.Web.Mvc
         /// <param name="repository">实体仓储。</param>
         protected EntityController(IRepositoryBase<TEntity, TKey> repository)
         {
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
-
             PageSizeList = new[] {15, 30, 60, 120};
             PageConfig = typeof(TDto).GetAttribute<PageAttribute>() ??
                          new PageAttribute();
-            Repository = repository;
+            Repository = repository ?? throw new ArgumentNullException(nameof(repository));
             EntityMetadata = EntityMetadataProvider.GetEntityMetadata(typeof(TDto));
         }
 

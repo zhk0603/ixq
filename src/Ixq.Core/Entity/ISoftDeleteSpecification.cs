@@ -13,6 +13,11 @@ namespace Ixq.Core.Entity
         DateTime? DeleteDate { get; set; }
 
         /// <summary>
+        ///     删除人Id。
+        /// </summary>
+        string DeleteUserId { get; set; }
+
+        /// <summary>
         ///     是否删除
         /// </summary>
         bool IsDeleted { get; set; }

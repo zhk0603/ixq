@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Ixq.Extensions
 {
@@ -10,36 +11,8 @@ namespace Ixq.Extensions
     {
         private static readonly IDictionary<string, Assembly[]> AssembliesesDict = new Dictionary<string, Assembly[]>();
 
-        /// <summary>
-        ///     在加载程序集时需要过滤的程序集，加快系统启动速度。
-        /// </summary>
-        public static string[] IgnoreAssembly =
-        {
-            "Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f",
-            "Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed",
-            "Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5",
-            "System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-            "Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
-        };
-
         private readonly string _path;
-
+        private string _assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease|^Owin";
         /// <summary>
         ///     初始化一个<see cref="AssemblyFinder" />类型的新实例
         /// </summary>
@@ -57,6 +30,15 @@ namespace Ixq.Extensions
         }
 
         /// <summary>
+        ///     获取或设置不需要加载的dll.
+        /// </summary>
+        public string AssemblySkipLoadingPattern
+        {
+            get => _assemblySkipLoadingPattern;
+            set => _assemblySkipLoadingPattern = value;
+        }
+
+        /// <summary>
         ///     查找所有项
         /// </summary>
         /// <returns></returns>
@@ -68,7 +50,9 @@ namespace Ixq.Extensions
                 .Concat(Directory.GetFiles(_path, "*.exe", SearchOption.TopDirectoryOnly))
                 .ToArray();
             var assemblies =
-                files.Select(Assembly.LoadFrom).Distinct().Where(x => !IgnoreAssembly.Contains(x.FullName)).ToArray();
+                files.Select(Assembly.LoadFrom).Distinct()
+                    .Where(x => Matches(x.FullName, AssemblySkipLoadingPattern))
+                    .ToArray();
             AssembliesesDict.Add(_path, assemblies);
             return assemblies;
         }
@@ -81,6 +65,11 @@ namespace Ixq.Extensions
         public Assembly[] Find(Func<Assembly, bool> predicate)
         {
             return FindAll().Where(predicate).ToArray();
+        }
+
+        protected virtual bool Matches(string assemblyFullName, string pattern)
+        {
+            return !Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         private static string GetBinPath()

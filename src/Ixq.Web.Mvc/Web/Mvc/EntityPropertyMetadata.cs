@@ -18,10 +18,7 @@ namespace Ixq.Web.Mvc
         /// <param name="dtoPropertyInfo"></param>
         public EntityPropertyMetadata(PropertyInfo dtoPropertyInfo)
         {
-            if (dtoPropertyInfo == null)
-                throw new ArgumentNullException(nameof(dtoPropertyInfo));
-
-            PropertyInfo = dtoPropertyInfo;
+            PropertyInfo = dtoPropertyInfo ?? throw new ArgumentNullException(nameof(dtoPropertyInfo));
             PropertyType = dtoPropertyInfo.PropertyType;
             PropertyName = PropertyInfo.Name;
         }
