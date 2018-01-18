@@ -86,7 +86,7 @@ namespace Ixq.Web.Mvc.Caching
 
         public virtual void Set<T>(string key, T value, DateTime absoluteExpiration)
         {
-            _cache.Insert(key, value, null, absoluteExpiration, Cache.NoSlidingExpiration);
+            _cache.Insert(ParseKey(key), value, null, absoluteExpiration, Cache.NoSlidingExpiration);
         }
 
         public virtual Task SetAsync<T>(string key, T value, DateTime absoluteExpiration)
@@ -97,7 +97,7 @@ namespace Ixq.Web.Mvc.Caching
 
         public virtual void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            _cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, slidingExpiration);
+            _cache.Insert(ParseKey(key), value, null, Cache.NoAbsoluteExpiration, slidingExpiration);
         }
 
         public virtual Task SetAsync<T>(string key, T value, TimeSpan slidingExpiration)

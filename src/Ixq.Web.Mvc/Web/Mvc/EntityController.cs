@@ -192,8 +192,8 @@ namespace Ixq.Web.Mvc
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Delete(IEnumerable<TKey> range)
         {
-            await EntityService.RemoveRange(range);
-            return View();
+            var suc = await EntityService.RemoveRange(range);
+            return Json(new RequestResult {Success = suc, ErrorCode = 0, ErrorMessage = ""});
         }
 
         /// <summary>
@@ -214,21 +214,6 @@ namespace Ixq.Web.Mvc
             CreateEntityService(requestContext);
         }
 
-        #region ModelErrorResult
-
-        /// <summary>
-        ///     创建一个 <see cref="ModelErrorResult" /> 对象，将模型错误信息序列化成Json对象。
-        /// </summary>
-        /// <param name="modelState"></param>
-        /// <returns></returns>
-        protected virtual ModelErrorResult ModelError(ModelStateDictionary modelState)
-        {
-            return new ModelErrorResult(modelState);
-        }
-
-        #endregion
-
-
         /// <summary>
         ///     创建实体元数据提供者，默认提供<see cref="Ixq.Web.Mvc.EntityMetadataProvider" />。可在派生类中重写。
         /// </summary>
@@ -247,6 +232,29 @@ namespace Ixq.Web.Mvc
         {
             EntityService = new EntityService<TEntity, TDto, TKey>(Repository, requestContext, this);
         }
+
+        #region ModelErrorResult
+
+        /// <summary>
+        ///     创建一个 <see cref="ModelErrorResult" /> 对象，将模型错误信息序列化成Json对象。
+        /// </summary>
+        /// <param name="modelState"></param>
+        /// <returns></returns>
+        protected virtual ModelErrorResult ModelError(ModelStateDictionary modelState)
+        {
+            return new ModelErrorResult(modelState);
+        }
+
+        /// <summary>
+        ///     创建一个 <see cref="ModelErrorResult" /> 对象，将模型错误信息序列化成Json对象。
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ModelErrorResult ModelError()
+        {
+            return ModelError(ModelState);
+        }
+
+        #endregion
 
         #region JsonResult
 

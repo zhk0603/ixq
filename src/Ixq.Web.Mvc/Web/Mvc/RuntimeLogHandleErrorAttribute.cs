@@ -35,10 +35,11 @@ namespace Ixq.Web.Mvc
                 filterContext.Result = new JsonResult
                 {
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                    Data = new
+                    Data = new RequestResult
                     {
-                        error = true,
-                        message = filterContext.Exception.Message
+                        Success = false,
+                        ErrorCode = -1,
+                        ErrorMessage = filterContext.Exception.Message
                     }
                 };
             }

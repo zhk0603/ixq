@@ -42,7 +42,7 @@ namespace Ixq.Security.Cookies
         public ICookieManager CookieManager { get; set; }
 
         public Action<UserSignInContext<TUser, TKey>> OnUserSignIn { private get; set; }
-        public Action<UserSignOutContext<TUser, TKey>> OnUserSignOut { private set; get; }
+        public Action<UserSignOutContext<TUser, TKey>> OnUserSignOut { private get; set; }
 
         public virtual void UserSignIn(UserSignInContext<TUser, TKey> context)
         {

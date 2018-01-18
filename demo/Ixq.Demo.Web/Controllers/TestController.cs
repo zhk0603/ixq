@@ -45,6 +45,16 @@ namespace Ixq.Demo.Web.Controllers
             return View();
         }
 
+        public ActionResult CahceTest()
+        {
+            var cache = Ixq.Core.Cache.CacheManager.GetCache("test");
+
+            cache.Set("abc", "123");
+            var t = cache.Get("abc");
+
+            return View();
+        }
+
         public ActionResult Exception()
         {
             throw new Exception("Exp");

@@ -132,6 +132,7 @@
     <Compile Include="Web\Mvc\JsonResult.cs" />
     <Compile Include="Web\Mvc\EntityMetadataProvider.cs" />
     <Compile Include="Web\Mvc\ModelErrorResult.cs" />
+    <Compile Include="Web\Mvc\RequestResult.cs" />
     <Compile Include="Web\Mvc\RuntimeLogHandleErrorAttribute.cs" />
     <Compile Include="Web\Mvc\EntityMetadata.cs" />
     <Compile Include="Web\Mvc\EntityPropertyMetadata.cs" />
