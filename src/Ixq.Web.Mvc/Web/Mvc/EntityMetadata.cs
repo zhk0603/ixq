@@ -20,7 +20,7 @@ namespace Ixq.Web.Mvc
     public class EntityMetadata : IEntityMetadata
     {
         private static readonly object LockObj = new object();
-        private PropertyInfo[] _entityPropertys;
+        private IEnumerable<PropertyInfo> _entityPropertys;
         private IEntityPropertyMetadata[] _propertyMetadatas;
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Ixq.Web.Mvc
         /// <summary>
         ///     获取实体所有的公共属性。
         /// </summary>
-        public PropertyInfo[] EntityPropertyInfos
+        public IEnumerable<PropertyInfo>  EntityPropertyInfos
             => _entityPropertys ?? (_entityPropertys = DtoType.GetProperties());
 
         /// <summary>

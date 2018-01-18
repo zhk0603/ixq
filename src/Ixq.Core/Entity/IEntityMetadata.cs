@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Ixq.Core.Entity
@@ -21,7 +22,7 @@ namespace Ixq.Core.Entity
         /// <summary>
         ///     获取实体所有的公共属性。
         /// </summary>
-        PropertyInfo[] EntityPropertyInfos { get; }
+        IEnumerable<PropertyInfo> EntityPropertyInfos { get; }
 
         /// <summary>
         ///     获取实体在列表中的属性元数据。
